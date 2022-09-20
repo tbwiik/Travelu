@@ -2,8 +2,10 @@ package gr2219;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import gr2219.backend.Destination;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -38,14 +40,14 @@ public class PrimaryController {
     @FXML
     private void initialize() {
         // add destinations to destinations
-        destinations.add(new Destination("Spain", 3, "a horrible place"));
-        destinations.add(new Destination("France", 10, "a unknown diamond"));
-        destinations.add(new Destination("Italy", 6, "something for everyone"));
-        destinations.add(new Destination("Turkey", 2, "never again"));
-        destinations.add(new Destination("Sweden", 1, "worse than imaginable"));
+        destinations.add(new Destination("Spain", null, 3, null, "a horrible place"));
+        destinations.add(new Destination("France", null, 10, null, "a unknown diamond"));
+        destinations.add(new Destination("Italy", null, 6, null, "something for everyone"));
+        destinations.add(new Destination("Turkey", null, 2, null, "never again"));
+        destinations.add(new Destination("Sweden", null, 1, null, "worse than imaginable"));
 
         // add all destinations to the list-view
-        listView.getItems().addAll(destinations.stream().map(destination -> destination.getDestination()).toList());
+        listView.getItems().addAll(destinations.stream().map(destination -> destination.getName()).toList());
 
         // make currentDestination the selected list-view item
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -90,7 +92,7 @@ public class PrimaryController {
             // remove any feedback given and do nothing
             feedbackText.setText("");
         } else if (destinations.stream()
-                .filter(destination -> destination.getDestination().toLowerCase()
+                .filter(destination -> destination.getName().toLowerCase()
                         .equals(destinationText.getText().strip().toLowerCase()))
                 .findAny().isPresent()) {
             // if the input text matches any of the already registrations
@@ -99,10 +101,10 @@ public class PrimaryController {
         } else {
             // if everything is ok with the input
             // create new destination with input as name
-            Destination newDestination = new Destination(destinationText.getText().strip(), 0, null);
+            Destination newDestination = new Destination(destinationText.getText().strip(), null, 0, null, currentDestination);
 
             // add destination to list-view and destinations
-            listView.getItems().add(newDestination.getDestination());
+            listView.getItems().add(newDestination.getName());
             destinations.add(newDestination);
 
             // remove any feedback given
@@ -123,7 +125,7 @@ public class PrimaryController {
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
             destinations.remove(destinations.stream()
-                    .filter(destination -> destination.getDestination().toLowerCase()
+                    .filter(destination -> destination.getName().toLowerCase()
                             .equals(currentDestination.strip().toLowerCase()))
                     .findAny().orElseThrow());
             listView.getItems().remove(currentDestination);
