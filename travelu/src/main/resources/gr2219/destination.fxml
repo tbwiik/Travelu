@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane gridLinesVisible="true" prefHeight="920.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane gridLinesVisible="true" prefHeight="920.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr2219.DestinationController">
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -78,14 +78,14 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button layoutX="153.0" layoutY="132.0" mnemonicParsing="false" text="Set" />
-            <DatePicker fx:id="arrivalDatePicker1" layoutX="14.0" layoutY="196.0" prefHeight="25.0" prefWidth="139.0" />
+            <Button layoutX="153.0" layoutY="132.0" mnemonicParsing="false" onAction="#handleSetArrivalDate" text="Set" />
+            <DatePicker fx:id="departureDatePicker" layoutX="14.0" layoutY="196.0" prefHeight="25.0" prefWidth="139.0" />
             <Label layoutX="14.0" layoutY="166.0" text="Change departure date">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button layoutX="153.0" layoutY="196.0" mnemonicParsing="false" text="Set" />
+            <Button layoutX="153.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleSetDepartureDate" text="Set" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="230.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -125,7 +125,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <children>
-            <Button layoutX="623.0" layoutY="125.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="121.0" text="Update" />
+            <Button layoutX="623.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleChangeComment" prefHeight="51.0" prefWidth="121.0" text="Update" />
             <TextField fx:id="commentTextField" layoutX="14.0" layoutY="37.0" prefHeight="139.0" prefWidth="606.0" />
             <Label layoutX="14.0" layoutY="9.0" text="Comment:">
                <font>

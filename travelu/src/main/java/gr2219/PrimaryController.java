@@ -37,15 +37,18 @@ public class PrimaryController {
     private DestinationList destinationList = new DestinationList();
 
     private String currentDestination;
+    
 
     @FXML
     private void initialize() {
-        // add destinations to destinations
+        // add destinations to destinationList
         destinationList.addDestination(new Destination("Spain", null, 3, null, "a horrible place"));
         destinationList.addDestination(new Destination("France", null, 10, null, "a unknown diamond"));
         destinationList.addDestination(new Destination("Italy", null, 6, null, "something for everyone"));
         destinationList.addDestination(new Destination("Turkey", null, 2, null, "never again"));
         destinationList.addDestination(new Destination("Sweden", null, 1, null, "worse than imaginable"));
+
+        listView.setStyle("-fx-font-size:20;");
 
         // add all destinations to the list-view
         listView.getItems().addAll(destinationList.getList().stream().map(destination -> destination.getName()).toList());
@@ -67,7 +70,7 @@ public class PrimaryController {
 
                 if (click.getClickCount() == 2) {
                     try {
-                        switchToSecondary();
+                        switchToSecondary(currentDestination);
                     } catch (IOException e) {
                         // TODO create appropriate exception
                         e.printStackTrace();
@@ -78,8 +81,12 @@ public class PrimaryController {
     }
 
     @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+    private void switchToSecondary(String destinationName) throws IOException {
+
+        System.out.println("Selected " + destinationName);
+
+        App.setRoot("destination");
+
     }
 
     public String getCurrentDestination() {
@@ -106,7 +113,7 @@ public class PrimaryController {
 
             // add destination to list-view and destinations
             listView.getItems().add(newDestination.getName());
-            destinationList.getList().add(newDestination);
+            destinationList.addDestination(newDestination);
 
             // remove any feedback given
             feedbackText.setText("");

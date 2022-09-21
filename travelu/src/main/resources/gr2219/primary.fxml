@@ -8,31 +8,33 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="378.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr2219.PrimaryController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="920.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr2219.PrimaryController">
    <children>
-      <ListView fx:id="listView" layoutX="68.0" layoutY="152.0" prefHeight="184.0" prefWidth="194.0" />
-      <Label fx:id="header" layoutX="117.0" layoutY="40.0" prefHeight="29.0" prefWidth="80.0" text="Trevelu" textAlignment="CENTER">
+      <ListView fx:id="listView" layoutX="82.0" layoutY="317.0" prefHeight="543.0" prefWidth="568.0" />
+      <Label fx:id="header" layoutX="284.0" layoutY="71.0" prefHeight="89.0" prefWidth="164.0" text="Travelu" textAlignment="CENTER">
          <font>
-            <Font size="24.0" />
+            <Font size="48.0" />
          </font>
       </Label>
-      <TextArea fx:id="destinationText" layoutX="75.0" layoutY="90.0" prefHeight="36.0" prefWidth="136.0" promptText="Write a place you've been">
+      <TextArea fx:id="destinationText" layoutX="101.0" layoutY="189.0" prefHeight="38.0" prefWidth="430.0" promptText="Write a place you've been">
          <font>
-            <Font size="11.0" />
+            <Font size="23.0" />
          </font>
       </TextArea>
-      <Button fx:id="addButton" layoutX="215.0" layoutY="99.0" mnemonicParsing="false" onAction="#addDestination" prefHeight="21.0" prefWidth="29.0" style="-fx-background-color: lightgreen;" text="Add">
+      <Button fx:id="addButton" layoutX="542.0" layoutY="202.0" mnemonicParsing="false" onAction="#addDestination" prefHeight="38.0" prefWidth="89.0" style="-fx-background-color: lightgreen;" text="Add">
          <font>
-            <Font size="9.0" />
+            <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="removeButton" layoutX="66.0" layoutY="340.0" mnemonicParsing="false" onAction="#removeDestination" prefHeight="17.0" prefWidth="49.0" style="-fx-background-color: indianred;" text="Remove">
+      <Button fx:id="removeButton" layoutX="82.0" layoutY="872.0" mnemonicParsing="false" onAction="#removeDestination" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: indianred;" text="Remove">
          <font>
-            <Font size="9.0" />
+            <Font size="17.0" />
          </font>
       </Button>
       <Text fx:id="feedbackText" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="323.12134552001953" />
-      <Text layoutX="112.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Places you've been" />
+      <Text layoutX="249.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Places you've been" wrappingWidth="234.025390625">
+         <font>
+            <Font size="27.0" />
+         </font></Text>
    </children>
 </Pane>
