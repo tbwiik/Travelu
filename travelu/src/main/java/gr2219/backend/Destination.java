@@ -2,14 +2,14 @@ package gr2219.backend;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
-import javafx.util.Pair;
 
 public class Destination {
 
     private String place;
-    private Pair<Date, Date> date;
+    // private Pair<Date, Date> date;
+    private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
     private List<String> activites = new ArrayList<>();
     private String comment;
@@ -23,7 +23,8 @@ public class Destination {
      * @param activites you did during your visit
      * @param comment   with other relevant info
      */
-    public Destination(String place, Pair<Date, Date> date, Integer ranking, List<String> activites, String comment) {
+    public Destination(String place, HashMap<Date, Date> date, Integer ranking, List<String> activites,
+            String comment) {
         this.place = place;
         this.date = date;
         this.ranking = ranking;
@@ -41,7 +42,7 @@ public class Destination {
     /**
      * @return tuple from-to for the visit
      */
-    public Pair<Date, Date> getDate() {
+    public HashMap<Date, Date> getDate() {
         return date;
     }
 
