@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import gr2219.backend.Destination;
+import gr2219.backend.DestinationList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -33,21 +34,21 @@ public class PrimaryController {
     @FXML
     private Text feedbackText;
 
-    private List<Destination> destinations = new ArrayList<>();
+    private DestinationList destinationList = new DestinationList();
 
     private String currentDestination;
 
     @FXML
     private void initialize() {
         // add destinations to destinations
-        destinations.add(new Destination("Spain", null, 3, null, "a horrible place"));
-        destinations.add(new Destination("France", null, 10, null, "a unknown diamond"));
-        destinations.add(new Destination("Italy", null, 6, null, "something for everyone"));
-        destinations.add(new Destination("Turkey", null, 2, null, "never again"));
-        destinations.add(new Destination("Sweden", null, 1, null, "worse than imaginable"));
+        destinationList.addDestination(new Destination("Spain", null, 3, null, "a horrible place"));
+        destinationList.addDestination(new Destination("France", null, 10, null, "a unknown diamond"));
+        destinationList.addDestination(new Destination("Italy", null, 6, null, "something for everyone"));
+        destinationList.addDestination(new Destination("Turkey", null, 2, null, "never again"));
+        destinationList.addDestination(new Destination("Sweden", null, 1, null, "worse than imaginable"));
 
         // add all destinations to the list-view
-        listView.getItems().addAll(destinations.stream().map(destination -> destination.getName()).toList());
+        listView.getItems().addAll(destinationList.getList().stream().map(destination -> destination.getName()).toList());
 
         // make currentDestination the selected list-view item
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -91,7 +92,7 @@ public class PrimaryController {
             // if user didn't input any text
             // remove any feedback given and do nothing
             feedbackText.setText("");
-        } else if (destinations.stream()
+        } else if (destinationList.getList().stream()
                 .filter(destination -> destination.getName().toLowerCase()
                         .equals(destinationText.getText().strip().toLowerCase()))
                 .findAny().isPresent()) {
@@ -105,7 +106,7 @@ public class PrimaryController {
 
             // add destination to list-view and destinations
             listView.getItems().add(newDestination.getName());
-            destinations.add(newDestination);
+            destinationList.getList().add(newDestination);
 
             // remove any feedback given
             feedbackText.setText("");
@@ -124,10 +125,7 @@ public class PrimaryController {
         } else {
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
-            destinations.remove(destinations.stream()
-                    .filter(destination -> destination.getName().toLowerCase()
-                            .equals(currentDestination.strip().toLowerCase()))
-                    .findAny().orElseThrow());
+            destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
     }
