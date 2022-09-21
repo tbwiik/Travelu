@@ -1,5 +1,6 @@
 package gr2219;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import gr2219.backend.Destination;
 import gr2219.backend.DestinationList;
+import gr2219.backend.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -37,21 +39,23 @@ public class PrimaryController {
     private DestinationList destinationList = new DestinationList();
 
     private String currentDestination;
-    
+
+    private TraveluHandler traveluHandler = new TraveluHandler();
 
     @FXML
-    private void initialize() {
-        // add destinations to destinationList
-        destinationList.addDestination(new Destination("Spain", null, 3, null, "a horrible place"));
-        destinationList.addDestination(new Destination("France", null, 10, null, "a unknown diamond"));
-        destinationList.addDestination(new Destination("Italy", null, 6, null, "something for everyone"));
-        destinationList.addDestination(new Destination("Turkey", null, 2, null, "never again"));
-        destinationList.addDestination(new Destination("Sweden", null, 1, null, "worse than imaginable"));
+    private void initialize() throws FileNotFoundException {
+
+        // add destinations from persistence file
+        for (Destination destination : traveluHandler.readJSON().getList()) {
+            destinationList.addDestination(destination);
+
+        }
 
         listView.setStyle("-fx-font-size:20;");
 
         // add all destinations to the list-view
-        listView.getItems().addAll(destinationList.getList().stream().map(destination -> destination.getName()).toList());
+        listView.getItems()
+                .addAll(destinationList.getList().stream().map(destination -> destination.getName()).toList());
 
         // make currentDestination the selected list-view item
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -94,7 +98,7 @@ public class PrimaryController {
     }
 
     @FXML
-    public void addDestination() {
+    public void addDestination() throws IOException {
         if (destinationText.getText().isBlank()) {
             // if user didn't input any text
             // remove any feedback given and do nothing
@@ -109,7 +113,8 @@ public class PrimaryController {
         } else {
             // if everything is ok with the input
             // create new destination with input as name
-            Destination newDestination = new Destination(destinationText.getText().strip(), null, 0, null, currentDestination);
+            Destination newDestination = new Destination(destinationText.getText().strip(), null, 0, null,
+                    currentDestination);
 
             // add destination to list-view and destinations
             listView.getItems().add(newDestination.getName());
@@ -121,10 +126,11 @@ public class PrimaryController {
             // remove text in inputField
             destinationText.setText((""));
         }
+        traveluHandler.writeJSON(destinationList);
     }
 
     @FXML
-    public void removeDestination() {
+    public void removeDestination() throws IOException {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
@@ -135,6 +141,7 @@ public class PrimaryController {
             destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
+        traveluHandler.writeJSON(destinationList);
     }
 
 }

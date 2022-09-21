@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +16,7 @@ public class DestinationTest {
 
     private Destination destination;
     private String place, comment;
-    private Pair<Date, Date> date;
+    private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
     private List<String> activites = new ArrayList<>();
 
