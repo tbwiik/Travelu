@@ -30,7 +30,7 @@ public class DestinationController {
     DatePicker departureDatePicker;
 
     @FXML
-    ListView plannedActivitiesListView;
+    ListView<String> plannedActivitiesListView;
 
     @FXML
     TextField newActivityTextField;
