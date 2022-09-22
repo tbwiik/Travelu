@@ -5,10 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Destination object for use in travel-journal
+ */
 public class Destination {
 
     private String place;
-    // private Pair<Date, Date> date;
     private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
     private List<String> activites = new ArrayList<>();

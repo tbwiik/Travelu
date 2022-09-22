@@ -41,48 +41,43 @@ public class DestinationController {
     @FXML
     Label commentUpdatedFeedbackLabel;
 
+    /**
+     * Returns to destination-list
+     * 
+     * @throws IOException
+     */
     @FXML
-    private void handleReturnButton() throws IOException{
+    private void handleReturnButton() throws IOException {
         App.setRoot("destinationList");
     }
 
     @FXML
-    private void handleAddActivity(){
+    private void handleAddActivity() {
         System.out.println("Add activity");
     }
 
     @FXML
-    private void handleSelectFile(){
+    private void handleSelectFile() {
         System.out.println("Select file");
     }
 
     @FXML
-    private void handleChangeComment(){
+    private void handleChangeComment() {
         System.out.println("Change Comment");
     }
 
     @FXML
-    private void handleSetArrivalDate(){
+    private void handleSetArrivalDate() {
         System.out.println("Set arrival date");
     }
 
     @FXML
-    private void handleSetDepartureDate(){
+    private void handleSetDepartureDate() {
         System.out.println("Set departure date");
     }
 
-    public void setDestination(Destination destination){
-        currentDestination = destination;
-    }
-
-    public String getDestination(){
+    public String getDestination() {
         return currentDestination.getName();
-    }
-
-    @FXML
-    private void initialize(){
-        
-
     }
 
 }
