@@ -48,14 +48,13 @@ public class PrimaryController {
         // add destinations from persistence file
         for (Destination destination : traveluHandler.readJSON().getList()) {
             destinationList.addDestination(destination);
-
         }
 
         listView.setStyle("-fx-font-size:20;");
 
         // add all destinations to the list-view
         listView.getItems()
-                .addAll(destinationList.getList().stream().map(destination -> destination.getName()).toList());
+                .addAll(destinationList.getDestinationNames());
 
         // make currentDestination the selected list-view item
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -87,6 +86,7 @@ public class PrimaryController {
     @FXML
     private void switchToSecondary(String destinationName) throws IOException {
 
+        // Succesfully selected this destination
         System.out.println("Selected " + destinationName);
 
         App.setRoot("destination");
@@ -99,21 +99,20 @@ public class PrimaryController {
 
     @FXML
     public void addDestination() throws IOException {
-        if (destinationText.getText().isBlank()) {
+
+        String newDestinationName = destinationText.getText();
+        if (newDestinationName.isBlank()) {
             // if user didn't input any text
             // remove any feedback given and do nothing
             feedbackText.setText("");
-        } else if (destinationList.getList().stream()
-                .filter(destination -> destination.getName().toLowerCase()
-                        .equals(destinationText.getText().strip().toLowerCase()))
-                .findAny().isPresent()) {
+        } else if (destinationList.containsDestination(newDestinationName.toLowerCase())) {
             // if the input text matches any of the already registrations
             // give feedback
             feedbackText.setText("You have already registered this destination");
         } else {
             // if everything is ok with the input
             // create new destination with input as name
-            Destination newDestination = new Destination(destinationText.getText().strip(), null, 0, null,
+            Destination newDestination = new Destination(newDestinationName.strip(), null, 0, null,
                     currentDestination);
 
             // add destination to list-view and destinations
@@ -127,6 +126,7 @@ public class PrimaryController {
             destinationText.setText((""));
         }
         traveluHandler.writeJSON(destinationList);
+        
     }
 
     @FXML
