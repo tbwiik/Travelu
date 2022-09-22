@@ -16,17 +16,9 @@ In the third meeting we created a backlog and made a plan for the sprint regardi
 
 The end of the sprint was set as the deadline for the group assignment. To be able to complete these tasks we decided to assign the issues evenly across the members of the group. We also arranged three meetings before the end of the sprint where we were going to develop together and go through what each member had done individually since the last meeting.
 
-To have a visual representation of what we were going to make, we created pictures showing what we visualized the app would look like at the end of development. We made two frames in Figma. One for the front-page with a list over places you have been been and another one for the page containing information about a spesific destination. The plan is to be able to click on a destination on the front page to get transfered to the page with information about that destination.
-
 By clearly defining what we were going to do, how we were going to do it and distributing the tasks evenly across the members of the group, we were now ready to start development.
 
 We also made a conceptual model to make sure we had the same underlying intetions of the applications design. The conceptual model makes the basic functionality of the system clear. By having a model that relates to the users' mental model, we make it easier to explain our intentions with the app.
-
-### Front Page:
-![image info](/pictures/TraveluFrontPage.png)
-
-### Destination Page:
-![image info](/pictures/TraveluDestinationPage.png)
 
 ### Conceptual Model:
 ![image info](/pictures/ConceptualModel.png)
