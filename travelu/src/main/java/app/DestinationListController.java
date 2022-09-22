@@ -2,9 +2,6 @@ package app;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import app.core.Destination;
 import app.core.DestinationList;
@@ -42,6 +39,11 @@ public class DestinationListController {
 
     private TraveluHandler traveluHandler = new TraveluHandler();
 
+    /**
+     * Initiliaze start-page
+     * 
+     * @throws FileNotFoundException
+     */
     @FXML
     private void initialize() throws FileNotFoundException {
 
@@ -73,9 +75,9 @@ public class DestinationListController {
 
                 if (click.getClickCount() == 2) {
                     try {
-                        switchToSecondary(currentDestination);
+                        switchToDestination(currentDestination);
                     } catch (IOException e) {
-                        // TODO create appropriate exception
+                        feedbackText.setText("Could not find " + currentDestination);
                         e.printStackTrace();
                     }
                 }
@@ -83,8 +85,13 @@ public class DestinationListController {
         });
     }
 
-    @FXML
-    private void switchToSecondary(String destinationName) throws IOException {
+    /**
+     * Switch to Destination-View
+     * 
+     * @param destinationName
+     * @throws IOException if error initializing new page
+     */
+    private void switchToDestination(String destinationName) throws IOException {
 
         // Succesfully selected this destination
         System.out.println("Selected " + destinationName);
@@ -93,10 +100,19 @@ public class DestinationListController {
 
     }
 
+    /**
+     * 
+     * @return current destination
+     */
     public String getCurrentDestination() {
         return currentDestination;
     }
 
+    /**
+     * Add destination to list
+     * 
+     * @throws IOException if error writing to file
+     */
     @FXML
     public void addDestination() throws IOException {
 
@@ -121,14 +137,20 @@ public class DestinationListController {
 
             // remove any feedback given
             feedbackText.setText("");
+            ;
 
             // remove text in inputField
-            destinationText.setText((""));
+            destinationText.clear();
         }
         traveluHandler.writeJSON(destinationList);
-        
+
     }
 
+    /**
+     * Removes destination from list
+     * 
+     * @throws IOException if error writing to file
+     */
     @FXML
     public void removeDestination() throws IOException {
         if (currentDestination == null) {
