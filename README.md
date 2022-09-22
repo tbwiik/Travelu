@@ -22,17 +22,33 @@ This project contains:
 - The application's domain logic and persistence which are in the folder [travelu/src/main/java/app/core](travelu/src/main/java/app/core)
 - Tests which are in the folder [travelu/src/test/java/app/core](travelu/src/test/java/app/core)
 
-# Building & running the project
+## Building & running the project
 
 The project is built with maven.
-To run the project:
-- Run `mvn install` from the root of the project
-- Run `cd travelu`
-- Run `mvn javafx:run`
+To run the project, in terminal:
+- `cd travelu` to change into project-folder
+- `mvn compile`
+- `mvn javafx:run` to run
 
 This will run the project and open the app.
 
+Alternatively:
+- `cd travelu` to change into project-folder
+- `mvn install` in root folder
+  - **Note:** this also runs tests and installs package
+- `mvn javafx:run`to run
+
 **Notice:** To run the project locally, the javafx version has to be changed from version `16` to `17` in  [pom.xml](travelu/pom.xml).
+
+## Testing & coverage
+
+After building project and cd-ing into right folder,  
+in terminal:
+- Run `mvn test` to get test results
+- Run `mvn verify` to get test-coverage and quality report
+  - Report found in [target/../index.html](travelu/target/site/jacoco/index.html) 
+
+
 
 ## Tech-stack
 - Backend: _Java_
@@ -43,7 +59,7 @@ This will run the project and open the app.
 - Project management: _Maven_
 
 
-### Boilerplate and Gitpod
+## Boilerplate and Gitpod
 Integrated functions in VSCode was used to create a boilerplate for the project. This ensured that everything was added correctly.
 We then followed up with changing **pom.xml** with the correct version for running on silicon macs and adding dependencies for testing.
 
