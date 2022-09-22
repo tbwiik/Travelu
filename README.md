@@ -5,7 +5,7 @@
 ## Travelu
 We are making an application called Travelu. We have written about its functionality in the [README.md](travelu/README.md) in the travelu folder.
 
-### Group members:
+### Group members
 - Torbjørn Wiik
 - Ken Van Nguyen
 - Bendik Norli
