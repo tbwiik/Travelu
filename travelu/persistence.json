@@ -1,0 +1,18 @@
+{
+  "destinations": [
+    {
+      "place": "Sweden",
+      "date": null,
+      "ranking": 0,
+      "activites": null,
+      "comment": "Norway"
+    },
+    {
+      "place": "USA",
+      "date": null,
+      "ranking": 0,
+      "activites": null,
+      "comment": "Sweden"
+    }
+  ]
+}
