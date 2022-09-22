@@ -15,14 +15,14 @@ public class TraveluHandler {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
-        FileWriter writer = new FileWriter("persistence.json");
+        FileWriter writer = new FileWriter("travelu/persistence.json");
         writer.write(gson.toJson(log));
         writer.close();
     }
 
     public DestinationList readJSON() throws FileNotFoundException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("persistence.json"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("travelu/persistence.json"));
         DestinationList log = gson.fromJson(bufferedReader, DestinationList.class);
         return log;
     }
