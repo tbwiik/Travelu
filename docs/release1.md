@@ -8,11 +8,9 @@ The application first consists of a list of destinations. You can add different 
 You can double-click on each destination to get to a window where you can describe your visit. In future releases you will be able to write a detailed description of your trip, along with a rating, date, and activities.  
 **Note:** This functionality will be added in a later release
 
-### Destination-List View
-![image info](../pictures/destinationList.png)
-
-### Destination View
-![image info](../pictures/destination.png)
+### Screenshots of UI for release 1:  
+[Destination-List View](../pictures/destinationList.png)  
+[Destination View](../pictures/destination.png)
 
 ## Planning the project
 
