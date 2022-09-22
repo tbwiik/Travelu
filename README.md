@@ -2,7 +2,9 @@
 
 # Group gr2219 repository 
 
-Group members:
+## [Travelu](travelu/README.md)
+
+### Group members:
 - Torbjørn Wiik
 - Ken Van Nguyen
 - Bendik Norli
@@ -13,15 +15,10 @@ Group members:
 The project is built with maven.
 To run the project:
 - Run `mvn install` from the root of the project.
-- Run `cd travelu`
+- Run `cd fxui`
 - Run `mvn javafx:run`
 
 This will run the project and open the app.
-
-
-# Travelu
-
-Travelu is an application made to let people have a simple and organized way of looking at places they have been and things they have done. The app provides an overview over the destinations you have visited. Additionally, it lets you add a description, rating, travel date, and list of activities you have done at each destination. The app is meant to be used by people who travel a lot and want to have a gallery of all their memories and experiences.
 
 ## Tech-stack
 - Backend: _Java_
@@ -30,6 +27,12 @@ Travelu is an application made to let people have a simple and organized way of 
 - Testing backend: _JUnit_ 
 - Testing frontend: _TestFX_
 - Project management: _Maven_
+
+
+`TODO: Detailed plan of commits mabye`
+
+
+ ref **Issues**.
 
 ### Boilerplate and Gitpod
 Integrated functions in VSCode was used to create a boilerplate for the project. This ensured that everything was added correctly.
