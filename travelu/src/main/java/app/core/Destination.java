@@ -1,4 +1,4 @@
-package gr2219.backend;
+package app.core;
 
 import java.util.ArrayList;
 import java.util.Date;

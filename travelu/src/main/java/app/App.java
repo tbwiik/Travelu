@@ -1,4 +1,4 @@
-package gr2219;
+package app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 754, 920);
+        scene = new Scene(loadFXML("destinationList"), 754, 920);
         stage.setScene(scene);
         stage.show();
     }
