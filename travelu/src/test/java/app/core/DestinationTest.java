@@ -1,4 +1,4 @@
-package gr2219.backend;
+package app.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import app.core.Destination;
 import javafx.util.Pair;
 
 public class DestinationTest {

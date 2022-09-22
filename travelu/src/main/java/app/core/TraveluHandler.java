@@ -1,4 +1,4 @@
-package gr2219.backend;
+package app.core;
 
 import java.io.BufferedReader;
 import java.io.File;

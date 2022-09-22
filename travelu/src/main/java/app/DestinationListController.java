@@ -1,4 +1,4 @@
-package gr2219;
+package app;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import gr2219.backend.Destination;
-import gr2219.backend.DestinationList;
-import gr2219.backend.TraveluHandler;
+import app.core.Destination;
+import app.core.DestinationList;
+import app.core.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -19,7 +19,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
-public class PrimaryController {
+public class DestinationListController {
 
     @FXML
     private ListView<String> listView;

@@ -1,8 +1,8 @@
-package gr2219;
+package app;
 
 import java.io.IOException;
 
-import gr2219.backend.Destination;
+import app.core.Destination;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -43,7 +43,7 @@ public class DestinationController {
 
     @FXML
     private void handleReturnButton() throws IOException{
-        App.setRoot("primary");
+        App.setRoot("destinationList");
     }
 
     @FXML

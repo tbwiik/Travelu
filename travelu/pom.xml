@@ -104,7 +104,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>gr2219.App</mainClass>
+                            <mainClass>app.App</mainClass>
                         </configuration>
                     </execution>
                 </executions>
