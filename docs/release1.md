@@ -1,7 +1,12 @@
 # Documentation release 1
 
 ## Current functionality of the project
-Since this is the first release, we prioritized to make an application that is interactable and visible. When you first open the application you get an empty list,
+Since this is the first release, we prioritized making an application that is interactable and visible. 
+
+The application first consists of a list of destinations. You can add different destinations to the list by writing them down in the textbox and clicking on the “add"-button. It is also possible to remove each designated destination using the “remove"-button. The destinations in the list will be saved whenever you add or remove a destination from the list. If you close and reopen the app, the list will be the same as when you closed it.
+
+You can double-click on each destination to get to a window where you can describe your visit. In future releases you will be able to write a detailed description of your trip, along with a rating, date, and activities. However, this functionality hasn’t been implemented due to low-priority in this release.
+
 
 ## Planning the project
 
