@@ -13,7 +13,7 @@ Group members:
 The project is built with maven.
 To run the project:
 - Run `mvn install` from the root of the project.
-- Run `cd fxui`
+- Run `cd travelu`
 - Run `mvn javafx:run`
 
 This will run the project and open the app.
