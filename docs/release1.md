@@ -1,5 +1,8 @@
 # Documentation release 1
 
+## Current functionality of the project
+Since this is the first release, we prioritized to make an application that is interactable and visible. When you first open the application you get an empty list,
+
 ## Planning the project
 
 ### Meeting 1 - Coop-contract
