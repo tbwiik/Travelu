@@ -10,9 +10,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import app.core.Destination;
-import javafx.util.Pair;
-
 public class DestinationTest {
 
     private Destination destination;
@@ -24,7 +21,7 @@ public class DestinationTest {
     @BeforeEach
     public void setUp() {
         place = "Sweden";
-        date = null; // TODO
+        date = null;
         ranking = 3;
 
         activites.add("Skiing");
