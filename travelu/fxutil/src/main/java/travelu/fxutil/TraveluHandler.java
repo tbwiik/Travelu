@@ -1,4 +1,4 @@
-package app.core;
+package travelu.fxutil;
 
 import java.io.BufferedReader;
 import java.io.File;
