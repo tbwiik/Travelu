@@ -167,4 +167,11 @@
         </plugins>
     </build>
 
+    <modules>
+        <module>core</module>
+        <module>fxui</module>
+        <module>fxutil</module>
+    </modules>
+
+
 </project>
