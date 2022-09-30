@@ -12,7 +12,6 @@
     </properties>
 
     <dependencies>
-    <!-- code from individual assignment 1 -->
 
         <!-- javafx -->
         <dependency>

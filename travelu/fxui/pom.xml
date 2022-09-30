@@ -13,7 +13,18 @@
     </parent>
 
     <dependencies>
-    <!-- code from individual assignment 1 -->
+
+        <dependency>
+            <groupId>gr2219</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gr2219</groupId>
+            <artifactId>fxutil</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- javafx -->
         <dependency>
