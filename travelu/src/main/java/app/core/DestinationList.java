@@ -84,7 +84,7 @@ public class DestinationList {
      * @return lowercase destination-name
      */
     public boolean containsDestination(String destinationName) {
-        return getLowerCaseDestinationNames().contains(destinationName);
+        return getLowerCaseDestinationNames().contains(destinationName.toLowerCase());
     }
 
 }
