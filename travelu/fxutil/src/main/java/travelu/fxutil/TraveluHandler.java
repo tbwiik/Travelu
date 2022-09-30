@@ -24,7 +24,8 @@ public class TraveluHandler {
      * @return File
      */
     private File getFile() {
-        return new File(TraveluHandler.class.getResource("data/").getFile() + "persistence.json");
+        //return new File(TraveluHandler.class.getResource("data/").getFile() + "persistence.json");
+        return new File("gr2219/travelu/fxutil/src/main/resources/travelu/fxutil/data/persistence.json");
     }
 
     /**
