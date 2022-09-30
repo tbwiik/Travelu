@@ -5,7 +5,7 @@ module travelu.fxutil {
 
     requires travelu.core;
 
-    opens fxutil to javafx.fxml, com.google.gson;
+    opens travelu.fxutil to javafx.fxml, com.google.gson;
 
     exports travelu.fxutil;
 }
