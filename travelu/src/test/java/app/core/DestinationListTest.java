@@ -1,6 +1,7 @@
 package app.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,17 +17,18 @@ public class DestinationListTest {
 
     private DestinationList destinations;
 
+    private Destination norway;
+    private Destination buenosAires;
+    private List<Destination> newDestinations;
+
     @BeforeEach
     public void setUp() {
         destinations = new DestinationList();
-    }
 
-    @Test
-    public void getDestinationByName() {
-        List<Destination> newDestinations = new ArrayList<>();
+        newDestinations = new ArrayList<>();
 
-        Destination norway = new Destination("Norway", new HashMap<Date, Date>(), 2, null, null);
-        Destination buenosAires = new Destination("Buenos Aires", new HashMap<Date, Date>(), 2, null, null);
+        norway = new Destination("Norway", new HashMap<Date, Date>(), 2, null, null);
+        buenosAires = new Destination("Buenos Aires", new HashMap<Date, Date>(), 2, null, null);
 
         newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
         newDestinations.add(buenosAires);
@@ -37,7 +39,10 @@ public class DestinationListTest {
         for (Destination destination : newDestinations) {
             destinations.addDestination(destination);
         }
+    }
 
+    @Test
+    public void getDestinationByName() {
         assertEquals(norway, destinations.getDestinationByName("Norway"));
         assertEquals(buenosAires, destinations.getDestinationByName("Buenos Aires"));
 
@@ -47,51 +52,40 @@ public class DestinationListTest {
     }
 
     @Test
+    public void getDestinationNames() {
+        List<String> expectedNames = new ArrayList<>();
+        expectedNames.add("Spain");
+        expectedNames.add("Buenos Aires");
+        expectedNames.add("Turkey");
+        expectedNames.add("Sweden");
+
+        assertNotEquals(expectedNames, destinations.getDestinationNames());
+
+        expectedNames.add("Norway");
+
+        assertEquals(expectedNames, destinations.getDestinationNames());
+
+        expectedNames.add("Does not exist");
+
+        assertNotEquals(expectedNames, destinations.getDestinationNames());
+    }
+
+    @Test
     public void testAddDestination() {
-
-        assertTrue(destinations.getList().isEmpty());
-
-        List<Destination> newDestinations = new ArrayList<>();
-        newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
-        newDestinations.add(new Destination("Greece", new HashMap<Date, Date>(), 2, null, null));
-        newDestinations.add(new Destination("Turkey", new HashMap<Date, Date>(), 5, null, null));
-        newDestinations.add(new Destination("Sweden", new HashMap<Date, Date>(), 1, null, null));
-        newDestinations.add(new Destination("Norway", new HashMap<Date, Date>(), 2, null, null));
-
-        for (Destination destination : newDestinations) {
-            destinations.addDestination(destination);
-        }
-
         assertEquals(newDestinations, destinations.getList());
 
         assertThrows(IllegalArgumentException.class, () -> destinations.addDestination(null));
-
     }
 
     @Test
     public void testRemoveDestination() {
-        List<Destination> newDestinations = new ArrayList<>();
-
-        Destination norway = new Destination("Norway", new HashMap<Date, Date>(), 2, null, null);
-        Destination greece = new Destination("Greece", new HashMap<Date, Date>(), 2, null, null);
-
-        newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
-        newDestinations.add(greece);
-        newDestinations.add(new Destination("Turkey", new HashMap<Date, Date>(), 5, null, null));
-        newDestinations.add(new Destination("Sweden", new HashMap<Date, Date>(), 1, null, null));
-        newDestinations.add(norway);
-
-        for (Destination destination : newDestinations) {
-            destinations.addDestination(destination);
-        }
-
         newDestinations.remove(norway);
         destinations.removeDestination("Norway");
 
         assertEquals(newDestinations, destinations.getList());
 
-        newDestinations.remove(greece);
-        destinations.removeDestination("Greece");
+        newDestinations.remove(buenosAires);
+        destinations.removeDestination("Buenos Aires");
 
         assertEquals(newDestinations, destinations.getList());
 
