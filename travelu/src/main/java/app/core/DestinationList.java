@@ -27,25 +27,21 @@ public class DestinationList {
      * Get destination by name
      * 
      * @param name of destination
+     * @throws IllegalArgumentException if no destination with name
      * @return destination
      */
     public Destination getDestinationByName(String name) {
-        return destinations.stream().filter(destination -> destination.getName() == name).findFirst().orElse(null);
+        return destinations.stream().filter(destination -> destination.getName() == name).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid name"));
     }
 
     /**
      * Remove destination by name
      * 
      * @param name of destination
-     * @throws IllegalArgumentException if no destination with name
      */
     public void removeDestination(String name) {
-
         Destination destination = getDestinationByName(name);
-        if (destination == null) {
-            throw new IllegalArgumentException("Invalid name");
-        }
-
         destinations.remove(destination);
     }
 
