@@ -1,4 +1,4 @@
-package app;
+package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
