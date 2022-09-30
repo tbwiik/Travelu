@@ -121,7 +121,7 @@ public class DestinationListController {
             // if user didn't input any text
             // remove any feedback given and do nothing
             feedbackText.setText("");
-        } else if (destinationList.containsDestination(newDestinationName.toLowerCase())) {
+        } else if (destinationList.containsDestination(newDestinationName)) {
             // if the input text matches any of the already registrations
             // give feedback
             feedbackText.setText("You have already registered this destination");
