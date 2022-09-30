@@ -18,7 +18,7 @@ public class DestinationList {
      */
     public void addDestination(Destination destination) {
         if (destination == null)
-            throw new IllegalArgumentException("Destiantion cannot be null");
+            throw new IllegalArgumentException("Destination cannot be null");
 
         destinations.add(destination);
     }
@@ -86,7 +86,7 @@ public class DestinationList {
      */
     public boolean containsDestination(String destinationName) {
         if (destinationName == null)
-            throw new IllegalArgumentException("Destiantion name cannot be null");
+            throw new IllegalArgumentException("Destination name cannot be null");
 
         return getLowerCaseDestinationNames().contains(destinationName.toLowerCase());
     }
