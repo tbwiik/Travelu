@@ -1,5 +1,6 @@
 module travelu.fxui {
 
+    requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
 
