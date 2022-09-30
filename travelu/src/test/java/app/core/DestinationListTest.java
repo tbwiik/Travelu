@@ -1,6 +1,7 @@
 package app.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 public class DestinationListTest {
 
-    private DestinationList destinations;
+    private DestinationList destinationList;
 
     private Destination norway;
     private Destination buenosAires;
@@ -23,7 +24,7 @@ public class DestinationListTest {
 
     @BeforeEach
     public void setUp() {
-        destinations = new DestinationList();
+        destinationList = new DestinationList();
 
         newDestinations = new ArrayList<>();
 
@@ -37,61 +38,88 @@ public class DestinationListTest {
         newDestinations.add(norway);
 
         for (Destination destination : newDestinations) {
-            destinations.addDestination(destination);
+            destinationList.addDestination(destination);
         }
     }
 
     @Test
-    public void getDestinationByName() {
-        assertEquals(norway, destinations.getDestinationByName("Norway"));
-        assertEquals(buenosAires, destinations.getDestinationByName("Buenos Aires"));
+    public void testGetDestinationByName() {
+        assertEquals(norway, destinationList.getDestinationByName("Norway"));
+        assertEquals(buenosAires, destinationList.getDestinationByName("Buenos Aires"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinations.getDestinationByName("Does not exist"));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationByName("Does not exist"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinations.getDestinationByName(null));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationByName(null));
     }
 
     @Test
-    public void getDestinationNames() {
+    public void testGetDestinationNames() {
         List<String> expectedNames = new ArrayList<>();
         expectedNames.add("Spain");
         expectedNames.add("Buenos Aires");
         expectedNames.add("Turkey");
         expectedNames.add("Sweden");
 
-        assertNotEquals(expectedNames, destinations.getDestinationNames());
+        assertNotEquals(expectedNames, destinationList.getDestinationNames());
 
         expectedNames.add("Norway");
 
-        assertEquals(expectedNames, destinations.getDestinationNames());
+        assertEquals(expectedNames, destinationList.getDestinationNames());
 
-        expectedNames.add("Does not exist");
+        expectedNames.remove("Norway");
+        expectedNames.add("Norway");
 
-        assertNotEquals(expectedNames, destinations.getDestinationNames());
+        assertEquals(expectedNames, destinationList.getDestinationNames());
+
+        expectedNames.remove("Norway");
+        expectedNames.add("NorWay");
+
+        assertNotEquals(expectedNames, destinationList.getDestinationNames());
+    }
+
+    @Test
+    public void testContainsDestination() {
+        String norwayString = "Norway";
+        String swedenString = "Sweden";
+        String spainString = "spAin";
+        String buenosAiresString = "Buenos Aires";
+        String turkeyString = "TuRkEy";
+
+        assertTrue(destinationList.containsDestination(norwayString));
+        assertTrue(destinationList.containsDestination(swedenString));
+        assertTrue(destinationList.containsDestination(spainString));
+        assertTrue(destinationList.containsDestination(buenosAiresString));
+        assertTrue(destinationList.containsDestination(turkeyString));
+
+        String invalidString = "Does not exist";
+
+        assertFalse(destinationList.containsDestination(invalidString));
+
+        assertThrows(IllegalArgumentException.class, () -> destinationList.containsDestination(null));
     }
 
     @Test
     public void testAddDestination() {
-        assertEquals(newDestinations, destinations.getList());
+        assertEquals(newDestinations, destinationList.getList());
 
-        assertThrows(IllegalArgumentException.class, () -> destinations.addDestination(null));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(null));
     }
 
     @Test
     public void testRemoveDestination() {
         newDestinations.remove(norway);
-        destinations.removeDestination("Norway");
+        destinationList.removeDestination("Norway");
 
-        assertEquals(newDestinations, destinations.getList());
+        assertEquals(newDestinations, destinationList.getList());
 
         newDestinations.remove(buenosAires);
-        destinations.removeDestination("Buenos Aires");
+        destinationList.removeDestination("Buenos Aires");
 
-        assertEquals(newDestinations, destinations.getList());
+        assertEquals(newDestinations, destinationList.getList());
 
-        assertThrows(IllegalArgumentException.class, () -> destinations.removeDestination("Norway"));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination("Norway"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinations.removeDestination(null));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
     }
 
 }
