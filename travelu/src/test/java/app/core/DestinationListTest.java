@@ -22,6 +22,31 @@ public class DestinationListTest {
     }
 
     @Test
+    public void getDestinationByName() {
+        List<Destination> newDestinations = new ArrayList<>();
+
+        Destination norway = new Destination("Norway", new HashMap<Date, Date>(), 2, null, null);
+        Destination buenosAires = new Destination("Buenos Aires", new HashMap<Date, Date>(), 2, null, null);
+
+        newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
+        newDestinations.add(buenosAires);
+        newDestinations.add(new Destination("Turkey", new HashMap<Date, Date>(), 5, null, null));
+        newDestinations.add(new Destination("Sweden", new HashMap<Date, Date>(), 1, null, null));
+        newDestinations.add(norway);
+
+        for (Destination destination : newDestinations) {
+            destinations.addDestination(destination);
+        }
+
+        assertEquals(norway, destinations.getDestinationByName("Norway"));
+        assertEquals(buenosAires, destinations.getDestinationByName("Buenos Aires"));
+
+        assertThrows(IllegalArgumentException.class, () -> destinations.getDestinationByName("Does not exist"));
+
+        assertThrows(IllegalArgumentException.class, () -> destinations.getDestinationByName(null));
+    }
+
+    @Test
     public void testAddDestination() {
 
         assertTrue(destinations.getList().isEmpty());
@@ -34,7 +59,6 @@ public class DestinationListTest {
         newDestinations.add(new Destination("Norway", new HashMap<Date, Date>(), 2, null, null));
 
         for (Destination destination : newDestinations) {
-            System.out.println(destination.getName());
             destinations.addDestination(destination);
         }
 
