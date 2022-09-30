@@ -13,7 +13,7 @@ public class DestinationList {
     /**
      * Add destination to list
      * 
-     * @param destination
+     * @param destination to add
      * @throws IllegalArgumentException if destination is null
      */
     public void addDestination(Destination destination) {
