@@ -13,9 +13,13 @@ public class DestinationList {
     /**
      * Add destination to list
      * 
-     * @param destination to add
+     * @param destination
+     * @throws IllegalArgumentException if destination is null
      */
     public void addDestination(Destination destination) {
+        if (destination.equals(null))
+            throw new IllegalArgumentException("Destiantion cannot be null");
+
         destinations.add(destination);
     }
 
