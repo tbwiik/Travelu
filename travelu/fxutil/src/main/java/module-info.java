@@ -3,7 +3,7 @@ module travelu.fxutil {
     requires javafx.fxml;
     requires com.google.gson;
 
-    requires travelu.core;
+    requires transitive travelu.core;
 
     opens travelu.fxutil to javafx.fxml, com.google.gson;
 
