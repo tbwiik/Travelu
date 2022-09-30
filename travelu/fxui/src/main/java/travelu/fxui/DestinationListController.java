@@ -3,9 +3,9 @@ package travelu.fxui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import app.core.Destination;
-import app.core.DestinationList;
-import app.core.TraveluHandler;
+import travelu.core.Destination;
+import travelu.core.DestinationList;
+import travelu.fxutil.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
