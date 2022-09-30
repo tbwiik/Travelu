@@ -1,4 +1,4 @@
-package app.core;
+package travelu.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

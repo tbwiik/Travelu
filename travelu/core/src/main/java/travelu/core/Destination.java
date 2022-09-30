@@ -1,4 +1,4 @@
-package app.core;
+package travelu.core;
 
 import java.util.ArrayList;
 import java.util.Date;
