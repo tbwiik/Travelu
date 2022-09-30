@@ -17,7 +17,7 @@ public class DestinationList {
      * @throws IllegalArgumentException if destination is null
      */
     public void addDestination(Destination destination) {
-        if (destination.equals(null))
+        if (destination == null)
             throw new IllegalArgumentException("Destiantion cannot be null");
 
         destinations.add(destination);
@@ -37,6 +37,7 @@ public class DestinationList {
      * Remove destination by name
      * 
      * @param name of destination
+     * @throws IllegalArgumentException if no destination with name
      */
     public void removeDestination(String name) {
 
