@@ -81,9 +81,13 @@ public class DestinationList {
      * Checks if contains destination
      * 
      * @param destinationName
+     * @throws IllegalArgumentException if no destination with name
      * @return lowercase destination-name
      */
     public boolean containsDestination(String destinationName) {
+        if (destinationName == null)
+            throw new IllegalArgumentException("Destiantion name cannot be null");
+
         return getLowerCaseDestinationNames().contains(destinationName.toLowerCase());
     }
 
