@@ -5,5 +5,5 @@ module travelu.fxutil {
 
     opens fxutil to javafx.fxml, com.google.gson;
 
-    exports fxutil;
+    exports travelu.fxutil;
 }
