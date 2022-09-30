@@ -7,6 +7,7 @@ module travelu.fxui {
     requires travelu.core;
     requires travelu.fxutil;
 
-    opens travelu.fxui to javafx.fxml;
+    opens travelu.fxui to javafx.fxml, javafx.graphics;
+
 
 }
