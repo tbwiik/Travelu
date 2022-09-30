@@ -12,44 +12,68 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import app.DestinationListController;
-
 public class DestinationListTest {
 
-    private DestinationListController destinationListController;
-    private List<Destination> destinations;
+    private DestinationList destinations;
 
     @BeforeEach
     public void setUp() {
-        destinations = new ArrayList<>();
+        destinations = new DestinationList();
     }
 
     @Test
     public void testAddDestination() {
-        Destination destination1 = new Destination("Spain", new HashMap<Date, Date>(), 4, null, null);
-        Destination destination2 = new Destination("Greece", new HashMap<Date, Date>(), 2, null, null);
-        Destination destination3 = new Destination("Turkey", new HashMap<Date, Date>(), 5, null, null);
-        Destination destination4 = new Destination("Sweden", new HashMap<Date, Date>(), 1, null, null);
-        Destination destination5 = new Destination("Norway", new HashMap<Date, Date>(), 2, null, null);
 
-        assertTrue(destinations.isEmpty());
+        assertTrue(destinations.getList().isEmpty());
 
         List<Destination> newDestinations = new ArrayList<>();
-
-        newDestinations.add(destination1);
-        newDestinations.add(destination2);
-        newDestinations.add(destination3);
-        newDestinations.add(destination4);
-        newDestinations.add(destination5);
+        newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
+        newDestinations.add(new Destination("Greece", new HashMap<Date, Date>(), 2, null, null));
+        newDestinations.add(new Destination("Turkey", new HashMap<Date, Date>(), 5, null, null));
+        newDestinations.add(new Destination("Sweden", new HashMap<Date, Date>(), 1, null, null));
+        newDestinations.add(new Destination("Norway", new HashMap<Date, Date>(), 2, null, null));
 
         for (Destination destination : newDestinations) {
-            destinations.add(destination);
+            System.out.println(destination.getName());
+            destinations.addDestination(destination);
         }
 
-        assertEquals(destinations, newDestinations);
+        assertEquals(newDestinations, destinations.getList());
 
-        assertThrows(IllegalArgumentException.class, () -> destinations.add(null));
+        assertThrows(IllegalArgumentException.class, () -> destinations.addDestination(null));
 
+    }
+
+    @Test
+    public void testRemoveDestination() {
+        List<Destination> newDestinations = new ArrayList<>();
+
+        Destination norway = new Destination("Norway", new HashMap<Date, Date>(), 2, null, null);
+        Destination greece = new Destination("Greece", new HashMap<Date, Date>(), 2, null, null);
+
+        newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
+        newDestinations.add(greece);
+        newDestinations.add(new Destination("Turkey", new HashMap<Date, Date>(), 5, null, null));
+        newDestinations.add(new Destination("Sweden", new HashMap<Date, Date>(), 1, null, null));
+        newDestinations.add(norway);
+
+        for (Destination destination : newDestinations) {
+            destinations.addDestination(destination);
+        }
+
+        newDestinations.remove(norway);
+        destinations.removeDestination("Norway");
+
+        assertEquals(newDestinations, destinations.getList());
+
+        newDestinations.remove(greece);
+        destinations.removeDestination("Greece");
+
+        assertEquals(newDestinations, destinations.getList());
+
+        assertThrows(IllegalArgumentException.class, () -> destinations.removeDestination("Norway"));
+
+        assertThrows(IllegalArgumentException.class, () -> destinations.removeDestination(null));
     }
 
 }
