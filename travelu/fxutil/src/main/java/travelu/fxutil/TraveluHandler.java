@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import travelu.core.DestinationList;
 
 import com.google.gson.Gson;
@@ -16,6 +19,12 @@ import com.google.gson.GsonBuilder;
  */
 public class TraveluHandler {
 
+    private static String getFilePath(String filename){
+        Path path = Paths.get("../fxutil/src/main/resources/travelu/fxutil/data");
+        return( path.toAbsolutePath() + "/" + filename);
+    }
+
+
     /**
      * Return file to use in reading/writing
      * <p>
@@ -24,9 +33,12 @@ public class TraveluHandler {
      * @return File
      */
     private File getFile() {
+        return new File(getFilePath("persistence.json"));
         //return new File(TraveluHandler.class.getResource("data/").getFile() + "persistence.json");
-        return new File("gr2219/travelu/fxutil/src/main/resources/travelu/fxutil/data/persistence.json");
+        //return new File("C:/Users/johnh/Documents/ITP/Prosjekt/gr2219/travelu/fxutil/src/main/resources/travelu/fxutil/data/persistence.json");
     }
+
+   
 
     /**
      * Writes to given file in {@code JSON Format}using {@code Gson}
