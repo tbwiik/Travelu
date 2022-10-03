@@ -56,6 +56,16 @@ public class Destination {
     }
 
     /**
+     * @param ranking on a scale of 1-5
+     */
+    public void setRanking(Integer ranking){
+        if(ranking < 1 || ranking > 5){
+            throw new IllegalArgumentException("Ranking must be between 1 and 5");
+        }
+        this.ranking = ranking;
+    }
+
+    /**
      * @return activities done in the destination
      */
     public List<String> getActivites() {
