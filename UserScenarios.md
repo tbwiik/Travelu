@@ -11,3 +11,17 @@ The user needs to be able to create a list of places the user has been and what 
 ### Important to be able to do
 - Add new destinations the user has visited.
 - Remove destinations in case the user added a destination by mistake.
+
+<hr>
+
+## Influencer keeping track of visited places
+As a travel vlogger, it's important for me to be able to keep track of my travels so that I can keep creating content from these trips. I need to remember what I did when visiting these places, because my followers might be interested in hearing about it.
+
+Its vital that I can rank the different destinations, so that I can keep track of what places were enjoyable and not, and use this to determine what to use for content creation.
+
+### Important to be able to see
+- Information on activities I did in a destination
+- Ranking of destinations
+
+### Important to be able to do
+- Add data in specific destination (activities, ranking, etc.)
