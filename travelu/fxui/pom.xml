@@ -169,6 +169,12 @@
                 </executions>
 
             </plugin>
+        
+            <!-- Spotbugs plugin for code quality check -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+            </plugin>
 
         </plugins>
     </build>
