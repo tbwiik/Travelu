@@ -41,7 +41,7 @@ public class DestinationListController {
     @FXML
     private void initialize() throws FileNotFoundException {
 
-        // get DestinationList from JSON
+        // get DestinationList from file
         this.destinationList = traveluHandler.readJSON();
 
         listView.setStyle("-fx-font-size:20;");
