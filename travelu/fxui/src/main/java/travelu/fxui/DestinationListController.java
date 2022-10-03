@@ -22,12 +22,6 @@ public class DestinationListController {
     private ListView<String> listView;
 
     @FXML
-    private Button addButton;
-
-    @FXML
-    private Button removeButton;
-
-    @FXML
     private TextArea destinationText;
 
     @FXML
@@ -47,10 +41,8 @@ public class DestinationListController {
     @FXML
     private void initialize() throws FileNotFoundException {
 
-        // add destinations from persistence file
-        for (Destination destination : traveluHandler.readJSON().getList()) {
-            destinationList.addDestination(destination);
-        }
+        // get DestinationList from file
+        this.destinationList = traveluHandler.readJSON();
 
         listView.setStyle("-fx-font-size:20;");
 
@@ -98,30 +90,6 @@ public class DestinationListController {
 
         App.setRoot("destination");
 
-    }
-
-    /**
-     * 
-     * @return current destination
-     */
-    public String getCurrentDestination() {
-        return currentDestination;
-    }
-
-    /**
-     * 
-     * @return list-view
-     */
-    public ListView<String> getListView() {
-        return listView;
-    }
-
-    /**
-     * 
-     * @param listView list of destination names
-     */
-    public void setListView(ListView<String> listView) {
-        this.listView = listView;
     }
 
     /**
