@@ -109,6 +109,22 @@ public class DestinationListController {
     }
 
     /**
+     * 
+     * @return list-view
+     */
+    public ListView<String> getListView() {
+        return listView;
+    }
+
+    /**
+     * 
+     * @param listView list of destination names
+     */
+    public void setListView(ListView<String> listView) {
+        this.listView = listView;
+    }
+
+    /**
      * Add destination to list
      * 
      * @throws IOException if error writing to file
@@ -121,7 +137,7 @@ public class DestinationListController {
             // if user didn't input any text
             // remove any feedback given and do nothing
             feedbackText.setText("");
-        } else if (destinationList.containsDestination(newDestinationName.toLowerCase())) {
+        } else if (destinationList.containsDestination(newDestinationName)) {
             // if the input text matches any of the already registrations
             // give feedback
             feedbackText.setText("You have already registered this destination");

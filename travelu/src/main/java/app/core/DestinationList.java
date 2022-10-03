@@ -14,8 +14,12 @@ public class DestinationList {
      * Add destination to list
      * 
      * @param destination to add
+     * @throws IllegalArgumentException if destination is null
      */
     public void addDestination(Destination destination) {
+        if (destination == null)
+            throw new IllegalArgumentException("Destination cannot be null");
+
         destinations.add(destination);
     }
 
@@ -23,10 +27,12 @@ public class DestinationList {
      * Get destination by name
      * 
      * @param name of destination
+     * @throws IllegalArgumentException if no destination with name
      * @return destination
      */
     public Destination getDestinationByName(String name) {
-        return destinations.stream().filter(destination -> destination.getName() == name).findFirst().orElse(null);
+        return destinations.stream().filter(destination -> destination.getName() == name).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid name"));
     }
 
     /**
@@ -35,12 +41,7 @@ public class DestinationList {
      * @param name of destination
      */
     public void removeDestination(String name) {
-
         Destination destination = getDestinationByName(name);
-        if (destination == null) {
-            throw new IllegalArgumentException("Invalid name");
-        }
-
         destinations.remove(destination);
     }
 
@@ -80,10 +81,14 @@ public class DestinationList {
      * Checks if contains destination
      * 
      * @param destinationName
+     * @throws IllegalArgumentException if no destination with name
      * @return lowercase destination-name
      */
     public boolean containsDestination(String destinationName) {
-        return getLowerCaseDestinationNames().contains(destinationName);
+        if (destinationName == null)
+            throw new IllegalArgumentException("Destination name cannot be null");
+
+        return getLowerCaseDestinationNames().contains(destinationName.toLowerCase());
     }
 
 }
