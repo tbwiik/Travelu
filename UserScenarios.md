@@ -15,9 +15,9 @@ The user needs to be able to create a list of places the user has been and what 
 <hr>
 
 ## Influencer keeping track of visited places
-As a travel vlogger, it's important for me to be able to keep track of my travels so that I can keep creating content from these trips. I need to remember what I did when visiting these places, because my followers might be interested in hearing about it.
+As a travel vlogger, it is important for me to be able to keep track of my travels so that I can keep creating content from these trips. I need to remember what I did when visiting these places, because my followers might be interested in hearing about it.
 
-Its vital that I can rank the different destinations, so that I can keep track of what places were enjoyable and not, and use this to determine what to use for content creation.
+It is vital that I can rank the different destinations, so that I can keep track of what places were enjoyable and not, and use this to determine what to use for content creation.
 
 ### Important to be able to see
 - Information on activities I did in a destination
