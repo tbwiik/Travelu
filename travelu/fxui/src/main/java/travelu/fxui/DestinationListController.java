@@ -22,12 +22,6 @@ public class DestinationListController {
     private ListView<String> listView;
 
     @FXML
-    private Button addButton;
-
-    @FXML
-    private Button removeButton;
-
-    @FXML
     private TextArea destinationText;
 
     @FXML
