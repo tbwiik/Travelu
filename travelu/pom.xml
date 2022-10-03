@@ -169,10 +169,9 @@
                     <execution>
                     <id>spotbugs-check</id>
                     <phase>verify</phase>
-                    <!-- Uncomment for failing build if bugs
                         <goals>
-                        <goal>check</goal>
-                    </goals> -->
+                        <goal>verify</goal> <!-- change to "check" to enable -->
+                    </goals>
                     </execution>
                 </executions>
             </plugin>
