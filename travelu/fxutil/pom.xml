@@ -1,17 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>gr2219</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>fxutil</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
     
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>16</maven.compiler.source> <!-- Change to version 17 for use locally -->
-        <maven.compiler.target>16</maven.compiler.target> <!-- Change to version 17 for use locally -->
-    </properties>
+    <!--The identifier of the parent POM-->
+    <parent>
+        <groupId>gr2219</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <!-- <relativePath>../travelu/pom.xml</relativePath> -->
+    </parent>
 
     <dependencies>
+
+        <dependency>
+            <groupId>gr2219</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
 
         <!-- javafx -->
         <dependency>
@@ -150,12 +158,5 @@
 
         </plugins>
     </build>
-
-    <modules>
-        <module>core</module>
-        <module>fxui</module>
-        <module>fxutil</module>
-    </modules>
-
 
 </project>

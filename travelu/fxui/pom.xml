@@ -1,17 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>gr2219</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>fxui</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
     
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>16</maven.compiler.source> <!-- Change to version 17 for use locally -->
-        <maven.compiler.target>16</maven.compiler.target> <!-- Change to version 17 for use locally -->
-    </properties>
+    <!--The identifier of the parent POM-->
+    <parent>
+        <groupId>gr2219</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <!-- <relativePath>../travelu/pom.xml</relativePath> -->
+    </parent>
 
     <dependencies>
+
+        <dependency>
+            <groupId>gr2219</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gr2219</groupId>
+            <artifactId>fxutil</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- javafx -->
         <dependency>
@@ -64,13 +77,6 @@
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.9.0</version>
-        </dependency>
     
     </dependencies>
 
@@ -93,6 +99,22 @@
                     <argLine>${argLine}</argLine>
                 </configuration>
 	        </plugin>
+
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.6</version>
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running -->
+                        <!-- Usage: mvn clean javafx:run -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>travelu.fxui/travelu.fxui.App</mainClass> <!-- Rename if App.java is changed!!!!-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!-- Jacoco plugin for test coverage -->
             <plugin>
@@ -150,12 +172,5 @@
 
         </plugins>
     </build>
-
-    <modules>
-        <module>core</module>
-        <module>fxui</module>
-        <module>fxutil</module>
-    </modules>
-
 
 </project>

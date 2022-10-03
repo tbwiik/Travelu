@@ -1,8 +1,8 @@
-package app;
+package travelu.fxui;
 
 import java.io.IOException;
 
-import app.core.Destination;
+import travelu.core.Destination;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;

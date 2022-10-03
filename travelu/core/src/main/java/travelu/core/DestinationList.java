@@ -1,4 +1,4 @@
-package app.core;
+package travelu.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class DestinationList {
      * @return destination-list
      */
     public List<Destination> getList() {
-        return destinations;
+        return new ArrayList<Destination>(destinations);
     }
 
     /**
