@@ -24,15 +24,17 @@ public class DestinationList {
     }
 
     /**
-     * Get destination by name
+     * Get copy of destination by name
      * 
      * @param name of destination
      * @throws IllegalArgumentException if no destination with name
      * @return destination
      */
     public Destination getDestinationByName(String name) {
-        return destinations.stream().filter(destination -> destination.getName() == name).findFirst()
+        Destination output = destinations.stream().filter(destination -> destination.getName() == name).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid name"));
+
+        return new Destination(output.getName(), output.getDate(), output.getRanking(), output.getActivites(), output.getComment());
     }
 
     /**
