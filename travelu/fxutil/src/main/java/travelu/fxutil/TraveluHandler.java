@@ -68,6 +68,12 @@ public class TraveluHandler {
         return DList;
     }
 
+    public String readCurrentDestinationNameJSON() throws FileNotFoundException {
+        Gson gson = new Gson();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("CurrentDestinationName.json")));
+        String currentDestinationName = gson.fromJson(bufferedReader, String.class);
+        return currentDestinationName;
+    }
 
 
 }
