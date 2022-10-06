@@ -46,12 +46,12 @@ public class TraveluHandler {
      * @param DList destination list
      * @throws IOException
      */
-    public void writeDestinationListJSON(DestinationList DList) throws IOException {
+    public void writeJSON(Object object, String filename) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
-        FileWriter writer = new FileWriter(getFile("DestinationList.json"));
-        writer.write(gson.toJson(DList));
+        FileWriter writer = new FileWriter(getFile(filename));
+        writer.write(gson.toJson(object));
         writer.close();
     }
 
@@ -67,5 +67,7 @@ public class TraveluHandler {
         DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);
         return DList;
     }
+
+
 
 }

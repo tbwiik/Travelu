@@ -126,7 +126,7 @@ public class DestinationListController {
             // remove text in inputField
             destinationText.clear();
         }
-        traveluHandler.writeDestinationListJSON(destinationList);
+        traveluHandler.writeJSON(destinationList, "DestinationList.json");
 
     }
 
@@ -147,7 +147,7 @@ public class DestinationListController {
             destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
-        traveluHandler.writeDestinationListJSON(destinationList);
+        traveluHandler.writeJSON(destinationList, "DestinationList.json");
     }
 
 }
