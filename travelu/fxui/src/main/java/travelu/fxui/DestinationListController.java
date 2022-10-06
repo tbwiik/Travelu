@@ -113,7 +113,7 @@ public class DestinationListController {
             // if everything is ok with the input
             // create new destination with input as name
             Destination newDestination = new Destination(newDestinationName.strip(), null, 0, null,
-                    currentDestination);
+                    null);
 
             // add destination to list-view and destinations
             listView.getItems().add(newDestination.getName());
