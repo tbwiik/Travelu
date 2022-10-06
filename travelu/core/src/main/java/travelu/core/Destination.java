@@ -42,10 +42,14 @@ public class Destination {
     }
 
     /**
-     * @return tuple from-to for the visit
+     * @return copy for date field
      */
     public HashMap<Date, Date> getDate() {
-        return date;
+        // date can be null
+        if(date != null){
+            return new HashMap<>(date);
+        }
+        return null;
     }
 
     /**
@@ -66,10 +70,10 @@ public class Destination {
     }
 
     /**
-     * @return activities done in the destination
+     * @return copy of list of activities done in the destination
      */
     public List<String> getActivites() {
-        return activites;
+        return new ArrayList<String>(activites);
     }
 
     /**
