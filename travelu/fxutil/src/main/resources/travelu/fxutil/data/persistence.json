@@ -1,14 +1,14 @@
 {
   "destinations": [
     {
-      "place": "Sweden",
+      "name": "Sweden",
       "date": null,
       "ranking": 0,
       "activites": null,
       "comment": "Norway"
     },
     {
-      "place": "USA",
+      "name": "USA",
       "date": null,
       "ranking": 0,
       "activites": null,

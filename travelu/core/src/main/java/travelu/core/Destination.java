@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Destination {
 
-    private String place;
+    private String name;
     private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
     private List<String> activites = new ArrayList<>();
@@ -19,15 +19,15 @@ public class Destination {
     /**
      * Constructs destination object
      * 
-     * @param place     of destination
+     * @param name     of destination
      * @param date      visit from-to
      * @param ranking   on a scale from 1-5
      * @param activites you did during your visit
      * @param comment   with other relevant info
      */
-    public Destination(String place, HashMap<Date, Date> date, Integer ranking, List<String> activites,
+    public Destination(String name, HashMap<Date, Date> date, Integer ranking, List<String> activites,
             String comment) {
-        this.place = place;
+        this.name = name;
         this.date = date;
         this.ranking = ranking;
         this.activites = activites;
@@ -35,17 +35,33 @@ public class Destination {
     }
 
     /**
-     * @return name of destination
+     * Constructs destination object from already existing destination object, creating a copy
+     * @param destination
      */
-    public String getName() {
-        return place;
+    public Destination(Destination destination){
+        this.name = destination.getName();
+        this.date = destination.getDate();
+        this.ranking = destination.getRanking();
+        this.activites = destination.getActivites();
+        this.comment = destination.getComment();
     }
 
     /**
-     * @return tuple from-to for the visit
+     * @return name of destination
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return copy for date field
      */
     public HashMap<Date, Date> getDate() {
-        return date;
+        // date can be null
+        if(date != null){
+            return new HashMap<>(date);
+        }
+        return null;
     }
 
     /**
@@ -66,10 +82,10 @@ public class Destination {
     }
 
     /**
-     * @return activities done in the destination
+     * @return copy of list of activities done in the destination
      */
     public List<String> getActivites() {
-        return activites;
+        return new ArrayList<String>(activites);
     }
 
     /**
