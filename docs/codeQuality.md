@@ -1,6 +1,6 @@
 # Documentation of code quality testing
 
-To ensure that the code uploaded has high enough standards, several plugins are added to check general quality and for of bugs.
+To ensure that the code uploaded has high enough standards, several plugins are added to check for bugs and for general quality.
 
 ## Spotbugs
 Spotbugs is a program which search for bugs in your code not picked up by the compilator. Bugs found result in build failing.  
