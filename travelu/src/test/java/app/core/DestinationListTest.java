@@ -43,13 +43,13 @@ public class DestinationListTest {
     }
 
     @Test
-    public void testGetDestinationByName() {
-        assertEquals(norway, destinationList.getDestinationByName("Norway"));
-        assertEquals(buenosAires, destinationList.getDestinationByName("Buenos Aires"));
+    public void testGetDestinationCopyByName() {
+        assertEquals(norway, destinationList.getDestinationCopyByName("Norway"));
+        assertEquals(buenosAires, destinationList.getDestinationCopyByName("Buenos Aires"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationByName("Does not exist"));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationByName(null));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName(null));
     }
 
     @Test
