@@ -32,8 +32,8 @@ public class TraveluHandler {
      * 
      * @return File
      */
-    private File getFile() {
-        return new File(getFilePath("persistence.json"));
+    private File getFile(String filename) {
+        return new File(getFilePath(filename));
         //return new File(TraveluHandler.class.getResource("data/").getFile() + "persistence.json");
         //return new File("C:/Users/johnh/Documents/ITP/Prosjekt/gr2219/travelu/fxutil/src/main/resources/travelu/fxutil/data/persistence.json");
     }
@@ -50,7 +50,7 @@ public class TraveluHandler {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
-        FileWriter writer = new FileWriter(getFile());
+        FileWriter writer = new FileWriter(getFile("DestinationList.json"));
         writer.write(gson.toJson(DList));
         writer.close();
     }
@@ -63,7 +63,7 @@ public class TraveluHandler {
      */
     public DestinationList readJSON() throws FileNotFoundException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile()));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("DestinationList.json")));
         DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);
         return DList;
     }
