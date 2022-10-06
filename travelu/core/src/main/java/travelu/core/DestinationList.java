@@ -34,7 +34,7 @@ public class DestinationList {
         Destination output = destinations.stream().filter(destination -> destination.getName() == name).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid name"));
 
-        return new Destination(output.getName(), output.getDate(), output.getRanking(), output.getActivites(), output.getComment());
+        return new Destination(output);
     }
 
     /**

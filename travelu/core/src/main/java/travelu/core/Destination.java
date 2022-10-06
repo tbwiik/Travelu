@@ -35,6 +35,18 @@ public class Destination {
     }
 
     /**
+     * Constructs destination object from already existing destination object, creating a copy
+     * @param destination
+     */
+    public Destination(Destination destination){
+        this.place = destination.getName();
+        this.date = destination.getDate();
+        this.ranking = destination.getRanking();
+        this.activites = destination.getActivites();
+        this.comment = destination.getComment();
+    }
+
+    /**
      * @return name of destination
      */
     public String getName() {
