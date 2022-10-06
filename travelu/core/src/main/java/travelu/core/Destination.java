@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Destination {
 
-    private String place;
+    private String name;
     private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
     private List<String> activites = new ArrayList<>();
@@ -19,15 +19,15 @@ public class Destination {
     /**
      * Constructs destination object
      * 
-     * @param place     of destination
+     * @param name     of destination
      * @param date      visit from-to
      * @param ranking   on a scale from 1-5
      * @param activites you did during your visit
      * @param comment   with other relevant info
      */
-    public Destination(String place, HashMap<Date, Date> date, Integer ranking, List<String> activites,
+    public Destination(String name, HashMap<Date, Date> date, Integer ranking, List<String> activites,
             String comment) {
-        this.place = place;
+        this.name = name;
         this.date = date;
         this.ranking = ranking;
         this.activites = activites;
@@ -39,7 +39,7 @@ public class Destination {
      * @param destination
      */
     public Destination(Destination destination){
-        this.place = destination.getName();
+        this.name = destination.getName();
         this.date = destination.getDate();
         this.ranking = destination.getRanking();
         this.activites = destination.getActivites();
@@ -50,7 +50,7 @@ public class Destination {
      * @return name of destination
      */
     public String getName() {
-        return place;
+        return name;
     }
 
     /**

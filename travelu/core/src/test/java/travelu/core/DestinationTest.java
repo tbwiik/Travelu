@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 public class DestinationTest {
 
     private Destination destination;
-    private String place, comment;
+    private String name, comment;
     private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
     private List<String> activites = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
-        place = "Sweden";
+        name = "Sweden";
         date = null;
         ranking = 3;
 
@@ -30,12 +30,12 @@ public class DestinationTest {
 
         comment = "Nice and cozy, but somewhat expensive dinner...";
 
-        destination = new Destination(place, date, ranking, activites, comment);
+        destination = new Destination(name, date, ranking, activites, comment);
     }
 
     @Test
     public void testConstructor() {
-        assertEquals(place, destination.getName());
+        assertEquals(name, destination.getName());
         assertEquals(date, destination.getDate());
         assertEquals(activites, destination.getActivites());
         assertEquals(comment, destination.getComment());
