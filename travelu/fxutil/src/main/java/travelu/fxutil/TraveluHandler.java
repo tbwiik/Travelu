@@ -46,7 +46,7 @@ public class TraveluHandler {
      * @param DList destination list
      * @throws IOException
      */
-    public void writeJSON(DestinationList DList) throws IOException {
+    public void writeDestinationListJSON(DestinationList DList) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
@@ -61,7 +61,7 @@ public class TraveluHandler {
      * @return Destination list
      * @throws FileNotFoundException if file not found
      */
-    public DestinationList readJSON() throws FileNotFoundException {
+    public DestinationList readDestinationListJSON() throws FileNotFoundException {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("DestinationList.json")));
         DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);

@@ -42,7 +42,7 @@ public class DestinationListController {
     private void initialize() throws FileNotFoundException {
 
         // get DestinationList from file
-        this.destinationList = traveluHandler.readJSON();
+        this.destinationList = traveluHandler.readDestinationListJSON();
 
         listView.setStyle("-fx-font-size:20;");
 
@@ -126,7 +126,7 @@ public class DestinationListController {
             // remove text in inputField
             destinationText.clear();
         }
-        traveluHandler.writeJSON(destinationList);
+        traveluHandler.writeDestinationListJSON(destinationList);
 
     }
 
@@ -147,7 +147,7 @@ public class DestinationListController {
             destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
-        traveluHandler.writeJSON(destinationList);
+        traveluHandler.writeDestinationListJSON(destinationList);
     }
 
 }
