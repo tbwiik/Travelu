@@ -45,11 +45,11 @@ public class DateInterval {
     }
 
     public int[] getStartDate() {
-        return startDate;
+        return startDate.clone();
     }
 
     public int[] getEndDate() {
-        return endDate;
+        return endDate.clone();
     }
 
     public void setStartDate(int[] startDate) {
