@@ -11,14 +11,14 @@ public class DestinationTest {
 
     private Destination destination;
     private String name, comment;
-    private DateIntervall dateIntervall;
+    private DateInterval dateInterval;
     private Integer ranking;
     private List<String> activities = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
         name = "Sweden";
-        dateIntervall = null;
+        dateInterval = null;
         ranking = 3;
 
         activities.add("Skiing");
@@ -27,13 +27,13 @@ public class DestinationTest {
 
         comment = "Nice and cozy, but somewhat expensive dinner...";
 
-        destination = new Destination(name, dateIntervall, ranking, activities, comment);
+        destination = new Destination(name, dateInterval, ranking, activities, comment);
     }
 
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
-        assertEquals(dateIntervall, destination.getDateIntervall());
+        assertEquals(dateInterval, destination.getDateIntervall());
         assertEquals(activities, destination.getActivities());
         assertEquals(comment, destination.getComment());
     }

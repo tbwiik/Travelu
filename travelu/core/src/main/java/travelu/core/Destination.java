@@ -9,7 +9,7 @@ import java.util.List;
 public class Destination {
 
     private String name;
-    private DateIntervall dateIntervall;
+    private DateInterval dateInterval;
     private Integer ranking;
     private List<String> activities = new ArrayList<>();
     private String comment;
@@ -23,10 +23,10 @@ public class Destination {
      * @param activities you did during your visit
      * @param comment    with other relevant info
      */
-    public Destination(String name, DateIntervall dateIntervall, Integer ranking, List<String> activities,
+    public Destination(String name, DateInterval dateIntervall, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        this.dateIntervall = dateIntervall;
+        this.dateInterval = dateIntervall;
         this.ranking = ranking;
 
         if (activities != null) {
@@ -44,7 +44,7 @@ public class Destination {
      */
     public Destination(Destination destination) {
         this.name = destination.getName();
-        this.dateIntervall = destination.getDateIntervall();
+        this.dateInterval = destination.getDateIntervall();
         this.ranking = destination.getRanking();
         this.activities = destination.getActivities();
         this.comment = destination.getComment();
@@ -60,9 +60,9 @@ public class Destination {
     /**
      * @return dateIntervall from-to
      */
-    public DateIntervall getDateIntervall() {
-        if (dateIntervall != null) {
-            return dateIntervall; // ints are primitive and copy is therefore not necessary
+    public DateInterval getDateIntervall() {
+        if (dateInterval != null) {
+            return dateInterval; // ints are primitive and copy is therefore not necessary
         }
         return null;
     }

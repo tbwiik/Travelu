@@ -4,12 +4,12 @@ package travelu.core;
  * Date-intervall, from-to, because problems with filewriting using pair and
  * date-object
  */
-public class DateIntervall {
+public class DateInterval {
 
     private int startDay, startMonth, startYear;
     private int endDay, endMonth, endYear;
 
-    public DateIntervall(int startDate, int startMonth, int startYear, int endDate, int endMonth, int endYear) {
+    public DateInterval(int startDate, int startMonth, int startYear, int endDate, int endMonth, int endYear) {
         this.startDay = startDate;
         this.startMonth = startMonth;
         this.startYear = startYear;
@@ -108,7 +108,7 @@ public class DateIntervall {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        DateIntervall other = (DateIntervall) obj;
+        DateInterval other = (DateInterval) obj;
         if (startDay != other.startDay)
             return false;
         if (startMonth != other.startMonth)

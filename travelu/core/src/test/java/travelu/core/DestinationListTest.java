@@ -18,7 +18,7 @@ public class DestinationListTest {
 
     private Destination norway;
     private String name;
-    private DateIntervall dateIntervall;
+    private DateInterval dateInterval;
     private Integer ranking;
     private List<String> activities;
     private String comment;
@@ -33,12 +33,12 @@ public class DestinationListTest {
         newDestinations = new ArrayList<>();
 
         name = "Norway";
-        dateIntervall = null;
+        dateInterval = null;
         ranking = 2;
         activities = new ArrayList<>();
         comment = null;
 
-        norway = new Destination(name, dateIntervall, ranking, activities, comment);
+        norway = new Destination(name, dateInterval, ranking, activities, comment);
         buenosAires = new Destination("Buenos Aires", null, 2, null, null);
 
         newDestinations.add(new Destination("Spain", null, 4, null, null));
@@ -58,7 +58,7 @@ public class DestinationListTest {
         // Compare two destination objects
         // Check if copy work as expected
         assertEquals(norway.getName(), name);
-        assertEquals(norway.getDateIntervall(), dateIntervall);
+        assertEquals(norway.getDateIntervall(), dateInterval);
         assertEquals(norway.getRanking(), ranking);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
