@@ -81,7 +81,10 @@ public class DestinationController {
 
     @FXML
     private void handleAddActivity() {
-        System.out.println("Add activity");
+        String activity = newActivityTextField.getText();
+        if(activity.isBlank() || activity == null) return;
+        
+
     }
 
     @FXML
