@@ -19,26 +19,32 @@ public class Destination {
     /**
      * Constructs destination object
      * 
-     * @param name     of destination
-     * @param date      visit from-to
-     * @param ranking   on a scale from 1-5
+     * @param name       of destination
+     * @param date       visit from-to
+     * @param ranking    on a scale from 1-5
      * @param activities you did during your visit
-     * @param comment   with other relevant info
+     * @param comment    with other relevant info
      */
     public Destination(String name, HashMap<Date, Date> date, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
         this.date = date;
         this.ranking = ranking;
-        this.activities.addAll(activities);
+
+        if (activities != null) {
+            this.activities.addAll(activities);
+        }
+
         this.comment = comment;
     }
 
     /**
-     * Constructs destination object from already existing destination object, creating a copy
+     * Constructs destination object from already existing destination object,
+     * creating a copy
+     * 
      * @param destination
      */
-    public Destination(Destination destination){
+    public Destination(Destination destination) {
         this.name = destination.getName();
         this.date = destination.getDate();
         this.ranking = destination.getRanking();
@@ -58,7 +64,7 @@ public class Destination {
      */
     public HashMap<Date, Date> getDate() {
         // date can be null
-        if(date != null){
+        if (date != null) {
             return new HashMap<>(date);
         }
         return null;
@@ -74,8 +80,8 @@ public class Destination {
     /**
      * @param ranking on a scale of 1-5
      */
-    public void setRanking(Integer ranking){
-        if(ranking < 1 || ranking > 5){
+    public void setRanking(Integer ranking) {
+        if (ranking < 1 || ranking > 5) {
             throw new IllegalArgumentException("Ranking must be between 1 and 5");
         }
         this.ranking = ranking;
