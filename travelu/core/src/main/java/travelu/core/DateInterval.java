@@ -37,6 +37,16 @@ public class DateInterval {
 
     }
 
+    /**
+     * Create copy of DateInterval
+     * 
+     * @param dateInterval object
+     */
+    public DateInterval(DateInterval dateInterval) {
+        this.startDate = dateInterval.getStartDate();
+        this.endDate = dateInterval.getEndDate();
+    }
+
     public int[] getStartDate() {
         return startDate.clone();
     }
