@@ -6,7 +6,7 @@ To ensure that the code uploaded has high enough standards, several plugins are 
 Spotbugs is a program which search for bugs in your code not picked up by the compilator. Bugs found result in build failing.  
 Spotbugs search for over 400 bug patterns such as lack of incapsulation.
 
-Implementation of SpotBugs is done to find problems or weaknesses not picked up by programmer, reviewer or compilator. It enforce safer code.
+Implementation of SpotBugs is done to find problems or weaknesses not picked up by programmer, reviewer or compilator. It enforces safer code.
 
 ### To run:
 - `cd travelu` if necessary
