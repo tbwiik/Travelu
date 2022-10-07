@@ -79,12 +79,29 @@ public class DestinationController {
         App.setRoot("destinationList");
     }
 
+    /**
+     * 
+     */
     @FXML
-    private void handleAddActivity() {
+    private void handleAddActivity() throws IOException {
         String activity = newActivityTextField.getText();
         if(activity.isBlank() || activity == null) return;
-        
 
+        currentDestination.addActivity(activity);
+
+        writeChanges();
+
+    }
+
+    /**
+     * 
+     * @throws IOException
+     */
+    private void writeChanges() throws IOException{
+        this.destinationList.removeDestination(this.currentDestination.getName());
+        this.destinationList.addDestination(currentDestination);
+
+        traveluHandler.writeJSON(this.destinationList, "DestinationList.json");
     }
 
     @FXML
