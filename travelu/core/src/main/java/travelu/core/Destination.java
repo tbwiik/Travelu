@@ -82,10 +82,10 @@ public class Destination {
     }
 
     /**
-     * @return copy of list of activities done in the destination
+     * @return null if activities is null, else return copy of activities
      */
     public List<String> getActivities() {
-        return new ArrayList<String>(activities);
+        return (activities == null) ? null : new ArrayList<String>(activities);
     }
 
     /**
