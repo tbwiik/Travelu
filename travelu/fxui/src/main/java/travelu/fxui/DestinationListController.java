@@ -2,6 +2,7 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -113,7 +114,7 @@ public class DestinationListController {
         } else {
             // if everything is ok with the input
             // create new destination with input as name
-            Destination newDestination = new Destination(newDestinationName.strip(), null, 0, null,
+            Destination newDestination = new Destination(newDestinationName.strip(), null, 0, new ArrayList<String>(),
                     null);
 
             // add destination to list-view and destinations
