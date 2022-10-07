@@ -23,10 +23,10 @@ public class Destination {
      * @param activities you did during your visit
      * @param comment    with other relevant info
      */
-    public Destination(String name, DateInterval dateIntervall, Integer ranking, List<String> activities,
+    public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        this.dateInterval = dateIntervall;
+        this.dateInterval = dateInterval;
         this.ranking = ranking;
 
         if (activities != null) {
@@ -44,7 +44,7 @@ public class Destination {
      */
     public Destination(Destination destination) {
         this.name = destination.getName();
-        this.dateInterval = destination.getDateIntervall();
+        this.dateInterval = destination.getDateInterval();
         this.ranking = destination.getRanking();
         this.activities = destination.getActivities();
         this.comment = destination.getComment();
@@ -58,9 +58,9 @@ public class Destination {
     }
 
     /**
-     * @return dateIntervall from-to
+     * @return dateInterval from-to
      */
-    public DateInterval getDateIntervall() {
+    public DateInterval getDateInterval() {
         if (dateInterval != null) {
             return dateInterval; // ints are primitive and copy is therefore not necessary
         }

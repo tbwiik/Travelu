@@ -58,7 +58,7 @@ public class DestinationListTest {
         // Compare two destination objects
         // Check if copy work as expected
         assertEquals(norway.getName(), name);
-        assertEquals(norway.getDateIntervall(), dateInterval);
+        assertEquals(norway.getDateInterval(), dateInterval);
         assertEquals(norway.getRanking(), ranking);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);

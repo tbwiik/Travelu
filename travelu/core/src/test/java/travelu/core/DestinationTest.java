@@ -33,7 +33,7 @@ public class DestinationTest {
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
-        assertEquals(dateInterval, destination.getDateIntervall());
+        assertEquals(dateInterval, destination.getDateInterval());
         assertEquals(activities, destination.getActivities());
         assertEquals(comment, destination.getComment());
     }
