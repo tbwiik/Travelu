@@ -88,6 +88,11 @@ public class Destination {
         return new ArrayList<String>(activities);
     }
 
+    /**
+     * 
+     * @param activity a string explaining the activity
+     * @throws IllegalArgumentException if the input is blank
+     */
     public void addActivity(String activity) throws IllegalArgumentException {
         if(activity.isBlank())
             throw new IllegalArgumentException("Invalid activity");
