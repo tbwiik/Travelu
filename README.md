@@ -17,10 +17,11 @@ This project contains:
 - [User scenarios](UserScenarios.md)
 - Documentation of all [releases](docs)
 - A [README.md](travelu/README.md) explaining the functionality of the app
-- UI controllers of the app which are in the folder [travelu/src/main/resources/app](travelu/src/main/java/app)
-- FXML files connected to these controllers which are in the folder [resources/app](travelu/src/main/resources/app)
-- The application's domain logic and persistence which are in the folder [travelu/src/main/java/app/core](travelu/src/main/java/app/core)
-- Tests which are in the folder [travelu/src/test/java/app/core](travelu/src/test/java/app/core)
+- UI controllers of the app which are in the folder [travelu/fxui/src/main/java/travelu/fxui](travelu/fxui/src/main/java/travelu/fxui)
+- FXML files connected to these controllers which are in the folder [resources/travelu/fxui](travelu/fxui/src/main/resources/travelu/fxui)
+- The application's domain logic which are in the folder [travelu/core/src/main/java/travelu/core](travelu/core/src/main/java/travelu/core)
+- The application's persistence which are in the folder [travelu/fxutil/src/main/java/travelu/fxutil](travelu/fxutil/src/main/java/travelu/fxutil)
+- Tests TODO
 
 ## Building & running the project
 
@@ -46,7 +47,7 @@ After building project and cd-ing into right folder,
 in terminal:
 - Run `mvn test` to get test results
 - Run `mvn verify` to get test-coverage and quality report
-  - Report found in [target/../index.html](travelu/target/site/jacoco/index.html) 
+  - Report found in [travelu/core/target/site/jacoco/index.html](travelu/core/target/site/jacoco/index.html)
 
 
 
