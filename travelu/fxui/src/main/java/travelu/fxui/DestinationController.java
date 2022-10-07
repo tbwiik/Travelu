@@ -53,9 +53,16 @@ public class DestinationController {
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
         System.out.println(currentDestinationName);
 
-        //this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
 
         destinationLabel.setText(currentDestinationName);
+
+        if(this.currentDestination.getComment() != null){
+            commentTextField.setText(this.currentDestination.getComment());
+        }
+
+        plannedActivitiesListView.getItems()
+                .addAll(this.currentDestination.getActivities());
 
     }
 

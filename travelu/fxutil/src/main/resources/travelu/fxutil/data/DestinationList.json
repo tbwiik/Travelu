@@ -4,15 +4,15 @@
       "name": "Sweden",
       "date": null,
       "ranking": 0,
-      "activities": null,
-      "comment": "Norway"
+      "activities": ["eat ice cream", "go to party"],
+      "comment": "is cool country"
     },
     {
       "name": "USA",
       "date": null,
       "ranking": 0,
-      "activities": null,
-      "comment": "Sweden"
+      "activities": [],
+      "comment": null
     }
   ]
 }
