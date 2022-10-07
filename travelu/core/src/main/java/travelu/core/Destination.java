@@ -95,6 +95,18 @@ public class Destination {
     }
 
     /**
+     * 
+     * @param activity a string explaining the activity
+     * @throws IllegalArgumentException if the input is blank
+     */
+    public void addActivity(String activity) throws IllegalArgumentException {
+        if(activity.isBlank())
+            throw new IllegalArgumentException("Invalid activity");
+
+        this.activities.add(activity);
+    }
+
+    /**
      * @return additional comment about the visit
      */
     public String getComment() {
