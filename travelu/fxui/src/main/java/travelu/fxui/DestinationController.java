@@ -90,7 +90,10 @@ public class DestinationController {
         String activity = newActivityTextField.getText();
         if(activity.isBlank() || activity == null) return;
 
-        currentDestination.addActivity(activity);
+        try {currentDestination.addActivity(activity);}
+        catch(Exception e){
+            System.out.println("Invalid activity input");
+        }
 
         writeChanges();
         updateListView();
