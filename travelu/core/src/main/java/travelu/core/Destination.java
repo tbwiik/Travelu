@@ -88,6 +88,13 @@ public class Destination {
         return new ArrayList<String>(activities);
     }
 
+    public void addActivity(String activity) throws IllegalArgumentException {
+        if(activity.isBlank())
+            throw new IllegalArgumentException("Invalid activity");
+
+        this.activities.add(activity);
+    }
+
     /**
      * @return additional comment about the visit
      */
