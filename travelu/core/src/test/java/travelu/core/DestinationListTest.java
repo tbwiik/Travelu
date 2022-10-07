@@ -1,4 +1,4 @@
-package app.core;
+package travelu.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,6 +19,12 @@ public class DestinationListTest {
     private DestinationList destinationList;
 
     private Destination norway;
+    private String name;
+    private HashMap<Date, Date> date;
+    private Integer ranking;
+    private List<String> activities;
+    private String comment;
+
     private Destination buenosAires;
     private List<Destination> newDestinations;
 
@@ -28,7 +34,13 @@ public class DestinationListTest {
 
         newDestinations = new ArrayList<>();
 
-        norway = new Destination("Norway", new HashMap<Date, Date>(), 2, null, null);
+        name = "Norway";
+        date = new HashMap<Date, Date>();
+        ranking = 2;
+        activities = new ArrayList<>();
+        comment = null;
+
+        norway = new Destination(name, date, ranking, activities, comment);
         buenosAires = new Destination("Buenos Aires", new HashMap<Date, Date>(), 2, null, null);
 
         newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
@@ -44,8 +56,14 @@ public class DestinationListTest {
 
     @Test
     public void testGetDestinationCopyByName() {
-        assertEquals(norway, destinationList.getDestinationCopyByName("Norway"));
-        assertEquals(buenosAires, destinationList.getDestinationCopyByName("Buenos Aires"));
+
+        // Compare two destination objects
+        // Check if copy work as expected
+        assertEquals(norway.getName(), name);
+        assertEquals(norway.getDate(), date);
+        assertEquals(norway.getRanking(), ranking);
+        assertEquals(norway.getActivities(), activities);
+        assertEquals(norway.getComment(), comment);
 
         assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
 

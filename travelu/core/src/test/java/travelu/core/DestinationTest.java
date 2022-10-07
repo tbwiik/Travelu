@@ -16,7 +16,7 @@ public class DestinationTest {
     private String name, comment;
     private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
-    private List<String> activites = new ArrayList<>();
+    private List<String> activities = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
@@ -24,20 +24,20 @@ public class DestinationTest {
         date = null;
         ranking = 3;
 
-        activites.add("Skiing");
-        activites.add("Circus");
-        activites.add("Fancy dinner");
+        activities.add("Skiing");
+        activities.add("Circus");
+        activities.add("Fancy dinner");
 
         comment = "Nice and cozy, but somewhat expensive dinner...";
 
-        destination = new Destination(name, date, ranking, activites, comment);
+        destination = new Destination(name, date, ranking, activities, comment);
     }
 
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
         assertEquals(date, destination.getDate());
-        assertEquals(activites, destination.getActivites());
+        assertEquals(activities, destination.getActivities());
         assertEquals(comment, destination.getComment());
     }
 
