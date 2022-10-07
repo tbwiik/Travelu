@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +18,7 @@ public class DestinationListTest {
 
     private Destination norway;
     private String name;
-    private HashMap<Date, Date> date;
+    private DateInterval dateInterval;
     private Integer ranking;
     private List<String> activities;
     private String comment;
@@ -35,18 +33,18 @@ public class DestinationListTest {
         newDestinations = new ArrayList<>();
 
         name = "Norway";
-        date = new HashMap<Date, Date>();
+        dateInterval = null;
         ranking = 2;
         activities = new ArrayList<>();
         comment = null;
 
-        norway = new Destination(name, date, ranking, activities, comment);
-        buenosAires = new Destination("Buenos Aires", new HashMap<Date, Date>(), 2, null, null);
+        norway = new Destination(name, dateInterval, ranking, activities, comment);
+        buenosAires = new Destination("Buenos Aires", null, 2, null, null);
 
-        newDestinations.add(new Destination("Spain", new HashMap<Date, Date>(), 4, null, null));
+        newDestinations.add(new Destination("Spain", null, 4, null, null));
         newDestinations.add(buenosAires);
-        newDestinations.add(new Destination("Turkey", new HashMap<Date, Date>(), 5, null, null));
-        newDestinations.add(new Destination("Sweden", new HashMap<Date, Date>(), 1, null, null));
+        newDestinations.add(new Destination("Turkey", null, 5, null, null));
+        newDestinations.add(new Destination("Sweden", null, 1, null, null));
         newDestinations.add(norway);
 
         for (Destination destination : newDestinations) {
@@ -60,7 +58,7 @@ public class DestinationListTest {
         // Compare two destination objects
         // Check if copy work as expected
         assertEquals(norway.getName(), name);
-        assertEquals(norway.getDate(), date);
+        assertEquals(norway.getDateInterval(), dateInterval);
         assertEquals(norway.getRanking(), ranking);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
