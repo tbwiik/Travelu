@@ -61,11 +61,15 @@ public class TraveluHandler {
      * @return Destination list
      * @throws FileNotFoundException if file not found
      */
-    public DestinationList readDestinationListJSON() throws FileNotFoundException {
+    public DestinationList readDestinationListJSON(String filename) throws FileNotFoundException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("DestinationList.json")));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename)));
         DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);
         return DList;
+    }
+
+    public DestinationList readDestinationListJSON() throws FileNotFoundException {
+        return readDestinationListJSON("DestinationList.json");
     }
 
     public String readCurrentDestinationNameJSON() throws FileNotFoundException {
