@@ -97,6 +97,7 @@ public class DestinationController {
 
         writeChanges();
         updateListView();
+        newActivityTextField.setText("");
 
     }
 

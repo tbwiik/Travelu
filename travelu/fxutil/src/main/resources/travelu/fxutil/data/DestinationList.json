@@ -4,14 +4,20 @@
       "name": "Sweden",
       "date": null,
       "ranking": 0,
-      "activities": ["eat ice cream", "go to party"],
+      "activities": [
+        "eat ice cream",
+        "go to party"
+      ],
       "comment": "is cool country"
     },
     {
       "name": "USA",
       "date": null,
       "ranking": 0,
-      "activities": [],
+      "activities": [
+        "Go to usa",
+        "Eat burg"
+      ],
       "comment": null
     }
   ]
