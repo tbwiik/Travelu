@@ -30,7 +30,7 @@ public class Destination {
         this.name = name;
         this.date = date;
         this.ranking = ranking;
-        this.activities = activities;
+        this.activities.addAll(activities);
         this.comment = comment;
     }
 
@@ -82,10 +82,10 @@ public class Destination {
     }
 
     /**
-     * @return null if activities is null, else return copy of activities
+     * @return return copy of activities
      */
     public List<String> getActivities() {
-        return (activities == null) ? null : new ArrayList<String>(activities);
+        return new ArrayList<String>(activities);
     }
 
     /**
