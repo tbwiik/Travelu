@@ -1,8 +1,6 @@
 package travelu.core;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,7 +9,7 @@ import java.util.List;
 public class Destination {
 
     private String name;
-    private HashMap<Date, Date> date = new HashMap<>();
+    private DateIntervall dateIntervall;
     private Integer ranking;
     private List<String> activities = new ArrayList<>();
     private String comment;
@@ -25,10 +23,10 @@ public class Destination {
      * @param activities you did during your visit
      * @param comment    with other relevant info
      */
-    public Destination(String name, HashMap<Date, Date> date, Integer ranking, List<String> activities,
+    public Destination(String name, DateIntervall dateIntervall, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        this.date = date;
+        this.dateIntervall = dateIntervall;
         this.ranking = ranking;
 
         if (activities != null) {
@@ -46,7 +44,7 @@ public class Destination {
      */
     public Destination(Destination destination) {
         this.name = destination.getName();
-        this.date = destination.getDate();
+        this.dateIntervall = destination.getDateIntervall();
         this.ranking = destination.getRanking();
         this.activities = destination.getActivities();
         this.comment = destination.getComment();
@@ -60,12 +58,11 @@ public class Destination {
     }
 
     /**
-     * @return copy for date field
+     * @return dateIntervall from-to
      */
-    public HashMap<Date, Date> getDate() {
-        // date can be null
-        if (date != null) {
-            return new HashMap<>(date);
+    public DateIntervall getDateIntervall() {
+        if (dateIntervall != null) {
+            return dateIntervall; // ints are primitive and copy is therefore not necessary
         }
         return null;
     }
@@ -100,7 +97,7 @@ public class Destination {
      * @throws IllegalArgumentException if the input is blank
      */
     public void addActivity(String activity) throws IllegalArgumentException {
-        if(activity.isBlank())
+        if (activity.isBlank())
             throw new IllegalArgumentException("Invalid activity");
 
         this.activities.add(activity);
