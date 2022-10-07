@@ -61,12 +61,15 @@ public class DestinationController {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
-        plannedActivitiesListView.getItems()
-                .addAll(this.currentDestination.getActivities());
+        updateListView();
 
     }
 
-
+    @FXML
+    private void updateListView(){
+        plannedActivitiesListView.getItems().clear();
+        plannedActivitiesListView.getItems().addAll(this.currentDestination.getActivities());
+    }
 
 
     /**
@@ -90,6 +93,7 @@ public class DestinationController {
         currentDestination.addActivity(activity);
 
         writeChanges();
+        updateListView();
 
     }
 
