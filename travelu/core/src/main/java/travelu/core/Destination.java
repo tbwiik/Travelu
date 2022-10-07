@@ -62,7 +62,7 @@ public class Destination {
      */
     public DateInterval getDateInterval() {
         if (dateInterval != null) {
-            return dateInterval; // ints are primitive and copy is therefore not necessary
+            return new DateInterval(dateInterval);
         }
         return null;
     }
