@@ -100,10 +100,10 @@ public class Destination {
      * @throws IllegalArgumentException if the input is blank
      */
     public void addActivity(String activity) throws IllegalArgumentException {
-        if(activity.isBlank())
+        if(activity.isBlank() || getActivities().contains(activity))
             throw new IllegalArgumentException("Invalid activity");
-
-        this.activities.add(activity);
+    
+        activities.add(activity);
     }
 
     /**
