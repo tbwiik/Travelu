@@ -2,8 +2,10 @@ package travelu.fxutil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,25 +38,34 @@ public class TraveluHandlerTest {
     }
 
     @Test
-    public void testWriteToFile() throws IOException {
-        traveluHandler.writeJSON(destinationList, "testDestinationList.json"); 
-        assertEquals(destinationList.getDestinationNames(), traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
-        
+    public void testWriteToFileWhenAdding() throws IOException {
+        traveluHandler.writeJSON(destinationList, "testDestinationList.json");
+        assertEquals(destinationList.getDestinationNames(),
+                traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
+
         destinationList.addDestination(portugal);
-        assertNotEquals(destinationList.getDestinationNames(), traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
+        assertNotEquals(destinationList.getDestinationNames(),
+                traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
 
         traveluHandler.writeJSON(destinationList, "testDestinationList.json");
-        assertEquals(destinationList.getDestinationNames(), traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
-        }
+        assertEquals(destinationList.getDestinationNames(),
+                traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
 
-    @Test
-    public void testWriteToFile2() throws IOException {
-        destinationList.removeDestination("Sweden");
-        traveluHandler.writeJSON(destinationList, "testDestinationList.json");
-        assertEquals(destinationList.getDestinationNames(), traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
+        assertThrows(FileNotFoundException.class, () -> {
+            traveluHandler.readDestinationListJSON("noExistingFile.json");
+        });
     }
 
+    @Test
+    public void testWriteToFileWhenRemoving() throws IOException {
+        destinationList.removeDestination("Sweden");
+        traveluHandler.writeJSON(destinationList, "testDestinationList.json");
+        assertEquals(destinationList.getDestinationNames(),
+                traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
 
-
+        destinationList.removeDestination("San Marino");
+        traveluHandler.writeJSON(destinationList, "testDestinationList.json");
+        assertTrue(traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames().isEmpty());
+    }
 
 }
