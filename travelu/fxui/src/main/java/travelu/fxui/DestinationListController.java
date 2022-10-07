@@ -87,6 +87,7 @@ public class DestinationListController {
 
         // Succesfully selected this destination
         System.out.println("Selected " + destinationName);
+        traveluHandler.writeJSON(destinationName, "CurrentDestinationName.json");
 
         App.setRoot("destination");
 
