@@ -29,7 +29,7 @@ public class DestinationList {
      * @return destination
      */
     private Destination getDestinationByName(String name){
-        return destinations.stream().filter(destination -> destination.getName() == name).findFirst()
+        return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid name"));
     }
 

@@ -13,7 +13,7 @@ public class Destination {
     private String name;
     private HashMap<Date, Date> date = new HashMap<>();
     private Integer ranking;
-    private List<String> activites = new ArrayList<>();
+    private List<String> activities = new ArrayList<>();
     private String comment;
 
     /**
@@ -22,15 +22,15 @@ public class Destination {
      * @param name     of destination
      * @param date      visit from-to
      * @param ranking   on a scale from 1-5
-     * @param activites you did during your visit
+     * @param activities you did during your visit
      * @param comment   with other relevant info
      */
-    public Destination(String name, HashMap<Date, Date> date, Integer ranking, List<String> activites,
+    public Destination(String name, HashMap<Date, Date> date, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
         this.date = date;
         this.ranking = ranking;
-        this.activites = activites;
+        this.activities.addAll(activities);
         this.comment = comment;
     }
 
@@ -42,7 +42,7 @@ public class Destination {
         this.name = destination.getName();
         this.date = destination.getDate();
         this.ranking = destination.getRanking();
-        this.activites = destination.getActivites();
+        this.activities = destination.getActivities();
         this.comment = destination.getComment();
     }
 
@@ -82,10 +82,10 @@ public class Destination {
     }
 
     /**
-     * @return copy of list of activities done in the destination
+     * @return return copy of activities
      */
-    public List<String> getActivites() {
-        return new ArrayList<String>(activites);
+    public List<String> getActivities() {
+        return new ArrayList<String>(activities);
     }
 
     /**
