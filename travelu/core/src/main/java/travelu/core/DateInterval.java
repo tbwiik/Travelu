@@ -32,15 +32,8 @@ public class DateInterval {
      */
     public DateInterval(int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear) {
 
-        startDate = new int[3];
-        startDate[0] = startDay;
-        startDate[1] = startDay;
-        startDate[2] = startDay;
-
-        endDate = new int[3];
-        endDate[0] = endDay;
-        endDate[1] = endMonth;
-        endDate[2] = endYear;
+        startDate = new int[] { startDay, startMonth, startYear };
+        endDate = new int[] { endDay, endMonth, endYear };
 
     }
 
