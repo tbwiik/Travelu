@@ -121,4 +121,27 @@ public class Destination {
         this.comment = this.comment + "\n" + addComment;
     }
 
+    /**
+     * return true if names are equal
+     * <p>
+     * There should never be more than one object per destination and this is
+     * therefore satisfactory
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Destination other = (Destination) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
+
 }
