@@ -32,8 +32,8 @@ public class TraveluHandler {
      * 
      * @return File
      */
-    private File getFile() {
-        return new File(getFilePath("persistence.json"));
+    private File getFile(String filename) {
+        return new File(getFilePath(filename));
         //return new File(TraveluHandler.class.getResource("data/").getFile() + "persistence.json");
         //return new File("C:/Users/johnh/Documents/ITP/Prosjekt/gr2219/travelu/fxutil/src/main/resources/travelu/fxutil/data/persistence.json");
     }
@@ -46,12 +46,12 @@ public class TraveluHandler {
      * @param DList destination list
      * @throws IOException
      */
-    public void writeJSON(DestinationList DList) throws IOException {
+    public void writeJSON(Object object, String filename) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
-        FileWriter writer = new FileWriter(getFile());
-        writer.write(gson.toJson(DList));
+        FileWriter writer = new FileWriter(getFile(filename));
+        writer.write(gson.toJson(object));
         writer.close();
     }
 
@@ -61,11 +61,19 @@ public class TraveluHandler {
      * @return Destination list
      * @throws FileNotFoundException if file not found
      */
-    public DestinationList readJSON() throws FileNotFoundException {
+    public DestinationList readDestinationListJSON() throws FileNotFoundException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile()));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("DestinationList.json")));
         DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);
         return DList;
     }
+
+    public String readCurrentDestinationNameJSON() throws FileNotFoundException {
+        Gson gson = new Gson();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("CurrentDestinationName.json")));
+        String currentDestinationName = gson.fromJson(bufferedReader, String.class);
+        return currentDestinationName;
+    }
+
 
 }
