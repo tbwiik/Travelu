@@ -65,6 +65,9 @@ public class DestinationController {
 
     }
 
+    /**
+     * updates view of activity list
+     */
     @FXML
     private void updateListView(){
         plannedActivitiesListView.getItems().clear();
@@ -83,7 +86,9 @@ public class DestinationController {
     }
 
     /**
+     * add activity to the list of activities, and update listview
      * 
+     * @throws IOException in case of filehandling issue
      */
     @FXML
     private void handleAddActivity() throws IOException {
@@ -92,6 +97,7 @@ public class DestinationController {
 
         try {currentDestination.addActivity(activity);}
         catch(Exception e){
+            // TODO: give relevant user feedback here
             System.out.println("Invalid activity input");
         }
 
@@ -102,8 +108,9 @@ public class DestinationController {
     }
 
     /**
+     * updates changes to currentDestination, and writes these to json.
      * 
-     * @throws IOException
+     * @throws IOException in case of filehandling issue
      */
     private void writeChanges() throws IOException{
         this.destinationList.removeDestination(this.currentDestination.getName());
@@ -117,9 +124,21 @@ public class DestinationController {
         System.out.println("Select file");
     }
 
+
+    /**
+     * Changes comment, and writes this to file
+     */
     @FXML
     private void handleChangeComment() {
-        System.out.println("Change Comment");
+        String newComment = commentTextField.getText();
+        // if there is no comment. TODO: Give feedback to user
+        if(newComment.isBlank()) return;
+
+        currentDestination.setComment(newComment);
+        try {writeChanges();}
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -132,6 +151,7 @@ public class DestinationController {
         System.out.println("Set departure date");
     }
 
+    // For testing purposes
     public String getDestination() {
         return currentDestination.getName();
     }
