@@ -1,8 +1,11 @@
 package travelu.fxui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import travelu.core.Destination;
+import travelu.core.DestinationList;
+import travelu.fxutil.TraveluHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -13,6 +16,8 @@ public class DestinationController {
 
     // currently selected destination
     private Destination currentDestination;
+    private DestinationList destinationList;
+    private TraveluHandler traveluHandler = new TraveluHandler();
 
     @FXML
     Label destinationLabel;
@@ -41,6 +46,35 @@ public class DestinationController {
     @FXML
     Label commentUpdatedFeedbackLabel;
 
+    @FXML
+    private void initialize() throws FileNotFoundException {
+
+        this.destinationList = traveluHandler.readDestinationListJSON();
+        String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
+        System.out.println(currentDestinationName);
+
+        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+
+        destinationLabel.setText(currentDestinationName);
+
+        if(this.currentDestination.getComment() != null){
+            commentTextField.setText(this.currentDestination.getComment());
+        }
+
+        updateListView();
+
+    }
+
+    /**
+     * updates view of activity list
+     */
+    @FXML
+    private void updateListView(){
+        plannedActivitiesListView.getItems().clear();
+        plannedActivitiesListView.getItems().addAll(this.currentDestination.getActivities());
+    }
+
+
     /**
      * Returns to destination-list
      * 
@@ -51,9 +85,38 @@ public class DestinationController {
         App.setRoot("destinationList");
     }
 
+    /**
+     * add activity to the list of activities, and update listview
+     * 
+     * @throws IOException in case of filehandling issue
+     */
     @FXML
-    private void handleAddActivity() {
-        System.out.println("Add activity");
+    private void handleAddActivity() throws IOException {
+        String activity = newActivityTextField.getText();
+        if(activity.isBlank() || activity == null) return;
+
+        try {currentDestination.addActivity(activity);}
+        catch(Exception e){
+            // TODO: give relevant user feedback here
+            System.out.println("Invalid activity input");
+        }
+
+        writeChanges();
+        updateListView();
+        newActivityTextField.setText("");
+
+    }
+
+    /**
+     * updates changes to currentDestination, and writes these to json.
+     * 
+     * @throws IOException in case of filehandling issue
+     */
+    private void writeChanges() throws IOException{
+        this.destinationList.removeDestination(this.currentDestination.getName());
+        this.destinationList.addDestination(currentDestination);
+
+        traveluHandler.writeJSON(this.destinationList, "DestinationList.json");
     }
 
     @FXML
@@ -61,9 +124,21 @@ public class DestinationController {
         System.out.println("Select file");
     }
 
+
+    /**
+     * Changes comment, and writes this to file
+     */
     @FXML
     private void handleChangeComment() {
-        System.out.println("Change Comment");
+        String newComment = commentTextField.getText();
+        // if there is no comment. TODO: Give feedback to user
+        if(newComment.isBlank()) return;
+
+        currentDestination.setComment(newComment);
+        try {writeChanges();}
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -76,6 +151,7 @@ public class DestinationController {
         System.out.println("Set departure date");
     }
 
+    // For testing purposes
     public String getDestination() {
         return currentDestination.getName();
     }

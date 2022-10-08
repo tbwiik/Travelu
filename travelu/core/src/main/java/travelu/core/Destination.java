@@ -1,8 +1,6 @@
 package travelu.core;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,38 +9,44 @@ import java.util.List;
 public class Destination {
 
     private String name;
-    private HashMap<Date, Date> date = new HashMap<>();
+    private DateInterval dateInterval;
     private Integer ranking;
-    private List<String> activites = new ArrayList<>();
+    private List<String> activities = new ArrayList<>();
     private String comment;
 
     /**
      * Constructs destination object
      * 
-     * @param name     of destination
-     * @param date      visit from-to
-     * @param ranking   on a scale from 1-5
-     * @param activites you did during your visit
-     * @param comment   with other relevant info
+     * @param name       of destination
+     * @param date       visit from-to
+     * @param ranking    on a scale from 1-5
+     * @param activities you did during your visit
+     * @param comment    with other relevant info
      */
-    public Destination(String name, HashMap<Date, Date> date, Integer ranking, List<String> activites,
+    public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        this.date = date;
+        this.dateInterval = dateInterval;
         this.ranking = ranking;
-        this.activites = activites;
+
+        if (activities != null) {
+            this.activities.addAll(activities);
+        }
+
         this.comment = comment;
     }
 
     /**
-     * Constructs destination object from already existing destination object, creating a copy
+     * Constructs destination object from already existing destination object,
+     * creating a copy
+     * 
      * @param destination
      */
-    public Destination(Destination destination){
+    public Destination(Destination destination) {
         this.name = destination.getName();
-        this.date = destination.getDate();
+        this.dateInterval = destination.getDateInterval();
         this.ranking = destination.getRanking();
-        this.activites = destination.getActivites();
+        this.activities = destination.getActivities();
         this.comment = destination.getComment();
     }
 
@@ -54,12 +58,11 @@ public class Destination {
     }
 
     /**
-     * @return copy for date field
+     * @return dateInterval from-to
      */
-    public HashMap<Date, Date> getDate() {
-        // date can be null
-        if(date != null){
-            return new HashMap<>(date);
+    public DateInterval getDateInterval() {
+        if (dateInterval != null) {
+            return new DateInterval(dateInterval);
         }
         return null;
     }
@@ -74,18 +77,31 @@ public class Destination {
     /**
      * @param ranking on a scale of 1-5
      */
-    public void setRanking(Integer ranking){
-        if(ranking < 1 || ranking > 5){
+    public void setRanking(Integer ranking) {
+        if (ranking < 1 || ranking > 5) {
             throw new IllegalArgumentException("Ranking must be between 1 and 5");
         }
         this.ranking = ranking;
     }
 
     /**
-     * @return copy of list of activities done in the destination
+     * @return return copy of activities
      */
-    public List<String> getActivites() {
-        return new ArrayList<String>(activites);
+    public List<String> getActivities() {
+        return new ArrayList<String>(activities);
+    }
+
+    /**
+     * 
+     * @param activity a string explaining the activity
+     * @throws IllegalArgumentException if the input is blank
+     */
+    public void addActivity(String activity) throws IllegalArgumentException {
+
+        if (activity.isBlank() || getActivities().contains(activity))
+            throw new IllegalArgumentException("Invalid activity");
+    
+        activities.add(activity);
     }
 
     /**
@@ -113,6 +129,29 @@ public class Destination {
      */
     public void addComment(String addComment) {
         this.comment = this.comment + "\n" + addComment;
+    }
+
+    /**
+     * return true if names are equal
+     * <p>
+     * There should never be more than one object per destination and this is
+     * therefore satisfactory
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Destination other = (Destination) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
 
 }

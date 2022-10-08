@@ -1,5 +1,5 @@
-package app.core;
+package travelu.core;
 
 public class DestinationListControllerTest {
-    
+
 }

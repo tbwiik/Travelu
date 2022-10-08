@@ -3,10 +3,7 @@ package travelu.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,30 +11,30 @@ public class DestinationTest {
 
     private Destination destination;
     private String name, comment;
-    private HashMap<Date, Date> date = new HashMap<>();
+    private DateInterval dateInterval;
     private Integer ranking;
-    private List<String> activites = new ArrayList<>();
+    private List<String> activities = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
         name = "Sweden";
-        date = null;
+        dateInterval = null;
         ranking = 3;
 
-        activites.add("Skiing");
-        activites.add("Circus");
-        activites.add("Fancy dinner");
+        activities.add("Skiing");
+        activities.add("Circus");
+        activities.add("Fancy dinner");
 
         comment = "Nice and cozy, but somewhat expensive dinner...";
 
-        destination = new Destination(name, date, ranking, activites, comment);
+        destination = new Destination(name, dateInterval, ranking, activities, comment);
     }
 
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
-        assertEquals(date, destination.getDate());
-        assertEquals(activites, destination.getActivites());
+        assertEquals(dateInterval, destination.getDateInterval());
+        assertEquals(activities, destination.getActivities());
         assertEquals(comment, destination.getComment());
     }
 
