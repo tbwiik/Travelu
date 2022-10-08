@@ -90,7 +90,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="230.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <ListView fx:id="plannedActivitiesListView" layoutX="244.0" layoutY="63.0" prefHeight="178.0" prefWidth="754.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="63.0" />
+            <ListView fx:id="activitiesListView" layoutX="244.0" layoutY="63.0" prefHeight="178.0" prefWidth="754.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="63.0" />
             <Label layoutX="324.0" layoutY="14.0" text="Activities">
                <font>
                   <Font size="27.0" />

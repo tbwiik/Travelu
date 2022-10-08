@@ -35,7 +35,7 @@ public class DestinationController {
     DatePicker departureDatePicker;
 
     @FXML
-    ListView<String> plannedActivitiesListView;
+    ListView<String> activitiesListView;
 
     @FXML
     TextField newActivityTextField;
@@ -69,8 +69,8 @@ public class DestinationController {
      */
     @FXML
     private void updateListView(){
-        plannedActivitiesListView.getItems().clear();
-        plannedActivitiesListView.getItems().addAll(this.currentDestination.getActivities());
+        activitiesListView.getItems().clear();
+        activitiesListView.getItems().addAll(this.currentDestination.getActivities());
     }
 
 
