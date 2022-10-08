@@ -26,7 +26,9 @@ public class Destination {
     public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        this.dateInterval = new DateInterval(dateInterval);
+        
+        // dateinterval is allowed to be null, but constructor should not take in null as input
+        this.dateInterval = dateInterval == null ? null : new DateInterval(dateInterval);
         this.ranking = ranking;
 
         // if activities are null, create new list. Otherwise create copy of old
@@ -40,8 +42,11 @@ public class Destination {
      * creating a copy
      * 
      * @param destination
+     * @throws IllegalArgumentException if destination is null
      */
-    public Destination(Destination destination) {
+    public Destination(Destination destination) throws IllegalArgumentException {
+        if(destination == null) throw new IllegalArgumentException("Destination cannot be null");
+
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
         this.ranking = destination.getRanking();
@@ -138,19 +143,14 @@ public class Destination {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
+
+        if(obj.getClass() != Destination.class){
             return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Destination other = (Destination) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
+        }
+        
+        // We know that obj can be safely cast as Destination
+        Destination destination = (Destination) obj;
+        return destination.getName().equals(getName());
     }
 
 }
