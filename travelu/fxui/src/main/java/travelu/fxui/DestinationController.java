@@ -51,7 +51,6 @@ public class DestinationController {
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
-        System.out.println(currentDestinationName);
 
         this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
 
