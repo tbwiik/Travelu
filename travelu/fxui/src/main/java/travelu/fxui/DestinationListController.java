@@ -27,7 +27,7 @@ public class DestinationListController {
     @FXML
     private Text feedbackText;
 
-    private DestinationList destinationList = new DestinationList();
+    private DestinationList destinationList;
 
     private String currentDestination;
 
@@ -98,7 +98,7 @@ public class DestinationListController {
      * @throws IOException if error writing to file
      */
     @FXML
-    public void addDestination() throws IOException {
+    public void handleAddDestination() throws IOException {
 
         String newDestinationName = destinationText.getText();
         if (newDestinationName.isBlank()) {
@@ -121,7 +121,7 @@ public class DestinationListController {
 
             // remove any feedback given
             feedbackText.setText("");
-            ;
+            
 
             // remove text in inputField
             destinationText.clear();
@@ -136,7 +136,7 @@ public class DestinationListController {
      * @throws IOException if error writing to file
      */
     @FXML
-    public void removeDestination() throws IOException {
+    public void handleRemoveDestination() throws IOException {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
