@@ -11,7 +11,7 @@ public class Destination {
     private String name;
     private DateInterval dateInterval;
     private Integer ranking;
-    private List<String> activities = new ArrayList<>();
+    private List<String> activities;
     private String comment;
 
     /**
@@ -26,12 +26,11 @@ public class Destination {
     public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        this.dateInterval = dateInterval;
+        this.dateInterval = new DateInterval(dateInterval);
         this.ranking = ranking;
 
-        if (activities != null) {
-            this.activities.addAll(activities);
-        }
+        // if activities are null, create new list. Otherwise create copy of old
+        this.activities = activities == null ? new ArrayList<String>() : new ArrayList<String>(activities);
 
         this.comment = comment;
     }
