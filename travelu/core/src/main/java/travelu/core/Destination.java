@@ -26,7 +26,7 @@ public class Destination {
     public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        
+
         // dateinterval is allowed to be null, but constructor should not take in null as input
         this.dateInterval = dateInterval == null ? null : new DateInterval(dateInterval);
         this.ranking = ranking;
@@ -89,7 +89,7 @@ public class Destination {
     }
 
     /**
-     * @return return copy of activities
+     * @return copy of activities
      */
     public List<String> getActivities() {
         return new ArrayList<String>(activities);
