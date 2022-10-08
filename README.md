@@ -49,7 +49,7 @@ Alternatively:
   - **Note:** this also runs tests and installs package
 - `mvn javafx:run`to run
 
-**Notice:** To run the project locally, the javafx version has to be changed from version `16` to `17` in [pom.xml](travelu/pom.xml).
+**Notice:** To run the project locally on Mac, the javafx version has to be changed from version `16` to `17` in [pom.xml](travelu/pom.xml).
 
 ## Testing & coverage
 
