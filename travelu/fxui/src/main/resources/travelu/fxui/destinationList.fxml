@@ -21,12 +21,12 @@
             <Font size="23.0" />
          </font>
       </TextArea>
-      <Button fx:id="addButton" layoutX="542.0" layoutY="202.0" mnemonicParsing="false" onAction="#addDestination" prefHeight="38.0" prefWidth="89.0" style="-fx-background-color: lightgreen;" text="Add">
+      <Button fx:id="addButton" layoutX="542.0" layoutY="202.0" mnemonicParsing="false" onAction="#handleAddDestination" prefHeight="38.0" prefWidth="89.0" style="-fx-background-color: lightgreen;" text="Add">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="removeButton" layoutX="82.0" layoutY="872.0" mnemonicParsing="false" onAction="#removeDestination" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: indianred;" text="Remove">
+      <Button fx:id="removeButton" layoutX="82.0" layoutY="872.0" mnemonicParsing="false" onAction="#handleRemoveDestination" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: indianred;" text="Remove">
          <font>
             <Font size="17.0" />
          </font>

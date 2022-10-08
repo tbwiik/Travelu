@@ -11,7 +11,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +27,7 @@ public class DestinationListController {
     @FXML
     private Text feedbackText;
 
-    private DestinationList destinationList = new DestinationList();
+    private DestinationList destinationList;
 
     private String currentDestination;
 
@@ -86,8 +85,7 @@ public class DestinationListController {
      */
     private void switchToDestination(String destinationName) throws IOException {
 
-        // Succesfully selected this destination
-        System.out.println("Selected " + destinationName);
+        // Write current destination name to file, so it can be accessed from destination controller
         traveluHandler.writeJSON(destinationName, "CurrentDestinationName.json");
 
         App.setRoot("destination");
@@ -100,7 +98,7 @@ public class DestinationListController {
      * @throws IOException if error writing to file
      */
     @FXML
-    public void addDestination() throws IOException {
+    public void handleAddDestination() throws IOException {
 
         String newDestinationName = destinationText.getText();
         if (newDestinationName.isBlank()) {
@@ -123,7 +121,7 @@ public class DestinationListController {
 
             // remove any feedback given
             feedbackText.setText("");
-            ;
+            
 
             // remove text in inputField
             destinationText.clear();
@@ -138,7 +136,7 @@ public class DestinationListController {
      * @throws IOException if error writing to file
      */
     @FXML
-    public void removeDestination() throws IOException {
+    public void handleRemoveDestination() throws IOException {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback

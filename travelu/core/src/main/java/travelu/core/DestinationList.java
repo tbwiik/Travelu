@@ -55,6 +55,16 @@ public class DestinationList {
     }
 
     /**
+     * updates destination. For use in DestinationController
+     * @param destination to be updated
+     */
+    public void updateDestination(Destination destination){
+        // Removes old version of destination from list, adds new version
+        removeDestination(destination.getName());
+        addDestination(destination);
+    }
+
+    /**
      * Get list of destination objects
      * 
      * @return destination-list

@@ -51,7 +51,6 @@ public class DestinationController {
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
-        System.out.println(currentDestinationName);
 
         this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
 
@@ -113,8 +112,7 @@ public class DestinationController {
      * @throws IOException in case of filehandling issue
      */
     private void writeChanges() throws IOException{
-        this.destinationList.removeDestination(this.currentDestination.getName());
-        this.destinationList.addDestination(currentDestination);
+        this.destinationList.updateDestination(currentDestination);
 
         traveluHandler.writeJSON(this.destinationList, "DestinationList.json");
     }
