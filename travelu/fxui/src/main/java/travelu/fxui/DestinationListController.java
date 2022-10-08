@@ -11,7 +11,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -86,8 +85,7 @@ public class DestinationListController {
      */
     private void switchToDestination(String destinationName) throws IOException {
 
-        // Succesfully selected this destination
-        System.out.println("Selected " + destinationName);
+        // Write current destination name to file, so it can be accessed from destination controller
         traveluHandler.writeJSON(destinationName, "CurrentDestinationName.json");
 
         App.setRoot("destination");
