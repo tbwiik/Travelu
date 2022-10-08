@@ -20,10 +20,12 @@ This project contains:
 - [User scenarios](UserScenarios.md)
 - Documentation of all [releases](docs)
 - A [README.md](travelu/README.md) explaining the functionality of the app
-- UI controllers of the app which are in the folder [travelu/src/main/resources/app](travelu/src/main/java/app)
-- FXML files connected to these controllers which are in the folder [resources/app](travelu/src/main/resources/app)
-- The application's domain logic and persistence which are in the folder [travelu/src/main/java/app/core](travelu/src/main/java/app/core)
-- Tests which are in the folder [travelu/src/test/java/app/core](travelu/src/test/java/app/core)
+- UI controllers of the app which are in the folder [travelu/fxui/src/main/java/travelu/fxui](travelu/fxui/src/main/java/travelu/fxui)
+- FXML files connected to these controllers which are in the folder [resources/travelu/fxui](travelu/fxui/src/main/resources/travelu/fxui)
+- The application's domain logic which is in the folder [travelu/core/src/main/java/travelu/core](travelu/core/src/main/java/travelu/core)
+- The application's persistence which is in the folder [travelu/fxutil/src/main/java/travelu/fxutil](travelu/fxutil/src/main/java/travelu/fxutil)
+- Tests for the application's domain logic which are in the folder [travelu/core/src/test/java/travelu/core](travelu/core/src/test/java/travelu/core)
+- Tests for the application's persistence which are in the folder [travelu/fxutil/src/test/java/travelu/fxutil](travelu/fxutil/src/test/java/travelu/fxutil)
 
 **Package diagram of the project's architecture:**
 
@@ -47,7 +49,7 @@ Alternatively:
   - **Note:** this also runs tests and installs package
 - `mvn javafx:run`to run
 
-**Notice:** To run the project locally, the javafx version has to be changed from version `16` to `17` in [pom.xml](travelu/pom.xml).
+**Notice:** To run the project locally on Mac, the javafx version has to be changed from version `16` to `17` in [pom.xml](travelu/pom.xml).
 
 ## Testing & coverage
 
@@ -56,7 +58,7 @@ in terminal:
 
 - Run `mvn test` to get test results
 - Run `mvn verify` to get test-coverage and quality report
-  - Report found in [target/../index.html](travelu/target/site/jacoco/index.html)
+- Report found in [travelu/core/target/site/jacoco/index.html](travelu/core/target/site/jacoco/index.html)
 
 ## Tech-stack
 
