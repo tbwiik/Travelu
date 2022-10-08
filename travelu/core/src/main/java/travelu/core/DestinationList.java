@@ -30,7 +30,7 @@ public class DestinationList {
      */
     private Destination getDestinationByName(String name){
         return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid name"));
+                .orElseThrow(() -> new IllegalArgumentException("Destination " + name + " does not exist in list"));
     }
 
     /**
