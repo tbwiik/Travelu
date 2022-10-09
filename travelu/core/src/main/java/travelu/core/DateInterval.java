@@ -42,7 +42,9 @@ public class DateInterval {
      * 
      * @param dateInterval object
      */
-    public DateInterval(DateInterval dateInterval) {
+    public DateInterval(DateInterval dateInterval) throws IllegalArgumentException {
+        if(dateInterval == null) throw new IllegalArgumentException("dateInterval cannot be null");
+
         this.startDate = dateInterval.getStartDate();
         this.endDate = dateInterval.getEndDate();
     }
