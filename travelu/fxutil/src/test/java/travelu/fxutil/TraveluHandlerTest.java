@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,9 +27,9 @@ public class TraveluHandlerTest {
     public void setup() {
         destinationList = new DestinationList();
 
-        sweden = new Destination("Sweden", new HashMap<Date, Date>(), 2, null, null);
-        sanMarino = new Destination("San Marino", new HashMap<Date, Date>(), 2, null, null);
-        portugal = new Destination("Portugal", new HashMap<Date, Date>(), 3, null, null);
+        sweden = new Destination("Sweden", null, 2, null, null);
+        sanMarino = new Destination("San Marino", null, 2, null, null);
+        portugal = new Destination("Portugal", null, 3, null, null);
 
         destinationList.addDestination(sweden);
         destinationList.addDestination(sanMarino);
