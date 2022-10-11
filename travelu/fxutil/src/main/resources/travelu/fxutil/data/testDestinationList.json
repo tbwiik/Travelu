@@ -1,10 +1,24 @@
 {
   "destinations": [
     {
-      "name": "San Marino",
-      "date": {},
+      "name": "Sweden",
+      "dateInterval": null,
       "ranking": 2,
-      "activites": null,
+      "activities": [],
+      "comment": null
+    },
+    {
+      "name": "San Marino",
+      "dateInterval": null,
+      "ranking": 2,
+      "activities": [],
+      "comment": null
+    },
+    {
+      "name": "Portugal",
+      "dateInterval": null,
+      "ranking": 3,
+      "activities": [],
       "comment": null
     }
   ]
