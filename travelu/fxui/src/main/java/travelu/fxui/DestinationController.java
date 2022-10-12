@@ -47,7 +47,7 @@ public class DestinationController {
     Label commentUpdatedFeedbackLabel;
 
     @FXML
-    private void initialize() throws FileNotFoundException {
+    private void initialize() throws FileNotFoundException, IOException {
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
@@ -56,7 +56,7 @@ public class DestinationController {
 
         destinationLabel.setText(currentDestinationName);
 
-        if(this.currentDestination.getComment() != null){
+        if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
@@ -68,11 +68,10 @@ public class DestinationController {
      * updates view of activity list
      */
     @FXML
-    private void updateListView(){
+    private void updateListView() {
         activitiesListView.getItems().clear();
         activitiesListView.getItems().addAll(this.currentDestination.getActivities());
     }
-
 
     /**
      * Returns to destination-list
@@ -92,10 +91,12 @@ public class DestinationController {
     @FXML
     private void handleAddActivity() throws IOException {
         String activity = newActivityTextField.getText();
-        if(activity.isBlank() || activity == null) return;
+        if (activity.isBlank() || activity == null)
+            return;
 
-        try {currentDestination.addActivity(activity);}
-        catch(Exception e){
+        try {
+            currentDestination.addActivity(activity);
+        } catch (Exception e) {
             // TODO: give relevant user feedback here
             System.out.println("Invalid activity input");
         }
@@ -111,7 +112,7 @@ public class DestinationController {
      * 
      * @throws IOException in case of filehandling issue
      */
-    private void writeChanges() throws IOException{
+    private void writeChanges() throws IOException {
         this.destinationList.updateDestination(currentDestination);
 
         traveluHandler.writeJSON(this.destinationList, "DestinationList.json");
@@ -122,7 +123,6 @@ public class DestinationController {
         System.out.println("Select file");
     }
 
-
     /**
      * Changes comment, and writes this to file
      */
@@ -130,11 +130,13 @@ public class DestinationController {
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
         // if there is no comment. TODO: Give feedback to user
-        if(newComment.isBlank()) return;
+        if (newComment.isBlank())
+            return;
 
         currentDestination.setComment(newComment);
-        try {writeChanges();}
-        catch(Exception e){
+        try {
+            writeChanges();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
