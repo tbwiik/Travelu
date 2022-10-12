@@ -53,8 +53,11 @@ public class TraveluHandler {
         Gson gson = builder.create();
         // Need charset to ensure safe writing
         FileWriter writer = new FileWriter(getFile(filename), Charset.defaultCharset());
-        writer.write(gson.toJson(object));
-        writer.close();
+        try {
+            writer.write(gson.toJson(object));
+        } finally {
+            writer.close();
+        }
     }
 
     /**
