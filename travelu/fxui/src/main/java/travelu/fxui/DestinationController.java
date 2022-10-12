@@ -91,7 +91,7 @@ public class DestinationController {
     @FXML
     private void handleAddActivity() throws IOException {
         String activity = newActivityTextField.getText();
-        if (activity.isBlank() || activity == null)
+        if (activity.isBlank())
             return;
 
         try {
