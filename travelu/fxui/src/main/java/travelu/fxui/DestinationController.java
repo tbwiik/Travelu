@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
@@ -191,6 +192,10 @@ public class DestinationController {
 
     public ListView<String> getActivitiesListView() {
         return activitiesListView;
+    }
+
+    public DateInterval getDestinationDateInterval() {
+        return currentDestination.getDateInterval();
     }
 
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
