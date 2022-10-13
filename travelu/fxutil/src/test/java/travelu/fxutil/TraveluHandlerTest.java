@@ -7,13 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import travelu.core.DestinationList;
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 
 public class TraveluHandlerTest {
@@ -22,16 +20,16 @@ public class TraveluHandlerTest {
     private Destination sweden;
     private Destination sanMarino;
     private Destination portugal;
-
+    private DateInterval dateInterval = new DateInterval(new int[]{01,01,2021}, new int[]{14,02,2021});
     private TraveluHandler traveluHandler = new TraveluHandler();
 
     @BeforeEach
     public void setup() {
         destinationList = new DestinationList();
 
-        sweden = new Destination("Sweden", new HashMap<Date, Date>(), 2, null, null);
-        sanMarino = new Destination("San Marino", new HashMap<Date, Date>(), 2, null, null);
-        portugal = new Destination("Portugal", new HashMap<Date, Date>(), 3, null, null);
+        sweden = new Destination("Sweden", dateInterval, 2, null, null);
+        sanMarino = new Destination("San Marino", dateInterval, 2, null, null);
+        portugal = new Destination("Portugal", dateInterval, 3, null, null);
 
         destinationList.addDestination(sweden);
         destinationList.addDestination(sanMarino);

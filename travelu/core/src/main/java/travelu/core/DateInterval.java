@@ -16,8 +16,8 @@ public class DateInterval {
      * @param endDate   containing day, month, year
      */
     public DateInterval(int[] startDate, int[] endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = startDate.clone();
+        this.endDate = endDate.clone();
     }
 
     /**
@@ -42,7 +42,10 @@ public class DateInterval {
      * 
      * @param dateInterval object
      */
-    public DateInterval(DateInterval dateInterval) {
+    public DateInterval(DateInterval dateInterval) throws IllegalArgumentException {
+        if (dateInterval == null)
+            throw new IllegalArgumentException("dateInterval cannot be null");
+
         this.startDate = dateInterval.getStartDate();
         this.endDate = dateInterval.getEndDate();
     }
@@ -56,11 +59,11 @@ public class DateInterval {
     }
 
     public void setStartDate(int[] startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate.clone();
     }
 
     public void setEndDate(int[] endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate.clone();
     }
 
 }

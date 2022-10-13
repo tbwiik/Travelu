@@ -11,7 +11,7 @@ public class Destination {
     private String name;
     private DateInterval dateInterval;
     private Integer ranking;
-    private List<String> activities = new ArrayList<>();
+    private List<String> activities;
     private String comment;
 
     /**
@@ -26,12 +26,14 @@ public class Destination {
     public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
             String comment) {
         this.name = name;
-        this.dateInterval = dateInterval;
+
+        // dateinterval is allowed to be null, but constructor should not take in null
+        // as input
+        this.dateInterval = dateInterval == null ? null : new DateInterval(dateInterval);
         this.ranking = ranking;
 
-        if (activities != null) {
-            this.activities.addAll(activities);
-        }
+        // if activities are null, create new list. Otherwise create copy of old
+        this.activities = activities == null ? new ArrayList<String>() : new ArrayList<String>(activities);
 
         this.comment = comment;
     }
@@ -41,8 +43,12 @@ public class Destination {
      * creating a copy
      * 
      * @param destination
+     * @throws IllegalArgumentException if destination is null
      */
-    public Destination(Destination destination) {
+    public Destination(Destination destination) throws IllegalArgumentException {
+        if (destination == null)
+            throw new IllegalArgumentException("Destination cannot be null");
+
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
         this.ranking = destination.getRanking();
@@ -85,7 +91,7 @@ public class Destination {
     }
 
     /**
-     * @return return copy of activities
+     * @return copy of activities
      */
     public List<String> getActivities() {
         return new ArrayList<String>(activities);
@@ -100,7 +106,7 @@ public class Destination {
 
         if (activity.isBlank() || getActivities().contains(activity))
             throw new IllegalArgumentException("Invalid activity");
-    
+
         activities.add(activity);
     }
 
@@ -132,10 +138,12 @@ public class Destination {
     }
 
     /**
-     * return true if names are equal
+     * Return true if names are equal
      * <p>
-     * There should never be more than one object per destination and this is
-     * therefore satisfactory
+     * This is satisfactory because there will never be more than one object per
+     * destination
+     * <p>
+     * Note: auto-generated stub
      */
     @Override
     public boolean equals(Object obj) {
@@ -152,6 +160,21 @@ public class Destination {
         } else if (!name.equals(other.name))
             return false;
         return true;
+    }
+
+    /**
+     * Hashes Destination according to name
+     * <p>
+     * Implemented to ensure safe use where hashing is needed
+     * <p>
+     * Note: Auto generated stub
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 
 }

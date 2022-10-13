@@ -25,12 +25,12 @@ public class DestinationList {
 
     /**
      * Get actual destination by name
-     * @param name
+     * @param name of destination
      * @return destination
      */
     private Destination getDestinationByName(String name){
         return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid name"));
+                .orElseThrow(() -> new IllegalArgumentException("Destination " + name + " does not exist in list"));
     }
 
     /**
@@ -55,7 +55,17 @@ public class DestinationList {
     }
 
     /**
-     * Get list of destination objects
+     * updates destination. For use in DestinationController
+     * @param destination to be updated
+     */
+    public void updateDestination(Destination destination){
+        // Removes old version of destination from list, adds new version
+        removeDestination(destination.getName());
+        addDestination(destination);
+    }
+
+    /**
+     * Get copy of list of destination objects
      * 
      * @return destination-list
      */
@@ -64,7 +74,7 @@ public class DestinationList {
     }
 
     /**
-     * Get list of destination names
+     * Get list of destination names, used to display destinations to user
      * 
      * @return name of destinations
      */
@@ -76,7 +86,7 @@ public class DestinationList {
     }
 
     /**
-     * Get list of destination names in lowercase, used to look for duplicates
+     * Get list of destination names in lowercase, used to look for duplicates in containsDestination
      * 
      * @return list of names
      */
@@ -89,9 +99,9 @@ public class DestinationList {
     /**
      * Checks if contains destination
      * 
-     * @param destinationName
-     * @throws IllegalArgumentException if no destination with name
-     * @return lowercase destination-name
+     * @param destinationName name of destination to check for
+     * @throws IllegalArgumentException if destinationName is null
+     * @return boolean representing whether list contains destination or not
      */
     public boolean containsDestination(String destinationName) {
         if (destinationName == null)
