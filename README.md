@@ -29,8 +29,6 @@ This project contains:
 
 - [Package diagram](docs/packageDiagram.plantuml) of the project's architecture 
 
-![image info](/pictures/PackageDiagram.png)
-
 ## Building & running the project
 
 The project is built with maven.
