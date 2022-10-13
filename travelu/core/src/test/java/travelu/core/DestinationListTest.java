@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,7 @@ public class DestinationListTest {
         newDestinations = new ArrayList<>();
 
         name = "Norway";
-        dateInterval = null;
+        dateInterval = new DateInterval(new int[]{31,12,1999}, new int[]{10,01,2000});
         ranking = 2;
         activities = new ArrayList<>();
         comment = null;
@@ -58,7 +59,8 @@ public class DestinationListTest {
         // Compare two destination objects
         // Check if copy work as expected
         assertEquals(norway.getName(), name);
-        assertEquals(norway.getDateInterval(), dateInterval);
+        assertEquals(Arrays.toString(norway.getDateInterval().getStartDate()), Arrays.toString(dateInterval.getStartDate()));
+        assertEquals(Arrays.toString(norway.getDateInterval().getEndDate()), Arrays.toString(dateInterval.getEndDate()));
         assertEquals(norway.getRanking(), ranking);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
