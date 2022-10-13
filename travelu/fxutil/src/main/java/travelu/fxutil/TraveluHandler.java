@@ -62,9 +62,13 @@ public class TraveluHandler {
 
     /**
      * Read from file using {@code Gson}
+     * <p>
+     * Used in testing and have therefore an own filename input
      * 
-     * @return Destination list
-     * @throws FileNotFoundException if file not found
+     * @param filename input
+     * @return {@linkplain DestinationList} with destinations
+     * @throws FileNotFoundException
+     * @throws IOException
      */
     public DestinationList readDestinationListJSON(String filename) throws FileNotFoundException, IOException {
         Gson gson = new Gson();
@@ -73,10 +77,45 @@ public class TraveluHandler {
         return DList;
     }
 
+    /**
+     * Read from file using {@code Gson}
+     * <p>
+     * Reading from standard file
+     * 
+     * @return {@linkplain DestinationList} with destinations
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public DestinationList readDestinationListJSON() throws FileNotFoundException, IOException {
         return readDestinationListJSON("DestinationList.json");
     }
 
+    /**
+     * Read from file using {@code Gson}
+     * <p>
+     * Used in testing and have therefore an own filename input
+     * 
+     * @param filename input
+     * @return {@linkplain DestinationList} with destinations
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public String readCurrentDestinationNameJSON(String filename) throws FileNotFoundException, IOException {
+        Gson gson = new Gson();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+        String currentDestinationName = gson.fromJson(bufferedReader, String.class);
+        return currentDestinationName;
+    }
+
+    /**
+     * Read from file using {@code Gson}
+     * <p>
+     * Reading from standard file
+     * 
+     * @return {@linkplain DestinationList} with destinations
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(
