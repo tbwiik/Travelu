@@ -63,8 +63,10 @@ public class TraveluHandler {
     /**
      * Read from file using {@code Gson}
      * 
-     * @return Destination list
-     * @throws FileNotFoundException if file not found
+     * @param filename input
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
      */
     public DestinationList readDestinationListJSON(String filename) throws FileNotFoundException, IOException {
         Gson gson = new Gson();
@@ -73,6 +75,12 @@ public class TraveluHandler {
         return DList;
     }
 
+    /**
+     * Read from file using {@code Gson}
+     * 
+     * @return Destination list
+     * @throws FileNotFoundException if file not found
+     */
     public DestinationList readDestinationListJSON() throws FileNotFoundException, IOException {
         return readDestinationListJSON("DestinationList.json");
     }
