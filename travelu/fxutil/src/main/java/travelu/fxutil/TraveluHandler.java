@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -18,7 +17,6 @@ import com.google.gson.GsonBuilder;
 /**
  * Handles file reading and writing
  */
-// Update ignore.xml if change in file
 public class TraveluHandler {
 
     private static String getFilePath(String filename) {
@@ -51,13 +49,9 @@ public class TraveluHandler {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
-        // Need charset to ensure safe writing
-        FileWriter writer = new FileWriter(getFile(filename), Charset.defaultCharset());
-        try {
-            writer.write(gson.toJson(object));
-        } finally {
-            writer.close();
-        }
+        FileWriter writer = new FileWriter(getFile(filename));
+        writer.write(gson.toJson(object));
+        writer.close();
     }
 
     /**
@@ -66,21 +60,27 @@ public class TraveluHandler {
      * @return Destination list
      * @throws FileNotFoundException if file not found
      */
-    public DestinationList readDestinationListJSON(String filename) throws FileNotFoundException, IOException {
+    public DestinationList readDestinationListJSON(String filename) throws FileNotFoundException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename)));
         DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);
         return DList;
     }
 
-    public DestinationList readDestinationListJSON() throws FileNotFoundException, IOException {
+    public DestinationList readDestinationListJSON() throws FileNotFoundException {
         return readDestinationListJSON("DestinationList.json");
     }
 
-    public String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
+    public String readCurrentDestinationNameJSON(String filename) throws FileNotFoundException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(getFile("CurrentDestinationName.json"), Charset.defaultCharset()));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename)));
+        String currentDestinationName = gson.fromJson(bufferedReader, String.class);
+        return currentDestinationName;
+    }
+
+    public String readCurrentDestinationNameJSON() throws FileNotFoundException {
+        Gson gson = new Gson();
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("CurrentDestinationName.json")));
         String currentDestinationName = gson.fromJson(bufferedReader, String.class);
         return currentDestinationName;
     }
