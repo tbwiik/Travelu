@@ -170,7 +170,7 @@
                     <id>spotbugs-check</id>
                     <phase>verify</phase>
                         <goals>
-                        <goal>verify</goal> <!-- change to "check" to enable -->
+                        <goal>check</goal>
                     </goals>
                     </execution>
                 </executions>
