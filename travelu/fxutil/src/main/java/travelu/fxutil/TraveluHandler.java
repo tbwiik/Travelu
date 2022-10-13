@@ -62,9 +62,11 @@ public class TraveluHandler {
 
     /**
      * Read from file using {@code Gson}
+     * <p>
+     * Used in testing and have therefore an own filename input
      * 
      * @param filename input
-     * @return
+     * @return {@linkplain DestinationList} with destinations
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -77,9 +79,12 @@ public class TraveluHandler {
 
     /**
      * Read from file using {@code Gson}
+     * <p>
+     * Reading from standard file
      * 
-     * @return Destination list
-     * @throws FileNotFoundException if file not found
+     * @return {@linkplain DestinationList} with destinations
+     * @throws FileNotFoundException
+     * @throws IOException
      */
     public DestinationList readDestinationListJSON() throws FileNotFoundException, IOException {
         return readDestinationListJSON("DestinationList.json");
