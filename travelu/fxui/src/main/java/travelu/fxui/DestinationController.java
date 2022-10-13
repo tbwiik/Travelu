@@ -152,10 +152,16 @@ public class DestinationController {
     private void handleSetArrivalDate() {
         System.out.println("Set arrival date");
 
-        arrivalDateLabel.setText(arrivalDatePicker.getEditor().getText().toString());
+        String arrivalDate = arrivalDatePicker.getEditor().getText();
+        String departureDate = departureDatePicker.getEditor().getText();
 
-        currentDestination.setDateInterval(arrivalDatePicker.getEditor().getText(),
-                departureDatePicker.getEditor().getText());
+        arrivalDateLabel.setText(arrivalDate);
+
+        if (departureDate.isBlank()) {
+            currentDestination.setDateInterval(arrivalDate, arrivalDate);
+        } else {
+            currentDestination.setDateInterval(arrivalDate, departureDate);
+        }
 
     }
 
@@ -163,12 +169,16 @@ public class DestinationController {
     private void handleSetDepartureDate() {
         System.out.println("Set departure date");
 
-        System.out.println(arrivalDatePicker.getEditor().getText());
+        String arrivalDate = arrivalDatePicker.getEditor().getText();
+        String departureDate = departureDatePicker.getEditor().getText();
 
-        departureDateLabel.setText(departureDatePicker.getEditor().getText());
+        arrivalDateLabel.setText(arrivalDate);
 
-        currentDestination.setDateInterval(arrivalDatePicker.getEditor().getText(),
-                departureDatePicker.getEditor().getText());
+        if (arrivalDate.isBlank()) {
+            currentDestination.setDateInterval(departureDate, departureDate);
+        } else {
+            currentDestination.setDateInterval(arrivalDate, departureDate);
+        }
 
     }
 
