@@ -22,7 +22,6 @@ public class DestinationController {
     private TraveluHandler traveluHandler = new TraveluHandler();
 
     private String destinationListFile;
-    private String currentDestinationFile;
 
     @FXML
     Label destinationLabel;
@@ -55,7 +54,6 @@ public class DestinationController {
     private void initialize() throws FileNotFoundException, IOException {
 
         destinationListFile = "DestinationList.json";
-        currentDestinationFile = "CurrentDestination.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
@@ -151,7 +149,6 @@ public class DestinationController {
 
     @FXML
     private void handleSetArrivalDate() {
-        System.out.println("Set arrival date");
 
         String arrivalDate = arrivalDatePicker.getEditor().getText();
         String departureDate = departureDatePicker.getEditor().getText();
@@ -168,7 +165,6 @@ public class DestinationController {
 
     @FXML
     private void handleSetDepartureDate() {
-        System.out.println("Set departure date");
 
         String arrivalDate = arrivalDatePicker.getEditor().getText();
         String departureDate = departureDatePicker.getEditor().getText();
@@ -200,10 +196,6 @@ public class DestinationController {
         return currentDestination.getComment();
     }
 
-    public ListView<String> getActivitiesListView() {
-        return activitiesListView;
-    }
-
     public DateInterval getDestinationDateInterval() {
         return currentDestination.getDateInterval();
     }
@@ -211,7 +203,6 @@ public class DestinationController {
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
         destinationListFile = "testDestinationList.json";
-        currentDestinationFile = "testCurrentDestinationName.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
         String currentDestinationName = traveluHandler
