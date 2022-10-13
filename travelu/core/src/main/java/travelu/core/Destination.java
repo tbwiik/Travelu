@@ -74,6 +74,35 @@ public class Destination {
     }
 
     /**
+     * 
+     * @param dateInterval
+     */
+    public void setDateInterval(String startDate, String endDate) {
+
+        if (startDate.isBlank() || endDate.isBlank()) {
+            System.out.println("Waiting for both dates to be set");
+            return;
+        }
+
+        int[] startDateArray = { 0, 0, 0 };
+        int i = 0;
+        for (String dateComponent : startDate.toString().split("/")) {
+            startDateArray[i] = Integer.parseInt(dateComponent);
+            i++;
+        }
+
+        int[] endDateArray = { 0, 0, 0 };
+        int j = 0;
+        for (String dateComponent : endDate.toString().split("/")) {
+            endDateArray[j] = Integer.parseInt(dateComponent);
+            j++;
+        }
+
+        this.dateInterval = new DateInterval(startDateArray, endDateArray);
+
+    }
+
+    /**
      * @return the ranking of the destination
      */
     public Integer getRanking() {
