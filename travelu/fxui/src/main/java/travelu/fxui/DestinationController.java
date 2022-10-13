@@ -198,10 +198,6 @@ public class DestinationController {
         return currentDestination.getComment();
     }
 
-    public ListView<String> getActivitiesListView() {
-        return activitiesListView;
-    }
-
     public DateInterval getDestinationDateInterval() {
         return currentDestination.getDateInterval();
     }
