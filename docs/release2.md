@@ -37,4 +37,5 @@ We started our last meeting before delivering release 2, by reviewing our curren
 
 We used this meeting to specify what remaining issues we had to work on before delivering, and assigned to each member accordingly. The remaining issues included JavaFX tests, some modularization problems that emerged and finishing all of the documentation. 
 
+For our choice of diagram, we discussed the many options but concluded that [the package diagram](docs/packageDiagram.plantuml) was the most logical to document the project’s architecture. The assignment required us to use PlantUML, which takes a textual description and produces a diagram.
 
