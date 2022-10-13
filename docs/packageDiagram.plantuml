@@ -1,0 +1,45 @@
+@startuml 
+
+component fxui {
+  package travelu.fxui {
+}
+}
+
+component fxutil {
+  package travelu.fxutil {
+}
+}
+
+component core {
+  package travelu.core {
+}
+}
+
+skinparam component{
+  BorderColor #800080
+  ArrowColor purple
+  BackgroundColor orchid
+}
+
+skinparam package{
+  BackgroundColor lightyellow
+  BorderColor #8B0000
+}
+
+[fxml] 
+[javafx]
+[com.google.gson] 
+
+fxui ...> fxml
+fxui ...> javafx
+fxutil ...> fxml
+fxutil ...> javafx
+fxutil ..> com.google.gson
+
+core ...> com.google.gson
+
+travelu.fxui ..> travelu.core
+travelu.fxui ..> travelu.fxutil
+travelu.fxutil ..> travelu.fxui
+
+@enduml
