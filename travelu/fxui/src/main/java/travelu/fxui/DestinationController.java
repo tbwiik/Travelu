@@ -2,6 +2,7 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -166,12 +167,12 @@ public class DestinationController {
         return currentDestination.getName();
     }
 
-    public Destination getDestinationObject() {
-        return currentDestination;
+    public List<String> getDestinationActivities() {
+        return currentDestination.getActivities();
     }
 
-    public DestinationList getDestinationList() {
-        return destinationList;
+    public String getDestinationComment() {
+        return currentDestination.getComment();
     }
 
     public ListView<String> getActivitiesListView() {
