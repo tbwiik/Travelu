@@ -86,7 +86,8 @@ public class TraveluHandler {
 
     public String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile("CurrentDestinationName.json")));
+        BufferedReader bufferedReader = new BufferedReader(
+                new FileReader(getFile("CurrentDestinationName.json"), Charset.defaultCharset()));
         String currentDestinationName = gson.fromJson(bufferedReader, String.class);
         return currentDestinationName;
     }
