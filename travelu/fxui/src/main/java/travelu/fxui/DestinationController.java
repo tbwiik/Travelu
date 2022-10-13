@@ -2,6 +2,7 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -18,6 +19,9 @@ public class DestinationController {
     private Destination currentDestination;
     private DestinationList destinationList;
     private TraveluHandler traveluHandler = new TraveluHandler();
+
+    private String destinationListFile;
+    private String currentDestinationFile;
 
     @FXML
     Label destinationLabel;
@@ -48,6 +52,9 @@ public class DestinationController {
 
     @FXML
     private void initialize() throws FileNotFoundException, IOException {
+
+        destinationListFile = "DestinationList.json";
+        currentDestinationFile = "CurrentDestination.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
@@ -115,7 +122,7 @@ public class DestinationController {
     private void writeChanges() throws IOException {
         this.destinationList.updateDestination(currentDestination);
 
-        traveluHandler.writeJSON(this.destinationList, "DestinationList.json");
+        traveluHandler.writeJSON(this.destinationList, destinationListFile);
     }
 
     @FXML
@@ -165,9 +172,45 @@ public class DestinationController {
 
     }
 
+    public void changeFileWritingName(String fileWritingName) {
+        this.destinationListFile = fileWritingName;
+    }
+
     // For testing purposes
     public String getDestination() {
         return currentDestination.getName();
+    }
+
+    public List<String> getDestinationActivities() {
+        return currentDestination.getActivities();
+    }
+
+    public String getDestinationComment() {
+        return currentDestination.getComment();
+    }
+
+    public ListView<String> getActivitiesListView() {
+        return activitiesListView;
+    }
+
+    public void initializeFromTestFiles() throws FileNotFoundException, IOException {
+
+        destinationListFile = "testDestinationList.json";
+        currentDestinationFile = "testCurrentDestinationName.json";
+
+        this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
+        String currentDestinationName = traveluHandler
+                .readCurrentDestinationNameJSON("testCurrentDestinationName.json");
+
+        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+
+        destinationLabel.setText(currentDestinationName);
+
+        if (this.currentDestination.getComment() != null) {
+            commentTextField.setText(this.currentDestination.getComment());
+        }
+
+        updateListView();
     }
 
 }
