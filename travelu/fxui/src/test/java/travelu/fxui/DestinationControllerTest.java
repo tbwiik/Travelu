@@ -73,7 +73,7 @@ public class DestinationControllerTest extends ApplicationTest {
 
         destinationController.initializeFromTestFiles();
 
-        activities = destinationController.getDestinationObject().getActivities();
+        activities = destinationController.getDestinationActivities();
 
         arrivalDatePicker = lookup("#arrivalDatePicker").query();
         departureDatePicker = lookup("#departureDatePicker").query();
@@ -101,12 +101,12 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testAddActivity() {
 
-        clickOn(newActivityTextField).write("New Activity");
+        clickOn(newActivityTextField).write("Take flamenco lessons");
         clickOn(addActivity);
 
         assertNotEquals(activities, activitiesListView.getItems());
 
-        activities.add("New Activity");
+        activities.add("Take flamenco lessons");
         activitiesListView = lookup("#activitiesListView").query();
 
         assertEquals(activities, activitiesListView.getItems());
@@ -116,12 +116,12 @@ public class DestinationControllerTest extends ApplicationTest {
     public void testWriteComment() {
 
         clickOn(commentTextField).write(
-                "I had a lot of fun in Spain");
+                "I traveled to Spain with my family and we visited restaurants every day");
 
-        assertNotEquals(commentTextField.getText(), destinationController.getDestinationObject().getComment());
+        assertNotEquals(commentTextField.getText(), destinationController.getDestinationComment());
         clickOn(updateComment);
 
-        assertEquals(commentTextField.getText(), destinationController.getDestinationObject().getComment());
+        assertEquals(commentTextField.getText(), destinationController.getDestinationComment());
     }
 
 }
