@@ -2,6 +2,7 @@ package travelu.fxui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -42,6 +44,8 @@ public class DestinationControllerTest extends ApplicationTest {
     private DatePicker departureDatePicker;
     private Button setArrivalDate;
     private Button setDepartureDate;
+    private Label arrivalDateLabel;
+    private Label departureDateLabel;
 
     private ListView<String> activitiesListView;
     private TextField newActivityTextField;
@@ -49,11 +53,6 @@ public class DestinationControllerTest extends ApplicationTest {
 
     private TextField commentTextField;
     private Button updateComment;
-
-    @BeforeEach
-    private void start() {
-
-    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -87,15 +86,28 @@ public class DestinationControllerTest extends ApplicationTest {
         commentTextField = lookup("#commentTextField").query();
         updateComment = lookup("#updateButton").query();
 
+        arrivalDateLabel = lookup("#arrivalDateLabel").query();
+        departureDateLabel = lookup("#departureDateLabel").query();
+
     }
 
     @Test
     public void testDatePicker() {
-        clickOn(arrivalDatePicker).write("05.02.2021");
-        clickOn(setArrivalDate);
 
-        clickOn(departureDatePicker).write("08.02.2021");
+        clickOn(arrivalDatePicker).write("05/02/2021");
+        assertNotEquals("05/02/2021", arrivalDateLabel.getText());
+        clickOn(setArrivalDate);
+        assertNotEquals("06/02/2021", arrivalDateLabel.getText());
+        assertEquals("05/02/2021", arrivalDateLabel.getText());
+
+        clickOn(departureDatePicker).write("08/02/2021");
+        assertNotEquals("08/02/2021", departureDateLabel.getText());
         clickOn(setDepartureDate);
+        assertNotEquals("09/02/2021", departureDateLabel.getText());
+        assertEquals("08/02/2021", departureDateLabel.getText());
+
+        assertNotNull(destinationController.getDestinationDateInterval());
+
     }
 
     @Test
