@@ -39,7 +39,7 @@ public class DestinationListController {
      * @throws FileNotFoundException
      */
     @FXML
-    private void initialize() throws FileNotFoundException {
+    private void initialize() throws FileNotFoundException, IOException {
 
         // get DestinationList from file
         this.destinationList = traveluHandler.readDestinationListJSON();
@@ -85,7 +85,8 @@ public class DestinationListController {
      */
     private void switchToDestination(String destinationName) throws IOException {
 
-        // Write current destination name to file, so it can be accessed from destination controller
+        // Write current destination name to file, so it can be accessed from
+        // destination controller
         traveluHandler.writeJSON(destinationName, "CurrentDestinationName.json");
 
         App.setRoot("destination");
@@ -121,7 +122,6 @@ public class DestinationListController {
 
             // remove any feedback given
             feedbackText.setText("");
-            
 
             // remove text in inputField
             destinationText.clear();

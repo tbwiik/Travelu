@@ -163,14 +163,14 @@
                 <configuration>
                     <xmlOutput>false</xmlOutput>
                     <htmlOutput>true</htmlOutput>
-                    <!-- <excludeFilterFile>config/spotbugs/exclude.xml</excludeFilterFile> -->
+                    <excludeFilterFile>config/spotbugs/exclude.xml</excludeFilterFile>
                 </configuration>
                 <executions>
                     <execution>
                     <id>spotbugs-check</id>
                     <phase>verify</phase>
                         <goals>
-                        <goal>verify</goal> <!-- change to "check" to enable -->
+                        <goal>check</goal>
                     </goals>
                     </execution>
                 </executions>

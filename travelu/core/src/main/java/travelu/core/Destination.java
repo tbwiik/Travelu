@@ -27,7 +27,8 @@ public class Destination {
             String comment) {
         this.name = name;
 
-        // dateinterval is allowed to be null, but constructor should not take in null as input
+        // dateinterval is allowed to be null, but constructor should not take in null
+        // as input
         this.dateInterval = dateInterval == null ? null : new DateInterval(dateInterval);
         this.ranking = ranking;
 
@@ -45,7 +46,8 @@ public class Destination {
      * @throws IllegalArgumentException if destination is null
      */
     public Destination(Destination destination) throws IllegalArgumentException {
-        if(destination == null) throw new IllegalArgumentException("Destination cannot be null");
+        if (destination == null)
+            throw new IllegalArgumentException("Destination cannot be null");
 
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
@@ -104,7 +106,7 @@ public class Destination {
 
         if (activity.isBlank() || getActivities().contains(activity))
             throw new IllegalArgumentException("Invalid activity");
-    
+
         activities.add(activity);
     }
 
@@ -136,21 +138,43 @@ public class Destination {
     }
 
     /**
-     * return true if names are equal
+     * Return true if names are equal
      * <p>
-     * There should never be more than one object per destination and this is
-     * therefore satisfactory
+     * This is satisfactory because there will never be more than one object per
+     * destination
+     * <p>
+     * Note: auto-generated stub
      */
     @Override
     public boolean equals(Object obj) {
-
-        if(obj.getClass() != Destination.class){
+        if (this == obj)
+            return true;
+        if (obj == null)
             return false;
-        }
-        
-        // We know that obj can be safely cast as Destination
-        Destination destination = (Destination) obj;
-        return destination.getName().equals(getName());
+        if (getClass() != obj.getClass())
+            return false;
+        Destination other = (Destination) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
+
+    /**
+     * Hashes Destination according to name
+     * <p>
+     * Implemented to ensure safe use where hashing is needed
+     * <p>
+     * Note: Auto generated stub
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 
 }
