@@ -90,6 +90,16 @@ public class TraveluHandler {
         return readDestinationListJSON("DestinationList.json");
     }
 
+    /**
+     * Read from file using {@code Gson}
+     * <p>
+     * Used in testing and have therefore an own filename input
+     * 
+     * @param filename input
+     * @return {@linkplain DestinationList} with destinations
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public String readCurrentDestinationNameJSON(String filename) throws FileNotFoundException, IOException {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
@@ -97,6 +107,15 @@ public class TraveluHandler {
         return currentDestinationName;
     }
 
+    /**
+     * Read from file using {@code Gson}
+     * <p>
+     * Reading from standard file
+     * 
+     * @return {@linkplain DestinationList} with destinations
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(
