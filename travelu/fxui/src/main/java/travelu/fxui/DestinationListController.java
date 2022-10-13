@@ -33,16 +33,27 @@ public class DestinationListController {
 
     private TraveluHandler traveluHandler = new TraveluHandler();
 
+    private String destinationListFile;
+    private String currentDestinationFile;
+
     /**
      * Initiliaze start-page
      * 
-     * @throws FileNotFoundException
+     * @throws IOException
      */
     @FXML
-    private void initialize() throws FileNotFoundException, IOException {
+    private void initialize() throws IOException {
+
+        destinationListFile = "DestinationList.json";
+        currentDestinationFile = "CurrentDestination.json";
 
         // get DestinationList from file
         this.destinationList = traveluHandler.readDestinationListJSON();
+
+        setUpListView();
+    }
+
+    private void setUpListView() {
 
         listView.setStyle("-fx-font-size:20;");
 
@@ -87,7 +98,7 @@ public class DestinationListController {
 
         // Write current destination name to file, so it can be accessed from
         // destination controller
-        traveluHandler.writeJSON(destinationName, "CurrentDestinationName.json");
+        traveluHandler.writeJSON(destinationName, currentDestinationFile);
 
         App.setRoot("destination");
 
@@ -126,7 +137,7 @@ public class DestinationListController {
             // remove text in inputField
             destinationText.clear();
         }
-        traveluHandler.writeJSON(destinationList, "DestinationList.json");
+        traveluHandler.writeJSON(destinationList, destinationListFile);
 
     }
 
@@ -147,7 +158,21 @@ public class DestinationListController {
             destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
-        traveluHandler.writeJSON(destinationList, "DestinationList.json");
+        traveluHandler.writeJSON(destinationList, destinationListFile);
+    }
+
+    // For testing purposes
+    public DestinationList getDestinationList() {
+        return destinationList;
+    }
+
+    public void initiliazeFromTestFiles() throws IOException {
+        destinationListFile = "testDestinationList.json";
+        currentDestinationFile = "testCurrentDestinationName.json";
+
+        destinationList = traveluHandler.readDestinationListJSON(destinationListFile);
+
+        setUpListView();
     }
 
 }
