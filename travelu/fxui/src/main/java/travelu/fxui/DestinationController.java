@@ -22,7 +22,6 @@ public class DestinationController {
     private TraveluHandler traveluHandler = new TraveluHandler();
 
     private String destinationListFile;
-    private String currentDestinationFile;
 
     @FXML
     Label destinationLabel;
@@ -55,7 +54,6 @@ public class DestinationController {
     private void initialize() throws FileNotFoundException, IOException {
 
         destinationListFile = "DestinationList.json";
-        currentDestinationFile = "CurrentDestination.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
@@ -211,7 +209,6 @@ public class DestinationController {
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
         destinationListFile = "testDestinationList.json";
-        currentDestinationFile = "testCurrentDestinationName.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
         String currentDestinationName = traveluHandler
