@@ -19,6 +19,9 @@ public class DestinationController {
     private DestinationList destinationList;
     private TraveluHandler traveluHandler = new TraveluHandler();
 
+    private String destinationListFile;
+    private String currentDestinationFile;
+
     @FXML
     Label destinationLabel;
 
@@ -47,7 +50,10 @@ public class DestinationController {
     Label commentUpdatedFeedbackLabel;
 
     @FXML
-    private void initialize() throws FileNotFoundException, IOException {
+    private void initialize() throws FileNotFoundException {
+
+        destinationListFile = "DestinationList.json";
+        currentDestinationFile = "CurrentDestination.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
@@ -91,7 +97,7 @@ public class DestinationController {
     @FXML
     private void handleAddActivity() throws IOException {
         String activity = newActivityTextField.getText();
-        if (activity.isBlank())
+        if (activity.isBlank() || activity == null)
             return;
 
         try {
@@ -115,7 +121,7 @@ public class DestinationController {
     private void writeChanges() throws IOException {
         this.destinationList.updateDestination(currentDestination);
 
-        traveluHandler.writeJSON(this.destinationList, "DestinationList.json");
+        traveluHandler.writeJSON(this.destinationList, destinationListFile);
     }
 
     @FXML
@@ -151,9 +157,45 @@ public class DestinationController {
         System.out.println("Set departure date");
     }
 
+    public void changeFileWritingName(String fileWritingName) {
+        this.destinationListFile = fileWritingName;
+    }
+
     // For testing purposes
     public String getDestination() {
         return currentDestination.getName();
+    }
+
+    public Destination getDestinationObject() {
+        return currentDestination;
+    }
+
+    public DestinationList getDestinationList() {
+        return destinationList;
+    }
+
+    public ListView<String> getActivitiesListView() {
+        return activitiesListView;
+    }
+
+    public void initializeFromTestFiles() throws FileNotFoundException {
+
+        destinationListFile = "testDestinationList.json";
+        currentDestinationFile = "testCurrentDestinationName.json";
+
+        this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
+        String currentDestinationName = traveluHandler
+                .readCurrentDestinationNameJSON("testCurrentDestinationName.json");
+
+        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+
+        destinationLabel.setText(currentDestinationName);
+
+        if (this.currentDestination.getComment() != null) {
+            commentTextField.setText(this.currentDestination.getComment());
+        }
+
+        updateListView();
     }
 
 }
