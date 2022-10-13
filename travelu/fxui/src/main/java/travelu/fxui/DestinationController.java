@@ -51,7 +51,7 @@ public class DestinationController {
     Label commentUpdatedFeedbackLabel;
 
     @FXML
-    private void initialize() throws FileNotFoundException, Exception {
+    private void initialize() throws FileNotFoundException, IOException {
 
         destinationListFile = "DestinationList.json";
         currentDestinationFile = "CurrentDestination.json";
