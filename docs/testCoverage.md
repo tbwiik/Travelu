@@ -17,8 +17,7 @@ There are several ways to view the report:
 Run `mvn jacoco:report` to get an in-terminal shorthand run and report.
 
 ### In your browser
-In the respective module: `target/site/jacoco/index.html`
-TODO: insert picture
+In the respective module: `target/site/jacoco/index.html`  
 
 ### The executable
 JaCoCo generates an executable which can be used for viewing the report.  
@@ -27,7 +26,7 @@ Note that this functionality not yet is implemented and can therefore be ignored
 The report can either be viewed by using the executable generated. There are currently not implemented support for this.
 
 ## Report Example
-
+![JaCoCo-report-demo](../pictures/JaCoCoReportDemo.png)
 
 
 
