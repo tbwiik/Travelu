@@ -27,7 +27,7 @@ This project contains:
 - Tests for the application's domain logic which are in the folder [travelu/core/src/test/java/travelu/core](travelu/core/src/test/java/travelu/core)
 - Tests for the application's persistence which are in the folder [travelu/fxutil/src/test/java/travelu/fxutil](travelu/fxutil/src/test/java/travelu/fxutil)
 
-**Package diagram of the project's architecture:**
+- [Package diagram](docs/packageDiagram.plantuml) of the project's architecture 
 
 ![image info](/pictures/PackageDiagram.png)
 
