@@ -51,7 +51,7 @@ public class DestinationController {
     Label commentUpdatedFeedbackLabel;
 
     @FXML
-    private void initialize() throws FileNotFoundException {
+    private void initialize() throws FileNotFoundException, Exception {
 
         destinationListFile = "DestinationList.json";
         currentDestinationFile = "CurrentDestination.json";
@@ -98,7 +98,7 @@ public class DestinationController {
     @FXML
     private void handleAddActivity() throws IOException {
         String activity = newActivityTextField.getText();
-        if (activity.isBlank() || activity == null)
+        if (activity.isBlank())
             return;
 
         try {
@@ -179,7 +179,7 @@ public class DestinationController {
         return activitiesListView;
     }
 
-    public void initializeFromTestFiles() throws FileNotFoundException {
+    public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
         destinationListFile = "testDestinationList.json";
         currentDestinationFile = "testCurrentDestinationName.json";
