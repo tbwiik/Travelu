@@ -77,11 +77,10 @@ public class Destination {
      * 
      * @param dateInterval
      */
-    public void setDateInterval(String startDate, String endDate) {
+    public void setDateInterval(String startDate, String endDate) throws IllegalArgumentException {
 
         if (startDate.isBlank() || endDate.isBlank()) {
-            System.out.println("Waiting for both dates to be set");
-            return;
+            throw new IllegalArgumentException("Waiting for both dates to be set");
         }
 
         int[] startDateArray = { 0, 0, 0 };
