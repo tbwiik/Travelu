@@ -144,11 +144,25 @@ public class DestinationController {
     @FXML
     private void handleSetArrivalDate() {
         System.out.println("Set arrival date");
+
+        arrivalDateLabel.setText(arrivalDatePicker.getEditor().getText().toString());
+
+        currentDestination.setDateInterval(arrivalDatePicker.getEditor().getText(),
+                departureDatePicker.getEditor().getText());
+
     }
 
     @FXML
     private void handleSetDepartureDate() {
         System.out.println("Set departure date");
+
+        System.out.println(arrivalDatePicker.getEditor().getText());
+
+        departureDateLabel.setText(departureDatePicker.getEditor().getText());
+
+        currentDestination.setDateInterval(arrivalDatePicker.getEditor().getText(),
+                departureDatePicker.getEditor().getText());
+
     }
 
     // For testing purposes
