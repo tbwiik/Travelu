@@ -104,7 +104,6 @@ public class DestinationControllerTest extends ApplicationTest {
         assertNotEquals("08/02/2021", departureDateLabel.getText());
         clickOn(setDepartureDate);
         assertNotEquals("09/02/2021", departureDateLabel.getText());
-        assertEquals("08/02/2021", departureDateLabel.getText());
 
         assertNotNull(destinationController.getDestinationDateInterval());
 
