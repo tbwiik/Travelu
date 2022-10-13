@@ -3,6 +3,7 @@ package travelu.fxui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -162,8 +163,8 @@ public class DestinationListController {
     }
 
     // For testing purposes
-    public DestinationList getDestinationList() {
-        return destinationList;
+    public List<String> getDestinationListNames() {
+        return destinationList.getDestinationNames();
     }
 
     public void initiliazeFromTestFiles() throws IOException {
