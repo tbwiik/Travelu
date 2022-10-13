@@ -149,7 +149,6 @@ public class DestinationController {
 
     @FXML
     private void handleSetArrivalDate() {
-        System.out.println("Set arrival date");
 
         String arrivalDate = arrivalDatePicker.getEditor().getText();
         String departureDate = departureDatePicker.getEditor().getText();
@@ -166,7 +165,6 @@ public class DestinationController {
 
     @FXML
     private void handleSetDepartureDate() {
-        System.out.println("Set departure date");
 
         String arrivalDate = arrivalDatePicker.getEditor().getText();
         String departureDate = departureDatePicker.getEditor().getText();
