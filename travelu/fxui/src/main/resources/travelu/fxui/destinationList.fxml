@@ -11,7 +11,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="920.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="travelu.fxui.DestinationListController">
    <children>
       <ListView fx:id="listView" layoutX="82.0" layoutY="317.0" prefHeight="543.0" prefWidth="568.0" />
-      <Label fx:id="header" layoutX="284.0" layoutY="71.0" prefHeight="89.0" prefWidth="164.0" text="Travelu" textAlignment="CENTER">
+      <Label fx:id="header" layoutX="284.0" layoutY="71.0" prefHeight="89.0" prefWidth="754" text="Travelu" textAlignment="CENTER">
          <font>
             <Font size="48.0" />
          </font>
