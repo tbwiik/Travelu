@@ -46,7 +46,7 @@ public class DestinationListController {
     private void initialize() throws IOException {
 
         destinationListFile = "DestinationList.json";
-        currentDestinationFile = "CurrentDestination.json";
+        currentDestinationFile = "CurrentDestinationName.json";
 
         // get DestinationList from file
         this.destinationList = traveluHandler.readDestinationListJSON();
