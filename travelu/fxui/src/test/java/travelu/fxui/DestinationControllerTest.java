@@ -94,16 +94,20 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testDatePicker() {
 
-        clickOn(arrivalDatePicker).write("05/02/2021");
-        assertNotEquals("05/02/2021", arrivalDateLabel.getText());
-        clickOn(setArrivalDate);
-        assertNotEquals("06/02/2021", arrivalDateLabel.getText());
-        assertEquals("05/02/2021", arrivalDateLabel.getText());
+        String startDate = "05/02/2021"
+        String endDate = "08/02/2021"
+        String errorDate = "10/10/2030"
 
-        clickOn(departureDatePicker).write("08/02/2021");
-        assertNotEquals("08/02/2021", departureDateLabel.getText());
+        clickOn(arrivalDatePicker).write(startDate);
+        assertNotEquals(startDate, arrivalDateLabel.getText());
+        clickOn(setArrivalDate);
+        assertNotEquals(errorDate, arrivalDateLabel.getText());
+        assertEquals(startDate, arrivalDateLabel.getText());
+
+        clickOn(departureDatePicker).write(endDate);
+        assertNotEquals(endDate, departureDateLabel.getText());
         clickOn(setDepartureDate);
-        assertNotEquals("09/02/2021", departureDateLabel.getText());
+        assertNotEquals(errorDate, departureDateLabel.getText());
 
         assertNotNull(destinationController.getDestinationDateInterval());
 
