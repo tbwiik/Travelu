@@ -36,6 +36,7 @@ To run the project, in terminal:
 
 - `cd travelu` to change into project-folder
 - `mvn compile`
+- `cd fxui` to enter correct module
 - `mvn javafx:run` to run
 
 This will run the project and open the app.
@@ -45,7 +46,8 @@ Alternatively:
 - `cd travelu` to change into project-folder
 - `mvn install` in root folder
   - **Note:** this also runs tests and installs package
-- `mvn javafx:run`to run
+- `cd fxui` to enter correct module
+- `mvn javafx:run` to run
 
 **Notice:** To run the project locally on Mac, the javafx version has to be changed from version `16` to `17` in [pom.xml](travelu/pom.xml).
 
