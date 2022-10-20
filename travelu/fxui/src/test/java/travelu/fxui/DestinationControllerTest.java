@@ -94,9 +94,9 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testDatePicker() {
 
-        String startDate = "05/02/2021"
-        String endDate = "08/02/2021"
-        String errorDate = "10/10/2030"
+        String startDate = "5/2/2021";
+        String endDate = "8/2/2021";
+        String errorDate = "10/10/2030";
 
         clickOn(arrivalDatePicker).write(startDate);
         assertNotEquals(startDate, arrivalDateLabel.getText());
