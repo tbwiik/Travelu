@@ -49,7 +49,7 @@ Alternatively:
 - `cd fxui` to enter correct module
 - `mvn javafx:run` to run
 
-**Notice:** To run the project locally on Mac, the javafx version has to be changed from version `16` to `17` in [pom.xml](travelu/pom.xml).
+**Notice:** To build project, delete [fxui/module-info](travelu/core/src/main/java/module-info.java)
 
 ## Testing & coverage
 
