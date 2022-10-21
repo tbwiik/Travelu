@@ -50,7 +50,7 @@ public class DestinationTest {
     }
 
     /**
-     * Tests if comment is set to "very fun"
+     * Tests if comment is set to "change"
      */
     @Test
     public void testSetComment() {
