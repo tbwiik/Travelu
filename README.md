@@ -49,7 +49,9 @@ Alternatively:
 - `cd fxui` to enter correct module
 - `mvn javafx:run` to run
 
-**Notice:** To build project, delete [fxui/module-info](travelu/fxui/src/main/java/module-info.java)
+**Notice:**   
+[fxui/module-info](travelu/fxui/src/main/java/) is deleted for enabling run through Maven.  
+See [module-info](docs/module-info.md) for explanation
 
 ## Testing & coverage
 
