@@ -28,6 +28,9 @@ import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
 
+/**
+ * JavaFX tests for DestinationController
+ */
 public class DestinationControllerTest extends ApplicationTest {
 
     private DestinationController destinationController;
@@ -54,6 +57,9 @@ public class DestinationControllerTest extends ApplicationTest {
     private TextField commentTextField;
     private Button updateComment;
 
+    /**
+     * Tests if app works as intended
+     */
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -91,6 +97,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
     }
 
+    /**
+     * Tests if you can pick different dates for arrival and departure
+     */
     @Test
     public void testDatePicker() {
 
@@ -113,6 +122,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
     }
 
+    /**
+     * Tests if you can add activity to current destination
+     */
     @Test
     public void testAddActivity() {
 
@@ -127,6 +139,9 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals(activities, activitiesListView.getItems());
     }
 
+    /**
+     * Tests if you can write comment to current destination
+     */
     @Test
     public void testWriteComment() {
 

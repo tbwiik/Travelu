@@ -13,6 +13,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for DestinationList class
+ */
 public class DestinationListTest {
 
     private DestinationList destinationList;
@@ -27,6 +30,9 @@ public class DestinationListTest {
     private Destination buenosAires;
     private List<Destination> newDestinations;
 
+    /**
+     * Add multiple Destination objects in DestinationList and in ArrayList
+     */
     @BeforeEach
     public void setUp() {
         destinationList = new DestinationList();
@@ -53,11 +59,14 @@ public class DestinationListTest {
         }
     }
 
+    /**
+     * Compares two destination objects, and check if copy works as expected
+     * <p>
+     * Checks if IllegalArgumentException gets thrown if the name of Destination doesn't exist or is null
+     */
     @Test
     public void testGetDestinationCopyByName() {
 
-        // Compare two destination objects
-        // Check if copy work as expected
         assertEquals(norway.getName(), name);
         assertEquals(Arrays.toString(norway.getDateInterval().getStartDate()), Arrays.toString(dateInterval.getStartDate()));
         assertEquals(Arrays.toString(norway.getDateInterval().getEndDate()), Arrays.toString(dateInterval.getEndDate()));
@@ -70,6 +79,9 @@ public class DestinationListTest {
         assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName(null));
     }
 
+    /**
+     * Tests if expectedNames is equal to destinationList using getDestinationNames()
+     */
     @Test
     public void testGetDestinationNames() {
         List<String> expectedNames = new ArrayList<>();
@@ -95,6 +107,11 @@ public class DestinationListTest {
         assertNotEquals(expectedNames, destinationList.getDestinationNames());
     }
 
+    /**
+     * Tests if given destination exists in DestinationList
+     * <p>
+     * Checks if IllegalArgumentException gets thrown if the given destination doesn't exist
+     */
     @Test
     public void testContainsDestination() {
         String norwayString = "Norway";
@@ -116,6 +133,11 @@ public class DestinationListTest {
         assertThrows(IllegalArgumentException.class, () -> destinationList.containsDestination(null));
     }
 
+    /**
+     * Tests if the ArrayList and DestinationList are equal
+     * 
+     * @throws IllegalArgumentException if destinationName is null
+     */
     @Test
     public void testAddDestination() {
         assertEquals(newDestinations, destinationList.getList());
@@ -123,6 +145,11 @@ public class DestinationListTest {
         assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(null));
     }
 
+    /**
+     * Tests if removeDestination removes destination
+     * <p>
+     * Checks if IllegalArgumentException gets thrown if the destination doesn't exist or is null
+     */
     @Test
     public void testRemoveDestination() {
         newDestinations.remove(norway);

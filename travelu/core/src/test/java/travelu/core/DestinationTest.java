@@ -8,6 +8,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for Destination class
+ */
 public class DestinationTest {
 
     private Destination destination;
@@ -16,6 +19,9 @@ public class DestinationTest {
     private Integer ranking;
     private List<String> activities = new ArrayList<>();
 
+    /**
+     * Constructs a Destination object
+     */
     @BeforeEach
     public void setUp() {
         name = "Sweden";
@@ -31,6 +37,9 @@ public class DestinationTest {
         destination = new Destination(name, dateInterval, ranking, activities, comment);
     }
 
+    /**
+     * Tests if the object has the same inputs
+     */
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
@@ -40,6 +49,9 @@ public class DestinationTest {
         assertEquals(comment, destination.getComment());
     }
 
+    /**
+     * Tests if comment is set to "change"
+     */
     @Test
     public void testSetComment() {
         String change = "very fun";
@@ -47,6 +59,9 @@ public class DestinationTest {
         assertEquals(change, destination.getComment());
     }
 
+    /**
+     * Tests if you can add more comments
+     */
     @Test
     public void testAddComment() {
 
