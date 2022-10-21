@@ -10,12 +10,18 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for DateInterval class
+ */
 public class DateIntervalTest {
     
     private DateInterval dateInterval1;
     private DateInterval dateInterval2;
     private DateInterval empytInterval;
 
+    /**
+     * Create two DateInterval objects using two different methods
+     */
     @BeforeEach
     public void setup() {
         dateInterval1 = new DateInterval(31, 12, 1999, 01, 01, 2000);
@@ -23,11 +29,17 @@ public class DateIntervalTest {
         empytInterval = null;
     }
 
+    /**
+     * Checks if IllegalArgumentException gets thrown if DateInterval is null
+     */
     @Test
     public void testDateIntervalCannotBeNull() {
         assertThrows(IllegalArgumentException.class, () -> new DateInterval(empytInterval));
     }
 
+    /**
+     * Compares the two DateInterval objects, and checks if changed dates work
+     */
     @Test
     public void testStartAndEndDates() {
 
