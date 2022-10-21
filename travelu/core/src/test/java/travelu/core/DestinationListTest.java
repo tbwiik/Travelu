@@ -61,7 +61,7 @@ public class DestinationListTest {
 
     /**
      * Compares two destination objects, and check if copy works as expected
-     * 
+     * <p>
      * Checks if IllegalArgumentException gets thrown if the name of Destination doesn't exist or is null
      */
     @Test
@@ -109,7 +109,7 @@ public class DestinationListTest {
 
     /**
      * Tests if given destination exists in DestinationList
-     * 
+     * <p>
      * Checks if IllegalArgumentException gets thrown if the given destination doesn't exist
      */
     @Test
@@ -147,7 +147,7 @@ public class DestinationListTest {
 
     /**
      * Tests if removeDestination removes destination
-     * 
+     * <p>
      * Checks if IllegalArgumentException gets thrown if the destination doesn't exist or is null
      */
     @Test
