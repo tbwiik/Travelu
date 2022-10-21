@@ -18,16 +18,19 @@ import com.google.gson.GsonBuilder;
 /**
  * Handles file reading and writing
  */
-// Update ignore.xml if change in file
 public class TraveluHandler {
-
+    
+    /**
+     * @param filename
+     * @return the filepath for the given filename 
+     */
     private static String getFilePath(String filename) {
         Path path = Paths.get("../fxutil/src/main/resources/travelu/fxutil/data");
         return (path.toAbsolutePath() + "/" + filename);
     }
 
     /**
-     * Return file to use in reading/writing
+     * Used for reading and writing
      * <p>
      * Written for easy scalability
      * 
@@ -35,10 +38,6 @@ public class TraveluHandler {
      */
     private File getFile(String filename) {
         return new File(getFilePath(filename));
-        // return new File(TraveluHandler.class.getResource("data/").getFile() +
-        // "persistence.json");
-        // return new
-        // File("C:/Users/johnh/Documents/ITP/Prosjekt/gr2219/travelu/fxutil/src/main/resources/travelu/fxutil/data/persistence.json");
     }
 
     /**
@@ -51,7 +50,6 @@ public class TraveluHandler {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting().serializeNulls();
         Gson gson = builder.create();
-        // Need charset to ensure safe writing
         FileWriter writer = new FileWriter(getFile(filename), Charset.defaultCharset());
         try {
             writer.write(gson.toJson(object));
@@ -61,7 +59,7 @@ public class TraveluHandler {
     }
 
     /**
-     * Read from file using {@code Gson}
+     * Read from file using {@code Gson}, where it reads from DestinationList object
      * <p>
      * Used in testing and have therefore an own filename input
      * 
@@ -78,7 +76,7 @@ public class TraveluHandler {
     }
 
     /**
-     * Read from file using {@code Gson}
+     * Read from file using {@code Gson}, where it reads from DestinationList object
      * <p>
      * Reading from standard file
      * 
@@ -91,7 +89,7 @@ public class TraveluHandler {
     }
 
     /**
-     * Read from file using {@code Gson}
+     * Read from file using {@code Gson}, where it reads from DestinationName
      * <p>
      * Used in testing and have therefore an own filename input
      * 
@@ -108,7 +106,7 @@ public class TraveluHandler {
     }
 
     /**
-     * Read from file using {@code Gson}
+     * Read from file using {@code Gson}, where it reads from DestinationName
      * <p>
      * Reading from standard file
      * 
