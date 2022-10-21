@@ -104,7 +104,6 @@ public class DestinationController {
             currentDestination.addActivity(activity);
         } catch (Exception e) {
             // TODO: give relevant user feedback here
-            System.out.println("Invalid activity input");
         }
 
         writeChanges();
@@ -126,7 +125,7 @@ public class DestinationController {
 
     @FXML
     private void handleSelectFile() {
-        System.out.println("Select file");
+
     }
 
     /**
