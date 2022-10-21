@@ -6,11 +6,11 @@ It is a system created for administrating modules and solve problems such as ver
 This is done by adding module-info.java files in modules and explicitly stating accesses.
 
 ## TestFX and access error
-The JavaFX tests utilize ApplicationTest to be able to run. However, ApplicationTest do not have access to certain functionalities in the javafx.graphics module which result in access errors. This happen even though the module it is run from, [fxui](travelu/fxui), have the right access and requirements.
+The JavaFX tests utilize ApplicationTest to be able to run. However, ApplicationTest does not have access to certain functionalities in the javafx graphics module which results in access errors. This happen even though the module it is run from, [fxui](travelu/fxui), has the right accesses and requirements.
 
 ## Solution and deleting module-info
-A solution here, which is also proposed by teaching-assistants, is to remove module-info in this folder.   
-This solution works, but remove the JPMS functionality and result in the fxui-module being viewed as a "unnamed module".  
+A solution here, which was proposed by teaching-assistants, is to remove module-info in this folder.   
+This solution works, but removes the JPMS functionality and results in the fxui-module being viewed as an "unnamed module".  
 An "Unnamed module" requires everything and exports to everything, which is not a safe way to handle a module.
 
 Until a solution arises it is decided to delete module-info in [fxui](travelu/fxui) to be able to test in mvn and build application.
