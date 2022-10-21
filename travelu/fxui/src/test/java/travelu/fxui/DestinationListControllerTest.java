@@ -18,6 +18,9 @@ import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
 
+/**
+ * JavaFX tests for DestinationListController
+ */
 public class DestinationListControllerTest extends ApplicationTest {
 
         private DestinationListController destinationListController;
@@ -35,6 +38,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 textArea = lookup("#destinationText").query();
         }
 
+        /**
+         * Tests if DestinationList works as intended
+         */
         @Override
         public void start(Stage stage) throws IOException {
 
@@ -58,6 +64,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 destinationListController.initiliazeFromTestFiles();
         }
 
+        /**
+         * Tests if you can add Destination to DestinationList
+         */
         @Test
         public void testAdd() {
 
@@ -76,6 +85,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         }
 
+        /**
+         * Tests if you can remove Destination from DestinationList
+         */
         @Test
         public void testRemove() {
 
