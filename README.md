@@ -49,7 +49,7 @@ Alternatively:
 - `cd fxui` to enter correct module
 - `mvn javafx:run` to run
 
-**Notice:** To build project, delete [fxui/module-info](travelu/core/src/main/java/module-info.java)
+**Notice:** To build project, delete [fxui/module-info](travelu/fxui/src/main/java/module-info.java)
 
 ## Testing & coverage
 
