@@ -26,7 +26,7 @@ import travelu.fxutil.TraveluHandler;
 /**
  * JavaFX tests for DestinationListController
  */
-@TestInstance(Lifecycle.PER_CLASS)
+@TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationListControllerTest extends ApplicationTest {
 
         private DestinationListController destinationListController;
