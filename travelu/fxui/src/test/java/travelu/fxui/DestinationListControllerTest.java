@@ -6,7 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.io.IOException;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 import javafx.scene.control.TextArea;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import javafx.fxml.FXMLLoader;
@@ -21,6 +26,7 @@ import travelu.fxutil.TraveluHandler;
 /**
  * JavaFX tests for DestinationListController
  */
+@TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationListControllerTest extends ApplicationTest {
 
         private DestinationListController destinationListController;
@@ -32,6 +38,14 @@ public class DestinationListControllerTest extends ApplicationTest {
         private TraveluHandler traveluHandler = new TraveluHandler();
 
         private TextArea textArea;
+
+        /**
+         * Enables headless testing
+         */
+        @BeforeAll
+        private void setupHeadless() {
+                TestHelperMethods.supportHeadless();
+        }
 
         @BeforeEach
         private void start() {

@@ -9,6 +9,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>16</maven.compiler.source> <!-- Change to version 17 for use locally -->
         <maven.compiler.target>16</maven.compiler.target> <!-- Change to version 17 for use locally -->
+        <skipUITests>false</skipUITests>
+        <headlessTests>false</headlessTests>
     </properties>
 
     <dependencies>
