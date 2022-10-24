@@ -13,7 +13,7 @@ Front page           |  Destination page
 :-------------------------:|:-------------------------: 
 ![Destination-List View](../pictures/destinationList.png)  | ![Destination View](../pictures/destination.png)
 
-## Planning the project
+## Sprint 1 - Planning the project
 
 ### Meeting 1 - Coop-contract
 The very first meeting with the team was spent writing the coop-contract.  

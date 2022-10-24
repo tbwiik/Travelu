@@ -3,10 +3,14 @@ package travelu.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for Destination class
+ */
 public class DestinationTest {
 
     private Destination destination;
@@ -15,10 +19,13 @@ public class DestinationTest {
     private Integer ranking;
     private List<String> activities = new ArrayList<>();
 
+    /**
+     * Constructs a Destination object
+     */
     @BeforeEach
     public void setUp() {
         name = "Sweden";
-        dateInterval = null;
+        dateInterval = new DateInterval(17, 11, 2021, 13, 12, 2021);
         ranking = 3;
 
         activities.add("Skiing");
@@ -30,14 +37,21 @@ public class DestinationTest {
         destination = new Destination(name, dateInterval, ranking, activities, comment);
     }
 
+    /**
+     * Tests if the object has the same inputs
+     */
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
-        assertEquals(dateInterval, destination.getDateInterval());
+        assertEquals(Arrays.toString(dateInterval.getStartDate()), Arrays.toString(destination.getDateInterval().getStartDate()));
+        assertEquals(Arrays.toString(dateInterval.getEndDate()), Arrays.toString(destination.getDateInterval().getEndDate()));
         assertEquals(activities, destination.getActivities());
         assertEquals(comment, destination.getComment());
     }
 
+    /**
+     * Tests if comment is set to "change"
+     */
     @Test
     public void testSetComment() {
         String change = "very fun";
@@ -45,6 +59,9 @@ public class DestinationTest {
         assertEquals(change, destination.getComment());
     }
 
+    /**
+     * Tests if you can add more comments
+     */
     @Test
     public void testAddComment() {
 

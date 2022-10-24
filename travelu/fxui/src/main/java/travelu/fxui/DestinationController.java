@@ -2,7 +2,9 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
@@ -18,6 +20,8 @@ public class DestinationController {
     private Destination currentDestination;
     private DestinationList destinationList;
     private TraveluHandler traveluHandler = new TraveluHandler();
+
+    private String destinationListFile;
 
     @FXML
     Label destinationLabel;
@@ -47,7 +51,9 @@ public class DestinationController {
     Label commentUpdatedFeedbackLabel;
 
     @FXML
-    private void initialize() throws FileNotFoundException {
+    private void initialize() throws FileNotFoundException, IOException {
+
+        destinationListFile = "DestinationList.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON();
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
@@ -56,7 +62,7 @@ public class DestinationController {
 
         destinationLabel.setText(currentDestinationName);
 
-        if(this.currentDestination.getComment() != null){
+        if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
@@ -68,11 +74,10 @@ public class DestinationController {
      * updates view of activity list
      */
     @FXML
-    private void updateListView(){
+    private void updateListView() {
         activitiesListView.getItems().clear();
         activitiesListView.getItems().addAll(this.currentDestination.getActivities());
     }
-
 
     /**
      * Returns to destination-list
@@ -92,12 +97,13 @@ public class DestinationController {
     @FXML
     private void handleAddActivity() throws IOException {
         String activity = newActivityTextField.getText();
-        if(activity.isBlank() || activity == null) return;
+        if (activity.isBlank())
+            return;
 
-        try {currentDestination.addActivity(activity);}
-        catch(Exception e){
+        try {
+            currentDestination.addActivity(activity);
+        } catch (Exception e) {
             // TODO: give relevant user feedback here
-            System.out.println("Invalid activity input");
         }
 
         writeChanges();
@@ -111,17 +117,16 @@ public class DestinationController {
      * 
      * @throws IOException in case of filehandling issue
      */
-    private void writeChanges() throws IOException{
+    private void writeChanges() throws IOException {
         this.destinationList.updateDestination(currentDestination);
 
-        traveluHandler.writeJSON(this.destinationList, "DestinationList.json");
+        traveluHandler.writeJSON(this.destinationList, destinationListFile);
     }
 
     @FXML
     private void handleSelectFile() {
-        System.out.println("Select file");
-    }
 
+    }
 
     /**
      * Changes comment, and writes this to file
@@ -130,28 +135,87 @@ public class DestinationController {
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
         // if there is no comment. TODO: Give feedback to user
-        if(newComment.isBlank()) return;
+        if (newComment.isBlank())
+            return;
 
         currentDestination.setComment(newComment);
-        try {writeChanges();}
-        catch(Exception e){
+        try {
+            writeChanges();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @FXML
     private void handleSetArrivalDate() {
-        System.out.println("Set arrival date");
+
+        String arrivalDate = arrivalDatePicker.getEditor().getText();
+        String departureDate = departureDatePicker.getEditor().getText();
+
+        arrivalDateLabel.setText(arrivalDate);
+
+        if (departureDate.isBlank()) {
+            currentDestination.setDateInterval(arrivalDate, arrivalDate);
+        } else {
+            currentDestination.setDateInterval(arrivalDate, departureDate);
+        }
+
     }
 
     @FXML
     private void handleSetDepartureDate() {
-        System.out.println("Set departure date");
+
+        String arrivalDate = arrivalDatePicker.getEditor().getText();
+        String departureDate = departureDatePicker.getEditor().getText();
+
+        arrivalDateLabel.setText(arrivalDate);
+
+        if (arrivalDate.isBlank()) {
+            currentDestination.setDateInterval(departureDate, departureDate);
+        } else {
+            currentDestination.setDateInterval(arrivalDate, departureDate);
+        }
+
+    }
+
+    public void changeFileWritingName(String fileWritingName) {
+        this.destinationListFile = fileWritingName;
     }
 
     // For testing purposes
     public String getDestination() {
         return currentDestination.getName();
+    }
+
+    public List<String> getDestinationActivities() {
+        return currentDestination.getActivities();
+    }
+
+    public String getDestinationComment() {
+        return currentDestination.getComment();
+    }
+
+    public DateInterval getDestinationDateInterval() {
+        return currentDestination.getDateInterval();
+    }
+
+    public void initializeFromTestFiles() throws FileNotFoundException, IOException {
+
+        destinationListFile = "testDestinationList.json";
+
+        this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
+        String currentDestinationName = traveluHandler
+                .readCurrentDestinationNameJSON("testCurrentDestinationName.json");
+
+        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+
+        destinationLabel.setText(currentDestinationName);
+
+        if (this.currentDestination.getComment() != null) {
+            commentTextField.setText(this.currentDestination.getComment());
+        }
+
+        updateListView();
     }
 
 }

@@ -29,12 +29,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>16</version> <!-- Change to version 17 for use locally -->
+            <version>18</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>16</version> <!-- Change to version 17 for use locally -->
+            <version>18</version>
         </dependency>
 
         <!-- junit testing with jupiter -->
@@ -134,7 +134,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>travelu.fxui/travelu.fxui.App</mainClass> <!-- Rename if App.java is changed!!!!-->
+                            <mainClass>travelu.fxui.App</mainClass> <!-- Rename if App.java is changed!!!!-->
                         </configuration>
                     </execution>
                 </executions>

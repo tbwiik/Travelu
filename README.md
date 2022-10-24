@@ -27,9 +27,7 @@ This project contains:
 - Tests for the application's domain logic which are in the folder [travelu/core/src/test/java/travelu/core](travelu/core/src/test/java/travelu/core)
 - Tests for the application's persistence which are in the folder [travelu/fxutil/src/test/java/travelu/fxutil](travelu/fxutil/src/test/java/travelu/fxutil)
 
-**Package diagram of the project's architecture:**
-
-![image info](/pictures/PackageDiagram.png)
+- [Package diagram](docs/packageDiagram.plantuml) of the project's architecture 
 
 ## Building & running the project
 
@@ -38,6 +36,7 @@ To run the project, in terminal:
 
 - `cd travelu` to change into project-folder
 - `mvn compile`
+- `cd fxui` to enter correct module
 - `mvn javafx:run` to run
 
 This will run the project and open the app.
@@ -47,9 +46,12 @@ Alternatively:
 - `cd travelu` to change into project-folder
 - `mvn install` in root folder
   - **Note:** this also runs tests and installs package
-- `mvn javafx:run`to run
+- `cd fxui` to enter correct module
+- `mvn javafx:run` to run
 
-**Notice:** To run the project locally on Mac, the javafx version has to be changed from version `16` to `17` in [pom.xml](travelu/pom.xml).
+**Notice:**   
+[fxui/module-info](travelu/fxui/src/main/java/) is deleted for enabling run through Maven.  
+See [module-info](docs/module-info.md) for explanation
 
 ## Testing & coverage
 
