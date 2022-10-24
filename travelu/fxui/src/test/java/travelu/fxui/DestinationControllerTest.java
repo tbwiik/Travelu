@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.testfx.matcher.control.LabeledMatchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -17,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import javafx.fxml.FXMLLoader;
@@ -31,6 +34,7 @@ import travelu.fxutil.TraveluHandler;
 /**
  * JavaFX tests for DestinationController
  */
+@TestInstance(Lifecycle.PER_CLASS)
 public class DestinationControllerTest extends ApplicationTest {
 
     private DestinationController destinationController;
@@ -56,6 +60,14 @@ public class DestinationControllerTest extends ApplicationTest {
 
     private TextField commentTextField;
     private Button updateComment;
+
+    /**
+     * Enables headless-testing
+     */
+    @BeforeAll
+    private void setupHeadless() {
+        TestHelperMethods.supportHeadless();
+    }
 
     /**
      * Tests if app works as intended
