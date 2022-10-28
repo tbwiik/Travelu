@@ -83,25 +83,9 @@ public class Destination {
     public void setDateInterval(String startDate, String endDate)
             throws IllegalArgumentException, NumberFormatException {
 
-        if (startDate.isBlank() || endDate.isBlank()) {
-            throw new IllegalArgumentException("Waiting for both dates to be set");
-        }
-
-        int[] startDateArray = { 0, 0, 0 };
-        int i = 0;
-        for (String dateComponent : startDate.toString().split("/")) {
-            startDateArray[i] = Integer.parseInt(dateComponent);
-            i++;
-        }
-
-        int[] endDateArray = { 0, 0, 0 };
-        int j = 0;
-        for (String dateComponent : endDate.toString().split("/")) {
-            endDateArray[j] = Integer.parseInt(dateComponent);
-            j++;
-        }
-
-        this.dateInterval = new DateInterval(startDateArray, endDateArray);
+        this.dateInterval = new DateInterval();
+        dateInterval.setStartDate(startDate);
+        dateInterval.setEndDate(endDate);
 
     }
 
