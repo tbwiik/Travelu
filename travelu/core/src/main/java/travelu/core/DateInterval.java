@@ -15,8 +15,7 @@ public class DateInterval {
     /**
      * Create empty DateInterval
      */
-    public DateInterval() {
-    }
+    public DateInterval() {}
 
     /**
      * Create copy of DateInterval

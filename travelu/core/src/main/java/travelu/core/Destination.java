@@ -27,9 +27,8 @@ public class Destination {
             String comment) {
         this.name = name;
 
-        // dateinterval is allowed to be null, but constructor should not take in null
-        // as input
-        this.dateInterval = dateInterval == null ? null : new DateInterval(dateInterval);
+        // if dateInterval argument is null, create empty DateInterval
+        this.dateInterval = dateInterval == null ? new DateInterval() : new DateInterval(dateInterval);
         this.ranking = ranking;
 
         // if activities are null, create new list. Otherwise create copy of old
