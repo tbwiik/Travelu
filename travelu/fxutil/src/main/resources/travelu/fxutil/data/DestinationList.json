@@ -2,21 +2,26 @@
   "destinations": [
     {
       "name": "Sweden",
-      "date": null,
+      "dateInterval": {
+        "startDate": null,
+        "endDate": null
+      },
       "ranking": 0,
       "activities": [
-        "eat ice cream",
-        "go to party"
+        "Eat ice cream (glas)"
       ],
-      "comment": "is cool country"
+      "comment": null
     },
     {
       "name": "USA",
-      "date": null,
+      "dateInterval": {
+        "startDate": null,
+        "endDate": null
+      },
       "ranking": 0,
       "activities": [
-        "Go to usa",
-        "Eat burg"
+        "go usa",
+        "eat burg"
       ],
       "comment": null
     }
