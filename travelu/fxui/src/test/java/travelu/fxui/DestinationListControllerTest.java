@@ -2,6 +2,7 @@ package travelu.fxui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import org.testfx.matcher.control.LabeledMatchers;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 import travelu.core.Destination;
@@ -43,7 +45,7 @@ public class DestinationListControllerTest extends ApplicationTest {
          * Enables headless testing
          */
         @BeforeAll
-        private void setupHeadless() {
+        public void setupHeadless() {
                 TestHelperMethods.supportHeadless();
         }
 
