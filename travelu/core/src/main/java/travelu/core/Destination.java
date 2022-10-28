@@ -68,24 +68,12 @@ public class Destination {
         return null;
     }
 
-    /**
-     * Function used to set date-intervals with string input
-     * <p>
-     * Used by controller
-     * 
-     * @param startDate of stay on the form {@code d/m/y}
-     * @param endDate   of stay on the form {@code d/m/y}
-     * @throws IllegalArgumentException if lacking input on either startdate or
-     *                                  enddate
-     * @throws NumberFormatException    if input is wrong format
-     */
-    public void setDateInterval(String startDate, String endDate)
-            throws IllegalArgumentException, NumberFormatException {
-
-        this.dateInterval = new DateInterval();
+    public void setArrivalDate(String startDate){
         dateInterval.setStartDate(startDate);
-        dateInterval.setEndDate(endDate);
+    }
 
+    public void setDepartureDate(String endDate){
+        dateInterval.setEndDate(endDate);
     }
 
     /**

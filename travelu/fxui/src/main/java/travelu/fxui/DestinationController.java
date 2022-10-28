@@ -62,11 +62,16 @@ public class DestinationController {
 
         destinationLabel.setText(currentDestinationName);
 
+
+
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
-        
+        arrivalDateLabel.setText(currentDestination.getDateInterval().getStartDate());
+        departureDateLabel.setText(currentDestination.getDateInterval().getEndDate());
+
+
 
         updateListView();
 
@@ -154,7 +159,7 @@ public class DestinationController {
         String arrivalDate = arrivalDatePicker.getEditor().getText();
 
         try{
-            currentDestination.getDateInterval().setStartDate(arrivalDate);
+            currentDestination.setArrivalDate(arrivalDate);
             arrivalDateLabel.setText(arrivalDate);
             writeChanges();
         } catch(Exception e){
@@ -169,7 +174,7 @@ public class DestinationController {
         String departureDate = departureDatePicker.getEditor().getText();
         
         try{
-            currentDestination.getDateInterval().setEndDate(departureDate);
+            currentDestination.setDepartureDate(departureDate);
             departureDateLabel.setText(departureDate);
             writeChanges();
         } catch(Exception e){
