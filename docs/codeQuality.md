@@ -14,7 +14,11 @@ Implementation of SpotBugs is done to find problems or weaknesses not picked up 
   - SpotBugs will run here
 - `mvn install` will also run `verify` phase
 - `mvn spotbugs:gui` for graphical interface
-
+  
+### Report:
+In the correct folder:
+- `mvn spotbugs:gui` for graphical interface
+  
 Source: [Spotbugs](https://spotbugs.github.io)
 
 ## Checkstyle
@@ -27,5 +31,8 @@ Implementation of Checkstyle is done to get feedback on cleanness of code. When 
 - `cd travelu` if necessary
 - `mvn verify` run appropriate lifecycle for checkstyle
 - `mvn install` will also run `verify` phase
+
+### Report
+Reports can be found in `{module}/target/checkstyle-result.cml`
 
 Source: [Checkstyle](https://checkstyle.org)
