@@ -10,7 +10,7 @@
         <maven.compiler.source>16</maven.compiler.source> <!-- Change to version 17 for use locally -->
         <maven.compiler.target>16</maven.compiler.target> <!-- Change to version 17 for use locally -->
         <skipUITests>false</skipUITests>
-        <headlessTests>false</headlessTests>
+        <!-- <headlessTests>false</headlessTests> Not in use -->
     </properties>
 
     <dependencies>
@@ -82,9 +82,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
-                <configuration>
-                    <release>11</release> <!--Change to version 17 for use locally-->
-                </configuration>
             </plugin>
 
             <plugin>
@@ -171,7 +168,7 @@
                     <execution>
                     <id>spotbugs-check</id>
                     <phase>verify</phase>
-                        <goals>
+                    <goals>
                         <goal>check</goal>
                     </goals>
                     </execution>
