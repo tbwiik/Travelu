@@ -13,21 +13,9 @@ public class DateInterval {
     private String endDate;
 
     /**
-     * Create DateInterval with two int-arrays
-     * 
-     * @param startDate containing day, month, year
-     * @param endDate   containing day, month, year
+     * Create empty DateInterval
      */
-    public DateInterval(String startDate, String endDate) {
-        if (isValidDate(startDate)) {
-            this.startDate = startDate;
-        } else
-            throw new IllegalArgumentException("Invalid startDate");
-
-        if (isValidDate(endDate)) {
-            this.endDate = endDate;
-        } else
-            throw new IllegalArgumentException("Invalid endDate");
+    public DateInterval() {
     }
 
     /**
@@ -69,7 +57,7 @@ public class DateInterval {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
         // We allow the dates to be null
-        if (dateString == null) {
+        if (dateString.equals("")) {
             return true;
         }
 
