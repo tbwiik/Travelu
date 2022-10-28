@@ -66,6 +66,8 @@ public class DestinationController {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
+        
+
         updateListView();
 
     }
@@ -150,14 +152,13 @@ public class DestinationController {
     private void handleSetArrivalDate() {
 
         String arrivalDate = arrivalDatePicker.getEditor().getText();
-        String departureDate = departureDatePicker.getEditor().getText();
 
-        arrivalDateLabel.setText(arrivalDate);
-
-        if (departureDate.isBlank()) {
-            currentDestination.setDateInterval(arrivalDate, arrivalDate);
-        } else {
-            currentDestination.setDateInterval(arrivalDate, departureDate);
+        try{
+            currentDestination.getDateInterval().setStartDate(arrivalDate);
+            arrivalDateLabel.setText(arrivalDate);
+            writeChanges();
+        } catch(Exception e){
+            //TODO: give feedback
         }
 
     }
@@ -165,15 +166,14 @@ public class DestinationController {
     @FXML
     private void handleSetDepartureDate() {
 
-        String arrivalDate = arrivalDatePicker.getEditor().getText();
         String departureDate = departureDatePicker.getEditor().getText();
-
-        arrivalDateLabel.setText(arrivalDate);
-
-        if (arrivalDate.isBlank()) {
-            currentDestination.setDateInterval(departureDate, departureDate);
-        } else {
-            currentDestination.setDateInterval(arrivalDate, departureDate);
+        
+        try{
+            currentDestination.getDateInterval().setEndDate(departureDate);
+            departureDateLabel.setText(departureDate);
+            writeChanges();
+        } catch(Exception e){
+            //TODO: give feedback
         }
 
     }
@@ -219,3 +219,4 @@ public class DestinationController {
     }
 
 }
+
