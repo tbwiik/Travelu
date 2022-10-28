@@ -39,6 +39,9 @@ public class DestinationController {
     DatePicker departureDatePicker;
 
     @FXML
+    Label dateUpdatedFeedbackLabel;
+
+    @FXML
     ListView<String> activitiesListView;
 
     @FXML
@@ -62,16 +65,12 @@ public class DestinationController {
 
         destinationLabel.setText(currentDestinationName);
 
-
-
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
         arrivalDateLabel.setText(currentDestination.getDateInterval().getStartDate());
         departureDateLabel.setText(currentDestination.getDateInterval().getEndDate());
-
-
 
         updateListView();
 
@@ -158,12 +157,13 @@ public class DestinationController {
 
         String arrivalDate = arrivalDatePicker.getEditor().getText();
 
-        try{
+        try {
             currentDestination.setArrivalDate(arrivalDate);
             arrivalDateLabel.setText(arrivalDate);
             writeChanges();
-        } catch(Exception e){
-            //TODO: give feedback
+            dateUpdatedFeedbackLabel.setText("");
+        } catch (Exception e) {
+            dateUpdatedFeedbackLabel.setText("Please input a valid arrival date");
         }
 
     }
@@ -172,13 +172,14 @@ public class DestinationController {
     private void handleSetDepartureDate() {
 
         String departureDate = departureDatePicker.getEditor().getText();
-        
-        try{
+
+        try {
             currentDestination.setDepartureDate(departureDate);
             departureDateLabel.setText(departureDate);
             writeChanges();
-        } catch(Exception e){
-            //TODO: give feedback
+            dateUpdatedFeedbackLabel.setText("");
+        } catch (Exception e) {
+            dateUpdatedFeedbackLabel.setText("Please input a valid departure date");
         }
 
     }
@@ -224,4 +225,3 @@ public class DestinationController {
     }
 
 }
-

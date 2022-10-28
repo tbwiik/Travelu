@@ -48,7 +48,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Label fx:id="dateFeedbackText" contentDisplay="RIGHT" layoutX="300.0" layoutY="105.0" text="The date you inputted is not a valid date" />
+            <Label fx:id="dateUpdatedFeedbackLabel" contentDisplay="RIGHT" layoutX="300.0" layoutY="105.0" text="The date you inputted is not a valid date" />
             <ImageView fitHeight="221.0" fitWidth="393.0" layoutX="347.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
             <Label contentDisplay="RIGHT" layoutX="14.0" layoutY="34.0" text="Arrival: ">
                <font>
