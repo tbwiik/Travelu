@@ -19,7 +19,7 @@ Implementation of SpotBugs is done to find problems or weaknesses not picked up 
 In the correct folder:
 - `mvn spotbugs:gui` for graphical interface
   
-Source: [Spotbugs](https://spotbugs.github.io)
+**Source:** [Spotbugs](https://spotbugs.github.io)
 
 ## Checkstyle
 Checkstyle is an integration used for checking that Java code follows a given standard.
@@ -33,6 +33,9 @@ Implementation of Checkstyle is done to get feedback on cleanness of code. When 
 - `mvn install` will also run `verify` phase
 
 ### Report
-Reports can be found in `{module}/target/checkstyle-result.cml`
+In the correct folder:   
+Report in 
+[./target/checkstyle-result.xml](travelu/target/checkstyle-result.xml) (non-active link)
 
-Source: [Checkstyle](https://checkstyle.org)
+
+**Source:** [Checkstyle](https://checkstyle.org)
