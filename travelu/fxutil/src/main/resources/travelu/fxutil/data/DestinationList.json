@@ -3,8 +3,8 @@
     {
       "name": "Sweden",
       "dateInterval": {
-        "startDate": null,
-        "endDate": null
+        "arrivalDate": "30/09/2022",
+        "departureDate": "14/10/2022"
       },
       "ranking": 0,
       "activities": [
@@ -15,8 +15,8 @@
     {
       "name": "USA",
       "dateInterval": {
-        "startDate": null,
-        "endDate": null
+        "arrivalDate": "05/10/2022",
+        "departureDate": "30/10/2022"
       },
       "ranking": 0,
       "activities": [

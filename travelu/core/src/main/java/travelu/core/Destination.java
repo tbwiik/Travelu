@@ -68,12 +68,13 @@ public class Destination {
         return null;
     }
 
-    public void setArrivalDate(String startDate){
-        dateInterval.setStartDate(startDate);
+    // TODO: These methods contain unhandled exceptions
+    public void setArrivalDate(String arrivalDate){
+        dateInterval.setArrivalDate(arrivalDate);
     }
 
-    public void setDepartureDate(String endDate){
-        dateInterval.setEndDate(endDate);
+    public void setDepartureDate(String departureDate){
+        dateInterval.setDepartureDate(departureDate);
     }
 
     /**

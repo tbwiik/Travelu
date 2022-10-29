@@ -9,8 +9,8 @@ import java.time.format.DateTimeFormatter;
  */
 public class DateInterval {
 
-    private String startDate;
-    private String endDate;
+    private String arrivalDate;
+    private String departureDate;
 
     /**
      * Create empty DateInterval
@@ -26,33 +26,33 @@ public class DateInterval {
         if (dateInterval == null)
             throw new IllegalArgumentException("dateInterval cannot be null");
 
-        this.startDate = dateInterval.getStartDate();
-        this.endDate = dateInterval.getEndDate();
+        this.arrivalDate = dateInterval.getArrivalDate();
+        this.departureDate = dateInterval.getDepartureDate();
     }
 
-    public String getStartDate() {
-        return this.startDate;
+    public String getArrivalDate() {
+        return this.arrivalDate;
     }
 
-    public String getEndDate() {
-        return this.endDate;
+    public String getDepartureDate() {
+        return this.departureDate;
     }
 
-    public void setStartDate(String startDate) {
-        if (isValidDatePair(startDate, this.endDate)){
+    public void setArrivalDate(String arrivalDate) {
+        if (isValidDatePair(arrivalDate, this.departureDate)){
             
-            this.startDate = startDate;
+            this.arrivalDate = arrivalDate;
         }
         else
-            throw new IllegalArgumentException("invalid start date");
+            throw new IllegalArgumentException("invalid arrival date");
     }
 
 
-    public void setEndDate(String endDate) {
-        if (isValidDatePair(startDate, endDate))
-            this.endDate = endDate;
+    public void setDepartureDate(String departureDate) {
+        if (isValidDatePair(arrivalDate, departureDate))
+            this.departureDate = departureDate;
         else
-            throw new IllegalArgumentException("invalid end date");
+            throw new IllegalArgumentException("invalid departure date");
     }
 
     private boolean isValidDate(String dateString, DateTimeFormatter formatter) {
@@ -70,23 +70,23 @@ public class DateInterval {
 
 /**
  * 
- * @param startDate - string
- * @param endDate - string
+ * @param arrivalDate - string
+ * @param departureDate - string
  * @return - boolean representing whether this is a valid date pair
  */
-private boolean isValidDatePair(String startDate, String endDate) {
+private boolean isValidDatePair(String arrivalDate, String departureDate) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    
-    if(isValidDate(startDate, formatter) && isValidDate(endDate, formatter)){
-        LocalDate arrival = LocalDate.parse(startDate, formatter);
-        LocalDate departure = LocalDate.parse(endDate, formatter);
+
+    if(isValidDate(arrivalDate, formatter) && isValidDate(departureDate, formatter)){
+        LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
+        LocalDate departure = LocalDate.parse(departureDate, formatter);
 
         // departure should either be after arrival or the same day
         return departure.isAfter(arrival) || departure.isEqual(arrival);
     }
     // if one of the dates are null, return whether either of them are valid
-    else if(startDate == null || endDate == null){
-        return isValidDate(startDate, formatter) || isValidDate(endDate, formatter);
+    else if(arrivalDate == null || departureDate == null){
+        return isValidDate(arrivalDate, formatter) || isValidDate(departureDate, formatter);
     }
 
 

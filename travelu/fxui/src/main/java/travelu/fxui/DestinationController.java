@@ -69,8 +69,8 @@ public class DestinationController {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
-        arrivalDateLabel.setText(currentDestination.getDateInterval().getStartDate());
-        departureDateLabel.setText(currentDestination.getDateInterval().getEndDate());
+        arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
+        departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
 
         updateListView();
 
