@@ -39,35 +39,57 @@ public class DateInterval {
     }
 
     public void setStartDate(String startDate) {
-        if (isValidDate(startDate))
+        if (isValidDatePair(startDate, this.endDate)){
+            
             this.startDate = startDate;
+        }
         else
             throw new IllegalArgumentException("invalid start date");
     }
+
 
     public void setEndDate(String endDate) {
-        if (isValidDate(endDate))
+        if (isValidDatePair(startDate, endDate))
             this.endDate = endDate;
         else
-            throw new IllegalArgumentException("invalid start date");
+            throw new IllegalArgumentException("invalid end date");
     }
 
-    private boolean isValidDate(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private boolean isValidDate(String dateString, DateTimeFormatter formatter) {
         
         // We allow the dates to be null
         if (dateString.equals("")) {
             return true;
         }
 
-    try{
-        LocalDate.parse(dateString, formatter);
-    }catch(
-    Exception e){
-        return false;
+        try{
+            LocalDate.parse(dateString, formatter);
+        }catch(
+        Exception e){
+            return false;
+        }
+        
+        return true;
     }
-    
-    return true;
-}
+
+/**
+ * 
+ * @param startDate - string
+ * @param endDate - string
+ * @return - boolean representing whether this is a valid date pair
+ */
+private boolean isValidDatePair(String startDate, String endDate) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    if(isValidDate(startDate, formatter) && isValidDate(endDate, formatter)){
+        LocalDate arrival = LocalDate.parse(startDate, formatter);
+        LocalDate departure = LocalDate.parse(endDate, formatter);
+
+        // departure should either be after arrival or the same day
+        return departure.isAfter(arrival) || departure.isEqual(arrival);
+    }
+
+    return false;
+}   
 
 }
