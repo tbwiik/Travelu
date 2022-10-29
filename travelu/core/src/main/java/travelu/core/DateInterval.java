@@ -56,11 +56,7 @@ public class DateInterval {
     }
 
     private boolean isValidDate(String dateString, DateTimeFormatter formatter) {
-        
-        // We allow the dates to be null
-        if (dateString.equals("")) {
-            return true;
-        }
+    
 
         try{
             LocalDate.parse(dateString, formatter);
@@ -80,7 +76,7 @@ public class DateInterval {
  */
 private boolean isValidDatePair(String startDate, String endDate) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+    
     if(isValidDate(startDate, formatter) && isValidDate(endDate, formatter)){
         LocalDate arrival = LocalDate.parse(startDate, formatter);
         LocalDate departure = LocalDate.parse(endDate, formatter);
@@ -88,6 +84,11 @@ private boolean isValidDatePair(String startDate, String endDate) {
         // departure should either be after arrival or the same day
         return departure.isAfter(arrival) || departure.isEqual(arrival);
     }
+    // if one of the dates are null, return whether either of them are valid
+    else if(startDate == null || endDate == null){
+        return isValidDate(startDate, formatter) || isValidDate(endDate, formatter);
+    }
+
 
     return false;
 }   
