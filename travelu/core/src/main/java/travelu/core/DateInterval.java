@@ -75,7 +75,7 @@ public class DateInterval {
  * @return - boolean representing whether this is a valid date pair
  */
 private boolean isValidDatePair(String arrivalDate, String departureDate) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     if(isValidDate(arrivalDate, formatter) && isValidDate(departureDate, formatter)){
         LocalDate arrival = LocalDate.parse(arrivalDate, formatter);

@@ -1,28 +1,23 @@
 {
   "destinations": [
     {
-      "name": "Sweden",
+      "name": "USA",
       "dateInterval": {
-        "arrivalDate": "30/09/2022",
-        "departureDate": "14/10/2022"
+        "arrivalDate": null,
+        "departureDate": null
       },
       "ranking": 0,
-      "activities": [
-        "Eat ice cream (glas)"
-      ],
+      "activities": [],
       "comment": null
     },
     {
-      "name": "USA",
+      "name": "Sweden",
       "dateInterval": {
-        "arrivalDate": "05/10/2022",
-        "departureDate": "30/10/2022"
+        "arrivalDate": null,
+        "departureDate": null
       },
       "ranking": 0,
-      "activities": [
-        "go usa",
-        "eat burg"
-      ],
+      "activities": [],
       "comment": null
     }
   ]
