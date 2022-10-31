@@ -38,21 +38,16 @@ public class DateInterval {
         return this.departureDate;
     }
 
-    public void setArrivalDate(String arrivalDate) {
-        if (isValidDatePair(arrivalDate, this.departureDate)){
-            
-            this.arrivalDate = arrivalDate;
-        }
-        else
-            throw new IllegalArgumentException("invalid arrival date");
+    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException {
+        
+        checkDatePair(arrivalDate, this.departureDate);
+        this.arrivalDate = arrivalDate;
     }
 
 
-    public void setDepartureDate(String departureDate) {
-        if (isValidDatePair(arrivalDate, departureDate))
-            this.departureDate = departureDate;
-        else
-            throw new IllegalArgumentException("invalid departure date");
+    public void setDepartureDate(String departureDate) throws IllegalArgumentException {
+        checkDatePair(this.arrivalDate, departureDate);
+        this.departureDate = departureDate;
     }
 
     private boolean isValidDate(String dateString, DateTimeFormatter formatter) {
@@ -72,25 +67,30 @@ public class DateInterval {
  * 
  * @param arrivalDate - string
  * @param departureDate - string
- * @return - boolean representing whether this is a valid date pair
+ * 
+ * @throws IllegalArgumentException - If the date pair is invalid
  */
-private boolean isValidDatePair(String arrivalDate, String departureDate) {
+private void checkDatePair(String arrivalDate, String departureDate) throws IllegalArgumentException {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    boolean arrivalValid = isValidDate(arrivalDate, formatter);
+    boolean departureValid = isValidDate(departureDate, formatter);
 
-    if(isValidDate(arrivalDate, formatter) && isValidDate(departureDate, formatter)){
+
+    if(arrivalValid && departureValid){
         LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
         LocalDate departure = LocalDate.parse(departureDate, formatter);
 
         // departure should either be after arrival or the same day
-        return departure.isAfter(arrival) || departure.isEqual(arrival);
+        if(!departure.isAfter(arrival) && !departure.isEqual(arrival)){
+            throw new IllegalArgumentException("Arrival date must be before departure date.");
+        };
     }
-    // if one of the dates are null, return whether either of them are valid
-    else if(arrivalDate == null || departureDate == null){
-        return isValidDate(arrivalDate, formatter) || isValidDate(departureDate, formatter);
+    else if(!departureValid && departureDate != null){
+        throw new IllegalArgumentException("Invalid departure date.");
     }
-
-
-    return false;
+    else if(!arrivalValid && arrivalDate != null){
+        throw new IllegalArgumentException("Invalid arrival date.");
+    }
 }   
 
 }

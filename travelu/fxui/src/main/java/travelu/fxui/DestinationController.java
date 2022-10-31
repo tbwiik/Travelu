@@ -163,7 +163,7 @@ public class DestinationController {
             writeChanges();
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
-            dateUpdatedFeedbackLabel.setText("Please input a valid arrival date");
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
     }
@@ -179,7 +179,7 @@ public class DestinationController {
             writeChanges();
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
-            dateUpdatedFeedbackLabel.setText("Please input a valid departure date");
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
     }

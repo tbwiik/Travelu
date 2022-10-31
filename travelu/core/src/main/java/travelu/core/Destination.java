@@ -68,12 +68,11 @@ public class Destination {
         return null;
     }
 
-    // TODO: These methods contain unhandled exceptions
-    public void setArrivalDate(String arrivalDate){
+    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException{
         dateInterval.setArrivalDate(arrivalDate);
     }
 
-    public void setDepartureDate(String departureDate){
+    public void setDepartureDate(String departureDate) throws IllegalArgumentException{
         dateInterval.setDepartureDate(departureDate);
     }
 
