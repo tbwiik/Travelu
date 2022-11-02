@@ -8,6 +8,8 @@ import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -20,6 +22,9 @@ public class DestinationController {
     private Destination currentDestination;
     private DestinationList destinationList;
     private TraveluHandler traveluHandler = new TraveluHandler();
+
+    // currently selected activity
+    private String currentActivity;
 
     private String destinationListFile;
 
@@ -66,12 +71,28 @@ public class DestinationController {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
+        setupListView();
         updateListView();
-
     }
 
     /**
-     * updates view of activity list
+     * Sets up listener for changing selected activity in activitiesListView
+     */
+    @FXML
+    private void setupListView(){
+        // make currentDestination the selected list-view item
+        activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                currentActivity = activitiesListView.getSelectionModel().selectedItemProperty().getValue();
+            }
+        });
+    }
+
+
+    /**
+     * Updates view of activity list
      */
     @FXML
     private void updateListView() {
@@ -88,9 +109,10 @@ public class DestinationController {
     private void handleReturnButton() throws IOException {
         App.setRoot("destinationList");
     }
-
+//TODO: Is throws IOException really needed here? Same for remove activity
     /**
-     * add activity to the list of activities, and update listview
+     * Adds activity to the list of activities, and updates activitiesListView
+     * 
      * 
      * @throws IOException in case of filehandling issue
      */
@@ -112,13 +134,21 @@ public class DestinationController {
 
     }
 
+    /**
+     * Removes activity from list of activities, and updates activitiesListView
+     */
     @FXML
     private void handleRemoveActivity(){
-        
+        if(currentActivity != null){
+            currentDestination.removeActivity(currentActivity);
+            updateListView();
+            try{writeChanges();}
+            catch(Exception e){}
+        }
     }
 
     /**
-     * updates changes to currentDestination, and writes these to json.
+     * Updates changes to currentDestination, and writes these to json.
      * 
      * @throws IOException in case of filehandling issue
      */
