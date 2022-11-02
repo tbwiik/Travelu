@@ -112,6 +112,11 @@ public class DestinationController {
 
     }
 
+    @FXML
+    private void handleRemoveActivity(){
+        
+    }
+
     /**
      * updates changes to currentDestination, and writes these to json.
      * 
