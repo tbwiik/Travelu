@@ -74,14 +74,14 @@
                   </Label>
                </graphic>
             </Label>
-            <DatePicker fx:id="arrivalDatePicker" layoutX="14.0" layoutY="132.0" prefHeight="25.0" prefWidth="139.0" />
+            <DatePicker fx:id="arrivalDatePicker" layoutX="14.0" layoutY="132.0" prefHeight="25.0" prefWidth="139.0" promptText="MM/dd/yyyy" />
             <Label layoutX="14.0" layoutY="102.0" text="Change arrival date">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
             <Button fx:id="arrivalDateButton" layoutX="153.0" layoutY="132.0" mnemonicParsing="false" onAction="#handleSetArrivalDate" text="Set" />
-            <DatePicker fx:id="departureDatePicker" layoutX="14.0" layoutY="196.0" prefHeight="25.0" prefWidth="139.0" />
+            <DatePicker fx:id="departureDatePicker" layoutX="14.0" layoutY="196.0" prefHeight="25.0" prefWidth="139.0" promptText="MM/dd/yyyy" />
             <Label layoutX="14.0" layoutY="166.0" text="Change departure date">
                <font>
                   <Font size="20.0" />
