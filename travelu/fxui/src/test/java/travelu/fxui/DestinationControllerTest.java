@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testfx.matcher.control.LabeledMatchers;
@@ -57,6 +58,7 @@ public class DestinationControllerTest extends ApplicationTest {
     private ListView<String> activitiesListView;
     private TextField newActivityTextField;
     private Button addActivity;
+    private Button removeActivity;
 
     private TextField commentTextField;
     private Button updateComment;
@@ -76,7 +78,11 @@ public class DestinationControllerTest extends ApplicationTest {
     public void start(Stage stage) throws IOException {
 
         destinationList = new DestinationList();
-        destinationList.addDestination(new Destination("Spain", null, null, null, null));
+
+        List<String> spainActivities = new ArrayList<>();
+        spainActivities.add("Eat paella");
+
+        destinationList.addDestination(new Destination("Spain", null, null, spainActivities, null));
 
         traveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
@@ -100,6 +106,7 @@ public class DestinationControllerTest extends ApplicationTest {
         activitiesListView = lookup("#activitiesListView").query();
         newActivityTextField = lookup("#newActivityTextField").query();
         addActivity = lookup("#addActivityButton").query();
+        removeActivity = lookup("#removeActivityButton").query();
 
         commentTextField = lookup("#commentTextField").query();
         updateComment = lookup("#updateButton").query();
@@ -149,6 +156,22 @@ public class DestinationControllerTest extends ApplicationTest {
         activitiesListView = lookup("#activitiesListView").query();
 
         assertEquals(activities, activitiesListView.getItems());
+    }
+
+    /**
+     * Tests if you can remove activities from current destination
+     */
+    @Test
+    public void testRemoveActivity(){
+        List<String> spainActivities = new ArrayList<>();
+        spainActivities.add("Eat paella");
+        assertEquals(spainActivities, activitiesListView.getItems());
+
+        clickOn("Eat paella");
+        clickOn(removeActivity);
+
+        assertNotEquals(spainActivities, activitiesListView.getItems());
+        assertEquals(new ArrayList<>(), activitiesListView.getItems());
     }
 
     /**

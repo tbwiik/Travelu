@@ -143,6 +143,19 @@ public class Destination {
     }
 
     /**
+     * 
+     * @param activity the activity we want to remove
+     * @throws IllegalArgumentException if activity is not in list
+     */
+    public void removeActivity(String activity) throws IllegalArgumentException{
+        if(!getActivities().contains(activity)){
+            throw new IllegalArgumentException("Activity is not in activity list");
+        }
+        
+        activities.remove(activity);
+    }
+
+    /**
      * @return additional comment about the visit
      */
     public String getComment() {

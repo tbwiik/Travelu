@@ -89,12 +89,17 @@
       </AnchorPane>
       <AnchorPane prefHeight="230.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <ListView fx:id="activitiesListView" layoutX="244.0" layoutY="63.0" prefHeight="178.0" prefWidth="754.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="63.0" />
-            <Label layoutX="324.0" layoutY="14.0" text="Activities">
+            <ListView fx:id="activitiesListView" layoutY="63.0" prefHeight="188.0" prefWidth="654.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="63.0" />
+            <Label layoutX="274.0" layoutY="14.0" text="Activities">
                <font>
                   <Font size="27.0" />
                </font>
             </Label>
+            <Button fx:id="removeActivityButton" layoutX="659.0" layoutY="207.0" mnemonicParsing="false" onAction="#handleRemoveActivity" prefHeight="25.0" prefWidth="89.0" text="Remove">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="141.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
