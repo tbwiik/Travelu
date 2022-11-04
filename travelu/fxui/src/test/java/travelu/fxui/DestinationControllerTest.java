@@ -3,6 +3,7 @@ package travelu.fxui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,6 +54,7 @@ public class DestinationControllerTest extends ApplicationTest {
     private Button setDepartureDate;
     private Label arrivalDateLabel;
     private Label departureDateLabel;
+    private Label feedBackLabel;
 
     private ListView<String> activitiesListView;
     private TextField newActivityTextField;
@@ -107,6 +109,8 @@ public class DestinationControllerTest extends ApplicationTest {
         arrivalDateLabel = lookup("#arrivalDateLabel").query();
         departureDateLabel = lookup("#departureDateLabel").query();
 
+        feedBackLabel = lookup("#departureDateLabel").query();
+
     }
 
     /**
@@ -115,55 +119,80 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testDatePicker() {
 
-        String startDate = "5/2/2021";
-        String endDate = "8/2/2021";
-        String errorDate = "10/10/2030";
+        // dates in format MM/dd/yyyy
+        String arrivalDate = "10/12/2021";
+        String departureDate = "10/19/2021";
+        String invalidDate = "13/11/2021";
 
-        clickOn(arrivalDatePicker).write(startDate);
-        assertNotEquals(startDate, arrivalDateLabel.getText());
+        String arrivalDateAfterDepartureDate = "10/20/2021";
+        String departureDateBeforeArrivalDate = "10/11/2021";
+
+        clickOn(arrivalDatePicker).write(arrivalDate);
+        assertNotEquals(arrivalDate, arrivalDateLabel.getText());
         clickOn(setArrivalDate);
-        assertNotEquals(errorDate, arrivalDateLabel.getText());
-        // assertEquals(startDate, arrivalDateLabel.getText());
+        // assertNotEquals(errorDate, arrivalDateLabel.getText());
 
-        clickOn(departureDatePicker).write(endDate);
-        assertNotEquals(endDate, departureDateLabel.getText());
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+
+        clickOn(departureDatePicker).write(departureDate);
+        assertNotEquals(departureDate, departureDateLabel.getText());
         clickOn(setDepartureDate);
-        assertNotEquals(errorDate, departureDateLabel.getText());
+
+        assertEquals(departureDate, departureDateLabel.getText());
+
+        clickOn(arrivalDatePicker).eraseText(arrivalDateLabel.getText().length())
+                .write(invalidDate);
+        clickOn(setArrivalDate);
+        assertThrows(java.lang.RuntimeException.class, () -> clickOn(setArrivalDate));
+
+        assertNotEquals(invalidDate, arrivalDateLabel.getText());
+
+        clickOn(arrivalDatePicker).eraseText(arrivalDateLabel.getText().length())
+                .write(arrivalDateAfterDepartureDate);
+        clickOn(setArrivalDate);
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+
+        clickOn(departureDatePicker).eraseText(arrivalDateLabel.getText().length())
+                .write(departureDateBeforeArrivalDate);
+        clickOn(setDepartureDate);
+        assertEquals(departureDate, departureDateLabel.getText());
 
         assertNotNull(destinationController.getDestinationDateInterval());
 
     }
 
-    /**
-     * Tests if you can add activity to current destination
-     */
-    @Test
-    public void testAddActivity() {
+    // /**
+    // * Tests if you can add activity to current destination
+    // */
+    // @Test
+    // public void testAddActivity() {
 
-        clickOn(newActivityTextField).write("Take flamenco lessons");
-        clickOn(addActivity);
+    // clickOn(newActivityTextField).write("Take flamenco lessons");
+    // clickOn(addActivity);
 
-        assertNotEquals(activities, activitiesListView.getItems());
+    // assertNotEquals(activities, activitiesListView.getItems());
 
-        activities.add("Take flamenco lessons");
-        activitiesListView = lookup("#activitiesListView").query();
+    // activities.add("Take flamenco lessons");
+    // activitiesListView = lookup("#activitiesListView").query();
 
-        assertEquals(activities, activitiesListView.getItems());
-    }
+    // assertEquals(activities, activitiesListView.getItems());
+    // }
 
-    /**
-     * Tests if you can write comment to current destination
-     */
-    @Test
-    public void testWriteComment() {
+    // /**
+    // * Tests if you can write comment to current destination
+    // */
+    // @Test
+    // public void testWriteComment() {
 
-        clickOn(commentTextField).write(
-                "I traveled to Spain with my family and we visited restaurants every day");
+    // clickOn(commentTextField).write(
+    // "I traveled to Spain with my family and we visited restaurants every day");
 
-        assertNotEquals(commentTextField.getText(), destinationController.getDestinationComment());
-        clickOn(updateComment);
+    // assertNotEquals(commentTextField.getText(),
+    // destinationController.getDestinationComment());
+    // clickOn(updateComment);
 
-        assertEquals(commentTextField.getText(), destinationController.getDestinationComment());
-    }
+    // assertEquals(commentTextField.getText(),
+    // destinationController.getDestinationComment());
+    // }
 
 }
