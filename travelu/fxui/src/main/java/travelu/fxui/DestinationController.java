@@ -158,11 +158,6 @@ public class DestinationController {
         traveluHandler.writeJSON(this.destinationList, destinationListFile);
     }
 
-    @FXML
-    private void handleSelectFile() {
-
-    }
-
     /**
      * Changes comment, and writes this to file
      */
