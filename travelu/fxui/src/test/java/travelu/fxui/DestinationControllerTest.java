@@ -202,6 +202,10 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals(commentTextField.getText(), destinationController.getDestinationComment());
     }
 
+    /**
+     * Test if you the correct number of stars are filled
+     * Test if destination rating is updated correctly
+     */
     @Test
     public void testRating() {
 
