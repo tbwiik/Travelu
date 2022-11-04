@@ -109,7 +109,7 @@ public class DestinationControllerTest extends ApplicationTest {
         arrivalDateLabel = lookup("#arrivalDateLabel").query();
         departureDateLabel = lookup("#departureDateLabel").query();
 
-        feedBackLabel = lookup("#departureDateLabel").query();
+        feedBackLabel = lookup("#dateUpdatedFeedbackLabel").query();
 
     }
 
@@ -124,13 +124,12 @@ public class DestinationControllerTest extends ApplicationTest {
         String departureDate = "10/19/2021";
         String invalidDate = "13/11/2021";
 
-        String arrivalDateAfterDepartureDate = "10/20/2021";
+        String arrivalDateAfterDepartureDate = "10/21/2021";
         String departureDateBeforeArrivalDate = "10/11/2021";
 
         clickOn(arrivalDatePicker).write(arrivalDate);
         assertNotEquals(arrivalDate, arrivalDateLabel.getText());
         clickOn(setArrivalDate);
-        // assertNotEquals(errorDate, arrivalDateLabel.getText());
 
         assertEquals(arrivalDate, arrivalDateLabel.getText());
 
@@ -146,16 +145,33 @@ public class DestinationControllerTest extends ApplicationTest {
         assertThrows(java.lang.RuntimeException.class, () -> clickOn(setArrivalDate));
 
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
+        assertEquals("Invalid arrival date.", feedBackLabel.getText());
+
+        clickOn(departureDatePicker).eraseText(departureDateLabel.getText().length())
+                .write(invalidDate);
+        clickOn(setDepartureDate);
+        assertThrows(java.lang.RuntimeException.class, () -> clickOn(setDepartureDate));
+
+        assertNotEquals(invalidDate, arrivalDateLabel.getText());
+        assertEquals("Invalid departure date.", feedBackLabel.getText());
 
         clickOn(arrivalDatePicker).eraseText(arrivalDateLabel.getText().length())
                 .write(arrivalDateAfterDepartureDate);
         clickOn(setArrivalDate);
         assertEquals(arrivalDate, arrivalDateLabel.getText());
+        assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
+
+        clickOn(arrivalDatePicker).eraseText(arrivalDateLabel.getText().length())
+                .write(arrivalDate);
+        clickOn(setArrivalDate);
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+        assertEquals("", feedBackLabel.getText());
 
         clickOn(departureDatePicker).eraseText(arrivalDateLabel.getText().length())
                 .write(departureDateBeforeArrivalDate);
         clickOn(setDepartureDate);
         assertEquals(departureDate, departureDateLabel.getText());
+        assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
 
         assertNotNull(destinationController.getDestinationDateInterval());
 
