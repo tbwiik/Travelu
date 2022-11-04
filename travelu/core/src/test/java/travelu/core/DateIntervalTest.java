@@ -1,8 +1,8 @@
 package travelu.core;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * Tests for DateInterval class
  */
 public class DateIntervalTest {
-    
+
     private DateInterval dateInterval1;
     private DateInterval dateInterval2;
     private DateInterval empytInterval;
@@ -24,8 +24,8 @@ public class DateIntervalTest {
      */
     @BeforeEach
     public void setup() {
-        dateInterval1 = new DateInterval(31, 12, 1999, 01, 01, 2000);
-        dateInterval2 = new DateInterval(new int[] {31,12,1999}, new int[]{01,01,2000});
+        dateInterval1 = new DateInterval();
+        dateInterval2 = new DateInterval();
         empytInterval = null;
     }
 
@@ -43,21 +43,38 @@ public class DateIntervalTest {
     @Test
     public void testStartAndEndDates() {
 
-        assertEquals(Arrays.toString(dateInterval1.getStartDate()), Arrays.toString(dateInterval2.getStartDate()));
+        assertNull(dateInterval1.getArrivalDate());
+        assertNull(dateInterval1.getDepartureDate());
 
-        assertEquals("[31, 12, 1999]", Arrays.toString(dateInterval1.getStartDate()));
-        assertNotEquals("[30, 11, 2021]", Arrays.toString(dateInterval1.getStartDate()));
+        dateInterval1.setArrivalDate("01/01/2019");
+        assertEquals("01/01/2019", dateInterval1.getArrivalDate());
 
-        dateInterval1.setStartDate(new int[]{20,01,2000});
-        assertNotEquals("[31, 12, 1999]", Arrays.toString(dateInterval1.getStartDate()));
-        assertEquals("[20, 1, 2000]", Arrays.toString(dateInterval1.getStartDate()));
+        dateInterval1.setDepartureDate("01/04/2019");
+        assertEquals("01/04/2019", dateInterval1.getDepartureDate());
 
-        
-        assertEquals(Arrays.toString(dateInterval1.getEndDate()), Arrays.toString(dateInterval2.getEndDate()));
-        assertEquals("[1, 1, 2000]", Arrays.toString(dateInterval2.getEndDate()));
+        dateInterval2.setArrivalDate("01/01/2019");
+        assertEquals("01/01/2019", dateInterval2.getArrivalDate());
 
-        dateInterval2.setEndDate(new int[]{31,02,2000});
-        assertEquals("[31, 2, 2000]", Arrays.toString(dateInterval2.getEndDate()));
+        dateInterval2.setDepartureDate("01/04/2019");
+        assertEquals("01/04/2019", dateInterval2.getDepartureDate());
+
+        // check if date interval stays unchanged on invalid date input
+        assertThrows(IllegalArgumentException.class, () -> dateInterval1.setArrivalDate("15/02/2019"));
+        assertEquals("01/01/2019", dateInterval1.getArrivalDate());
+
+        assertThrows(IllegalArgumentException.class, () -> dateInterval2.setDepartureDate("01/32/2019"));
+        assertEquals("01/04/2019", dateInterval2.getDepartureDate());
+
+        // check if date interval stays unchanged when arrival date is after departure
+        // date
+        assertThrows(IllegalArgumentException.class, () -> dateInterval1.setArrivalDate("01/01/2022"));
+        assertEquals("01/01/2019", dateInterval1.getArrivalDate());
+
+        // check if date interval stays unchanged when departure date is before arrival
+        // date
+        assertThrows(IllegalArgumentException.class, () -> dateInterval2.setDepartureDate("01/01/2018"));
+        assertEquals("01/04/2019", dateInterval2.getDepartureDate());
+
     }
 
 }
