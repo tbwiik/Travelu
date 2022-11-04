@@ -125,7 +125,7 @@ public class DestinationControllerTest extends ApplicationTest {
         String invalidDate = "13/11/2021";
 
         String arrivalDateAfterDepartureDate = "10/21/2021";
-        String departureDateBeforeArrivalDate = "10/1/2021";
+        String departureDateBeforeArrivalDate = "1/10/2021";
 
         clickOn(arrivalDatePicker).write(arrivalDate);
         assertNotEquals(arrivalDate, arrivalDateLabel.getText());
