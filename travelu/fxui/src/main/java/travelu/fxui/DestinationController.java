@@ -325,6 +325,10 @@ public class DestinationController {
         return currentDestination.getDateInterval();
     }
 
+    public int getDestinationRating() {
+        return currentDestination.getRating();
+    }
+
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
         destinationListFile = "testDestinationList.json";
