@@ -10,7 +10,7 @@ public class Destination {
 
     private String name;
     private DateInterval dateInterval;
-    private Integer rating;
+    private int rating;
     private List<String> activities;
     private String comment;
 
@@ -23,7 +23,7 @@ public class Destination {
      * @param activities you did during your visit
      * @param comment    with other relevant info
      */
-    public Destination(String name, DateInterval dateInterval, Integer rating, List<String> activities,
+    public Destination(String name, DateInterval dateInterval, int rating, List<String> activities,
             String comment) {
         this.name = name;
 
@@ -115,7 +115,7 @@ public class Destination {
     /**
      * @param rating on a scale of 1-5
      */
-    public void setRating(Integer rating) {
+    public void setRating(int rating) {
         if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5");
         }
