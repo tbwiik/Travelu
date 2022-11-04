@@ -82,7 +82,7 @@ public class DestinationControllerTest extends ApplicationTest {
         List<String> spainActivities = new ArrayList<>();
         spainActivities.add("Eat paella");
 
-        destinationList.addDestination(new Destination("Spain", null, null, spainActivities, null));
+        destinationList.addDestination(new Destination("Spain", null, 0, spainActivities, null));
 
         traveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
