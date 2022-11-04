@@ -2,6 +2,7 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import travelu.core.DateInterval;
@@ -15,6 +16,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
 
@@ -56,6 +58,21 @@ public class DestinationController {
     Label commentUpdatedFeedbackLabel;
 
     @FXML
+    SVGPath star1;
+
+    @FXML
+    SVGPath star2;
+
+    @FXML
+    SVGPath star3;
+
+    @FXML
+    SVGPath star4;
+
+    @FXML
+    SVGPath star5;
+
+    @FXML
     private void initialize() throws FileNotFoundException, IOException {
 
         destinationListFile = "DestinationList.json";
@@ -64,6 +81,8 @@ public class DestinationController {
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
 
         this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+
+        colorStars(this.currentDestination.getRating());
 
         destinationLabel.setText(currentDestinationName);
 
@@ -79,7 +98,7 @@ public class DestinationController {
      * Sets up listener for changing selected activity in activitiesListView
      */
     @FXML
-    private void setupListView(){
+    private void setupListView() {
         // make currentDestination the selected list-view item
         activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
@@ -89,7 +108,6 @@ public class DestinationController {
             }
         });
     }
-
 
     /**
      * Updates view of activity list
@@ -109,7 +127,8 @@ public class DestinationController {
     private void handleReturnButton() throws IOException {
         App.setRoot("destinationList");
     }
-//TODO: Is throws IOException really needed here? Same for remove activity
+
+    // TODO: Is throws IOException really needed here? Same for remove activity
     /**
      * Adds activity to the list of activities, and updates activitiesListView
      * 
@@ -138,12 +157,14 @@ public class DestinationController {
      * Removes activity from list of activities, and updates activitiesListView
      */
     @FXML
-    private void handleRemoveActivity(){
-        if(currentActivity != null){
+    private void handleRemoveActivity() {
+        if (currentActivity != null) {
             currentDestination.removeActivity(currentActivity);
             updateListView();
-            try{writeChanges();}
-            catch(Exception e){}
+            try {
+                writeChanges();
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -160,7 +181,77 @@ public class DestinationController {
 
     @FXML
     private void handleSelectFile() {
+    }
 
+    @FXML
+    private void handleStar1() {
+        handleStar(1);
+    }
+
+    @FXML
+    private void handleStar2() {
+        handleStar(2);
+    }
+
+    @FXML
+    private void handleStar3() {
+        handleStar(3);
+    }
+
+    @FXML
+    private void handleStar4() {
+        handleStar(4);
+    }
+
+    @FXML
+    private void handleStar5() {
+        handleStar(5);
+    }
+
+    private void handleStar(int starNumber) {
+
+        currentDestination.setRating(starNumber);
+
+        colorStars(starNumber);
+
+        try {
+            writeChanges();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void colorStars(int starNumber) {
+
+        if (starNumber >= 1) {
+            star1.setStyle("-fx-fill: #FFD700");
+        } else {
+            star1.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 2) {
+            star2.setStyle("-fx-fill: #FFD700");
+        } else {
+            star2.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 3) {
+            star3.setStyle("-fx-fill: #FFD700");
+        } else {
+            star3.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 4) {
+            star4.setStyle("-fx-fill: #FFD700");
+        } else {
+            star4.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 5) {
+            star5.setStyle("-fx-fill: #FFD700");
+        } else {
+            star5.setStyle("-fx-fill: #FFFFFF");
+        }
     }
 
     /**
@@ -245,6 +336,8 @@ public class DestinationController {
         this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
 
         destinationLabel.setText(currentDestinationName);
+
+        colorStars(this.currentDestination.getRating());
 
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
