@@ -71,7 +71,7 @@ public class DateInterval {
  * @throws IllegalArgumentException - If the date pair is invalid
  */
 private void checkDatePair(String arrivalDate, String departureDate) throws IllegalArgumentException {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/y");
     boolean arrivalValid = isValidDate(arrivalDate, formatter);
     boolean departureValid = isValidDate(departureDate, formatter);
 
