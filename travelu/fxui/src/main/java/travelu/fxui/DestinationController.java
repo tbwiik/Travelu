@@ -183,6 +183,9 @@ public class DestinationController {
     private void handleSelectFile() {
     }
 
+    /**
+     * call method update star with parameter 1 based on which star clicked
+     */
     @FXML
     private void handleStar1() {
         handleStar(1);
@@ -208,6 +211,10 @@ public class DestinationController {
         handleStar(5);
     }
 
+    /**
+     * Set rating of current destination to starNumber, and update stars
+     * @param starNumber
+     */
     private void handleStar(int starNumber) {
 
         currentDestination.setRating(starNumber);
@@ -221,6 +228,10 @@ public class DestinationController {
         }
     }
 
+    /**
+     * Color starNumber stars yellow, and the rest of the stars white
+     * @param rating
+     */
     private void colorStars(int starNumber) {
 
         if (starNumber >= 1) {
