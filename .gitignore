@@ -17,3 +17,6 @@ hs_err_pid*
 
 # Target
 target/
+
+# Unneccessary json files used in testing
+test*.json
