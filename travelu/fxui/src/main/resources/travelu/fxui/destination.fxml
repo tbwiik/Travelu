@@ -23,7 +23,7 @@
       <RowConstraints maxHeight="191.0" minHeight="0.0" prefHeight="104.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="458.0" minHeight="0.0" prefHeight="239.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="495.0" minHeight="10.0" prefHeight="244.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="495.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="495.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="495.0" minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
@@ -137,7 +137,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="141.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <AnchorPane prefHeight="87.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <children>
             <TextField fx:id="newActivityTextField" layoutX="18.0" layoutY="47.0" prefHeight="31.0" prefWidth="606.0" />
             <Label layoutX="18.0" layoutY="14.0" text="Add a new activity">
@@ -146,16 +146,6 @@
                </font>
             </Label>
             <Button fx:id="addActivityButton" layoutX="636.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAddActivity" prefHeight="25.0" prefWidth="89.0" text="Add">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Label fx:id="changeImageButton" layoutX="18.0" layoutY="95.0" prefHeight="31.0" prefWidth="206.0" text="Change displayed image">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-            <Button fx:id="selectFileButton" layoutX="231.0" layoutY="97.0" mnemonicParsing="false" onAction="#handleSelectFile" prefHeight="25.0" prefWidth="89.0" text="Select file">
                <font>
                   <Font size="15.0" />
                </font>
