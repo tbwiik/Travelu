@@ -2,10 +2,8 @@ package travelu.fxui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import org.testfx.matcher.control.LabeledMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 import travelu.core.Destination;
