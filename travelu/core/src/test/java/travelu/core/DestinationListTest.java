@@ -23,7 +23,7 @@ public class DestinationListTest {
     private Destination norway;
     private String name;
     private DateInterval dateInterval;
-    private Integer rating;
+    private int rating;
     private List<String> activities;
     private String comment;
 

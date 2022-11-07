@@ -18,7 +18,7 @@ public class DestinationTest {
     private Destination destination;
     private String name, comment;
     private DateInterval dateInterval;
-    private Integer rating;
+    private int rating;
     private List<String> activities = new ArrayList<>();
 
     /**
