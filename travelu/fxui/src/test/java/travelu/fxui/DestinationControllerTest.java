@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testfx.matcher.control.LabeledMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -17,12 +16,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.SVGPath;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -166,7 +163,6 @@ public class DestinationControllerTest extends ApplicationTest {
         assertNotEquals(activities, activitiesListView.getItems());
 
         activities.add("Take flamenco lessons");
-        activitiesListView = lookup("#activitiesListView").query();
 
         assertEquals(activities, activitiesListView.getItems());
     }
