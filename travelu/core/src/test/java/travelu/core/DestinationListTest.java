@@ -23,7 +23,7 @@ public class DestinationListTest {
     private Destination norway;
     private String name;
     private DateInterval dateInterval;
-    private Integer ranking;
+    private int rating;
     private List<String> activities;
     private String comment;
 
@@ -40,12 +40,12 @@ public class DestinationListTest {
         newDestinations = new ArrayList<>();
 
         name = "Norway";
-        dateInterval = new DateInterval(new int[]{31,12,1999}, new int[]{10,01,2000});
-        ranking = 2;
+        dateInterval = new DateInterval(new int[] { 31, 12, 1999 }, new int[] { 10, 01, 2000 });
+        rating = 2;
         activities = new ArrayList<>();
         comment = null;
 
-        norway = new Destination(name, dateInterval, ranking, activities, comment);
+        norway = new Destination(name, dateInterval, rating, activities, comment);
         buenosAires = new Destination("Buenos Aires", null, 2, null, null);
 
         newDestinations.add(new Destination("Spain", null, 4, null, null));
@@ -62,15 +62,18 @@ public class DestinationListTest {
     /**
      * Compares two destination objects, and check if copy works as expected
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the name of Destination doesn't exist or is null
+     * Checks if IllegalArgumentException gets thrown if the name of Destination
+     * doesn't exist or is null
      */
     @Test
     public void testGetDestinationCopyByName() {
 
         assertEquals(norway.getName(), name);
-        assertEquals(Arrays.toString(norway.getDateInterval().getStartDate()), Arrays.toString(dateInterval.getStartDate()));
-        assertEquals(Arrays.toString(norway.getDateInterval().getEndDate()), Arrays.toString(dateInterval.getEndDate()));
-        assertEquals(norway.getRanking(), ranking);
+        assertEquals(Arrays.toString(norway.getDateInterval().getStartDate()),
+                Arrays.toString(dateInterval.getStartDate()));
+        assertEquals(Arrays.toString(norway.getDateInterval().getEndDate()),
+                Arrays.toString(dateInterval.getEndDate()));
+        assertEquals(norway.getRating(), rating);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
 
@@ -80,7 +83,8 @@ public class DestinationListTest {
     }
 
     /**
-     * Tests if expectedNames is equal to destinationList using getDestinationNames()
+     * Tests if expectedNames is equal to destinationList using
+     * getDestinationNames()
      */
     @Test
     public void testGetDestinationNames() {
@@ -110,7 +114,8 @@ public class DestinationListTest {
     /**
      * Tests if given destination exists in DestinationList
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the given destination doesn't exist
+     * Checks if IllegalArgumentException gets thrown if the given destination
+     * doesn't exist
      */
     @Test
     public void testContainsDestination() {
@@ -148,7 +153,8 @@ public class DestinationListTest {
     /**
      * Tests if removeDestination removes destination
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the destination doesn't exist or is null
+     * Checks if IllegalArgumentException gets thrown if the destination doesn't
+     * exist or is null
      */
     @Test
     public void testRemoveDestination() {
