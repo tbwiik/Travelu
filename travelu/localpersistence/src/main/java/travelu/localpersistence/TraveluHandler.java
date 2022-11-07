@@ -1,4 +1,4 @@
-package travelu.fxutil;
+package travelu.localpersistence;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,13 +19,13 @@ import com.google.gson.GsonBuilder;
  * Handles file reading and writing
  */
 public class TraveluHandler {
-    
+
     /**
      * @param filename
-     * @return the filepath for the given filename 
+     * @return the filepath for the given filename
      */
     private static String getFilePath(String filename) {
-        Path path = Paths.get("../fxutil/src/main/resources/travelu/fxutil/data");
+        Path path = Paths.get("../localpersistence/src/main/resources/travelu/localpersistence/data");
         return (path.toAbsolutePath() + "/" + filename);
     }
 

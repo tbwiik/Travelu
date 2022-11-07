@@ -7,7 +7,7 @@ import java.util.List;
 
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;

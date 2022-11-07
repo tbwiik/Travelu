@@ -8,7 +8,7 @@ import java.util.List;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -213,6 +213,7 @@ public class DestinationController {
 
     /**
      * Set rating of current destination to starNumber, and update stars
+     * 
      * @param starNumber
      */
     private void handleStar(int starNumber) {
@@ -230,6 +231,7 @@ public class DestinationController {
 
     /**
      * Color starNumber stars yellow, and the rest of the stars white
+     * 
      * @param rating
      */
     private void colorStars(int starNumber) {

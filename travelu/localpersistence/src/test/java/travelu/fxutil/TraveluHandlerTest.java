@@ -1,4 +1,4 @@
-package travelu.fxutil;
+package travelu.localpersistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -23,7 +23,7 @@ public class TraveluHandlerTest {
     private Destination sweden;
     private Destination sanMarino;
     private Destination portugal;
-    private DateInterval dateInterval = new DateInterval(new int[]{01,01,2021}, new int[]{14,02,2021});
+    private DateInterval dateInterval = new DateInterval(new int[] { 01, 01, 2021 }, new int[] { 14, 02, 2021 });
     private TraveluHandler traveluHandler = new TraveluHandler();
 
     /**
@@ -42,9 +42,11 @@ public class TraveluHandlerTest {
     }
 
     /**
-     * Tests if JSON file is equal to DestinationList, and if it is still equal despite adding new Destination objects
+     * Tests if JSON file is equal to DestinationList, and if it is still equal
+     * despite adding new Destination objects
      * <p>
      * Checks if FileNotFoundException gets thrown if file doesn't exist
+     * 
      * @throws IOException
      */
     @Test
@@ -67,7 +69,9 @@ public class TraveluHandlerTest {
     }
 
     /**
-     * Tests if JSON file is equal to DestinationList when removing Destination objects
+     * Tests if JSON file is equal to DestinationList when removing Destination
+     * objects
+     * 
      * @throws IOException
      */
     @Test

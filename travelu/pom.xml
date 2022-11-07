@@ -182,7 +182,7 @@
     <modules>
         <module>core</module>
         <module>fxui</module>
-        <module>fxutil</module>
+        <module>localpersistence</module>
     </modules>
 
 
