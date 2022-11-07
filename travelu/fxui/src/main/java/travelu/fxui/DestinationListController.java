@@ -75,7 +75,8 @@ public class DestinationListController {
 
                 if (click.getClickCount() == 2) {
 
-                    // switch to currentDestination page on double-click if a destination was clicked
+                    // switch to currentDestination page on double-click if a destination was
+                    // clicked
                     if (!currentDestination.equals("null")) {
                         try {
                             switchToDestination(currentDestination);
@@ -114,6 +115,7 @@ public class DestinationListController {
     public void handleAddDestination() throws IOException {
 
         String newDestinationName = destinationText.getText().trim();
+
         if (newDestinationName.isBlank()) {
             // if user didn't input any text
             // remove any feedback given and do nothing
@@ -122,6 +124,9 @@ public class DestinationListController {
             // if the input text matches any of the already registrations
             // give feedback
             feedbackText.setText("You have already registered this destination");
+        } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
+            // if the input text contains anything but letters, spaces and dashes
+            feedbackText.setText("Destination name must contain only letters, spaces and dashes");
         } else {
             // if everything is ok with the input
             // create new destination with input as name
