@@ -87,7 +87,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         @Test
         public void testAdd() {
 
-                destinationList.addDestination(new Destination("Place", null, null, null,
+                destinationList.addDestination(new Destination("Place", null, 0, null,
                                 null));
 
                 clickOn(destinationText).write("Place");

@@ -17,6 +17,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.SVGPath;
 
 import org.junit.jupiter.api.BeforeAll;
 
@@ -60,6 +61,12 @@ public class DestinationControllerTest extends ApplicationTest {
     private TextField commentTextField;
     private Button updateComment;
 
+    private SVGPath star1;
+    private SVGPath star2;
+    private SVGPath star3;
+    private SVGPath star4;
+    private SVGPath star5;
+
     /**
      * Enables headless-testing
      */
@@ -79,7 +86,7 @@ public class DestinationControllerTest extends ApplicationTest {
         List<String> spainActivities = new ArrayList<>();
         spainActivities.add("Eat paella");
 
-        destinationList.addDestination(new Destination("Spain", null, null, spainActivities, null));
+        destinationList.addDestination(new Destination("Spain", null, 0, spainActivities, null));
 
         traveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
@@ -110,6 +117,12 @@ public class DestinationControllerTest extends ApplicationTest {
 
         arrivalDateLabel = lookup("#arrivalDateLabel").query();
         departureDateLabel = lookup("#departureDateLabel").query();
+
+        star1 = lookup("#star1").query();
+        star2 = lookup("#star2").query();
+        star3 = lookup("#star3").query();
+        star4 = lookup("#star4").query();
+        star5 = lookup("#star5").query();
 
     }
 
@@ -158,7 +171,7 @@ public class DestinationControllerTest extends ApplicationTest {
      * Tests if you can remove activities from current destination
      */
     @Test
-    public void testRemoveActivity(){
+    public void testRemoveActivity() {
         List<String> spainActivities = new ArrayList<>();
         spainActivities.add("Eat paella");
         assertEquals(spainActivities, activitiesListView.getItems());
@@ -183,6 +196,71 @@ public class DestinationControllerTest extends ApplicationTest {
         clickOn(updateComment);
 
         assertEquals(commentTextField.getText(), destinationController.getDestinationComment());
+    }
+
+    /**
+     * Test if you the correct number of stars are filled
+     * Test if destination rating is updated correctly
+     */
+    @Test
+    public void testRating() {
+
+        assertEquals("-fx-fill: #FFFFFF", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        assertEquals(0, destinationController.getDestinationRating());
+
+        clickOn(star1);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(1, destinationController.getDestinationRating());
+
+        clickOn(star2);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(2, destinationController.getDestinationRating());
+
+        clickOn(star3);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(3, destinationController.getDestinationRating());
+
+        clickOn(star4);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(4, destinationController.getDestinationRating());
+
+        clickOn(star5);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFD700", star5.getStyle());
+        assertEquals(5, destinationController.getDestinationRating());
+
+        clickOn(star2);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(2, destinationController.getDestinationRating());
+
     }
 
 }

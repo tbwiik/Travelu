@@ -18,7 +18,7 @@ public class DestinationTest {
     private Destination destination;
     private String name, comment;
     private DateInterval dateInterval;
-    private Integer ranking;
+    private int rating;
     private List<String> activities = new ArrayList<>();
 
     /**
@@ -28,7 +28,7 @@ public class DestinationTest {
     public void setUp() {
         name = "Sweden";
         dateInterval = new DateInterval(17, 11, 2021, 13, 12, 2021);
-        ranking = 3;
+        rating = 3;
 
         activities.add("Skiing");
         activities.add("Circus");
@@ -36,7 +36,7 @@ public class DestinationTest {
 
         comment = "Nice and cozy, but somewhat expensive dinner...";
 
-        destination = new Destination(name, dateInterval, ranking, activities, comment);
+        destination = new Destination(name, dateInterval, rating, activities, comment);
     }
 
     /**
@@ -45,8 +45,10 @@ public class DestinationTest {
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
-        assertEquals(Arrays.toString(dateInterval.getStartDate()), Arrays.toString(destination.getDateInterval().getStartDate()));
-        assertEquals(Arrays.toString(dateInterval.getEndDate()), Arrays.toString(destination.getDateInterval().getEndDate()));
+        assertEquals(Arrays.toString(dateInterval.getStartDate()),
+                Arrays.toString(destination.getDateInterval().getStartDate()));
+        assertEquals(Arrays.toString(dateInterval.getEndDate()),
+                Arrays.toString(destination.getDateInterval().getEndDate()));
         assertEquals(activities, destination.getActivities());
         assertEquals(comment, destination.getComment());
     }
@@ -98,7 +100,6 @@ public class DestinationTest {
         assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("Fake activity"));
         // removeActivity is case sensitive
         assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("circus"));
-
 
         // Tests for removing all elements in activities
         destination.removeActivity("Circus");
