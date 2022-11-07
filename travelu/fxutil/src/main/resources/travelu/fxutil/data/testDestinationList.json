@@ -1,55 +1,15 @@
 {
   "destinations": [
     {
-      "name": "Sweden",
-      "dateInterval": {
-        "startDate": [
-          1,
-          1,
-          2021
-        ],
-        "endDate": [
-          14,
-          2,
-          2021
-        ]
-      },
+      "name": "Spain",
+      "dateInterval": null,
       "ranking": 2,
       "activities": [],
       "comment": null
     },
     {
-      "name": "San Marino",
-      "dateInterval": {
-        "startDate": [
-          1,
-          1,
-          2021
-        ],
-        "endDate": [
-          14,
-          2,
-          2021
-        ]
-      },
-      "ranking": 2,
-      "activities": [],
-      "comment": null
-    },
-    {
-      "name": "Portugal",
-      "dateInterval": {
-        "startDate": [
-          1,
-          1,
-          2021
-        ],
-        "endDate": [
-          14,
-          2,
-          2021
-        ]
-      },
+      "name": "Turkey",
+      "dateInterval": null,
       "ranking": 3,
       "activities": [],
       "comment": null

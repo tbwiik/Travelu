@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -39,7 +40,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         private TraveluHandler traveluHandler = new TraveluHandler();
 
-        private TextArea textArea;
+        private TextArea destinationText;
+        private Button addButton;
+        private Button removeButton;
 
         /**
          * Enables headless testing
@@ -51,7 +54,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         @BeforeEach
         private void start() {
-                textArea = lookup("#destinationText").query();
+                destinationText = lookup("#destinationText").query();
+                addButton = lookup("#addButton").query();
+                removeButton = lookup("#removeButton").query();
         }
 
         /**
@@ -70,7 +75,6 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 traveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
-                System.out.println("Run testmethod");
                 FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("destinationList.fxml"));
                 root = fxmlLoader.load();
                 destinationListController = fxmlLoader.getController();
@@ -89,12 +93,12 @@ public class DestinationListControllerTest extends ApplicationTest {
                 destinationList.addDestination(new Destination("Place", null, null, null,
                                 null));
 
-                clickOn(textArea).write("Place");
+                clickOn(destinationText).write("Place");
 
                 assertNotEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
 
-                clickOn("Add");
+                clickOn(addButton);
 
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
@@ -111,7 +115,7 @@ public class DestinationListControllerTest extends ApplicationTest {
                                 destinationListController.getDestinationListNames());
 
                 clickOn("Greece");
-                clickOn("Remove");
+                clickOn(removeButton);
 
                 assertNotEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
