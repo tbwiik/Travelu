@@ -69,10 +69,13 @@ public class DestinationListController {
             @Override
             public void handle(MouseEvent click) {
 
+                // set currentDestination to the selected item from input on format
+                // objectinformation'DestinationName'
                 currentDestination = click.getTarget().toString().split("'")[1];
 
                 if (click.getClickCount() == 2) {
 
+                    // switch to currentDestination page on double-click if a destination was clicked
                     if (!currentDestination.equals("null")) {
                         try {
                             switchToDestination(currentDestination);
