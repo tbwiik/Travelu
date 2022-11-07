@@ -62,27 +62,24 @@ public class DestinationListController {
         listView.getItems()
                 .addAll(destinationList.getDestinationNames());
 
-        // make currentDestination the selected list-view item
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentDestination = listView.getSelectionModel().selectedItemProperty().getValue();
-            }
-        });
-
+        // make click select currentDestination
         // make double-click on list-view item take you to page with currentDestination
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent click) {
 
+                currentDestination = click.getTarget().toString().split("'")[1];
+
                 if (click.getClickCount() == 2) {
-                    try {
-                        switchToDestination(currentDestination);
-                    } catch (IOException e) {
-                        feedbackText.setText("Could not find " + currentDestination);
-                        e.printStackTrace();
+
+                    if (!currentDestination.equals("null")) {
+                        try {
+                            switchToDestination(currentDestination);
+                        } catch (IOException e) {
+                            feedbackText.setText("Could not find " + currentDestination);
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
