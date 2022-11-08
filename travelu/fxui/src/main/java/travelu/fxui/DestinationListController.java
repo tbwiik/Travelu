@@ -62,27 +62,28 @@ public class DestinationListController {
         listView.getItems()
                 .addAll(destinationList.getDestinationNames());
 
-        // make currentDestination the selected list-view item
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentDestination = listView.getSelectionModel().selectedItemProperty().getValue();
-            }
-        });
-
+        // make click select currentDestination
         // make double-click on list-view item take you to page with currentDestination
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent click) {
 
+                // set currentDestination to the selected item from input on format
+                // objectinformation'DestinationName'
+                currentDestination = click.getTarget().toString().split("'")[1];
+
                 if (click.getClickCount() == 2) {
-                    try {
-                        switchToDestination(currentDestination);
-                    } catch (IOException e) {
-                        feedbackText.setText("Could not find " + currentDestination);
-                        e.printStackTrace();
+
+                    // switch to currentDestination page on double-click if a destination was
+                    // clicked
+                    if (!currentDestination.equals("null")) {
+                        try {
+                            switchToDestination(currentDestination);
+                        } catch (IOException e) {
+                            feedbackText.setText("Could not find " + currentDestination);
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -114,6 +115,7 @@ public class DestinationListController {
     public void handleAddDestination() throws IOException {
 
         String newDestinationName = destinationText.getText().trim();
+
         if (newDestinationName.isBlank()) {
             // if user didn't input any text
             // remove any feedback given and do nothing
@@ -122,6 +124,9 @@ public class DestinationListController {
             // if the input text matches any of the already registrations
             // give feedback
             feedbackText.setText("You have already registered this destination");
+        } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
+            // if the input text contains anything but letters, spaces and dashes
+            feedbackText.setText("Destination name must contain only letters, spaces and dashes");
         } else {
             // if everything is ok with the input
             // create new destination with input as name
