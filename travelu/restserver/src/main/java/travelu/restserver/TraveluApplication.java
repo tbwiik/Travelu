@@ -1,4 +1,4 @@
-package gr2219.restserver;
+package travelu.restserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
