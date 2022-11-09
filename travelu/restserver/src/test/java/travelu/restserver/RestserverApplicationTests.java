@@ -1,4 +1,4 @@
-package gr2219.restserver;
+package travelu.restserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
