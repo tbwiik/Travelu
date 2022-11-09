@@ -183,6 +183,7 @@
         <module>core</module>
         <module>fxui</module>
         <module>localpersistence</module>
+        <module>restserver</module>
     </modules>
 
 
