@@ -119,13 +119,13 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testDatePicker() {
 
-        // dates in format M/d/y
-        String arrivalDate = "5/2/2021";
-        String departureDate = "10/19/2021";
-        String invalidDate = "13/11/2021";
+        // dates in format dd/MM/yyyy
+        String arrivalDate = "05/02/2021";
+        String departureDate = "19/10/2021";
+        String invalidDate = "11/13/2021";
 
-        String arrivalDateAfterDepartureDate = "10/21/2021";
-        String departureDateBeforeArrivalDate = "1/10/2021";
+        String arrivalDateAfterDepartureDate = "21/10/2021";
+        String departureDateBeforeArrivalDate = "10/01/2021";
 
         clickOn(arrivalDatePicker).write(arrivalDate);
         assertNotEquals(arrivalDate, arrivalDateLabel.getText());
@@ -142,7 +142,8 @@ public class DestinationControllerTest extends ApplicationTest {
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setArrivalDate);
-        assertThrows(java.lang.RuntimeException.class, () -> clickOn(setArrivalDate));
+        //TODO: These tests fail. These errors are handled and not thrown
+        //assertThrows(java.lang.RuntimeException.class, () -> clickOn(setArrivalDate));
 
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid arrival date.", feedBackLabel.getText());
@@ -150,7 +151,7 @@ public class DestinationControllerTest extends ApplicationTest {
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setDepartureDate);
-        assertThrows(java.lang.RuntimeException.class, () -> clickOn(setDepartureDate));
+        //assertThrows(java.lang.RuntimeException.class, () -> clickOn(setDepartureDate));
 
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid departure date.", feedBackLabel.getText());
