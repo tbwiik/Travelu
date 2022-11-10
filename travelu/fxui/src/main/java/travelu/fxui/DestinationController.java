@@ -2,6 +2,8 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import travelu.core.DateInterval;
@@ -13,6 +15,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 
 public class DestinationController {
 
@@ -71,6 +74,33 @@ public class DestinationController {
 
         arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
         departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
+
+        // Standardizes date formatting in datePicker. Largely copied from documentation for datePicker.setconverter
+        StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
+            String pattern = "dd/MM/yyyy";
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+            {
+                arrivalDatePicker.setPromptText(pattern.toLowerCase());
+            }
+            // TODO: Fix these
+            @Override public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            } @Override public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        };
+        arrivalDatePicker.setConverter(stringConverter);
+        departureDatePicker.setConverter(stringConverter);
+
+        
 
         updateListView();
 
