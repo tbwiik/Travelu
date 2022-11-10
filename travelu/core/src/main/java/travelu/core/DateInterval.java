@@ -50,17 +50,23 @@ public class DateInterval {
         this.departureDate = departureDate;
     }
 
-    private boolean isValidDate(String dateString, DateTimeFormatter formatter) {
-    
-
+    /**
+     * Checks that dateString represents a valid date with 3 parts: day, month and year
+     * @param dateString on the format "dd/MM/yyyy"
+     * @return boolean
+     */
+    private boolean isValidDate(String dateString) {
         try{
-            LocalDate.parse(dateString, formatter);
+            String[] dateArray = dateString.split("/");
+            int day = Integer.parseInt(dateArray[0]);
+            int month = Integer.parseInt(dateArray[1]);
+            int year = Integer.parseInt(dateArray[2]);
+            LocalDate.of(year, month, day);
+            return dateArray.length == 3;
         }catch(
         Exception e){
             return false;
         }
-        
-        return true;
     }
 
 /**
@@ -71,18 +77,19 @@ public class DateInterval {
  * @throws IllegalArgumentException - If the date pair is invalid
  */
 private void checkDatePair(String arrivalDate, String departureDate) throws IllegalArgumentException {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/y");
-    boolean arrivalValid = isValidDate(arrivalDate, formatter);
-    boolean departureValid = isValidDate(departureDate, formatter);
+    
+    boolean arrivalValid = isValidDate(arrivalDate);
+    boolean departureValid = isValidDate(departureDate);
 
 
     if(arrivalValid && departureValid){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
         LocalDate departure = LocalDate.parse(departureDate, formatter);
 
         // departure should either be after arrival or the same day
         if(!departure.isAfter(arrival) && !departure.isEqual(arrival)){
-            throw new IllegalArgumentException("Arrival date must be before departure date.");
+            throw new IllegalStateException("Arrival date must be before departure date.");
         };
     }
     else if(!departureValid && departureDate != null){

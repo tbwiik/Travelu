@@ -78,28 +78,38 @@ public class DestinationController {
         // Standardizes date formatting in datePicker. Largely copied from documentation for datePicker.setconverter
         StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
             String pattern = "dd/MM/yyyy";
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
             {
                 arrivalDatePicker.setPromptText(pattern.toLowerCase());
+                departureDatePicker.setPromptText(pattern.toLowerCase());
             }
             // TODO: Fix these
             @Override public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateFormatter.format(date);
-                } else {
-                    return "";
+                try{
+                    if (date != null) {
+                        return formatter.format(date);
+                    } else {
+                        return "";
+                    }}catch(Exception e){
+                        return "";}
+            } 
+            @Override public LocalDate fromString(String string) {
+                try{
+                    if (string != null && !string.isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    } else {
+                        return null;
+                    }
                 }
-            } @Override public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormatter);
-                } else {
+                catch(Exception e){
                     return null;
                 }
+
             }
         };
+        
         arrivalDatePicker.setConverter(stringConverter);
         departureDatePicker.setConverter(stringConverter);
-
         
 
         updateListView();
@@ -182,33 +192,40 @@ public class DestinationController {
         }
     }
 
+    /**
+     * Sets arrival date, and catches exceptions due to date validation errors
+     */
     @FXML
     private void handleSetArrivalDate() {
-
-        String arrivalDate = arrivalDatePicker.getEditor().getText();
+        String arrivalDate = arrivalDatePicker.getValue() == null ? "" : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
             currentDestination.setArrivalDate(arrivalDate);
-            arrivalDateLabel.setText(arrivalDate);
+            arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             writeChanges();
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
+            arrivalDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
     }
 
+    /**
+     * Sets departure date, and catches exceptions due to date validation errors
+     */
     @FXML
     private void handleSetDepartureDate() {
 
-        String departureDate = departureDatePicker.getEditor().getText();
+        String departureDate = departureDatePicker.getValue() == null ? "" : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
             currentDestination.setDepartureDate(departureDate);
-            departureDateLabel.setText(departureDate);
+            departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             writeChanges();
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
+            departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
