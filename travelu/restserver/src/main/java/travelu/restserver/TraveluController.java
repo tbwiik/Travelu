@@ -5,14 +5,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+
 @RestController
 @RequestMapping("/api/v1/entries") // TODO rename??
 public class TraveluController {
 
-    @GetMapping(value = "/test")
+    private final TraveluService traveluService = new TraveluService();
+
+    @GetMapping(value = "/destinationlist")
     @ResponseBody
     public String getTestStr() {
-        String str = new String("test");
-        return str;
+        Gson gson = new Gson();
+        String output = new String();
+        try {
+            output = gson.toJson(traveluService.getDestinationList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output;
     }
 }
