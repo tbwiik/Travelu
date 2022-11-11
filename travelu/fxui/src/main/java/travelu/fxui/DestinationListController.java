@@ -172,23 +172,18 @@ public class DestinationListController {
 
     @FXML
     public void handleSortByName() {
-        listView.getItems().sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.toLowerCase().compareTo(o2.toLowerCase());
-            }
-        });
+
+        destinationList.sortByName();
+
+        setUpListView();
     }
 
     @FXML
     public void handleSortByRating() {
-        listView.getItems().sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return destinationList.getDestinationCopyByName(o2).getRating()
-                        - destinationList.getDestinationCopyByName(o1).getRating();
-            }
-        });
+
+        destinationList.sortByRating();
+
+        setUpListView();
     }
 
     // For testing purposes
