@@ -118,7 +118,9 @@ public class DestinationList {
      */
     public void sortByName() {
 
-        destinations.sort((destination1, destination2) -> destination1.getName().compareTo(destination2.getName()));
+        destinations.sort(
+                (destination1, destination2) -> destination1.getName().toLowerCase()
+                        .compareTo(destination2.getName().toLowerCase()));
 
     }
 
