@@ -72,7 +72,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>restserver.TraveluApplication</mainClass>
+                    <mainClass>travelu.restserver.TraveluApplication</mainClass>
                 </configuration>
             </plugin>
 		</plugins>
