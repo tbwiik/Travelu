@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.testfx.matcher.control.LabeledMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -17,11 +17,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.SVGPath;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -61,9 +60,16 @@ public class DestinationControllerTest extends ApplicationTest {
     private ListView<String> activitiesListView;
     private TextField newActivityTextField;
     private Button addActivity;
+    private Button removeActivity;
 
     private TextField commentTextField;
     private Button updateComment;
+
+    private SVGPath star1;
+    private SVGPath star2;
+    private SVGPath star3;
+    private SVGPath star4;
+    private SVGPath star5;
 
     /**
      * Enables headless-testing
@@ -80,7 +86,11 @@ public class DestinationControllerTest extends ApplicationTest {
     public void start(Stage stage) throws IOException {
 
         destinationList = new DestinationList();
-        destinationList.addDestination(new Destination("Spain", new DateInterval(), 0, null, null));
+
+        List<String> spainActivities = new ArrayList<>();
+        spainActivities.add("Eat paella");
+
+        destinationList.addDestination(new Destination("Spain", null, 0, spainActivities, null));
 
         traveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
@@ -104,12 +114,19 @@ public class DestinationControllerTest extends ApplicationTest {
         activitiesListView = lookup("#activitiesListView").query();
         newActivityTextField = lookup("#newActivityTextField").query();
         addActivity = lookup("#addActivityButton").query();
+        removeActivity = lookup("#removeActivityButton").query();
 
         commentTextField = lookup("#commentTextField").query();
         updateComment = lookup("#updateButton").query();
 
         arrivalDateLabel = lookup("#arrivalDateLabel").query();
         departureDateLabel = lookup("#departureDateLabel").query();
+
+        star1 = lookup("#star1").query();
+        star2 = lookup("#star2").query();
+        star3 = lookup("#star3").query();
+        star4 = lookup("#star4").query();
+        star5 = lookup("#star5").query();
 
         feedBackLabel = lookup("#dateUpdatedFeedbackLabel").query();
 
@@ -183,35 +200,113 @@ public class DestinationControllerTest extends ApplicationTest {
     // /**
     // * Tests if you can add activity to current destination
     // */
-    // @Test
-    // public void testAddActivity() {
+    @Test
+    public void testAddActivity() {
 
-    // clickOn(newActivityTextField).write("Take flamenco lessons");
-    // clickOn(addActivity);
+        clickOn(newActivityTextField).write("Take flamenco lessons");
+        clickOn(addActivity);
 
-    // assertNotEquals(activities, activitiesListView.getItems());
+        assertNotEquals(activities, activitiesListView.getItems());
 
-    // activities.add("Take flamenco lessons");
-    // activitiesListView = lookup("#activitiesListView").query();
+        activities.add("Take flamenco lessons");
 
-    // assertEquals(activities, activitiesListView.getItems());
-    // }
+        assertEquals(activities, activitiesListView.getItems());
+    }
 
-    // /**
-    // * Tests if you can write comment to current destination
-    // */
-    // @Test
-    // public void testWriteComment() {
+    @Test
+    public void testRemoveActivity() {
+        List<String> spainActivities = new ArrayList<>();
+        spainActivities.add("Eat paella");
+        assertEquals(spainActivities, activitiesListView.getItems());
 
-    // clickOn(commentTextField).write(
-    // "I traveled to Spain with my family and we visited restaurants every day");
+        clickOn("Eat paella");
+        clickOn(removeActivity);
 
-    // assertNotEquals(commentTextField.getText(),
-    // destinationController.getDestinationComment());
-    // clickOn(updateComment);
+        assertNotEquals(spainActivities, activitiesListView.getItems());
+        assertEquals(new ArrayList<>(), activitiesListView.getItems());
+    }
 
-    // assertEquals(commentTextField.getText(),
-    // destinationController.getDestinationComment());
-    // }
+    /**
+     * Tests if you can write comment to current destination
+     */
+    @Test
+    public void testWriteComment() {
+
+    clickOn(commentTextField).write(
+    "I traveled to Spain with my family and we visited restaurants every day");
+
+    assertNotEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+    clickOn(updateComment);
+
+    assertEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+    }
+
+    /**
+     * Test if you the correct number of stars are filled
+     * Test if destination rating is updated correctly
+     */
+    @Test
+    public void testRating() {
+
+        assertEquals("-fx-fill: #FFFFFF", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        assertEquals(0, destinationController.getDestinationRating());
+
+        clickOn(star1);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(1, destinationController.getDestinationRating());
+
+        clickOn(star2);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(2, destinationController.getDestinationRating());
+
+        clickOn(star3);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(3, destinationController.getDestinationRating());
+
+        clickOn(star4);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(4, destinationController.getDestinationRating());
+
+        clickOn(star5);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFD700", star5.getStyle());
+        assertEquals(5, destinationController.getDestinationRating());
+
+        clickOn(star2);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(2, destinationController.getDestinationRating());
+
+    }
+
 
 }
