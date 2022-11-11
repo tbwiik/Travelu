@@ -190,19 +190,26 @@ public class DestinationListTest {
         assertNotEquals(expectedList, destinationList.getList());
 
         expectedList.add(new Destination("Turkey", null, 5, null, null));
-
         destinationList.sortByName();
 
         assertEquals(expectedList, destinationList.getList());
 
         Destination dashDestination = new Destination("-Place", null, 5, null, null);
-
         expectedList.add(0, dashDestination);
 
         assertNotEquals(expectedList, destinationList.getList());
 
         destinationList.addDestination(dashDestination);
+        destinationList.sortByName();
 
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination lowerCaseDestination = new Destination("aa", null, 5, null, null);
+        expectedList.add(1, lowerCaseDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(lowerCaseDestination);
         destinationList.sortByName();
 
         assertEquals(expectedList, destinationList.getList());
@@ -225,19 +232,16 @@ public class DestinationListTest {
         assertNotEquals(expectedList, destinationList.getList());
 
         expectedList.add(new Destination("Sweden", null, 1, null, null));
-
         destinationList.sortByRating();
 
         assertEquals(expectedList, destinationList.getList());
 
         Destination noStarsDestination = new Destination("France", null, 0, null, null);
-
         expectedList.add(noStarsDestination);
 
         assertNotEquals(expectedList, destinationList.getList());
 
         destinationList.addDestination(noStarsDestination);
-
         destinationList.sortByRating();
 
         assertEquals(expectedList, destinationList.getList());
