@@ -108,37 +108,60 @@ public class DestinationListController {
     /**
      * Add destination to list
      * 
-     * @throws IOException if error writing to file
+     * @throws IOException              if error writing to file
+     * @throws IllegalArgumentException if destinationName is null
      */
     @FXML
-    public void handleAddDestination() throws IOException {
-
+    public void handleAddDestination() {
         String newDestinationName = destinationText.getText();
-        if (newDestinationName.isBlank()) {
-            // if user didn't input any text
-            // remove any feedback given and do nothing
-            feedbackText.setText("");
-        } else if (destinationList.containsDestination(newDestinationName)) {
-            // if the input text matches any of the already registrations
-            // give feedback
-            feedbackText.setText("You have already registered this destination");
-        } else {
-            // if everything is ok with the input
-            // create new destination with input as name
-            Destination newDestination = new Destination(newDestinationName.strip(), null, 0, new ArrayList<String>(),
-                    null);
+        try {
+            if (newDestinationName.isBlank()) {
+                resetAddDestination(newDestinationName);
+            } else if (destinationList.containsDestination(newDestinationName)) {
+                feedbackText.setText("You have already registered this destination");
+            } else {
+                newDestinationWithInput(newDestinationName);
+            }
+            traveluHandler.writeJSON(destinationList, destinationListFile);
 
-            // add destination to list-view and destinations
-            listView.getItems().add(newDestination.getName());
-            destinationList.addDestination(newDestination);
-
-            // remove any feedback given
-            feedbackText.setText("");
-
-            // remove text in inputField
-            destinationText.clear();
+        } catch (IllegalArgumentException iae) {
+            iae.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
+
+    }
+
+    /**
+     * Subfunction for handleAddDestination where it resets the textbox for
+     * addDestination
+     * 
+     * @param textField
+     */
+    private void resetAddDestination(String textField) {
+        if (textField.isBlank()) {
+            feedbackText.setText("");
+        }
+    }
+
+    /**
+     * Subfunction for handleAddDestination where it creates a new Destination
+     * object with given name
+     * 
+     * @param destinationName
+     */
+    private void newDestinationWithInput(String destinationName) {
+        // if everything is ok with the input
+        // create new destination with input as name
+        Destination newDestination = new Destination(destinationName.strip(), null, 0, new ArrayList<String>(), null);
+        listView.getItems().add(newDestination.getName());
+        destinationList.addDestination(newDestination);
+
+        // remove any feedback given
+        feedbackText.setText("");
+
+        // remove text in inputField
+        destinationText.clear();
 
     }
 
@@ -148,7 +171,7 @@ public class DestinationListController {
      * @throws IOException if error writing to file
      */
     @FXML
-    public void handleRemoveDestination() throws IOException {
+    public void handleRemoveDestination() {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
@@ -159,7 +182,11 @@ public class DestinationListController {
             destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
+        try {
+            traveluHandler.writeJSON(destinationList, destinationListFile);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     // For testing purposes
