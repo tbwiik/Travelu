@@ -59,6 +59,8 @@ public class DestinationListController {
 
         listView.setStyle("-fx-font-size:20;");
 
+        listView.getItems().clear();
+
         // add all destinations to the list-view
         listView.getItems()
                 .addAll(destinationList.getDestinationNames());
