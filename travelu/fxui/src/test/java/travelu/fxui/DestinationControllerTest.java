@@ -28,6 +28,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
@@ -78,7 +80,7 @@ public class DestinationControllerTest extends ApplicationTest {
     public void start(Stage stage) throws IOException {
 
         destinationList = new DestinationList();
-        destinationList.addDestination(new Destination("Spain", null, null, null, null));
+        destinationList.addDestination(new Destination("Spain", new DateInterval(), 0, null, null));
 
         traveluHandler.writeJSON(destinationList, "testDestinationList.json");
 

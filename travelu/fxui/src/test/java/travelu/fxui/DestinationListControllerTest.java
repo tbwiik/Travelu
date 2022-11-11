@@ -21,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
@@ -61,11 +63,11 @@ public class DestinationListControllerTest extends ApplicationTest {
         public void start(Stage stage) throws IOException {
 
                 destinationList = new DestinationList();
-                destinationList.addDestination(new Destination("Spain", null, 2, null,
+                destinationList.addDestination(new Destination("Spain", new DateInterval(), 2, null,
                                 null));
-                destinationList.addDestination(new Destination("Greece", null, 2, null,
+                destinationList.addDestination(new Destination("Greece", new DateInterval(), 2, null,
                                 null));
-                destinationList.addDestination(new Destination("Turkey", null, 3, null,
+                destinationList.addDestination(new Destination("Turkey", new DateInterval(), 3, null,
                                 null));
 
                 traveluHandler.writeJSON(destinationList, "testDestinationList.json");
@@ -86,7 +88,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         @Test
         public void testAdd() {
 
-                destinationList.addDestination(new Destination("Place", null, null, null,
+                destinationList.addDestination(new Destination("Place", new DateInterval(), 0, null,
                                 null));
 
                 clickOn(textArea).write("Place");

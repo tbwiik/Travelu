@@ -1,24 +1,26 @@
 {
   "destinations": [
     {
-      "name": "USA",
-      "dateInterval": {
-        "arrivalDate": null,
-        "departureDate": null
-      },
-      "ranking": 0,
-      "activities": [],
-      "comment": null
-    },
-    {
       "name": "Sweden",
       "dateInterval": {
         "arrivalDate": null,
         "departureDate": null
       },
-      "ranking": 0,
+      "rating": 0,
       "activities": [],
-      "comment": null
+      "comment": "Go to swed"
+    },
+    {
+      "name": "USA",
+      "dateInterval": {
+        "arrivalDate": "25/11/2022",
+        "departureDate": null
+      },
+      "rating": 3,
+      "activities": [
+        "asdfv"
+      ],
+      "comment": "go usa"
     }
   ]
 }

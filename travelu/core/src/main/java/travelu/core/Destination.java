@@ -10,7 +10,7 @@ public class Destination {
 
     private String name;
     private DateInterval dateInterval;
-    private Integer ranking;
+    private int rating;
     private List<String> activities;
     private String comment;
 
@@ -19,17 +19,18 @@ public class Destination {
      * 
      * @param name       of destination
      * @param date       visit from-to
-     * @param ranking    on a scale from 1-5
+     * @param rating     on a scale from 1-5
      * @param activities you did during your visit
      * @param comment    with other relevant info
      */
-    public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
+    public Destination(String name, DateInterval dateInterval, int rating, List<String> activities,
             String comment) {
         this.name = name;
 
-        // if dateInterval argument is null, create empty DateInterval
+        // dateinterval is allowed to be null, but constructor should not take in null
+        // as input
         this.dateInterval = dateInterval == null ? new DateInterval() : new DateInterval(dateInterval);
-        this.ranking = ranking;
+        this.rating = rating;
 
         // if activities are null, create new list. Otherwise create copy of old
         this.activities = activities == null ? new ArrayList<String>() : new ArrayList<String>(activities);
@@ -46,7 +47,7 @@ public class Destination {
     public Destination(Destination destination) {
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
-        this.ranking = destination.getRanking();
+        this.rating = destination.getRating();
         this.activities = destination.getActivities();
         this.comment = destination.getComment();
     }
@@ -77,20 +78,20 @@ public class Destination {
     }
 
     /**
-     * @return the ranking of the destination
+     * @return the rating of the destination
      */
-    public Integer getRanking() {
-        return ranking;
+    public Integer getRating() {
+        return rating;
     }
 
     /**
-     * @param ranking on a scale of 1-5
+     * @param rating on a scale of 1-5
      */
-    public void setRanking(Integer ranking) {
-        if (ranking < 1 || ranking > 5) {
-            throw new IllegalArgumentException("Ranking must be between 1 and 5");
+    public void setRating(int rating) {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
         }
-        this.ranking = ranking;
+        this.rating = rating;
     }
 
     /**
@@ -111,6 +112,19 @@ public class Destination {
             throw new IllegalArgumentException("Invalid activity");
 
         activities.add(activity);
+    }
+
+    /**
+     * 
+     * @param activity the activity we want to remove
+     * @throws IllegalArgumentException if activity is not in list
+     */
+    public void removeActivity(String activity) throws IllegalArgumentException {
+        if (!getActivities().contains(activity)) {
+            throw new IllegalArgumentException("Activity is not in activity list");
+        }
+
+        activities.remove(activity);
     }
 
     /**

@@ -4,18 +4,22 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
 
@@ -23,6 +27,9 @@ public class DestinationController {
     private Destination currentDestination;
     private DestinationList destinationList;
     private TraveluHandler traveluHandler = new TraveluHandler();
+
+    // currently selected activity
+    private String currentActivity;
 
     private String destinationListFile;
 
@@ -57,6 +64,21 @@ public class DestinationController {
     Label commentUpdatedFeedbackLabel;
 
     @FXML
+    SVGPath star1;
+
+    @FXML
+    SVGPath star2;
+
+    @FXML
+    SVGPath star3;
+
+    @FXML
+    SVGPath star4;
+
+    @FXML
+    SVGPath star5;
+
+    @FXML
     private void initialize() throws FileNotFoundException, IOException {
 
         destinationListFile = "DestinationList.json";
@@ -65,6 +87,8 @@ public class DestinationController {
         String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
 
         this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+
+        colorStars(this.currentDestination.getRating());
 
         destinationLabel.setText(currentDestinationName);
 
@@ -112,12 +136,27 @@ public class DestinationController {
         departureDatePicker.setConverter(stringConverter);
         
 
+        setupListView();
         updateListView();
-
     }
 
     /**
-     * updates view of activity list
+     * Sets up listener for changing selected activity in activitiesListView
+     */
+    @FXML
+    private void setupListView() {
+        // make currentDestination the selected list-view item
+        activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                currentActivity = activitiesListView.getSelectionModel().selectedItemProperty().getValue();
+            }
+        });
+    }
+
+    /**
+     * Updates view of activity list
      */
     @FXML
     private void updateListView() {
@@ -135,8 +174,10 @@ public class DestinationController {
         App.setRoot("destinationList");
     }
 
+    // TODO: Is throws IOException really needed here? Same for remove activity
     /**
-     * add activity to the list of activities, and update listview
+     * Adds activity to the list of activities, and updates activitiesListView
+     * 
      * 
      * @throws IOException in case of filehandling issue
      */
@@ -159,7 +200,22 @@ public class DestinationController {
     }
 
     /**
-     * updates changes to currentDestination, and writes these to json.
+     * Removes activity from list of activities, and updates activitiesListView
+     */
+    @FXML
+    private void handleRemoveActivity() {
+        if (currentActivity != null) {
+            currentDestination.removeActivity(currentActivity);
+            updateListView();
+            try {
+                writeChanges();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    /**
+     * Updates changes to currentDestination, and writes these to json.
      * 
      * @throws IOException in case of filehandling issue
      */
@@ -171,7 +227,88 @@ public class DestinationController {
 
     @FXML
     private void handleSelectFile() {
+    }
 
+    /**
+     * call method update star with parameter 1 based on which star clicked
+     */
+    @FXML
+    private void handleStar1() {
+        handleStar(1);
+    }
+
+    @FXML
+    private void handleStar2() {
+        handleStar(2);
+    }
+
+    @FXML
+    private void handleStar3() {
+        handleStar(3);
+    }
+
+    @FXML
+    private void handleStar4() {
+        handleStar(4);
+    }
+
+    @FXML
+    private void handleStar5() {
+        handleStar(5);
+    }
+
+    /**
+     * Set rating of current destination to starNumber, and update stars
+     * @param starNumber
+     */
+    private void handleStar(int starNumber) {
+
+        currentDestination.setRating(starNumber);
+
+        colorStars(starNumber);
+
+        try {
+            writeChanges();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Color starNumber stars yellow, and the rest of the stars white
+     * @param rating
+     */
+    private void colorStars(int starNumber) {
+
+        if (starNumber >= 1) {
+            star1.setStyle("-fx-fill: #FFD700");
+        } else {
+            star1.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 2) {
+            star2.setStyle("-fx-fill: #FFD700");
+        } else {
+            star2.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 3) {
+            star3.setStyle("-fx-fill: #FFD700");
+        } else {
+            star3.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 4) {
+            star4.setStyle("-fx-fill: #FFD700");
+        } else {
+            star4.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 5) {
+            star5.setStyle("-fx-fill: #FFD700");
+        } else {
+            star5.setStyle("-fx-fill: #FFFFFF");
+        }
     }
 
     /**
@@ -252,6 +389,10 @@ public class DestinationController {
         return currentDestination.getDateInterval();
     }
 
+    public int getDestinationRating() {
+        return currentDestination.getRating();
+    }
+
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
         destinationListFile = "testDestinationList.json";
@@ -263,6 +404,8 @@ public class DestinationController {
         this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
 
         destinationLabel.setText(currentDestinationName);
+
+        colorStars(this.currentDestination.getRating());
 
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());

@@ -1,6 +1,8 @@
 package travelu.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +18,7 @@ public class DestinationTest {
     private Destination destination;
     private String name, comment;
     private DateInterval dateInterval;
-    private Integer ranking;
+    private int rating;
     private List<String> activities = new ArrayList<>();
 
     /**
@@ -26,7 +28,7 @@ public class DestinationTest {
     public void setUp() {
         name = "Sweden";
         dateInterval = new DateInterval();
-        ranking = 3;
+        rating = 3;
 
         activities.add("Skiing");
         activities.add("Circus");
@@ -34,7 +36,7 @@ public class DestinationTest {
 
         comment = "Nice and cozy, but somewhat expensive dinner...";
 
-        destination = new Destination(name, dateInterval, ranking, activities, comment);
+        destination = new Destination(name, dateInterval, rating, activities, comment);
     }
 
     /**
@@ -70,5 +72,39 @@ public class DestinationTest {
         String addCom = "Remember to bring suncream";
         destination.addComment(addCom);
         assertEquals(com + "\n" + addCom, destination.getComment());
+    }
+
+    /**
+     * Tests removing activity
+     */
+    @Test
+    public void testRemoveActivity() {
+
+        List<String> testActivities = new ArrayList<>();
+        testActivities.add("Skiing");
+        testActivities.add("Circus");
+        testActivities.add("Fancy dinner");
+
+        assertEquals(testActivities, destination.getActivities());
+
+        destination.removeActivity("Skiing");
+        assertNotEquals(testActivities, destination.getActivities());
+
+        testActivities.remove("Skiing");
+        assertEquals(testActivities, destination.getActivities());
+
+        // we do not allow removing elements that are not in activities list
+        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity(null));
+        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("Fake activity"));
+        // removeActivity is case sensitive
+        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("circus"));
+
+        // Tests for removing all elements in activities
+        destination.removeActivity("Circus");
+        destination.removeActivity("Fancy dinner");
+        testActivities.remove("Circus");
+        testActivities.remove("Fancy dinner");
+
+        assertEquals(testActivities, destination.getActivities());
     }
 }

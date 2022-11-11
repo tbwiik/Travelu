@@ -23,7 +23,7 @@ public class DestinationListTest {
     private Destination norway;
     private String name;
     private DateInterval dateInterval;
-    private Integer ranking;
+    private int rating;
     private List<String> activities;
     private String comment;
 
@@ -41,11 +41,11 @@ public class DestinationListTest {
 
         name = "Norway";
         dateInterval = new DateInterval();
-        ranking = 2;
+        rating = 2;
         activities = new ArrayList<>();
         comment = null;
 
-        norway = new Destination(name, dateInterval, ranking, activities, comment);
+        norway = new Destination(name, dateInterval, rating, activities, comment);
         buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, null);
 
         newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, null));
@@ -73,7 +73,7 @@ public class DestinationListTest {
                 dateInterval.getArrivalDate());
         assertEquals(norway.getDateInterval().getDepartureDate(),
                 dateInterval.getDepartureDate());
-        assertEquals(norway.getRanking(), ranking);
+        assertEquals(norway.getRating(), rating);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
 
