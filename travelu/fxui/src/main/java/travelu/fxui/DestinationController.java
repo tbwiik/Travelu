@@ -53,7 +53,10 @@ public class DestinationController {
     TextField commentTextField;
 
     @FXML
-    Label commentUpdatedFeedbackLabel;
+    Label commentFeedbackLabel;
+
+    @FXML
+    Label activityFeedbackLabel;
 
     @FXML
     private void initialize() throws FileNotFoundException, IOException {
@@ -79,7 +82,7 @@ public class DestinationController {
      * Sets up listener for changing selected activity in activitiesListView
      */
     @FXML
-    private void setupListView(){
+    private void setupListView() {
         // make currentDestination the selected list-view item
         activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
@@ -89,7 +92,6 @@ public class DestinationController {
             }
         });
     }
-
 
     /**
      * Updates view of activity list
@@ -109,41 +111,47 @@ public class DestinationController {
     private void handleReturnButton() throws IOException {
         App.setRoot("destinationList");
     }
-//TODO: Is throws IOException really needed here? Same for remove activity
+
     /**
      * Adds activity to the list of activities, and updates activitiesListView
      * 
      * 
-     * @throws IOException in case of filehandling issue
+     * @throws IOException              in case of filehandling issue
+     * @throws IllegalArgumentException if input is blank or already existing
      */
     @FXML
-    private void handleAddActivity() throws IOException {
+    private void handleAddActivity() {
         String activity = newActivityTextField.getText();
-        if (activity.isBlank())
-            return;
 
         try {
             currentDestination.addActivity(activity);
-        } catch (Exception e) {
-            // TODO: give relevant user feedback here
+            writeChanges();
+            activityFeedbackLabel.setText("");
+        } catch (IllegalArgumentException iae) {
+            activityFeedbackLabel.setText("Add unique activity to update.");
+            iae.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
-
-        writeChanges();
         updateListView();
         newActivityTextField.setText("");
-
     }
 
     /**
      * Removes activity from list of activities, and updates activitiesListView
      */
     @FXML
-    private void handleRemoveActivity(){
-        if(currentActivity != null){
+    private void handleRemoveActivity() {
+        if (currentActivity != null) {
             currentDestination.removeActivity(currentActivity);
             updateListView();
-            try{writeChanges();}
-            catch(Exception e){}
+            try {
+                writeChanges();
+            } catch (IllegalArgumentException iae) {
+                iae.printStackTrace();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
@@ -165,19 +173,26 @@ public class DestinationController {
 
     /**
      * Changes comment, and writes this to file
+     * 
+     * @throws IOException in case of filehandling issue
      */
     @FXML
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
-        // if there is no comment. TODO: Give feedback to user
-        if (newComment.isBlank())
-            return;
+
+        if (newComment.isBlank()) {
+            commentFeedbackLabel.setText("Add comment to update.");
+        }
 
         currentDestination.setComment(newComment);
+        if (!newComment.isBlank()) {
+            commentFeedbackLabel.setText("Comment updated!");
+        }
+
         try {
             writeChanges();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 
