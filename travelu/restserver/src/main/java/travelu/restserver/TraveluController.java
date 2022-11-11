@@ -17,7 +17,7 @@ public class TraveluController {
     @ResponseBody
     public String getTestStr() {
         Gson gson = new Gson();
-        String output = new String();
+        String output = "";
         try {
             output = gson.toJson(traveluService.getDestinationList());
         } catch (Exception e) {
