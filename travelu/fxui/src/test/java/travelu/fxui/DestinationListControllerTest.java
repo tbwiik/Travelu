@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
+import java.util.Comparator;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -79,6 +81,15 @@ public class DestinationListControllerTest extends ApplicationTest {
                 stage.show();
 
                 destinationListController.initiliazeFromTestFiles();
+        }
+
+        @Test
+        public void testInitialize() {
+                assertEquals(3, destinationListController.getDestinationListNames().size());
+                assertEquals("Spain", destinationListController.getDestinationListNames().get(0));
+                assertEquals("Greece", destinationListController.getDestinationListNames().get(1));
+                assertEquals("Turkey", destinationListController.getDestinationListNames().get(2));
+
         }
 
         /**
