@@ -42,6 +42,8 @@ public class DestinationListControllerTest extends ApplicationTest {
         private TextArea destinationText;
         private Button addButton;
         private Button removeButton;
+        private Button nameButton;
+        private Button ratingButton;
 
         /**
          * Enables headless testing
@@ -56,6 +58,8 @@ public class DestinationListControllerTest extends ApplicationTest {
                 destinationText = lookup("#destinationText").query();
                 addButton = lookup("#addButton").query();
                 removeButton = lookup("#removeButton").query();
+                nameButton = lookup("#nameButton").query();
+                ratingButton = lookup("#ratingButton").query();
         }
 
         /**
@@ -65,7 +69,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         public void start(Stage stage) throws IOException {
 
                 destinationList = new DestinationList();
-                destinationList.addDestination(new Destination("Spain", null, 2, null,
+                destinationList.addDestination(new Destination("Spain", null, 1, null,
                                 null));
                 destinationList.addDestination(new Destination("Greece", null, 2, null,
                                 null));
@@ -132,6 +136,33 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
+        }
+
+        @Test
+        public void testSortByName() {
+
+                assertEquals("[Spain, Greece, Turkey]",
+                                destinationListController.getListViewItems().toString());
+
+                clickOn(nameButton);
+
+                assertNotEquals("[Spain, Greece, Turkey]",
+                                destinationListController.getListViewItems().toString());
+
+                assertEquals("[Greece, Spain, Turkey]",
+                                destinationListController.getListViewItems().toString());
+        }
+
+        @Test
+        public void testSortByRating() throws IOException {
+
+                assertEquals("[Spain, Greece, Turkey]",
+                                destinationListController.getListViewItems().toString());
+
+                clickOn(ratingButton);
+
+                assertEquals("[Turkey, Greece, Spain]", destinationListController.getListViewItems().toString());
+
         }
 
 }
