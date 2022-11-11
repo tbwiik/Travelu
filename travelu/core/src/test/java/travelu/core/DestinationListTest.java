@@ -186,7 +186,22 @@ public class DestinationListTest {
         expectedList.add(norway);
         expectedList.add(new Destination("Spain", null, 4, null, null));
         expectedList.add(new Destination("Sweden", null, 1, null, null));
+
+        assertNotEquals(expectedList, destinationList.getList());
+
         expectedList.add(new Destination("Turkey", null, 5, null, null));
+
+        destinationList.sortByName();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination dashDestination = new Destination("-Place", null, 5, null, null);
+
+        expectedList.add(0, dashDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(dashDestination);
 
         destinationList.sortByName();
 
@@ -206,7 +221,22 @@ public class DestinationListTest {
         expectedList.add(new Destination("Spain", null, 4, null, null));
         expectedList.add(norway);
         expectedList.add(buenosAires);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
         expectedList.add(new Destination("Sweden", null, 1, null, null));
+
+        destinationList.sortByRating();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination noStarsDestination = new Destination("France", null, 0, null, null);
+
+        expectedList.add(noStarsDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(noStarsDestination);
 
         destinationList.sortByRating();
 
