@@ -41,7 +41,7 @@ public class DestinationListTest {
 
         name = "Norway";
         dateInterval = new DateInterval(new int[] { 31, 12, 1999 }, new int[] { 10, 01, 2000 });
-        rating = 2;
+        rating = 3;
         activities = new ArrayList<>();
         comment = null;
 
@@ -171,6 +171,80 @@ public class DestinationListTest {
         assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination("Norway"));
 
         assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
+    }
+
+    /**
+     * Test if sorting by name works as intended
+     */
+    @Test
+    public void testSortByName() {
+
+        List<Destination> expectedList = new ArrayList<>();
+
+        // adding destinations in alphabetical order
+        expectedList.add(buenosAires);
+        expectedList.add(norway);
+        expectedList.add(new Destination("Spain", null, 4, null, null));
+        expectedList.add(new Destination("Sweden", null, 1, null, null));
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        expectedList.add(new Destination("Turkey", null, 5, null, null));
+        destinationList.sortByName();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination dashDestination = new Destination("-Place", null, 5, null, null);
+        expectedList.add(0, dashDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(dashDestination);
+        destinationList.sortByName();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination lowerCaseDestination = new Destination("aa", null, 5, null, null);
+        expectedList.add(1, lowerCaseDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(lowerCaseDestination);
+        destinationList.sortByName();
+
+        assertEquals(expectedList, destinationList.getList());
+    }
+
+    /**
+     * Test if sorting by rating works as intended
+     */
+    @Test
+    public void testSortByRating() {
+
+        List<Destination> expectedList = new ArrayList<>();
+
+        // adding destinations in order of rating
+        expectedList.add(new Destination("Turkey", null, 5, null, null));
+        expectedList.add(new Destination("Spain", null, 4, null, null));
+        expectedList.add(norway);
+        expectedList.add(buenosAires);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        expectedList.add(new Destination("Sweden", null, 1, null, null));
+        destinationList.sortByRating();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination noStarsDestination = new Destination("France", null, 0, null, null);
+        expectedList.add(noStarsDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(noStarsDestination);
+        destinationList.sortByRating();
+
+        assertEquals(expectedList, destinationList.getList());
     }
 
 }
