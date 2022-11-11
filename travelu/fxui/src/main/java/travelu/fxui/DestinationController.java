@@ -143,9 +143,9 @@ public class DestinationController {
     @FXML
     private void handleRemoveActivity() {
         if (currentActivity != null) {
-            currentDestination.removeActivity(currentActivity);
-            updateListView();
             try {
+                currentDestination.removeActivity(currentActivity);
+                updateListView();
                 writeChanges();
             } catch (IllegalArgumentException iae) {
                 iae.printStackTrace();
