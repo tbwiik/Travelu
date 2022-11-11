@@ -3,6 +3,7 @@ package travelu.fxui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import travelu.core.Destination;
@@ -165,6 +166,27 @@ public class DestinationListController {
             listView.getItems().remove(currentDestination);
         }
         traveluHandler.writeJSON(destinationList, destinationListFile);
+    }
+
+    @FXML
+    public void handleSortByName() {
+        listView.getItems().sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.toLowerCase().compareTo(o2.toLowerCase());
+            }
+        });
+    }
+
+    @FXML
+    public void handleSortByRating() {
+        listView.getItems().sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return destinationList.getDestinationCopyByName(o2).getRating()
+                        - destinationList.getDestinationCopyByName(o1).getRating();
+            }
+        });
     }
 
     // For testing purposes
