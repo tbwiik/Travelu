@@ -20,6 +20,9 @@ import com.google.gson.GsonBuilder;
  */
 public class TraveluHandler {
 
+    private final static String DEFAULT_FILENAME_DLIST = "DestinationList.json";
+    private final static String DEFAULT_FILENAME_CURRENTD = "CurrentDestinationName.json";
+
     /**
      * @param filename
      * @return the filepath for the given filename
@@ -85,7 +88,7 @@ public class TraveluHandler {
      * @throws IOException
      */
     public static DestinationList readDestinationListJSON() throws FileNotFoundException, IOException {
-        return readDestinationListJSON("DestinationList.json");
+        return readDestinationListJSON(DEFAULT_FILENAME_DLIST);
     }
 
     /**
@@ -117,7 +120,7 @@ public class TraveluHandler {
     public static String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(getFile("CurrentDestinationName.json"), Charset.defaultCharset()));
+                new FileReader(getFile(DEFAULT_FILENAME_CURRENTD), Charset.defaultCharset()));
         String currentDestinationName = gson.fromJson(bufferedReader, String.class);
         return currentDestinationName;
     }
