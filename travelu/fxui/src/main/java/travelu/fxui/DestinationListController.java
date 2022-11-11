@@ -196,6 +196,10 @@ public class DestinationListController {
         return destinationList.getDestinationNames();
     }
 
+    public List<String> getListViewItems() {
+        return new ArrayList<String>(listView.getItems());
+    }
+
     public void initiliazeFromTestFiles() throws IOException {
         destinationListFile = "testDestinationList.json";
         currentDestinationFile = "testCurrentDestinationName.json";
