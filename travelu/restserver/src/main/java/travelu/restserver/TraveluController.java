@@ -13,7 +13,7 @@ public class TraveluController {
 
     private final TraveluService traveluService = new TraveluService();
 
-    @GetMapping(value = "/destinationlist")
+    @GetMapping(value = "/destinationlist", produces = "application/json")
     @ResponseBody
     public String getTestStr() {
         Gson gson = new Gson();
