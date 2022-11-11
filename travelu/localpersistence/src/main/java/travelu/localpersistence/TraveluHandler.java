@@ -46,7 +46,8 @@ public class TraveluHandler {
     /**
      * Writes to given file in {@code JSON Format}using {@code Gson}
      * 
-     * @param DList destination list
+     * @param object   usually destination list
+     * @param filename writing to
      * @throws IOException
      */
     public static void writeJSON(Object object, String filename) throws IOException {
@@ -59,6 +60,16 @@ public class TraveluHandler {
         } finally {
             writer.close();
         }
+    }
+
+    /**
+     * Writes to default file in {@code JSON Format}using {@code Gson}
+     * 
+     * @param destinationList
+     * @throws IOException
+     */
+    public static void save(DestinationList destinationList) throws IOException {
+        writeJSON(destinationList, DEFAULT_FILENAME_DLIST);
     }
 
     /**
