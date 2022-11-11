@@ -94,6 +94,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("Greece", destinationListController.getDestinationListNames().get(1));
                 assertEquals("Turkey", destinationListController.getDestinationListNames().get(2));
 
+                assertEquals("Spain★", destinationListController.getListViewItems().get(0));
+                assertEquals("Greece★★", destinationListController.getListViewItems().get(1));
+                assertEquals("Turkey★★★", destinationListController.getListViewItems().get(2));
         }
 
         /**
@@ -126,7 +129,7 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
 
-                clickOn("Greece");
+                clickOn("Greece★★");
                 clickOn(removeButton);
 
                 assertNotEquals(destinationList.getDestinationNames(),
@@ -141,27 +144,28 @@ public class DestinationListControllerTest extends ApplicationTest {
         @Test
         public void testSortByName() {
 
-                assertEquals("[Spain, Greece, Turkey]",
+                assertEquals("[Spain★, Greece★★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
 
                 clickOn(nameButton);
 
-                assertNotEquals("[Spain, Greece, Turkey]",
+                assertNotEquals("[Spain★, Greece★★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
 
-                assertEquals("[Greece, Spain, Turkey]",
+                assertEquals("[Greece★★, Spain★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
         }
 
         @Test
         public void testSortByRating() throws IOException {
 
-                assertEquals("[Spain, Greece, Turkey]",
+                assertEquals("[Spain★, Greece★★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
 
                 clickOn(ratingButton);
 
-                assertEquals("[Turkey, Greece, Spain]", destinationListController.getListViewItems().toString());
+                assertEquals("[Turkey★★★, Greece★★, Spain★]",
+                                destinationListController.getListViewItems().toString());
 
         }
 
