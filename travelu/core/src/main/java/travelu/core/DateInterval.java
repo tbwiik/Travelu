@@ -52,7 +52,7 @@ public class DateInterval {
 
     /**
      * Checks that dateString represents a valid date with 3 parts: day, month and year
-     * @param dateString on the format "dd/MM/yyyy"
+     * @param dateString on the format "dd/MM/yyyy". Formatting is strict, years before 1000 are not accepted
      * @return boolean
      */
     private boolean isValidDate(String dateString) {
@@ -62,7 +62,7 @@ public class DateInterval {
             int month = Integer.parseInt(dateArray[1]);
             int year = Integer.parseInt(dateArray[2]);
             LocalDate.of(year, month, day);
-            return dateArray.length == 3;
+            return dateArray.length == 3 && dateString.length() == 10;
         }catch(
         Exception e){
             return false;
