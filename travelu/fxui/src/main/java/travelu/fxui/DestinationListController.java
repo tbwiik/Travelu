@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import travelu.client.Client;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;
@@ -18,6 +19,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class DestinationListController {
+
+    private final Client client = new Client("http://localhost", 8080);
 
     @FXML
     private ListView<String> listView;
@@ -49,7 +52,16 @@ public class DestinationListController {
         currentDestinationFile = "CurrentDestinationName.json";
 
         // get DestinationList from file
-        this.destinationList = traveluHandler.readDestinationListJSON();
+        // this.destinationList = traveluHandler.readDestinationListJSON();
+        try {
+            this.destinationList = client.getDestinationList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO better handling
+        }
+
+        if (this.destinationList == null)
+            throw new IOException();
 
         setUpListView();
     }
