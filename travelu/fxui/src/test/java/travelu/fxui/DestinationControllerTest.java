@@ -3,7 +3,6 @@ package travelu.fxui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -161,8 +160,6 @@ public class DestinationControllerTest extends ApplicationTest {
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setArrivalDate);
-        //TODO: These tests fail. These errors are handled and not thrown
-        //assertThrows(java.lang.RuntimeException.class, () -> clickOn(setArrivalDate));
 
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid arrival date.", feedBackLabel.getText());
@@ -170,7 +167,6 @@ public class DestinationControllerTest extends ApplicationTest {
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setDepartureDate);
-        //assertThrows(java.lang.RuntimeException.class, () -> clickOn(setDepartureDate));
 
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid departure date.", feedBackLabel.getText());
