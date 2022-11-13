@@ -15,6 +15,11 @@ Implementation of SpotBugs is done to find problems or weaknesses not picked up 
 - `mvn install` will also run `verify` phase
 - `mvn spotbugs:gui` for graphical interface
 
+### Report:
+In the correct folder:
+- `mvn spotbugs:gui` for graphical interface
+  
+**Source:** [Spotbugs](https://spotbugs.github.io)
 Source: [Spotbugs](https://spotbugs.github.io)
 
 ## Checkstyle
