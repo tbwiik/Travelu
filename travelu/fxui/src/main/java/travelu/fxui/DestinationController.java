@@ -101,13 +101,17 @@ public class DestinationController {
 
         // Standardizes date formatting in datePicker. Largely copied from documentation for datePicker.setconverter
         StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
+            // Standard date formatting
             String pattern = "dd/MM/yyyy";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
             {
+                // Display format in DatePicker text fields
                 arrivalDatePicker.setPromptText(pattern.toLowerCase());
                 departureDatePicker.setPromptText(pattern.toLowerCase());
             }
-            // TODO: Fix these
+            /**
+             * Generates string from LocalDate object, used for displaying selected date in DatePicker text field
+             */
             @Override public String toString(LocalDate date) {
                 try{
                     if (date != null) {
@@ -116,7 +120,10 @@ public class DestinationController {
                         return "";
                     }}catch(Exception e){
                         return "";}
-            } 
+            }
+            /**
+             * Generates LocalDate object from string, used for validating written input date
+             */
             @Override public LocalDate fromString(String string) {
                 try{
                     if (string != null && !string.isEmpty()) {
@@ -135,7 +142,6 @@ public class DestinationController {
         arrivalDatePicker.setConverter(stringConverter);
         departureDatePicker.setConverter(stringConverter);
         
-
         setupListView();
         updateListView();
     }
@@ -230,7 +236,7 @@ public class DestinationController {
     }
 
     /**
-     * call method update star with parameter 1 based on which star clicked
+     * call method handleStar with parameter based on which star was clicked
      */
     @FXML
     private void handleStar1() {
@@ -280,6 +286,7 @@ public class DestinationController {
      */
     private void colorStars(int starNumber) {
 
+        // Sets color of the clicked star, and all stars before it to yellow. Updates color of all stars after clicked star to white.
         if (starNumber >= 1) {
             star1.setStyle("-fx-fill: #FFD700");
         } else {
