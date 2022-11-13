@@ -20,7 +20,6 @@ In the correct folder:
 - `mvn spotbugs:gui` for graphical interface
   
 **Source:** [Spotbugs](https://spotbugs.github.io)
-Source: [Spotbugs](https://spotbugs.github.io)
 
 ## Checkstyle
 Checkstyle is an integration used for checking that Java code follows a given standard.
