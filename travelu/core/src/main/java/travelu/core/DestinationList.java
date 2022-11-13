@@ -25,10 +25,11 @@ public class DestinationList {
 
     /**
      * Get actual destination by name
+     * 
      * @param name of destination
      * @return destination
      */
-    private Destination getDestinationByName(String name){
+    private Destination getDestinationByName(String name) {
         return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Destination " + name + " does not exist in list"));
     }
@@ -56,9 +57,10 @@ public class DestinationList {
 
     /**
      * updates destination. For use in DestinationController
+     * 
      * @param destination to be updated
      */
-    public void updateDestination(Destination destination){
+    public void updateDestination(Destination destination) {
         // Removes old version of destination from list, adds new version
         removeDestination(destination.getName());
         addDestination(destination);
@@ -86,7 +88,8 @@ public class DestinationList {
     }
 
     /**
-     * Get list of destination names in lowercase, used to look for duplicates in containsDestination
+     * Get list of destination names in lowercase, used to look for duplicates in
+     * containsDestination
      * 
      * @return list of names
      */
@@ -108,6 +111,26 @@ public class DestinationList {
             throw new IllegalArgumentException("Destination name cannot be null");
 
         return getLowerCaseDestinationNames().contains(destinationName.toLowerCase());
+    }
+
+    /**
+     * Sorts destinations by name
+     */
+    public void sortByName() {
+
+        destinations.sort(
+                (destination1, destination2) -> destination1.getName().toLowerCase()
+                        .compareTo(destination2.getName().toLowerCase()));
+
+    }
+
+    /**
+     * Sorts destinations by rating
+     */
+    public void sortByRating() {
+
+        destinations.sort((destination1, destination2) -> destination2.getRating() - destination1.getRating());
+
     }
 
 }

@@ -3,6 +3,7 @@ package travelu.fxui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import travelu.core.Destination;
@@ -58,6 +59,8 @@ public class DestinationListController {
 
         listView.setStyle("-fx-font-size:20;");
 
+        listView.getItems().clear();
+
         // add all destinations to the list-view
         listView.getItems()
                 .addAll(destinationList.getDestinationNames());
@@ -71,7 +74,20 @@ public class DestinationListController {
 
                 // set currentDestination to the selected item from input on format
                 // objectinformation'DestinationName'
-                currentDestination = click.getTarget().toString().split("'")[1];
+
+                if (click.getTarget().toString().contains("'")) {
+                    // if you click on the box around the text the format is
+                    // objectinformation'DestinationName'
+                    // we then need to get the element after the first '
+                    currentDestination = click.getTarget().toString()
+                            .split("'")[1];
+                } else {
+                    // if you click directly on the text the format is
+                    // Text[text="DestinationName" objectinformation="..."]]
+                    // we then need to get the element after the first "
+                    currentDestination = click.getTarget().toString()
+                            .split("\"")[1];
+                }
 
                 if (click.getClickCount() == 2) {
 
@@ -166,9 +182,29 @@ public class DestinationListController {
         traveluHandler.writeJSON(destinationList, destinationListFile);
     }
 
+    @FXML
+    public void handleSortByName() {
+
+        destinationList.sortByName();
+
+        setUpListView();
+    }
+
+    @FXML
+    public void handleSortByRating() {
+
+        destinationList.sortByRating();
+
+        setUpListView();
+    }
+
     // For testing purposes
     public List<String> getDestinationListNames() {
         return destinationList.getDestinationNames();
+    }
+
+    public List<String> getListViewItems() {
+        return new ArrayList<String>(listView.getItems());
     }
 
     public void initiliazeFromTestFiles() throws IOException {
