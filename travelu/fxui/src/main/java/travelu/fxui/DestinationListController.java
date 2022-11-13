@@ -74,7 +74,20 @@ public class DestinationListController {
 
                 // set currentDestination to the selected item from input on format
                 // objectinformation'DestinationName'
-                currentDestination = click.getTarget().toString().split("'")[1];
+
+                if (click.getTarget().toString().contains("'")) {
+                    // if you click on the box around the text the format is
+                    // objectinformation'DestinationName'
+                    // we then need to get the element after the first '
+                    currentDestination = click.getTarget().toString()
+                            .split("'")[1];
+                } else {
+                    // if you click directly on the text the format is
+                    // Text[text="DestinationName" objectinformation="..."]]
+                    // we then need to get the element after the first "
+                    currentDestination = click.getTarget().toString()
+                            .split("\"")[1];
+                }
 
                 if (click.getClickCount() == 2) {
 
