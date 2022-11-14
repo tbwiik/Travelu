@@ -137,9 +137,9 @@ public class DateIntervalTest {
 
         assertEquals(dateIntervalCopy.getArrivalDate(), dateInterval1.getArrivalDate());
 
-        // making changes to arrival date in dateInterval1 should not impact
-        // arrival date in dateIntervalCopy
-        dateInterval1.setArrivalDate("01/01/2019");
+        // making changes to arrival date in dateIntervalCopy should not impact
+        // arrival date in dateInterval1
+        dateIntervalCopy.setArrivalDate("01/01/2019");
 
         assertNotEquals(dateIntervalCopy.getArrivalDate(), dateInterval1.getArrivalDate());
 
