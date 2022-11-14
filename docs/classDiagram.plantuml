@@ -11,17 +11,7 @@ class Destination {
     + Destination(String name, DateInterval dateInterval, 
     int rating, List<String> activities, String comment)
     + Destination(Destination destination)
-    + String getName()
-    + DateInterval getDateInterval()
-    + void setDateInterval(String startDate, String endDate)
-    + Integer getRating()
-    + void setRating(int rating)
-    + List<String> getActivities()
-    + void addActivity(String activity)
     + void remove activity(String activity)
-    + String getComment()
-    + void setComment(String comment)
-    + void addComment(String addComment)
 }
 
 class DestinationList {
@@ -46,10 +36,6 @@ class DateInterval << (D,orchid) >> {
     + DateInterval(int startDay, int startMonth, 
     int startYear, int endDay, int endMonth, int endYear)
     + DateInterval(DateInterval dateInterval)
-    + int[] getStartDate()
-    + int[] getEndDate()
-    + void setStartDate(int[] startDate)
-    + void setEndDate(int[] endDate)
 }
 
 class DestinationController {
@@ -58,20 +44,7 @@ class DestinationController {
     - TraveluHandler traveluHandler
     - String currentActivity
     - String destinationListFile
-    Label destinationLabel
-    Label arrivalDateLabel
-    Label departureDateLabel
-    DatePicker arrivalDatePicker
-    DatePicker departureDatePicker
     ListView<String> activitiesListView
-    TextField newActivityTextField
-    TextArea commentTextArea
-    Label commentUpdatedFeedbackLabel
-    SVGPath star1 
-    SVGPath star2 
-    SVGPath star3 
-    SVGPath star4 
-    SVGPath star5 
     - void initialize()
     - void setupListView()
     - void updateListView()
@@ -80,16 +53,6 @@ class DestinationController {
     - void handleRemoveActivity()
     - void writeChanges()
     - void handleSelectFile()
-    - void handleStar1()
-    - void handleStar2()
-    - void handleStar3()
-    - void handleStar4()
-    - void handleStar5()
-    - void handleStar(int starNumber)
-    - void colorStars(int starNumber)
-    - void handleChangeComment()
-    - void handleSetArrivalDate()
-    - void handleSetDepartureDate()
     + void changeFileWritingName(String fileWritingName)
 } 
 
