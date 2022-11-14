@@ -18,7 +18,7 @@ public class DateIntervalTest {
     private DateInterval empytInterval;
 
     /**
-     * Create two DateInterval objects using two different methods
+     * Create two DateInterval objects
      */
     @BeforeEach
     public void setup() {

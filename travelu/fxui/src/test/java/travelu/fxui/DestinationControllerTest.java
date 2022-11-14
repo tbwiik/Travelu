@@ -79,7 +79,8 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if app works as intended
+     * Initialize everything, declaring variables that are used later and setting up the files
+     * TODO: clean up this method, and write better docs for it
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -132,7 +133,7 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if you can pick different dates for arrival and departure
+     * Tests picking different dates for arrival and departure
      */
     @Test
     public void testDatePicker() {
@@ -193,9 +194,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
     }
 
-    // /**
-    // * Tests if you can add activity to current destination
-    // */
+    /**
+    * Tests adding activity to current destination
+    */
     @Test
     public void testAddActivity() {
 
@@ -209,6 +210,9 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals(activities, activitiesListView.getItems());
     }
 
+    /**
+     * Tests removing activity from destination
+     */
     @Test
     public void testRemoveActivity() {
         List<String> spainActivities = new ArrayList<>();
@@ -223,7 +227,7 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if you can write comment to current destination
+     * Tests writing comment to current destination
      */
     @Test
     public void testWriteComment() {
@@ -240,8 +244,8 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Test if you the correct number of stars are filled
-     * Test if destination rating is updated correctly
+     * Tests if the correct number of stars are filled
+     * Tests if destination rating is updated correctly
      */
     @Test
     public void testRating() {
