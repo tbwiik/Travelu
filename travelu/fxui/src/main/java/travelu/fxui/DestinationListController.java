@@ -67,7 +67,7 @@ public class DestinationListController {
             // get rating of destination
             int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
             // add destination with name and number stars equal to rating
-            destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
+            destinationNameAndRating.add(destinationName + " " + "★".repeat(destinationRating));
         }
 
         // add all destinations and rating to list-view
