@@ -265,11 +265,12 @@ public class DestinationListTest {
         assertEquals(destinationListCopy.size(), destinationList.getList().size());
 
         // making changes to destinationListCopy should not impact destinationList
-        destinationListCopy.add(new Destination("Extra destination", new DateInterval(), 3, null, null));
+        Destination extraDestination = new Destination("Extra destination", new DateInterval(), 3, null, null);
+        destinationListCopy.add(extraDestination);
 
         assertNotEquals(destinationListCopy.size(), destinationList.getList().size());
 
-        destinationList.removeDestination("Extra destination");
+        destinationListCopy.remove(extraDestination);
 
         assertEquals(destinationListCopy.size(), destinationList.getList().size());
 
