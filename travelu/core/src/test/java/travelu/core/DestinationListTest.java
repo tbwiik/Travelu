@@ -247,4 +247,47 @@ public class DestinationListTest {
         assertEquals(expectedList, destinationList.getList());
     }
 
+    /*
+     * Test if encapsulation is correctly handled
+     */
+    @Test
+    public void testCorrectEncapsulation() {
+
+        Destination destinationCopy = destinationList.getDestinationCopyByName("Norway");
+
+        assertEquals(destinationCopy.getComment(), norway.getComment());
+
+        // making changes to comment on destinationCopy should not change
+        // comment on norway
+        destinationCopy.setComment("This should not change comment in destinationCopy");
+
+        assertNotEquals(destinationCopy.getComment(), norway.getComment());
+
+        List<Destination> destinationListCopy = destinationList.getList();
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        // making changes to destinationListCopy should not impact destinationList
+        Destination extraDestination = new Destination("Extra destination", new DateInterval(), 3, null, null);
+        destinationListCopy.add(extraDestination);
+
+        assertNotEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        destinationListCopy.remove(extraDestination);
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        List<String> destinationNamesCopy = destinationList.getDestinationNames();
+
+        assertEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
+        destinationNamesCopy.add("Extra destination");
+
+        // making changes to destinationList through getDestinationNames should not work
+        destinationList.getDestinationNames().add("Extra destination");
+
+        assertNotEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
+    }
+
 }

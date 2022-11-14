@@ -2,6 +2,7 @@ package travelu.core;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -72,12 +73,13 @@ public class DateIntervalTest {
      * Tests dates that are obviously invalid
      */
     @Test
-    public void testInvalidDates(){
+    public void testInvalidDates() {
 
         dateInterval1.setArrivalDate("01/01/2019");
         dateInterval1.setDepartureDate("04/01/2019");
 
-        // check that date interval throws IllegalArgumentException, and stays unchanged on invalid date input
+        // check that date interval throws IllegalArgumentException, and stays unchanged
+        // on invalid date input
         assertThrows(IllegalArgumentException.class, () -> dateInterval1.setArrivalDate("02/15/2019"));
         assertEquals("01/01/2019", dateInterval1.getArrivalDate());
 
@@ -101,7 +103,8 @@ public class DateIntervalTest {
         assertThrows(IllegalArgumentException.class, () -> dateInterval1.setArrivalDate("31/01/999"));
         assertEquals("04/01/2019", dateInterval1.getDepartureDate());
 
-        // Checks that the correct exception is thrown when inputting letters instead of date
+        // Checks that the correct exception is thrown when inputting letters instead of
+        // date
         assertThrows(IllegalArgumentException.class, () -> dateInterval1.setArrivalDate("aa/bb/cccc"));
         assertEquals("04/01/2019", dateInterval1.getDepartureDate());
 
@@ -114,7 +117,7 @@ public class DateIntervalTest {
      * Tests correct handling of leap years
      */
     @Test
-    public void testLeapYear(){
+    public void testLeapYear() {
         dateInterval1.setArrivalDate("01/01/2019");
         dateInterval1.setDepartureDate("04/01/2019");
 
@@ -125,6 +128,24 @@ public class DateIntervalTest {
         // Check February 29th of leap year
         assertDoesNotThrow(() -> dateInterval1.setDepartureDate("29/02/2020"));
         assertEquals("29/02/2020", dateInterval1.getDepartureDate());
+    }
+
+    /*
+     * Test if encapsulation is correctly handled
+     */
+    @Test
+    public void testCorrectEncapsulation() {
+
+        DateInterval dateIntervalCopy = new DateInterval(dateInterval1);
+
+        assertEquals(dateIntervalCopy.getArrivalDate(), dateInterval1.getArrivalDate());
+
+        // making changes to arrival date in dateIntervalCopy should not impact
+        // arrival date in dateInterval1
+        dateIntervalCopy.setArrivalDate("01/01/2019");
+
+        assertNotEquals(dateIntervalCopy.getArrivalDate(), dateInterval1.getArrivalDate());
+
     }
 
 }
