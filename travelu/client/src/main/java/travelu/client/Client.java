@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 import com.google.gson.Gson;
 
 import travelu.core.DestinationList;
+import travelu.core.Destination;
 
 public class Client {
 
@@ -59,7 +60,7 @@ public class Client {
      *                              response
      * @throws ExecutionException
      */
-    private HttpResponse<String> get(final String endpoint)
+    private HttpResponse<String> get(String endpoint)
             throws URISyntaxException, InterruptedException, ExecutionException {
 
         HttpResponse<String> response = this.getAsync(endpoint).get();
@@ -83,6 +84,27 @@ public class Client {
         Gson gson = new Gson();
 
         DestinationList result = gson.fromJson(response.body(), DestinationList.class);
+
+        return result;
+    }
+
+    /**
+     * Get a {@link Destination} from the server
+     * 
+     * @param destinationName identifier for wanted destination
+     * @return wanted {@link Destination} object
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public Destination getDestination(String destinationName)
+            throws URISyntaxException, InterruptedException, ExecutionException {
+
+        HttpResponse<String> response = this.get("/api/v1/entries/" + destinationName);
+
+        Gson gson = new Gson();
+
+        Destination result = gson.fromJson(response.body(), Destination.class);
 
         return result;
     }
