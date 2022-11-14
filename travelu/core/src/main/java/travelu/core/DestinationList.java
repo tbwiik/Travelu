@@ -19,6 +19,9 @@ public class DestinationList {
     public void addDestination(Destination destination) {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
+        
+        if(destinations.contains(destination))
+            throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
 
         destinations.add(destination);
     }
