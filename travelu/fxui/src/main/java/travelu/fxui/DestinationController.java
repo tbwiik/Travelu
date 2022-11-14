@@ -61,7 +61,10 @@ public class DestinationController {
     TextField commentTextField;
 
     @FXML
-    Label commentUpdatedFeedbackLabel;
+    Label commentFeedbackLabel;
+
+    @FXML
+    Label activityFeedbackLabel;
 
     @FXML
     SVGPath star1;
