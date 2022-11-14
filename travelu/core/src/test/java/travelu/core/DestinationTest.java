@@ -98,12 +98,12 @@ public class DestinationTest {
     @Test
     public void testCorrectEncapsulation() {
 
-        List<String> testActivities = destination.getActivities();
+        List<String> activitiesCopy = destination.getActivities();
 
-        assertEquals(testActivities, destination.getActivities());
+        assertEquals(activitiesCopy, destination.getActivities());
         assertEquals(3, destination.getActivities().size());
 
-        testActivities.add("Skateboarding");
+        activitiesCopy.add("Skateboarding");
 
         // making changes to activities list through getActivities() should not impact
         // activities list in destination
@@ -111,7 +111,7 @@ public class DestinationTest {
 
         assertEquals(3, destination.getActivities().size());
 
-        assertNotEquals(testActivities, destination.getActivities());
+        assertNotEquals(activitiesCopy, destination.getActivities());
 
     }
 }
