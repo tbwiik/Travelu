@@ -102,9 +102,9 @@ public class DestinationTest {
 
         assertEquals(destinationCopy.getComment(), destination.getComment());
 
-        // making changes to comment in destination should not impact
-        // comment in destinationCopy
-        destination.setComment("This should not change comment in destinationCopy");
+        // making changes to comment on destinationCopy should not impact
+        // comment on destination
+        destinationCopy.setComment("This should not change comment in destinationCopy");
 
         assertNotEquals(destinationCopy.getComment(), destination.getComment());
 
