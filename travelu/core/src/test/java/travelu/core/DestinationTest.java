@@ -98,6 +98,16 @@ public class DestinationTest {
     @Test
     public void testCorrectEncapsulation() {
 
+        Destination destinationCopy = new Destination(destination);
+
+        assertEquals(destinationCopy.getComment(), destination.getComment());
+
+        // making changes to comment in destination should not impact
+        // comment in destinationCopy
+        destination.setComment("This should not change comment in destinationCopy");
+
+        assertNotEquals(destinationCopy.getComment(), destination.getComment());
+
         List<String> activitiesCopy = destination.getActivities();
 
         assertEquals(activitiesCopy, destination.getActivities());
