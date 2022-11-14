@@ -2,6 +2,7 @@ package travelu.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * List of Destinations
@@ -25,22 +26,24 @@ public class DestinationList {
 
     /**
      * Get actual destination by name
+     * 
      * @param name of destination
-     * @return destination
+     * @return {@link Destination}
+     * @throws NoSuchElementException if no such element
      */
-    private Destination getDestinationByName(String name){
+    private Destination getDestinationByName(String name) throws NoSuchElementException {
         return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Destination " + name + " does not exist in list"));
+                .orElseThrow(() -> new NoSuchElementException("Destination " + name + " does not exist in list"));
     }
 
     /**
      * Get copy of destination by name
      * 
      * @param name of destination
-     * @throws IllegalArgumentException if no destination with name
+     * @throws NoSuchElementException if no destination with name
      * @return destination
      */
-    public Destination getDestinationCopyByName(String name) {
+    public Destination getDestinationCopyByName(String name) throws NoSuchElementException {
         return new Destination(getDestinationByName(name));
     }
 
@@ -56,9 +59,10 @@ public class DestinationList {
 
     /**
      * updates destination. For use in DestinationController
+     * 
      * @param destination to be updated
      */
-    public void updateDestination(Destination destination){
+    public void updateDestination(Destination destination) {
         // Removes old version of destination from list, adds new version
         removeDestination(destination.getName());
         addDestination(destination);
@@ -86,7 +90,8 @@ public class DestinationList {
     }
 
     /**
-     * Get list of destination names in lowercase, used to look for duplicates in containsDestination
+     * Get list of destination names in lowercase, used to look for duplicates in
+     * containsDestination
      * 
      * @return list of names
      */
