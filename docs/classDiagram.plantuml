@@ -1,0 +1,141 @@
+@startuml classDiagram
+
+class Destination {
+    - String name
+    - DateInterval dateInterval
+    - int rating
+    - List<String> activities 
+    - String comment
+    + Destination(String name, DateInterval dateInterval, 
+    int rating, List<String> activities, String comment)
+    + Destination(Destination destination)
+    + String getName()
+    + DateInterval getDateInterval()
+    + void setDateInterval(String startDate, String endDate)
+    + Integer getRating()
+    + void setRating(int rating)
+    + List<String> getActivities()
+    + void addActivity(String activity)
+    + void remove activity(String activity)
+    + String getComment()
+    + void setComment(String comment)
+    + void addComment(String addComment)
+}
+
+class DestinationList {
+    -List<Destination> destinations
+    + void addDestination(Destination destination)
+    - Destination getDestinationByName(String name)
+    + Destination getDestinationCopyByName(String name)
+    + void removeDestination(String name)
+    + void updateDestination(Destination destination)
+    + List<Destination> getList()
+    + List <String> getDestinationNames()
+    - List<String> getLowerCaseDestinationNames()
+    + boolean containsDestination(String destinationName)
+    + void sortByName()
+    + void sortByRating()
+}
+
+class DateInterval << (D,orchid) >> {
+    - int[] startDate
+    - int[] endDate
+    + DateInterval(int[] startDate, int[] endDate)
+    + DateInterval(int startDay, int startMonth, 
+    int startYear, int endDay, int endMonth, int endYear)
+    + DateInterval(DateInterval dateInterval)
+    + int[] getStartDate()
+    + int[] getEndDate()
+    + void setStartDate(int[] startDate)
+    + void setEndDate(int[] endDate)
+}
+
+class DestinationController {
+    - Destination currentDestination
+    - DestinationList destinationList
+    - TraveluHandler traveluHandler
+    - String currentActivity
+    - String destinationListFile
+    Label destinationLabel
+    Label arrivalDateLabel
+    Label departureDateLabel
+    DatePicker arrivalDatePicker
+    DatePicker departureDatePicker
+    ListView<String> activitiesListView
+    TextField newActivityTextField
+    TextArea commentTextArea
+    Label commentUpdatedFeedbackLabel
+    SVGPath star1 
+    SVGPath star2 
+    SVGPath star3 
+    SVGPath star4 
+    SVGPath star5 
+    - void initialize()
+    - void setupListView()
+    - void updateListView()
+    - handleReturnButton()
+    - void handleAddActivity()
+    - void handleRemoveActivity()
+    - void writeChanges()
+    - void handleSelectFile()
+    - void handleStar1()
+    - void handleStar2()
+    - void handleStar3()
+    - void handleStar4()
+    - void handleStar5()
+    - void handleStar(int starNumber)
+    - void colorStars(int starNumber)
+    - void handleChangeComment()
+    - void handleSetArrivalDate()
+    - void handleSetDepartureDate()
+    + void changeFileWritingName(String fileWritingName)
+} 
+
+class DestinationListController {
+    - ListView<String> listView
+    - TextArea destinationText
+    - Text feedbackText
+    - DestinationList destinationList
+    - String currentDestination
+    - TraveluHandler traveluHandler
+    - String destinationListFile
+    - String currentDestinationFile
+    - void initialize()
+    - void setupListView()
+    - void switchToDestination(String destinationName)
+    + void handleAddDestination()
+    + void handleRemoveDestination()
+    + void handleSortByName()
+    + void handleSortByRating()
+}
+
+class App {
+    - {static} Scene scene
+    + void start(Stage stage)
+    {static} void setRoot(String fxml)
+    - {static} Parent loadFXML(String fxml)
+}
+
+class TraveluHandler {
+    - {static} String getFilePath(String filename)
+    - File getFile(String filename)
+    + void writeJSON(Object object, String filename)
+    + DestinationList readDestinationListJSON(String filename)
+    + DestinationList readDestinationListJSON()
+    + String readCurrentDestinationNameJSON(String filename)
+    + String readCurrentDestinationNameJSON()
+}
+
+DateInterval "dateInterval: *  " <|-- Destination
+DestinationList "destinations: *" o-- Destination
+Destination "destinationList: 1   " <|-- DestinationController
+DestinationList "    currentDestination: 1" <|-- DestinationController
+TraveluHandler "traveluHandler: 1" <|-- DestinationController
+DestinationList "destinationList: 1"<|-- DestinationListController
+TraveluHandler "traveluHandler: 1 .  " <|-- DestinationListController
+DestinationList " destinationList: 1" <|-- TraveluHandler
+
+skinparam linetype ortho
+
+@enduml
+
