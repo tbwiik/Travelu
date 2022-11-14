@@ -254,9 +254,9 @@ public class DestinationListTest {
 
         assertEquals(destinationCopy.getComment(), norway.getComment());
 
-        // making changes to comment in norway should not impact
-        // comment in destinationCopy
-        norway.setComment("This should not change comment in destinationCopy");
+        // making changes to comment on destinationCopy should not change
+        // comment on norway
+        destinationCopy.setComment("This should not change comment in destinationCopy");
 
         assertNotEquals(destinationCopy.getComment(), norway.getComment());
 
