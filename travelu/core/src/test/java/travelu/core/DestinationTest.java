@@ -108,6 +108,16 @@ public class DestinationTest {
 
         assertNotEquals(destinationCopy.getComment(), destination.getComment());
 
+        DateInterval dateIntervalCopy = destination.getDateInterval();
+
+        assertEquals(dateIntervalCopy.getArrivalDate(), destination.getDateInterval().getArrivalDate());
+
+        // making changes to dateIntervalCopy should not impact
+        // dateInterval in destination
+        dateIntervalCopy.setArrivalDate("01/01/2020");
+
+        assertNotEquals(dateIntervalCopy.getArrivalDate(), destination.getDateInterval().getArrivalDate());
+
         List<String> activitiesCopy = destination.getActivities();
 
         assertEquals(activitiesCopy, destination.getActivities());
