@@ -62,19 +62,6 @@ public class DestinationTest {
     }
 
     /**
-     * Tests if you can add more comments
-     */
-    @Test
-    public void testAddComment() {
-
-        String com = destination.getComment();
-
-        String addCom = "Remember to bring suncream";
-        destination.addComment(addCom);
-        assertEquals(com + "\n" + addCom, destination.getComment());
-    }
-
-    /**
      * Tests removing activity
      */
     @Test
