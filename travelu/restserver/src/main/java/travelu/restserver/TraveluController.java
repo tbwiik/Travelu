@@ -44,4 +44,15 @@ public class TraveluController {
         return result;
     }
 
+    @PostMapping(value = "/add", produces = "application/json")
+    public void addDestinationJSON(final @RequestBody String destinationJSON) {
+        Gson gson = new Gson();
+        Destination destination = gson.fromJson(destinationJSON, Destination.class);
+        try {
+            traveluService.getDestinationList().addDestination(destination);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        System.out.println(destination.toString());
+    }
 }
