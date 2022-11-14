@@ -75,13 +75,13 @@ public class TraveluHandler {
     }
 
     /**
-     * Writes {@link Destination} to default file using {@code GSON}
+     * Writes name of {@link Destination} to default file using {@code GSON}
      * 
      * @param destination
      * @throws IOException
      */
-    public static void saveDestination(Destination destination) throws IOException {
-        writeJSON(destination, DEFAULT_FILENAME_CURRENTD);
+    public static void saveDestinationName(String destinationName) throws IOException {
+        writeJSON(destinationName, DEFAULT_FILENAME_CURRENTD);
     }
 
     /**
