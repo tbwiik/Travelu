@@ -110,6 +110,28 @@ public class Client {
     }
 
     /**
+     * Get current chosen {@link Destination} from the server
+     * <p>
+     * First send a get-request to get name
+     * <p>
+     * Then use {@link #getDestination(String)} to get Destination
+     * 
+     * @return current chosen {@link Destination}
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public Destination getDestination() throws URISyntaxException, InterruptedException, ExecutionException {
+
+        HttpResponse<String> response = this.get("/api/v1/entries/currentDestination");
+
+        String destinationName = response.body().replace("\"", "");
+        Destination destination = getDestination(destinationName);
+
+        return destination;
+    }
+
+    /**
      * Asynchronous post request
      * 
      * @param endpoint where the request is sent to
@@ -165,6 +187,25 @@ public class Client {
         String destinationJSON = gson.toJson(destination);
 
         this.post("/api/v1/entries/add", destinationJSON);
+    }
 
+    /**
+     * Store chosen destination to file through server
+     * <p>
+     * Used for accessing correct destination when switching views
+     * 
+     * @param destinationName
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void storeCurrentDestination(String destinationName)
+            throws URISyntaxException, InterruptedException, ExecutionException {
+
+        Gson gson = new Gson();
+
+        String destinationJSON = gson.toJson(destinationName);
+
+        this.post("/api/v1/entries/storeCurrent", destinationJSON);
     }
 }
