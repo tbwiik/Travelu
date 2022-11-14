@@ -151,7 +151,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Label fx:id="ActivityFeedbackLabel" layoutX="173.0" layoutY="11.0" prefHeight="31.0" prefWidth="206.0" textFill="#f54f2c" visible="false">
+            <Label fx:id="activityFeedbackLabel" layoutX="173.0" layoutY="11.0" prefHeight="31.0" prefWidth="206.0" textFill="#f54f2c">
                <font>
                   <Font size="16.0" />
                </font>
