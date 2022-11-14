@@ -154,17 +154,6 @@ public class Destination {
     }
 
     /**
-     * Appends further comment
-     * <p>
-     * Starts on a new line
-     * 
-     * @param addComment comment to append
-     */
-    public void addComment(String addComment) {
-        this.comment = this.comment + "\n" + addComment;
-    }
-
-    /**
      * Return true if names are equal
      * <p>
      * This is satisfactory because there will never be more than one object per
