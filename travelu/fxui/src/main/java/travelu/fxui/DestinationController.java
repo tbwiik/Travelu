@@ -2,9 +2,9 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import travelu.client.Client;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -19,6 +19,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
+
+    /**
+     * Initialize client used for server communication
+     */
+    private final Client client = new Client("http://localhost", 8080);
 
     // currently selected destination
     private Destination currentDestination;
@@ -75,16 +80,15 @@ public class DestinationController {
     @FXML
     private void initialize() throws FileNotFoundException, IOException {
 
-        destinationListFile = "DestinationList.json";
-
-        this.destinationList = traveluHandler.readDestinationListJSON();
-        String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
-
-        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+        try {
+            this.currentDestination = this.client.getDestination();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         colorStars(this.currentDestination.getRating());
 
-        destinationLabel.setText(currentDestinationName);
+        destinationLabel.setText(currentDestination.getName());
 
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
@@ -95,7 +99,7 @@ public class DestinationController {
     }
 
     /**
-     * Sets up listener for changing selected activity in activitiesListView
+     * Set up listener for changing selected activity in activitiesListView
      */
     @FXML
     private void setupListView() {
@@ -110,7 +114,7 @@ public class DestinationController {
     }
 
     /**
-     * Updates view of activity list
+     * Update view of activity list
      */
     @FXML
     private void updateListView() {
@@ -119,7 +123,7 @@ public class DestinationController {
     }
 
     /**
-     * Returns to destination-list
+     * Return to destination-list
      * 
      * @throws IOException
      */

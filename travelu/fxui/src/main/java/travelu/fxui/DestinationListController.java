@@ -1,6 +1,5 @@
 package travelu.fxui;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,9 @@ import javafx.scene.text.Text;
 
 public class DestinationListController {
 
+    /**
+     * Initialize client for server communication
+     */
     private final Client client = new Client("http://localhost", 8080);
 
     @FXML
@@ -35,33 +37,22 @@ public class DestinationListController {
 
     private String currentDestination;
 
-    private TraveluHandler traveluHandler = new TraveluHandler();
-
     private String destinationListFile;
-    private String currentDestinationFile;
 
     /**
-     * Initiliaze start-page
+     * Initialize start-page
      * 
      * @throws IOException
      */
     @FXML
     private void initialize() throws IOException {
 
-        destinationListFile = "DestinationList.json";
-        currentDestinationFile = "CurrentDestinationName.json";
-
-        // get DestinationList from file
-        // this.destinationList = traveluHandler.readDestinationListJSON();
         try {
             this.destinationList = client.getDestinationList();
         } catch (Exception e) {
             e.printStackTrace();
             // TODO better handling
         }
-
-        if (this.destinationList == null)
-            throw new IOException();
 
         setUpListView();
     }
@@ -109,9 +100,11 @@ public class DestinationListController {
      */
     private void switchToDestination(String destinationName) throws IOException {
 
-        // Write current destination name to file, so it can be accessed from
-        // destination controller
-        traveluHandler.writeJSON(destinationName, currentDestinationFile);
+        try {
+            client.storeCurrentDestination(destinationName);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         App.setRoot("destination");
 
@@ -149,9 +142,13 @@ public class DestinationListController {
 
             // remove text in inputField
             destinationText.clear();
-        }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
 
+            try {
+                client.addDestination(newDestination);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
     }
 
     /**
@@ -171,7 +168,13 @@ public class DestinationListController {
             destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
+        // traveluHandler.writeJSON(destinationList, destinationListFile);
+
+        // try {
+        // client.saveDestinationList(destinationList);
+        // } catch (Exception e) {
+        // // TODO: handle exception
+        // }
     }
 
     // For testing purposes
@@ -181,9 +184,8 @@ public class DestinationListController {
 
     public void initiliazeFromTestFiles() throws IOException {
         destinationListFile = "testDestinationList.json";
-        currentDestinationFile = "testCurrentDestinationName.json";
 
-        destinationList = traveluHandler.readDestinationListJSON(destinationListFile);
+        destinationList = TraveluHandler.readDestinationListJSON(destinationListFile);
 
         setUpListView();
     }
