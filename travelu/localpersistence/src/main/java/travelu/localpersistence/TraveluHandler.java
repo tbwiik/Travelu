@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import travelu.core.Destination;
 import travelu.core.DestinationList;
 
 import com.google.gson.Gson;
@@ -63,13 +64,24 @@ public class TraveluHandler {
     }
 
     /**
-     * Writes to default file in {@code JSON Format}using {@code Gson}
+     * Writes {@link DestinationList} to default file in {@code JSON Format}using
+     * {@code Gson}
      * 
      * @param destinationList
      * @throws IOException
      */
     public static void save(DestinationList destinationList) throws IOException {
         writeJSON(destinationList, DEFAULT_FILENAME_DLIST);
+    }
+
+    /**
+     * Writes {@link Destination} to default file using {@code GSON}
+     * 
+     * @param destination
+     * @throws IOException
+     */
+    public static void saveDestination(Destination destination) throws IOException {
+        writeJSON(destination, DEFAULT_FILENAME_CURRENTD);
     }
 
     /**
