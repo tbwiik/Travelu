@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Date-interval, from arrivalDate to departureDate
- * Stored as strings on format dd/MM/yyyy
- * Dates are validated whenever they are changed
+ * Date-interval, from arrivalDate to departureDate.
+ * <p>
+ * Stored as strings on format dd/MM/yyyy.
+ * <p>
+ * Dates are validated whenever they are changed.  
  */
 public class DateInterval {
 

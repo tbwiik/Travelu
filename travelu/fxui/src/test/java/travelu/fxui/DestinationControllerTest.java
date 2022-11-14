@@ -245,6 +245,7 @@ public class DestinationControllerTest extends ApplicationTest {
 
     /**
      * Tests if the correct number of stars are filled
+     * <p>
      * Tests if destination rating is updated correctly
      */
     @Test
