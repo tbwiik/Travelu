@@ -247,6 +247,9 @@ public class DestinationListTest {
         assertEquals(expectedList, destinationList.getList());
     }
 
+    /*
+     * Test if encapsulation is correctly handeled
+     */
     @Test
     public void testCorrectEncapsulation() {
 

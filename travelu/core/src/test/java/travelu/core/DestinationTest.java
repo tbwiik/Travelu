@@ -95,6 +95,9 @@ public class DestinationTest {
         assertEquals(testActivities, destination.getActivities());
     }
 
+    /*
+     * Test if encapsulation is correctly handeled
+     */
     @Test
     public void testCorrectEncapsulation() {
 

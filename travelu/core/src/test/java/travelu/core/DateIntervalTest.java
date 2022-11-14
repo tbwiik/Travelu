@@ -130,6 +130,9 @@ public class DateIntervalTest {
         assertEquals("29/02/2020", dateInterval1.getDepartureDate());
     }
 
+    /*
+     * Test if encapsulation is correctly handeled
+     */
     @Test
     public void testCorrectEncapsulation() {
 
