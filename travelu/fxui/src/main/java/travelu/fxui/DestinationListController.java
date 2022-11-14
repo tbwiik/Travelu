@@ -61,9 +61,17 @@ public class DestinationListController {
 
         listView.getItems().clear();
 
-        // add all destinations to the list-view
-        listView.getItems()
-                .addAll(destinationList.getDestinationNames());
+        // create list of all destinations with star-rating
+        List<String> destinationNameAndRating = new ArrayList<>();
+        for (String destinationName : destinationList.getDestinationNames()) {
+            // get rating of destination
+            int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
+            // add destination with name and number stars equal to rating
+            destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
+        }
+
+        // add all destinations and rating to list-view
+        listView.getItems().addAll(destinationNameAndRating);
 
         // make click select currentDestination
         // make double-click on list-view item take you to page with currentDestination
@@ -94,10 +102,13 @@ public class DestinationListController {
                     // switch to currentDestination page on double-click if a destination was
                     // clicked
                     if (!currentDestination.equals("null")) {
+                        // remove the stars from the selected destination
+                        String currentDestinationName = currentDestination.replace("★", "");
                         try {
-                            switchToDestination(currentDestination);
+                            // load the destination chosen
+                            switchToDestination(currentDestinationName);
                         } catch (IOException e) {
-                            feedbackText.setText("Could not find " + currentDestination);
+                            feedbackText.setText("Could not find " + currentDestinationName);
                             e.printStackTrace();
                         }
                     }
@@ -176,7 +187,11 @@ public class DestinationListController {
         } else {
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
-            destinationList.removeDestination(currentDestination);
+            // remove the star-rating from the selected destination
+            String currentDestinationName = currentDestination.replace("★", "");
+
+            // remove the destination from destinationList and list-view
+            destinationList.removeDestination(currentDestinationName);
             listView.getItems().remove(currentDestination);
         }
         traveluHandler.writeJSON(destinationList, destinationListFile);
