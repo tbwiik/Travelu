@@ -94,4 +94,24 @@ public class DestinationTest {
 
         assertEquals(testActivities, destination.getActivities());
     }
+
+    @Test
+    public void testCorrectEncapsulation() {
+
+        List<String> testActivities = destination.getActivities();
+
+        assertEquals(testActivities, destination.getActivities());
+        assertEquals(3, destination.getActivities().size());
+
+        testActivities.add("Skateboarding");
+
+        // making changes to activities list through getActivities() should not impact
+        // activities list in destination
+        destination.getActivities().add("Skateboarding");
+
+        assertEquals(3, destination.getActivities().size());
+
+        assertNotEquals(testActivities, destination.getActivities());
+
+    }
 }
