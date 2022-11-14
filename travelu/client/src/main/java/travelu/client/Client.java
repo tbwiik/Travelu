@@ -109,4 +109,62 @@ public class Client {
         return result;
     }
 
+    /**
+     * Asynchronous post request
+     * 
+     * @param endpoint where the request is sent to
+     * @return the HTTP async response
+     * @throws URISyntaxException if invalid URI
+     */
+    private CompletableFuture<HttpResponse<String>> postAsync(String endpoint, String payload)
+            throws URISyntaxException {
+
+        HttpClient client = HttpClient.newBuilder().build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString(payload))
+                .uri(new URI(this.serverUrl + ":" + this.serverPort + endpoint))
+                .build();
+
+        return client.sendAsync(request, BodyHandlers.ofString());
+    }
+
+    /**
+     * Synchronous post request
+     * <p>
+     * Makes use of {@link #postAsync(String)}
+     * 
+     * @param endpoint where the request is sent to
+     * @return the HTTP response
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrieval of
+     *                              response
+     * @throws ExecutionException
+     */
+    private HttpResponse<String> post(String endpoint, String payload)
+            throws URISyntaxException, InterruptedException, ExecutionException {
+
+        HttpResponse<String> response = this.postAsync(endpoint, payload).get();
+
+        return response;
+    }
+
+    /**
+     * Add new {@link Destination} through server
+     * 
+     * @param destination
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void addDestination(Destination destination)
+            throws URISyntaxException, InterruptedException, ExecutionException {
+
+        Gson gson = new Gson();
+
+        String destinationJSON = gson.toJson(destination);
+
+        this.post("/api/v1/entries/add", destinationJSON);
+
+    }
 }
