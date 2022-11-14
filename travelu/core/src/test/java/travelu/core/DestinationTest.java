@@ -125,8 +125,7 @@ public class DestinationTest {
 
         activitiesCopy.add("Skateboarding");
 
-        // making changes to activities list through getActivities() should not impact
-        // activities list in destination
+        // making changes to activities through getActivities should not work
         destination.getActivities().add("Skateboarding");
 
         assertEquals(3, destination.getActivities().size());
