@@ -131,7 +131,6 @@ public class DestinationListController {
     public void handleAddDestination() throws IOException {
 
         String newDestinationName = destinationText.getText().trim();
-
         if (newDestinationName.isBlank()) {
             // if user didn't input any text
             // remove any feedback given and do nothing

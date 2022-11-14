@@ -26,6 +26,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.fxutil.TraveluHandler;
@@ -52,6 +54,7 @@ public class DestinationControllerTest extends ApplicationTest {
     private Button setDepartureDate;
     private Label arrivalDateLabel;
     private Label departureDateLabel;
+    private Label feedBackLabel;
 
     private ListView<String> activitiesListView;
     private TextField newActivityTextField;
@@ -76,7 +79,8 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if app works as intended
+     * Initialize everything, declaring variables that are used later and setting up the files
+     * TODO: clean up this method, and write better docs for it
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -124,36 +128,75 @@ public class DestinationControllerTest extends ApplicationTest {
         star4 = lookup("#star4").query();
         star5 = lookup("#star5").query();
 
+        feedBackLabel = lookup("#dateUpdatedFeedbackLabel").query();
+
     }
 
     /**
-     * Tests if you can pick different dates for arrival and departure
+     * Tests picking different dates for arrival and departure
      */
     @Test
     public void testDatePicker() {
 
-        String startDate = "5/2/2021";
-        String endDate = "8/2/2021";
-        String errorDate = "10/10/2030";
+        // dates in format dd/MM/yyyy
+        String arrivalDate = "05/02/2021";
+        String departureDate = "19/10/2021";
+        String invalidDate = "11/13/2021";
 
-        clickOn(arrivalDatePicker).write(startDate);
-        assertNotEquals(startDate, arrivalDateLabel.getText());
+        String arrivalDateAfterDepartureDate = "21/10/2021";
+        String departureDateBeforeArrivalDate = "10/01/2021";
+
+        clickOn(arrivalDatePicker).write(arrivalDate);
+        assertNotEquals(arrivalDate, arrivalDateLabel.getText());
         clickOn(setArrivalDate);
-        assertNotEquals(errorDate, arrivalDateLabel.getText());
-        // assertEquals(startDate, arrivalDateLabel.getText());
 
-        clickOn(departureDatePicker).write(endDate);
-        assertNotEquals(endDate, departureDateLabel.getText());
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+
+        clickOn(departureDatePicker).write(departureDate);
+        assertNotEquals(departureDate, departureDateLabel.getText());
         clickOn(setDepartureDate);
-        assertNotEquals(errorDate, departureDateLabel.getText());
+
+        assertEquals(departureDate, departureDateLabel.getText());
+
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(invalidDate);
+        clickOn(setArrivalDate);
+
+        assertNotEquals(invalidDate, arrivalDateLabel.getText());
+        assertEquals("Invalid arrival date.", feedBackLabel.getText());
+
+        clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
+                .write(invalidDate);
+        clickOn(setDepartureDate);
+
+        assertNotEquals(invalidDate, arrivalDateLabel.getText());
+        assertEquals("Invalid departure date.", feedBackLabel.getText());
+
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(arrivalDateAfterDepartureDate);
+        clickOn(setArrivalDate);
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+        assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
+
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(arrivalDate);
+        clickOn(setArrivalDate);
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+        assertEquals("", feedBackLabel.getText());
+
+        clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
+                .write(departureDateBeforeArrivalDate);
+        clickOn(setDepartureDate);
+        assertEquals(departureDate, departureDateLabel.getText());
+        assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
 
         assertNotNull(destinationController.getDestinationDateInterval());
 
     }
 
     /**
-     * Tests if you can add activity to current destination
-     */
+    * Tests adding activity to current destination
+    */
     @Test
     public void testAddActivity() {
 
@@ -168,7 +211,7 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if you can remove activities from current destination
+     * Tests removing activity from destination
      */
     @Test
     public void testRemoveActivity() {
@@ -184,23 +227,26 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if you can write comment to current destination
+     * Tests writing comment to current destination
      */
     @Test
     public void testWriteComment() {
 
-        clickOn(commentTextField).write(
-                "I traveled to Spain with my family and we visited restaurants every day");
+    clickOn(commentTextField).write(
+    "I traveled to Spain with my family and we visited restaurants every day");
 
-        assertNotEquals(commentTextField.getText(), destinationController.getDestinationComment());
-        clickOn(updateComment);
+    assertNotEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+    clickOn(updateComment);
 
-        assertEquals(commentTextField.getText(), destinationController.getDestinationComment());
+    assertEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
     }
 
     /**
-     * Test if you the correct number of stars are filled
-     * Test if destination rating is updated correctly
+     * Tests if the correct number of stars are filled
+     * <p>
+     * Tests if destination rating is updated correctly
      */
     @Test
     public void testRating() {
@@ -262,5 +308,6 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals(2, destinationController.getDestinationRating());
 
     }
+
 
 }

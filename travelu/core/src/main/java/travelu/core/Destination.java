@@ -29,7 +29,7 @@ public class Destination {
 
         // dateinterval is allowed to be null, but constructor should not take in null
         // as input
-        this.dateInterval = dateInterval == null ? null : new DateInterval(dateInterval);
+        this.dateInterval = dateInterval == null ? new DateInterval() : new DateInterval(dateInterval);
         this.rating = rating;
 
         // if activities are null, create new list. Otherwise create copy of old
@@ -70,39 +70,21 @@ public class Destination {
     }
 
     /**
-     * Function used to set date-intervals with string input
-     * <p>
-     * Used by controller
-     * 
-     * @param startDate of stay on the form {@code d/m/y}
-     * @param endDate   of stay on the form {@code d/m/y}
-     * @throws IllegalArgumentException if lacking input on either startdate or
-     *                                  enddate
-     * @throws NumberFormatException    if input is wrong format
+     * Set arrival date for destination
+     * @param arrivalDate - string in format dd/MM/yyyy
+     * @throws IllegalArgumentException
      */
-    public void setDateInterval(String startDate, String endDate)
-            throws IllegalArgumentException, NumberFormatException {
+    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException{
+        dateInterval.setArrivalDate(arrivalDate);
+    }
 
-        if (startDate.isBlank() || endDate.isBlank()) {
-            throw new IllegalArgumentException("Waiting for both dates to be set");
-        }
-
-        int[] startDateArray = { 0, 0, 0 };
-        int i = 0;
-        for (String dateComponent : startDate.toString().split("/")) {
-            startDateArray[i] = Integer.parseInt(dateComponent);
-            i++;
-        }
-
-        int[] endDateArray = { 0, 0, 0 };
-        int j = 0;
-        for (String dateComponent : endDate.toString().split("/")) {
-            endDateArray[j] = Integer.parseInt(dateComponent);
-            j++;
-        }
-
-        this.dateInterval = new DateInterval(startDateArray, endDateArray);
-
+    /**
+     * Set departure date for destination
+     * @param departureDate - string in format dd/MM/yyyy
+     * @throws IllegalArgumentException
+     */
+    public void setDepartureDate(String departureDate) throws IllegalArgumentException{
+        dateInterval.setDepartureDate(departureDate);
     }
 
     /**

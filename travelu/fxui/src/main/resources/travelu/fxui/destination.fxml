@@ -50,12 +50,13 @@
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Label contentDisplay="RIGHT" layoutX="14.0" layoutY="23.0" text="Arrival: ">
+            <Label fx:id="dateUpdatedFeedbackLabel" contentDisplay="RIGHT" layoutX="300.0" layoutY="105.0" />
+            <Label contentDisplay="RIGHT" layoutX="14.0" layoutY="34.0" text="Arrival: ">
                <font>
                   <Font size="20.0" />
                </font>
                <graphic>
-                  <Label fx:id="arrivalDateLabel" prefHeight="30.0" prefWidth="85.0" text="[date]">
+                  <Label fx:id="arrivalDateLabel" prefHeight="30.0" prefWidth="200.0" text="[date]">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -67,27 +68,27 @@
                   <Font size="20.0" />
                </font>
                <graphic>
-                  <Label fx:id="departureDateLabel" prefHeight="30.0" prefWidth="56.0" text="[date]">
+                  <Label fx:id="departureDateLabel" prefHeight="30.0" prefWidth="200.0" text="[date]">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
                </graphic>
             </Label>
-            <DatePicker fx:id="arrivalDatePicker" layoutX="14.0" layoutY="121.0" prefHeight="25.0" prefWidth="139.0" />
-            <Label layoutX="14.0" layoutY="91.0" text="Change arrival date">
+            <DatePicker fx:id="arrivalDatePicker" layoutX="14.0" layoutY="132.0" prefHeight="26.0" prefWidth="165.0" />
+            <Label layoutX="14.0" layoutY="102.0" text="Change arrival date">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="arrivalDateButton" layoutX="153.0" layoutY="121.0" mnemonicParsing="false" onAction="#handleSetArrivalDate" text="Set" />
-            <DatePicker fx:id="departureDatePicker" layoutX="14.0" layoutY="185.0" prefHeight="25.0" prefWidth="139.0" />
-            <Label layoutX="14.0" layoutY="155.0" text="Change departure date">
+            <Button fx:id="arrivalDateButton" layoutX="179.0" layoutY="132.0" mnemonicParsing="false" onAction="#handleSetArrivalDate" text="Set" />
+            <DatePicker fx:id="departureDatePicker" layoutX="14.0" layoutY="196.0" prefHeight="25.0" prefWidth="165.0" />
+            <Label layoutX="14.0" layoutY="166.0" text="Change departure date">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="departureDateButton" layoutX="153.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleSetDepartureDate" text="Set" />
+            <Button fx:id="departureDateButton" layoutX="179.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleSetDepartureDate" text="Set" />
             <Text layoutX="564.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rating">
                <font>
                   <Font size="21.0" />

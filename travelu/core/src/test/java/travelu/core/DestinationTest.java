@@ -27,7 +27,7 @@ public class DestinationTest {
     @BeforeEach
     public void setUp() {
         name = "Sweden";
-        dateInterval = new DateInterval(17, 11, 2021, 13, 12, 2021);
+        dateInterval = new DateInterval();
         rating = 3;
 
         activities.add("Skiing");
@@ -45,10 +45,8 @@ public class DestinationTest {
     @Test
     public void testConstructor() {
         assertEquals(name, destination.getName());
-        assertEquals(Arrays.toString(dateInterval.getStartDate()),
-                Arrays.toString(destination.getDateInterval().getStartDate()));
-        assertEquals(Arrays.toString(dateInterval.getEndDate()),
-                Arrays.toString(destination.getDateInterval().getEndDate()));
+        assertEquals(dateInterval.getArrivalDate(), destination.getDateInterval().getArrivalDate());
+        assertEquals(dateInterval.getDepartureDate(), destination.getDateInterval().getDepartureDate());
         assertEquals(activities, destination.getActivities());
         assertEquals(comment, destination.getComment());
     }

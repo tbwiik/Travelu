@@ -40,18 +40,18 @@ public class DestinationListTest {
         newDestinations = new ArrayList<>();
 
         name = "Norway";
-        dateInterval = new DateInterval(new int[] { 31, 12, 1999 }, new int[] { 10, 01, 2000 });
+        dateInterval = new DateInterval();
         rating = 3;
         activities = new ArrayList<>();
         comment = null;
 
         norway = new Destination(name, dateInterval, rating, activities, comment);
-        buenosAires = new Destination("Buenos Aires", null, 2, null, null);
+        buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, null);
 
-        newDestinations.add(new Destination("Spain", null, 4, null, null));
+        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, null));
         newDestinations.add(buenosAires);
-        newDestinations.add(new Destination("Turkey", null, 5, null, null));
-        newDestinations.add(new Destination("Sweden", null, 1, null, null));
+        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, null));
+        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, null));
         newDestinations.add(norway);
 
         for (Destination destination : newDestinations) {
@@ -69,10 +69,10 @@ public class DestinationListTest {
     public void testGetDestinationCopyByName() {
 
         assertEquals(norway.getName(), name);
-        assertEquals(Arrays.toString(norway.getDateInterval().getStartDate()),
-                Arrays.toString(dateInterval.getStartDate()));
-        assertEquals(Arrays.toString(norway.getDateInterval().getEndDate()),
-                Arrays.toString(dateInterval.getEndDate()));
+        assertEquals(norway.getDateInterval().getArrivalDate(),
+                dateInterval.getArrivalDate());
+        assertEquals(norway.getDateInterval().getDepartureDate(),
+                dateInterval.getDepartureDate());
         assertEquals(norway.getRating(), rating);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
