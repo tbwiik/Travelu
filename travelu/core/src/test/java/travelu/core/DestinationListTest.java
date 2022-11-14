@@ -260,6 +260,15 @@ public class DestinationListTest {
 
         assertNotEquals(destinationCopy.getComment(), norway.getComment());
 
+        List<Destination> destinationListCopy = destinationList.getList();
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        // making changes to destinationList should not impact destinationListCopy
+        destinationList.addDestination(new Destination("Extra destination", new DateInterval(), 3, null, null));
+
+        assertNotEquals(destinationListCopy.size(), destinationList.getList().size());
+
     }
 
 }
