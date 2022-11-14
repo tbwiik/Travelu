@@ -1,5 +1,7 @@
 @startuml classDiagram
 
+skin rose
+
 class Destination {
     - String name
     - DateInterval dateInterval
@@ -131,9 +133,11 @@ DestinationList "destinations: *" o-- Destination
 Destination "destinationList: 1   " <|-- DestinationController
 DestinationList "    currentDestination: 1" <|-- DestinationController
 TraveluHandler "traveluHandler: 1" <|-- DestinationController
-DestinationList "destinationList: 1"<|-- DestinationListController
-TraveluHandler "traveluHandler: 1 .  " <|-- DestinationListController
-DestinationList " destinationList: 1" <|-- TraveluHandler
+DestinationList "destinationList: 1" <|-- DestinationListController
+TraveluHandler "traveluHandler: 1   " <|-- DestinationListController
+DestinationList "  destinationList: 1" <|-- TraveluHandler
+DestinationController <|-- App 
+DestinationListController <|-- App 
 
 skinparam linetype ortho
 
