@@ -1,5 +1,7 @@
 package travelu.restserver;
 
+import java.io.IOException;
+
 import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;;
 
@@ -34,18 +36,45 @@ public class TraveluService {
     public void save() {
         try {
             TraveluHandler.save(destinationList);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Save current destination to own file
+     */
+    public void saveDestinationName(String currentDestination) {
+        try {
+            TraveluHandler.saveDestinationName(currentDestination);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get name of chosen destination from file
+     * 
+     * @return {@link String} name of chosen destination or {@code null} if failing
+     */
+    public String getDestinationName() {
+        String result = null;
+        try {
+            result = TraveluHandler.readCurrentDestinationNameJSON();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /**
      * Give access to destinationList used for persistence to other classes in
      * restserver module
      * 
-     * @return this Destinationlist
+     * @return this {@link Destinationlist}
      */
     protected DestinationList getDestinationList() {
-        return this.destinationList;
+        return this.destinationList; // TODO copy?
     }
+
 }
