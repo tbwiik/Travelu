@@ -269,6 +269,21 @@ public class DestinationListTest {
 
         assertNotEquals(destinationListCopy.size(), destinationList.getList().size());
 
+        destinationList.removeDestination("Extra destination");
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        List<String> destinationNamesCopy = destinationList.getDestinationNames();
+
+        assertEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
+        destinationNamesCopy.add("Extra destination");
+
+        // making changes to destinationList through getDestinationNames should not work
+        destinationList.getDestinationNames().add("Extra destination");
+
+        assertNotEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
     }
 
 }
