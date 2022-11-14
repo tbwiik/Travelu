@@ -248,7 +248,7 @@ public class DestinationListTest {
     }
 
     /*
-     * Test if encapsulation is correctly handeled
+     * Test if encapsulation is correctly handled
      */
     @Test
     public void testCorrectEncapsulation() {
