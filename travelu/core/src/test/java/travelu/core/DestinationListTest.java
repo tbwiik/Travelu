@@ -247,4 +247,19 @@ public class DestinationListTest {
         assertEquals(expectedList, destinationList.getList());
     }
 
+    @Test
+    public void testCorrectEncapsulation() {
+
+        Destination destinationCopy = destinationList.getDestinationCopyByName("Norway");
+
+        assertEquals(destinationCopy.getComment(), norway.getComment());
+
+        // making changes to comment in norway should not impact
+        // comment in destinationCopy
+        norway.setComment("This should not change comment in destinationCopy");
+
+        assertNotEquals(destinationCopy.getComment(), norway.getComment());
+
+    }
+
 }
