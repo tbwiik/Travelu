@@ -331,7 +331,6 @@ public class DestinationController {
 
         currentDestination.setComment(newComment);
         try {
-            // writeChanges();
             this.client.updateComment(newComment);
         } catch (Exception e) {
             e.printStackTrace();
@@ -377,10 +376,6 @@ public class DestinationController {
             dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
-    }
-
-    public void changeFileWritingName(String fileWritingName) {
-        // this.destinationListFile = fileWritingName;
     }
 
     // For testing purposes
