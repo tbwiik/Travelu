@@ -211,4 +211,21 @@ public class Client {
         this.post(API_ADDRESS + "storeCurrent", destinationJSON);
     }
 
+    /**
+     * Remove {@link Destination} through server by name
+     * <p>
+     * Use a post request
+     * 
+     * @param destination to remove
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void removeDestination(String destinationName)
+            throws URISyntaxException, InterruptedException, ExecutionException {
+
+        Gson gson = new Gson();
+        String destinationJSON = gson.toJson(destinationName);
+        this.post(API_ADDRESS + "remove", destinationJSON);
+    }
 }
