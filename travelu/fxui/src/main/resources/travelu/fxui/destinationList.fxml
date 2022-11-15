@@ -31,7 +31,6 @@
             <Font size="17.0" />
          </font>
       </Button>
-      <Text fx:id="feedbackText" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="323.12134552001953" />
       <Text layoutX="249.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Places you've been" wrappingWidth="754.0">
          <font>
             <Font size="27.0" />
@@ -52,5 +51,6 @@
             <Font size="27.0" />
          </font>
       </Text>
+      <Label fx:id="feedbackLabel" layoutX="14.0" layoutY="71.0" prefHeight="17.0" prefWidth="264.0" />
    </children>
 </Pane>
