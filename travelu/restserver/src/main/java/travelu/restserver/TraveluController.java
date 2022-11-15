@@ -107,4 +107,70 @@ public class TraveluController {
         }
     }
 
+    /**
+     * add activity to current destination
+     *
+     * @param activity to add
+     */
+    @PostMapping(value = "/addActivity", produces = "application/json")
+    public void addActivityJSON(final @RequestBody String activity) {
+
+        Destination updatedDestination = traveluService.getDestinationList()
+                .getDestinationCopyByName(traveluService.getDestinationName());
+        updatedDestination.addActivity(activity);
+
+        try {
+            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * remove activity from current destination
+     * 
+     * @param activity to remove
+     */
+    @PostMapping(value = "/removeActivity", produces = "application/json")
+    public void removeActivityJSON(final @RequestBody String activity) {
+
+        Destination updatedDestination = traveluService.getDestinationList()
+                .getDestinationCopyByName(traveluService.getDestinationName());
+        updatedDestination.removeActivity(activity);
+
+        try {
+            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // TODO lot of duplicate code with over
+
+    }
+
+    /**
+     * set rating to current destination
+     *
+     * @param rating to set
+     */
+    @PostMapping(value = "/setRating", produces = "application/json")
+    public void setRatingJSON(final @RequestBody String rating) {
+
+        Destination updatedDestination = traveluService.getDestinationList()
+                .getDestinationCopyByName(traveluService.getDestinationName());
+        updatedDestination.setRating(Integer.parseInt(rating));
+
+        try {
+            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // TODO lot of duplicate code with over
+
+    }
+
 }
