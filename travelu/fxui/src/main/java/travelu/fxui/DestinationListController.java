@@ -163,18 +163,19 @@ public class DestinationListController {
             // give user feedback
             feedbackText.setText("Please select a destination you would like to remove");
         } else {
+
+            try {
+                client.removeDestination(currentDestination);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
             destinationList.removeDestination(currentDestination);
             listView.getItems().remove(currentDestination);
         }
-        // traveluHandler.writeJSON(destinationList, destinationListFile);
 
-        // try {
-        // client.saveDestinationList(destinationList);
-        // } catch (Exception e) {
-        // // TODO: handle exception
-        // }
     }
 
     // For testing purposes
