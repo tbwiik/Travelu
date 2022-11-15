@@ -228,4 +228,41 @@ public class Client {
         String destinationJSON = gson.toJson(destinationName);
         this.post(API_ADDRESS + "remove", destinationJSON);
     }
+
+    /**
+     * Add activity for chosen destination through server
+     * 
+     * @param activity
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void addActivity(String activity) throws URISyntaxException, InterruptedException, ExecutionException {
+        this.post(API_ADDRESS + "addActivity", activity);
+    }
+
+    /**
+     * Remove activity for chosen destination through server
+     * 
+     * @param activity
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void removeActivity(String activity) throws URISyntaxException, InterruptedException, ExecutionException {
+        this.post(API_ADDRESS + "removeActivity", activity);
+    }
+
+    /**
+     * Set rating for chosen destination through server
+     * 
+     * @param starNumber
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void setRating(int starNumber) throws URISyntaxException, InterruptedException, ExecutionException {
+        String starStr = String.valueOf(starNumber);
+        this.post(API_ADDRESS + "setRating", starStr);
+    }
 }
