@@ -16,6 +16,8 @@ import travelu.core.Destination;
 
 public class Client {
 
+    private final static String API_ADDRESS = "/api/v1/entries/";
+
     private final String serverUrl;
     private final int serverPort;
 
@@ -79,7 +81,7 @@ public class Client {
      */
     public DestinationList getDestinationList() throws URISyntaxException, InterruptedException, ExecutionException {
 
-        HttpResponse<String> response = this.get("/api/v1/entries/" + "destinationlist");
+        HttpResponse<String> response = this.get(API_ADDRESS + "destinationlist");
 
         Gson gson = new Gson();
 
@@ -100,7 +102,7 @@ public class Client {
     public Destination getDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException {
 
-        HttpResponse<String> response = this.get("/api/v1/entries/" + destinationName);
+        HttpResponse<String> response = this.get(API_ADDRESS + destinationName);
 
         Gson gson = new Gson();
 
@@ -123,7 +125,7 @@ public class Client {
      */
     public Destination getDestination() throws URISyntaxException, InterruptedException, ExecutionException {
 
-        HttpResponse<String> response = this.get("/api/v1/entries/currentDestination");
+        HttpResponse<String> response = this.get(API_ADDRESS + "currentDestination");
 
         String destinationName = response.body().replace("\"", "");
         Destination destination = getDestination(destinationName);
@@ -186,7 +188,7 @@ public class Client {
 
         String destinationJSON = gson.toJson(destination);
 
-        this.post("/api/v1/entries/add", destinationJSON);
+        this.post(API_ADDRESS + "add", destinationJSON);
     }
 
     /**
@@ -206,6 +208,7 @@ public class Client {
 
         String destinationJSON = gson.toJson(destinationName);
 
-        this.post("/api/v1/entries/storeCurrent", destinationJSON);
+        this.post(API_ADDRESS + "storeCurrent", destinationJSON);
     }
+
 }
