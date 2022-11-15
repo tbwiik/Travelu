@@ -51,6 +51,17 @@ public class TraveluController {
     }
 
     /**
+     * Get name of chosen destination
+     * 
+     * @return name of destination
+     */
+    @GetMapping(value = "/currentDestination", produces = "application/json")
+    public String getDestinationJSON() {
+        Gson gson = new Gson();
+        return gson.toJson(traveluService.getDestinationName());
+    }
+
+    /**
      * Add new Destination
      * 
      * @param destinationJSON {@link Destination} to add in JSON format
@@ -78,4 +89,5 @@ public class TraveluController {
         String destination = gson.fromJson(destinationName, String.class);
         traveluService.saveDestinationName(destination);
     }
+
 }
