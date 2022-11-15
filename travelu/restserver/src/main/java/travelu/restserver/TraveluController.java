@@ -172,4 +172,73 @@ public class TraveluController {
 
     }
 
+    /**
+     * Set arrival date for current destination
+     * 
+     * @param arrivalDate
+     */
+    @PostMapping(value = "/setArrivalDate", produces = "application/json")
+    public void setArrivalDateJSON(final @RequestBody String arrivalDate) {
+
+        Destination updatedDestination = traveluService.getDestinationList()
+                .getDestinationCopyByName(traveluService.getDestinationName());
+        updatedDestination.setArrivalDate(arrivalDate);
+        ;
+
+        try {
+            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // TODO lot of duplicate code with over
+
+    }
+
+    /**
+     * Set departure date for current destination
+     *
+     * @param departureDate to set
+     */
+    @PostMapping(value = "/setDepartureDate", produces = "application/json")
+    public void setDepartureDateJSON(final @RequestBody String departureDate) {
+
+        Destination updatedDestination = traveluService.getDestinationList()
+                .getDestinationCopyByName(traveluService.getDestinationName());
+        updatedDestination.setDepartureDate(departureDate);
+
+        try {
+            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // TODO lot of duplicate code with over
+
+    }
+
+    /**
+     * Set new comment for current destination
+     * 
+     * @param comment
+     */
+    @PostMapping(value = "/updateComment", produces = "application/json")
+    public void updateCommentJSON(final @RequestBody String comment) {
+
+        Destination updatedDestination = traveluService.getDestinationList()
+                .getDestinationCopyByName(traveluService.getDestinationName());
+        updatedDestination.setComment(comment);
+
+        try {
+            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // TODO lot of duplicate code with over
+
+    }
 }
