@@ -2,23 +2,25 @@
   "destinations": [
     {
       "name": "Sweden",
-      "date": null,
+      "dateInterval": {
+        "arrivalDate": null,
+        "departureDate": null
+      },
       "rating": 0,
-      "activities": [
-        "eat ice cream",
-        "go to party"
-      ],
-      "comment": "is cool country"
+      "activities": [],
+      "comment": "Go to swed"
     },
     {
       "name": "USA",
-      "date": null,
-      "rating": 0,
+      "dateInterval": {
+        "arrivalDate": "25/11/2022",
+        "departureDate": null
+      },
+      "rating": 3,
       "activities": [
-        "Go to usa",
-        "Eat burg"
+        "asdfv"
       ],
-      "comment": null
+      "comment": "go usa"
     }
   ]
 }

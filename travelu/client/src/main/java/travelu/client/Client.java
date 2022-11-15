@@ -127,8 +127,7 @@ public class Client {
 
         HttpResponse<String> response = this.get(API_ADDRESS + "currentDestination");
 
-        String destinationName = response.body().replace("\"", "");
-        Destination destination = getDestination(destinationName);
+        Destination destination = getDestination(response.body());
 
         return destination;
     }

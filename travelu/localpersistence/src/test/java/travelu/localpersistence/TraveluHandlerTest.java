@@ -23,7 +23,7 @@ public class TraveluHandlerTest {
     private Destination sweden;
     private Destination sanMarino;
     private Destination portugal;
-    private DateInterval dateInterval = new DateInterval(new int[] { 01, 01, 2021 }, new int[] { 14, 02, 2021 });
+    private DateInterval dateInterval = new DateInterval();
     private TraveluHandler traveluHandler = new TraveluHandler();
 
     /**

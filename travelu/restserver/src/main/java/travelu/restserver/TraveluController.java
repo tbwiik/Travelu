@@ -57,8 +57,7 @@ public class TraveluController {
      */
     @GetMapping(value = "/currentDestination", produces = "application/json")
     public String getDestinationJSON() {
-        Gson gson = new Gson();
-        return gson.toJson(traveluService.getDestinationName());
+        return traveluService.getDestinationName();
     }
 
     /**

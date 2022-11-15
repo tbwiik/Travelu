@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
+import java.util.Comparator;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -19,6 +21,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;
@@ -40,6 +44,8 @@ public class DestinationListControllerTest extends ApplicationTest {
         private TextArea destinationText;
         private Button addButton;
         private Button removeButton;
+        private Button nameButton;
+        private Button ratingButton;
 
         /**
          * Enables headless testing
@@ -54,6 +60,8 @@ public class DestinationListControllerTest extends ApplicationTest {
                 destinationText = lookup("#destinationText").query();
                 addButton = lookup("#addButton").query();
                 removeButton = lookup("#removeButton").query();
+                nameButton = lookup("#nameButton").query();
+                ratingButton = lookup("#ratingButton").query();
         }
 
         /**
@@ -63,11 +71,11 @@ public class DestinationListControllerTest extends ApplicationTest {
         public void start(Stage stage) throws IOException {
 
                 destinationList = new DestinationList();
-                destinationList.addDestination(new Destination("Spain", null, 2, null,
+                destinationList.addDestination(new Destination("Spain", new DateInterval(), 1, null,
                                 null));
-                destinationList.addDestination(new Destination("Greece", null, 2, null,
+                destinationList.addDestination(new Destination("Greece", new DateInterval(), 2, null,
                                 null));
-                destinationList.addDestination(new Destination("Turkey", null, 3, null,
+                destinationList.addDestination(new Destination("Turkey", new DateInterval(), 3, null,
                                 null));
 
                 traveluHandler.writeJSON(destinationList, "testDestinationList.json");
@@ -81,13 +89,25 @@ public class DestinationListControllerTest extends ApplicationTest {
                 destinationListController.initiliazeFromTestFiles();
         }
 
+        @Test
+        public void testInitialize() {
+                assertEquals(3, destinationListController.getDestinationListNames().size());
+                assertEquals("Spain", destinationListController.getDestinationListNames().get(0));
+                assertEquals("Greece", destinationListController.getDestinationListNames().get(1));
+                assertEquals("Turkey", destinationListController.getDestinationListNames().get(2));
+
+                assertEquals("Spain★", destinationListController.getListViewItems().get(0));
+                assertEquals("Greece★★", destinationListController.getListViewItems().get(1));
+                assertEquals("Turkey★★★", destinationListController.getListViewItems().get(2));
+        }
+
         /**
          * Tests if you can add Destination to DestinationList
          */
         @Test
         public void testAdd() {
 
-                destinationList.addDestination(new Destination("Place", null, 0, null,
+                destinationList.addDestination(new Destination("Place", new DateInterval(), 0, null,
                                 null));
 
                 clickOn(destinationText).write("Place");
@@ -111,7 +131,7 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
 
-                clickOn("Greece");
+                clickOn("Greece★★");
                 clickOn(removeButton);
 
                 assertNotEquals(destinationList.getDestinationNames(),
@@ -121,6 +141,34 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
+        }
+
+        @Test
+        public void testSortByName() {
+
+                assertEquals("[Spain★, Greece★★, Turkey★★★]",
+                                destinationListController.getListViewItems().toString());
+
+                clickOn(nameButton);
+
+                assertNotEquals("[Spain★, Greece★★, Turkey★★★]",
+                                destinationListController.getListViewItems().toString());
+
+                assertEquals("[Greece★★, Spain★, Turkey★★★]",
+                                destinationListController.getListViewItems().toString());
+        }
+
+        @Test
+        public void testSortByRating() throws IOException {
+
+                assertEquals("[Spain★, Greece★★, Turkey★★★]",
+                                destinationListController.getListViewItems().toString());
+
+                clickOn(ratingButton);
+
+                assertEquals("[Turkey★★★, Greece★★, Spain★]",
+                                destinationListController.getListViewItems().toString());
+
         }
 
 }

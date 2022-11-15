@@ -2,6 +2,9 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import travelu.client.Client;
@@ -16,6 +19,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
@@ -47,6 +51,9 @@ public class DestinationController {
 
     @FXML
     DatePicker departureDatePicker;
+
+    @FXML
+    Label dateUpdatedFeedbackLabel;
 
     @FXML
     ListView<String> activitiesListView;
@@ -91,6 +98,60 @@ public class DestinationController {
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
+
+        arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
+        departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
+
+        // Standardizes date formatting in datePicker. Largely copied from documentation
+        // for datePicker.setconverter
+        StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
+            // Standard date formatting
+            String pattern = "dd/MM/yyyy";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            {
+                // Display format in DatePicker text fields
+                arrivalDatePicker.setPromptText(pattern.toLowerCase());
+                departureDatePicker.setPromptText(pattern.toLowerCase());
+            }
+
+            /**
+             * Generates string from LocalDate object, used for displaying selected date in
+             * DatePicker text field
+             */
+            @Override
+            public String toString(LocalDate date) {
+                try {
+                    if (date != null) {
+                        return formatter.format(date);
+                    } else {
+                        return "";
+                    }
+                } catch (Exception e) {
+                    return "";
+                }
+            }
+
+            /**
+             * Generates LocalDate object from string, used for validating written input
+             * date
+             */
+            @Override
+            public LocalDate fromString(String string) {
+                try {
+                    if (string != null && !string.isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    } else {
+                        return null;
+                    }
+                } catch (Exception e) {
+                    return null;
+                }
+
+            }
+        };
+
+        arrivalDatePicker.setConverter(stringConverter);
+        departureDatePicker.setConverter(stringConverter);
 
         setupListView();
         updateListView();
@@ -177,7 +238,7 @@ public class DestinationController {
     }
 
     /**
-     * call method update star with parameter 1 based on which star clicked
+     * call method handleStar with parameter based on which star was clicked
      */
     @FXML
     private void handleStar1() {
@@ -229,6 +290,8 @@ public class DestinationController {
      */
     private void colorStars(int starNumber) {
 
+        // Sets color of the clicked star, and all stars before it to yellow. Updates
+        // color of all stars after clicked star to white.
         if (starNumber >= 1) {
             star1.setStyle("-fx-fill: #FFD700");
         } else {
@@ -278,34 +341,43 @@ public class DestinationController {
         }
     }
 
+    /**
+     * Sets arrival date, and catches exceptions due to date validation errors
+     */
     @FXML
     private void handleSetArrivalDate() {
+        String arrivalDate = arrivalDatePicker.getValue() == null ? ""
+                : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-        String arrivalDate = arrivalDatePicker.getEditor().getText();
-        String departureDate = departureDatePicker.getEditor().getText();
-
-        arrivalDateLabel.setText(arrivalDate);
-
-        if (departureDate.isBlank()) {
-            currentDestination.setDateInterval(arrivalDate, arrivalDate);
-        } else {
-            currentDestination.setDateInterval(arrivalDate, departureDate);
+        try {
+            currentDestination.setArrivalDate(arrivalDate);
+            arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
+            // writeChanges();
+            dateUpdatedFeedbackLabel.setText("");
+        } catch (Exception e) {
+            arrivalDatePicker.getEditor().setText("");
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
     }
 
+    /**
+     * Sets departure date, and catches exceptions due to date validation errors
+     */
     @FXML
     private void handleSetDepartureDate() {
 
-        String arrivalDate = arrivalDatePicker.getEditor().getText();
-        String departureDate = departureDatePicker.getEditor().getText();
+        String departureDate = departureDatePicker.getValue() == null ? ""
+                : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-        arrivalDateLabel.setText(arrivalDate);
-
-        if (arrivalDate.isBlank()) {
-            currentDestination.setDateInterval(departureDate, departureDate);
-        } else {
-            currentDestination.setDateInterval(arrivalDate, departureDate);
+        try {
+            currentDestination.setDepartureDate(departureDate);
+            departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
+            // writeChanges();
+            dateUpdatedFeedbackLabel.setText("");
+        } catch (Exception e) {
+            departureDatePicker.getEditor().setText("");
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
     }

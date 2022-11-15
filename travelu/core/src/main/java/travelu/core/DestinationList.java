@@ -31,7 +31,7 @@ public class DestinationList {
      * @return {@link Destination}
      * @throws NoSuchElementException if no such element
      */
-    private Destination getDestinationByName(String name) throws NoSuchElementException {
+    private Destination getDestinationByName(String name) {
         return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Destination " + name + " does not exist in list"));
     }
@@ -113,6 +113,26 @@ public class DestinationList {
             throw new IllegalArgumentException("Destination name cannot be null");
 
         return getLowerCaseDestinationNames().contains(destinationName.toLowerCase());
+    }
+
+    /**
+     * Sorts destinations by name
+     */
+    public void sortByName() {
+
+        destinations.sort(
+                (destination1, destination2) -> destination1.getName().toLowerCase()
+                        .compareTo(destination2.getName().toLowerCase()));
+
+    }
+
+    /**
+     * Sorts destinations by rating
+     */
+    public void sortByRating() {
+
+        destinations.sort((destination1, destination2) -> destination2.getRating() - destination1.getRating());
+
     }
 
 }

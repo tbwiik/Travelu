@@ -41,18 +41,18 @@ public class DestinationListTest {
         newDestinations = new ArrayList<>();
 
         name = "Norway";
-        dateInterval = new DateInterval(new int[] { 31, 12, 1999 }, new int[] { 10, 01, 2000 });
-        rating = 2;
+        dateInterval = new DateInterval();
+        rating = 3;
         activities = new ArrayList<>();
         comment = null;
 
         norway = new Destination(name, dateInterval, rating, activities, comment);
-        buenosAires = new Destination("Buenos Aires", null, 2, null, null);
+        buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, null);
 
-        newDestinations.add(new Destination("Spain", null, 4, null, null));
+        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, null));
         newDestinations.add(buenosAires);
-        newDestinations.add(new Destination("Turkey", null, 5, null, null));
-        newDestinations.add(new Destination("Sweden", null, 1, null, null));
+        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, null));
+        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, null));
         newDestinations.add(norway);
 
         for (Destination destination : newDestinations) {
@@ -70,10 +70,10 @@ public class DestinationListTest {
     public void testGetDestinationCopyByName() {
 
         assertEquals(norway.getName(), name);
-        assertEquals(Arrays.toString(norway.getDateInterval().getStartDate()),
-                Arrays.toString(dateInterval.getStartDate()));
-        assertEquals(Arrays.toString(norway.getDateInterval().getEndDate()),
-                Arrays.toString(dateInterval.getEndDate()));
+        assertEquals(norway.getDateInterval().getArrivalDate(),
+                dateInterval.getArrivalDate());
+        assertEquals(norway.getDateInterval().getDepartureDate(),
+                dateInterval.getDepartureDate());
         assertEquals(norway.getRating(), rating);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
@@ -172,6 +172,123 @@ public class DestinationListTest {
         assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Norway"));
 
         assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination(null));
+    }
+
+    /**
+     * Test if sorting by name works as intended
+     */
+    @Test
+    public void testSortByName() {
+
+        List<Destination> expectedList = new ArrayList<>();
+
+        // adding destinations in alphabetical order
+        expectedList.add(buenosAires);
+        expectedList.add(norway);
+        expectedList.add(new Destination("Spain", null, 4, null, null));
+        expectedList.add(new Destination("Sweden", null, 1, null, null));
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        expectedList.add(new Destination("Turkey", null, 5, null, null));
+        destinationList.sortByName();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination dashDestination = new Destination("-Place", null, 5, null, null);
+        expectedList.add(0, dashDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(dashDestination);
+        destinationList.sortByName();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination lowerCaseDestination = new Destination("aa", null, 5, null, null);
+        expectedList.add(1, lowerCaseDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(lowerCaseDestination);
+        destinationList.sortByName();
+
+        assertEquals(expectedList, destinationList.getList());
+    }
+
+    /**
+     * Test if sorting by rating works as intended
+     */
+    @Test
+    public void testSortByRating() {
+
+        List<Destination> expectedList = new ArrayList<>();
+
+        // adding destinations in order of rating
+        expectedList.add(new Destination("Turkey", null, 5, null, null));
+        expectedList.add(new Destination("Spain", null, 4, null, null));
+        expectedList.add(norway);
+        expectedList.add(buenosAires);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        expectedList.add(new Destination("Sweden", null, 1, null, null));
+        destinationList.sortByRating();
+
+        assertEquals(expectedList, destinationList.getList());
+
+        Destination noStarsDestination = new Destination("France", null, 0, null, null);
+        expectedList.add(noStarsDestination);
+
+        assertNotEquals(expectedList, destinationList.getList());
+
+        destinationList.addDestination(noStarsDestination);
+        destinationList.sortByRating();
+
+        assertEquals(expectedList, destinationList.getList());
+    }
+
+    /*
+     * Test if encapsulation is correctly handled
+     */
+    @Test
+    public void testCorrectEncapsulation() {
+
+        Destination destinationCopy = destinationList.getDestinationCopyByName("Norway");
+
+        assertEquals(destinationCopy.getComment(), norway.getComment());
+
+        // making changes to comment on destinationCopy should not change
+        // comment on norway
+        destinationCopy.setComment("This should not change comment in destinationCopy");
+
+        assertNotEquals(destinationCopy.getComment(), norway.getComment());
+
+        List<Destination> destinationListCopy = destinationList.getList();
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        // making changes to destinationListCopy should not impact destinationList
+        Destination extraDestination = new Destination("Extra destination", new DateInterval(), 3, null, null);
+        destinationListCopy.add(extraDestination);
+
+        assertNotEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        destinationListCopy.remove(extraDestination);
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        List<String> destinationNamesCopy = destinationList.getDestinationNames();
+
+        assertEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
+        destinationNamesCopy.add("Extra destination");
+
+        // making changes to destinationList through getDestinationNames should not work
+        destinationList.getDestinationNames().add("Extra destination");
+
+        assertNotEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
     }
 
 }
