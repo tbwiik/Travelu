@@ -233,11 +233,6 @@ public class DestinationController {
         }
     }
 
-    @FXML
-    private void handleSelectFile() {
-        // TODO
-    }
-
     /**
      * call method handleStar with parameter based on which star was clicked
      */
