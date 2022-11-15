@@ -33,8 +33,6 @@ public class DestinationController {
     // currently selected activity
     private String currentActivity;
 
-    private String destinationListFile;
-
     @FXML
     Label destinationLabel;
 
@@ -147,11 +145,11 @@ public class DestinationController {
 
         try {
             currentDestination.addActivity(activity);
+            this.client.addActivity(activity);
         } catch (Exception e) {
             // TODO: give relevant user feedback here
         }
 
-        writeChanges();
         updateListView();
         newActivityTextField.setText("");
 
@@ -166,25 +164,16 @@ public class DestinationController {
             currentDestination.removeActivity(currentActivity);
             updateListView();
             try {
-                writeChanges();
+                this.client.removeActivity(currentActivity);
             } catch (Exception e) {
+                // TODO
             }
         }
     }
 
-    /**
-     * Updates changes to currentDestination, and writes these to json.
-     * 
-     * @throws IOException in case of filehandling issue
-     */
-    private void writeChanges() throws IOException {
-        this.destinationList.updateDestination(currentDestination);
-
-        traveluHandler.writeJSON(this.destinationList, destinationListFile);
-    }
-
     @FXML
     private void handleSelectFile() {
+        // TODO
     }
 
     /**
@@ -227,8 +216,8 @@ public class DestinationController {
         colorStars(starNumber);
 
         try {
-            writeChanges();
-        } catch (IOException e) {
+            this.client.setRating(starNumber);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -283,7 +272,7 @@ public class DestinationController {
 
         currentDestination.setComment(newComment);
         try {
-            writeChanges();
+            // writeChanges();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -322,7 +311,7 @@ public class DestinationController {
     }
 
     public void changeFileWritingName(String fileWritingName) {
-        this.destinationListFile = fileWritingName;
+        // this.destinationListFile = fileWritingName;
     }
 
     // For testing purposes
@@ -348,7 +337,7 @@ public class DestinationController {
 
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
-        destinationListFile = "testDestinationList.json";
+        // destinationListFile = "testDestinationList.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
         String currentDestinationName = traveluHandler
