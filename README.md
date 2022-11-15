@@ -23,9 +23,9 @@ This project contains:
 - UI controllers of the app which are in the folder [travelu/fxui/src/main/java/travelu/fxui](travelu/fxui/src/main/java/travelu/fxui)
 - FXML files connected to these controllers which are in the folder [resources/travelu/fxui](travelu/fxui/src/main/resources/travelu/fxui)
 - The application's domain logic which is in the folder [travelu/core/src/main/java/travelu/core](travelu/core/src/main/java/travelu/core)
-- The application's persistence which is in the folder [travelu/fxutil/src/main/java/travelu/fxutil](travelu/fxutil/src/main/java/travelu/fxutil)
+- The application's persistence which is in the folder [travelu/localpersistence/src/main/java/travelu/localpersistence](travelu/localpersistence/src/main/java/travelu/localpersistence)
 - Tests for the application's domain logic which are in the folder [travelu/core/src/test/java/travelu/core](travelu/core/src/test/java/travelu/core)
-- Tests for the application's persistence which are in the folder [travelu/fxutil/src/test/java/travelu/fxutil](travelu/fxutil/src/test/java/travelu/fxutil)
+- Tests for the application's persistence which are in the folder [travelu/localpersistence/src/test/java/travelu/localpersistence](travelu/localpersistence/src/test/java/travelu/localpersistence)
 
 - [Package diagram](docs/packageDiagram.plantuml) of the project's architecture 
 

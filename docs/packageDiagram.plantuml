@@ -5,8 +5,8 @@ component fxui {
 }
 }
 
-component fxutil {
-  package travelu.fxutil {
+component localpersistence {
+  package travelu.localpersistence {
 }
 }
 
@@ -32,14 +32,14 @@ skinparam package{
 
 fxui ...> fxml
 fxui ...> javafx
-fxutil ...> fxml
-fxutil ...> javafx
-fxutil ..> com.google.gson
+localpersistence ...> fxml
+localpersistence ...> javafx
+localpersistence ..> com.google.gson
 
 core ...> com.google.gson
 
 travelu.fxui ..> travelu.core
-travelu.fxui ..> travelu.fxutil
-travelu.fxutil ..> travelu.fxui
+travelu.fxui ..> travelu.localpersistence
+travelu.localpersistence ..> travelu.fxui
 
 @enduml
