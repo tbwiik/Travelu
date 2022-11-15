@@ -2,6 +2,7 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -222,13 +223,13 @@ public class DestinationController {
     @FXML
     private void handleRemoveActivity() {
         if (currentActivity != null) {
-            currentDestination.removeActivity(currentActivity);
-            updateListView();
             try {
                 this.client.removeActivity(currentActivity);
             } catch (Exception e) {
-                // TODO
+                e.printStackTrace();
             }
+            currentDestination.removeActivity(currentActivity);
+            updateListView();
         }
     }
 
@@ -336,6 +337,7 @@ public class DestinationController {
         currentDestination.setComment(newComment);
         try {
             // writeChanges();
+            this.client.updateComment(newComment);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -352,7 +354,7 @@ public class DestinationController {
         try {
             currentDestination.setArrivalDate(arrivalDate);
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
-            // writeChanges();
+            this.client.setArrivalDate(arrivalDate);
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
             arrivalDatePicker.getEditor().setText("");
@@ -373,7 +375,7 @@ public class DestinationController {
         try {
             currentDestination.setDepartureDate(departureDate);
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
-            // writeChanges();
+            this.client.setDepartureDate(departureDate);
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
             departureDatePicker.getEditor().setText("");
