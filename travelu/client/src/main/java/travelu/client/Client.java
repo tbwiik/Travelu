@@ -34,6 +34,8 @@ public class Client {
 
     /**
      * Asynchronous get request
+     * <p>
+     * Method written per {@link HttpRequest} documentation
      * 
      * @param endpoint where the request is sent to
      * @return the HTTP async response
@@ -65,9 +67,7 @@ public class Client {
     private HttpResponse<String> get(String endpoint)
             throws URISyntaxException, InterruptedException, ExecutionException {
 
-        HttpResponse<String> response = this.getAsync(endpoint).get();
-
-        return response;
+        return this.getAsync(endpoint).get();
     }
 
     /**
@@ -134,6 +134,8 @@ public class Client {
 
     /**
      * Asynchronous post request
+     * <p>
+     * Method written per {@link HttpRequest} documentation
      * 
      * @param endpoint where the request is sent to
      * @return the HTTP async response
@@ -167,9 +169,7 @@ public class Client {
     private HttpResponse<String> post(String endpoint, String payload)
             throws URISyntaxException, InterruptedException, ExecutionException {
 
-        HttpResponse<String> response = this.postAsync(endpoint, payload).get();
-
-        return response;
+        return this.postAsync(endpoint, payload).get();
     }
 
     /**
@@ -203,11 +203,7 @@ public class Client {
     public void storeCurrentDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException {
 
-        Gson gson = new Gson();
-
-        String destinationJSON = gson.toJson(destinationName);
-
-        this.post(API_ADDRESS + "storeCurrent", destinationJSON);
+        this.post(API_ADDRESS + "storeCurrent", destinationName);
     }
 
     /**
@@ -223,9 +219,7 @@ public class Client {
     public void removeDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException {
 
-        Gson gson = new Gson();
-        String destinationJSON = gson.toJson(destinationName);
-        this.post(API_ADDRESS + "remove", destinationJSON);
+        this.post(API_ADDRESS + "remove", destinationName);
     }
 
     /**
