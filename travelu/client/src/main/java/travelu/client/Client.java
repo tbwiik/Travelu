@@ -253,7 +253,7 @@ public class Client {
     }
 
     /**
-     * Set rating for chosen destination through server
+     * Save rating for chosen destination through server
      * 
      * @param starNumber
      * @throws URISyntaxException
@@ -264,4 +264,42 @@ public class Client {
         String starStr = String.valueOf(starNumber);
         this.post(API_ADDRESS + "setRating", starStr);
     }
+
+    /**
+     * Save arrival date for chosen destination through server
+     * 
+     * @param arrivalDate
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void setArrivalDate(String arrivalDate) throws URISyntaxException, InterruptedException, ExecutionException {
+        this.post(API_ADDRESS + "setArrivalDate", arrivalDate);
+    }
+
+    /**
+     * Save departure date for chosen destination through server
+     * 
+     * @param departureDate
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void setDepartureDate(String departureDate)
+            throws URISyntaxException, InterruptedException, ExecutionException {
+        this.post(API_ADDRESS + "setDepartureDate", departureDate);
+    }
+
+    /**
+     * Save updated comment for chosen destination through server
+     * 
+     * @param comment
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public void updateComment(String comment) throws URISyntaxException, InterruptedException, ExecutionException {
+        this.post(API_ADDRESS + "updateComment", comment);
+    }
+
 }
