@@ -208,6 +208,18 @@ public class DestinationControllerTest extends ApplicationTest {
         activities.add("Take flamenco lessons");
 
         assertEquals(activities, activitiesListView.getItems());
+
+        // Test empty input
+        clickOn(newActivityTextField).write("");
+        clickOn(addActivity);
+        // listView should be unchanged
+        assertEquals(activities, activitiesListView.getItems());
+
+        // Test adding existing activity
+        clickOn(newActivityTextField).write("Take flamenco lessons");
+        clickOn(addActivity);
+        // listView should be unchanged
+        assertEquals(activities, activitiesListView.getItems());
     }
 
     /**
@@ -224,6 +236,10 @@ public class DestinationControllerTest extends ApplicationTest {
 
         assertNotEquals(spainActivities, activitiesListView.getItems());
         assertEquals(new ArrayList<>(), activitiesListView.getItems());
+
+        // clicking the button without selecting anything should not alter the listView
+        clickOn(removeActivity);
+        assertEquals(new ArrayList<>(), activitiesListView.getItems());
     }
 
     /**
@@ -233,7 +249,7 @@ public class DestinationControllerTest extends ApplicationTest {
     public void testWriteComment() {
 
     clickOn(commentTextField).write(
-    "I traveled to Spain with my family and we visited restaurants every day");
+    "I traveled to Spain with my family");
 
     assertNotEquals(commentTextField.getText(),
     destinationController.getDestinationComment());
@@ -241,6 +257,18 @@ public class DestinationControllerTest extends ApplicationTest {
 
     assertEquals(commentTextField.getText(),
     destinationController.getDestinationComment());
+
+    // Tests setting comment to ""
+    clickOn(commentTextField).eraseText(40);
+    clickOn(commentTextField).write("");
+    assertNotEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+
+    clickOn(updateComment);
+    //TODO: This test fails because empty comments are not allowed. This is fixed in another issue.
+    /*assertEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());*/
+    
     }
 
     /**
