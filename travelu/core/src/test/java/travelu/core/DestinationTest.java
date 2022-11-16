@@ -76,6 +76,9 @@ public class DestinationTest {
         
     }
 
+    /**
+     * Tests adding activity to destination
+     */
     @Test
     public void testAddActivity() {
 
@@ -86,6 +89,7 @@ public class DestinationTest {
 
         assertEquals(testActivities, destination.getActivities());
 
+        // valid input
         destination.addActivity("Dance battle");
         assertNotEquals(testActivities, destination.getActivities());
 
@@ -131,7 +135,7 @@ public class DestinationTest {
 
         assertEquals(testActivities, destination.getActivities());
 
-        // Tests for removing all elements in activities
+        // tests for removing all elements in activities
         destination.removeActivity("Circus");
         destination.removeActivity("Fancy dinner");
         testActivities.remove("Circus");

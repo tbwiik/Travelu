@@ -146,18 +146,21 @@ public class DestinationControllerTest extends ApplicationTest {
         String arrivalDateAfterDepartureDate = "21/10/2021";
         String departureDateBeforeArrivalDate = "10/01/2021";
 
+        // input valid arrival date
         clickOn(arrivalDatePicker).write(arrivalDate);
         assertNotEquals(arrivalDate, arrivalDateLabel.getText());
         clickOn(setArrivalDate);
 
         assertEquals(arrivalDate, arrivalDateLabel.getText());
 
+        // input valid departure date
         clickOn(departureDatePicker).write(departureDate);
         assertNotEquals(departureDate, departureDateLabel.getText());
         clickOn(setDepartureDate);
 
         assertEquals(departureDate, departureDateLabel.getText());
 
+        // input invalid arrival date
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setArrivalDate);
@@ -165,6 +168,7 @@ public class DestinationControllerTest extends ApplicationTest {
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid arrival date.", feedBackLabel.getText());
 
+        // input invalid departure date
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setDepartureDate);
@@ -172,18 +176,21 @@ public class DestinationControllerTest extends ApplicationTest {
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid departure date.", feedBackLabel.getText());
 
+        // input arrival date after departure date
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(arrivalDateAfterDepartureDate);
         clickOn(setArrivalDate);
         assertEquals(arrivalDate, arrivalDateLabel.getText());
         assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
 
+        // input valid arrival date, check that feedback label is cleared
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(arrivalDate);
         clickOn(setArrivalDate);
         assertEquals(arrivalDate, arrivalDateLabel.getText());
         assertEquals("", feedBackLabel.getText());
 
+        // input departure date before arrival date
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                 .write(departureDateBeforeArrivalDate);
         clickOn(setDepartureDate);
@@ -200,6 +207,7 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testAddActivity() {
 
+        // valid input
         clickOn(newActivityTextField).write("Take flamenco lessons");
         clickOn(addActivity);
 
@@ -227,10 +235,12 @@ public class DestinationControllerTest extends ApplicationTest {
      */
     @Test
     public void testRemoveActivity() {
+        // create seperate spainActivities list
         List<String> spainActivities = new ArrayList<>();
         spainActivities.add("Eat paella");
         assertEquals(spainActivities, activitiesListView.getItems());
 
+        // remove "Eat paella" through controller, check that the list is now empty
         clickOn("Eat paella");
         clickOn(removeActivity);
 
@@ -248,6 +258,7 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testWriteComment() {
 
+    // valid input
     clickOn(commentTextField).write(
     "I traveled to Spain with my family");
 

@@ -114,6 +114,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         @Test
         public void testAdd() {
 
+                // add destination to destinationList
                 destinationList.addDestination(new Destination("Place", new DateInterval(), 0, null,
                                 null));
 
@@ -123,7 +124,8 @@ public class DestinationListControllerTest extends ApplicationTest {
                 clickOn(destinationText).write("Place");
 
                 clickOn(addButton);
-
+                
+                // displayed list should now be equal to our seperate destinationList
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
 
