@@ -2,7 +2,7 @@
 skin rose
 
 component restserver {
-  [travelu.restserver]
+  [travelu.restserver] <<inside>>
 }
 
 component fxui {
@@ -15,27 +15,41 @@ component core {
 }
 }
 
-component fxutil {
-  package travelu.fxutil {
+component localpersistence {
+  package travelu.localpersistence {
 }
 }
 
 component spring {
-  [boot] 
+  [boot] <<inside>>
 }
 
 component javafx {
-  [fxml] 
+  [fxml] <<inside>>
 }
-
 
 component google {
-  [gson] 
+  [gson] <<inside>>
 }
 
+skinparam Component {
+  BackgroundColor transparent
+  BorderColor black
+  BorderColor<<inside>> #cc1836
+}
+
+skinparam ComponentBorderThickness 1.2
+skinparam PackageBorderThickness 1.2
+skinparam PackageBorderColor black
+skinparam ArrowColor #cc1836
+
+HIDE <<inside>> stereotype
+
+
 travelu.fxui ...> fxml
-travelu.fxui ...> travelu.fxutil
-travelu.fxutil ...> gson
-travelu.core <...> travelu.fxutil
+travelu.fxui ...> travelu.localpersistence
+travelu.localpersistence ...> gson
+travelu.core <...> travelu.localpersistence
 travelu.restserver ...> travelu.core
+travelu.restserver ...> boot
 @enduml
