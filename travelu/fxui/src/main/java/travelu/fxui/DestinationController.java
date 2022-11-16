@@ -209,8 +209,11 @@ public class DestinationController {
         try {
             currentDestination.addActivity(activity);
             this.client.addActivity(activity);
+            activityFeedbackLabel.setText("");
+        } catch (IllegalArgumentException iae) {
+            activityFeedbackLabel.setText("Add unique activity to update.");
         } catch (Exception e) {
-            // TODO: give relevant user feedback here
+            // TODO: give relevant user feedback
         }
 
         updateListView();
@@ -330,6 +333,8 @@ public class DestinationController {
         currentDestination.setComment(newComment);
         try {
             this.client.updateComment(newComment);
+            commentFeedbackLabel.setText("Comment updated!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

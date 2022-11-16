@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import travelu.client.Client;
 import travelu.core.Destination;
@@ -67,10 +68,15 @@ public class DestinationListController {
         // create list of all destinations with star-rating
         List<String> destinationNameAndRating = new ArrayList<>();
         for (String destinationName : destinationList.getDestinationNames()) {
-            // get rating of destination
-            int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
-            // add destination with name and number stars equal to rating
-            destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
+            try {
+                // get rating of destination
+                int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
+                // add destination with name and number stars equal to rating
+                destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
+            } catch (NoSuchElementException nsee) {
+                nsee.printStackTrace();
+            }
+
         }
 
         // add all destinations and rating to list-view
@@ -174,20 +180,15 @@ public class DestinationListController {
                 // remove text in inputField
                 destinationText.clear();
 
+                client.addDestination(newDestination);
             }
 
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
             // remove text in inputField
-            destinationText.clear();
-
-            try {
-                client.addDestination(newDestination);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
+        } catch (Exception e) {
+            // TODO: handle exception
         }
-
     }
 
     /**
@@ -197,7 +198,7 @@ public class DestinationListController {
      */
     @FXML
     public void handleRemoveDestination() {
-        if (currentDestination == null) {
+        if (currentDestination.equals("null")) {
             // if there is no selected destination
             // give user feedback
             feedbackText.setText("Please select a destination you would like to remove");
@@ -207,16 +208,21 @@ public class DestinationListController {
             // remove the star-rating from the selected destination
             String currentDestinationName = currentDestination.replace("★", "");
 
-            // remove the destination from destinationList and list-view
-            destinationList.removeDestination(currentDestinationName);
-            listView.getItems().remove(currentDestination);
-        }
-        try {
-            traveluHandler.writeJSON(destinationList, destinationListFile);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+            try {
+                client.removeDestination(currentDestinationName);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
 
+            try {
+                // remove the destination from destinationList and list-view
+                destinationList.removeDestination(currentDestinationName);
+                listView.getItems().remove(currentDestination);
+            } catch (NoSuchElementException nsee) {
+                feedbackText.setText("Please select a destination you would like to remove");
+            }
+
+        }
     }
 
     @FXML
@@ -246,9 +252,8 @@ public class DestinationListController {
 
     public void initiliazeFromTestFiles() throws IOException {
         destinationListFile = "testDestinationList.json";
-        currentDestinationFile = "testCurrentDestinationName.json";
 
-        destinationList = traveluHandler.readDestinationListJSON(destinationListFile);
+        destinationList = TraveluHandler.readDestinationListJSON(destinationListFile);
 
         setUpListView();
     }
