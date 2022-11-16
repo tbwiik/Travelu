@@ -35,19 +35,10 @@ The project is built with maven.
 To run the project, in terminal:
 
 - `cd travelu` to change into project-folder
-- `mvn compile`
-- `cd fxui` to enter correct module
-- `mvn javafx:run` to run
-
-This will run the project and open the app.
-
-Alternatively:
-
-- `cd travelu` to change into project-folder
 - `mvn install` in root folder
   - **Note:** this also runs tests and installs package
-- `cd fxui` to enter correct module
-- `mvn javafx:run` to run
+- `mvn -pl restserver spring-boot:run` to start the server handling the rest-api
+- `mvn -pl fxui javafx:run` to start the application
 
 **Notice:**   
 [fxui/module-info](travelu/fxui/src/main/java/) is deleted for enabling run through Maven.  
