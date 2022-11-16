@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,7 +64,7 @@ public class DestinationListTest {
     /**
      * Compares two destination objects, and check if copy works as expected
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the name of Destination
+     * Checks if NoSuchElementException gets thrown if the name of Destination
      * doesn't exist or is null
      */
     @Test
@@ -78,9 +79,9 @@ public class DestinationListTest {
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
+        assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName(null));
+        assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName(null));
     }
 
     /**
@@ -185,10 +186,10 @@ public class DestinationListTest {
         destinationList.removeDestination("Buenos Aires");
 
         assertEquals(newDestinations, destinationList.getList());
-        
-        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination("Not in list"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
+        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Not in list"));
+
+        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination(null));
     }
 
     /**
@@ -209,7 +210,7 @@ public class DestinationListTest {
         //assertThrows(IllegalArgumentException.class, () -> destinationList.updateDestination(null));
 
         // destination is not in list
-        assertThrows(IllegalArgumentException.class, () -> destinationList.updateDestination(new Destination("Not in list", new DateInterval(), 1, null, null)));
+        assertThrows(NoSuchElementException.class, () -> destinationList.updateDestination(new Destination("Not in list", new DateInterval(), 1, null, null)));
 
     }
 

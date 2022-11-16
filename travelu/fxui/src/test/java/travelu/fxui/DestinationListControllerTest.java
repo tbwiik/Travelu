@@ -28,7 +28,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 
 /**
  * JavaFX tests for DestinationListController
