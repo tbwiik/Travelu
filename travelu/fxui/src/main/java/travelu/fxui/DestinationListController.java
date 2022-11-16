@@ -223,6 +223,7 @@ public class DestinationListController {
             } catch (NoSuchElementException nsee) {
                 feedbackText.setText("Please select a destination you would like to remove");
             } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+                // TODO: handle exception
             }
         }
     }

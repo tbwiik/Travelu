@@ -90,7 +90,7 @@ public class DestinationController {
     SVGPath star5;
 
     @FXML
-    private void initialize() throws FileNotFoundException, IOException {
+    private void initialize() {
 
         try {
             this.currentDestination = this.client.getDestination();
@@ -124,6 +124,8 @@ public class DestinationController {
             /**
              * Generates string from LocalDate object, used for displaying selected date in
              * DatePicker text field
+             * <p>
+             * Returns null if date is invalid
              */
             @Override
             public String toString(LocalDate date) {
