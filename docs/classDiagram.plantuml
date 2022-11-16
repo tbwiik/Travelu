@@ -1,10 +1,9 @@
-@startuml classDiagram
+@startuml cdMain
 
 skin rose
 
 class Destination {
     - String name
-    - DateInterval dateInterval
     - int rating
     - List<String> activities 
     - String comment
@@ -39,9 +38,6 @@ class DateInterval << (D,orchid) >> {
 }
 
 class DestinationController {
-    - Destination currentDestination
-    - DestinationList destinationList
-    - TraveluHandler traveluHandler
     - String currentActivity
     - String destinationListFile
     ListView<String> activitiesListView
@@ -62,7 +58,6 @@ class DestinationListController {
     - Text feedbackText
     - DestinationList destinationList
     - String currentDestination
-    - TraveluHandler traveluHandler
     - String destinationListFile
     - String currentDestinationFile
     - void initialize()
@@ -75,10 +70,7 @@ class DestinationListController {
 }
 
 class App {
-    - {static} Scene scene
     + void start(Stage stage)
-    {static} void setRoot(String fxml)
-    - {static} Parent loadFXML(String fxml)
 }
 
 class TraveluHandler {
@@ -91,16 +83,16 @@ class TraveluHandler {
     + String readCurrentDestinationNameJSON()
 }
 
-DateInterval "dateInterval: *  " <|-- Destination
-DestinationList "destinations: *" o-- Destination
-Destination "destinationList: 1   " <|-- DestinationController
-DestinationList "    currentDestination: 1" <|-- DestinationController
-TraveluHandler "traveluHandler: 1" <|-- DestinationController
-DestinationList "destinationList: 1" <|-- DestinationListController
-TraveluHandler "traveluHandler: 1   " <|-- DestinationListController
-DestinationList "  destinationList: 1" <|-- TraveluHandler
-DestinationController <|-- App 
-DestinationListController <|-- App 
+' DateInterval "dateInterval: *  " <-- Destination
+' DestinationList --o "destinations: *" Destination
+' Destination "currentDestination: 1   " <-- DestinationController
+' DestinationList "destinationList: 1" <-- DestinationController
+' TraveluHandler "traveluHandler: 1" <-- DestinationController
+' DestinationList "destinationList: 1" <-- DestinationListController
+' TraveluHandler "traveluHandler: 1   " <-- DestinationListController
+' DestinationList "  destinationList: 1" <-- TraveluHandler
+' DestinationController <-- App 
+' DestinationListController <-- App 
 
 skinparam linetype ortho
 

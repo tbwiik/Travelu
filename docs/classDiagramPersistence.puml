@@ -1,0 +1,31 @@
+@startuml cdPersistence
+skin rose
+package core {
+    class DestinationList
+}
+package fxui {
+    class DestinationController
+    class DestinationListController
+}
+
+
+class TraveluHandler {
+    - {static} String DEFAULT_FILENAME_DLIST
+    - {static} String DEFAULT_FILENAME_CURRENTD
+
+    - {static} String getFilePath(String filename)
+    - {static} getFile(String filename)
+    + {static} void writeJSON(Object object, String filename)
+    + {static} void save(DestinationList destinationList)
+    + {static} void saveDestinationName(String destinationName)
+    + {static} DestinationList readDestinationListJSON(String filename)
+    + {static} String readCurrentDestinationNameJSON(String filename)
+    + {static} String readCurrentDestinationName()
+}
+skinparam Linetype ortho
+
+DestinationListController --> TraveluHandler
+DestinationController --> TraveluHandler
+TraveluHandler --> DestinationList
+
+@enduml

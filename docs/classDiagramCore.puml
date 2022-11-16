@@ -1,0 +1,45 @@
+@startuml cdCore
+
+skin rose
+
+class Destination {
+    - String name
+    - int rating
+    - List<String> activities 
+    - String comment
+
+    + Destination(String name, DateInterval dateInterval, 
+    int rating, List<String> activities, String comment)
+    + Destination(Destination destination)
+    + void addActivity(String activity)
+    + void removeActivity(String activity)
+}
+
+class DestinationList {
+    
+    + void addDestination(Destination destination)
+    - Destination getDestinationByName(String name)
+    + Destination getDestinationCopyByName(String name)
+    + void removeDestination(String name)
+    + void updateDestination(Destination destination)
+    + List<Destination> getList()
+    + List <String> getDestinationNames()
+    - List<String> getLowerCaseDestinationNames()
+    + boolean containsDestination(String destinationName)
+    + void sortByName()
+    + void sortByRating()
+}
+
+class DateInterval << (D,orchid) >> {
+    - int[] startDate
+    - int[] endDate
+    + DateInterval(int[] startDate, int[] endDate)
+    + DateInterval(int startDay, int startMonth, 
+    int startYear, int endDay, int endMonth, int endYear)
+    + DateInterval(DateInterval dateInterval)
+}
+skinparam linetype ortho 
+DateInterval "dateInterval: *" <-- Destination
+Destination "destinations: *   " o-- DestinationList
+
+@enduml

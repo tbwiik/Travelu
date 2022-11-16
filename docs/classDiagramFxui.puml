@@ -1,0 +1,49 @@
+@startuml cdFxui
+skin rose
+
+class App {
+    + void start(Stage stage)
+}
+
+class DestinationController {
+    - @FXML components
+    - Destination currentDestination
+    - DestinationList destinationList
+    - TraveluHandler traveluHandler
+    - String currentActivity
+
+    - void initialize()
+    - void setupListView()
+    - void updateListView()
+    - handleReturnButton()
+    - void handleAddActivity()
+    - void handleRemoveActivity()
+    - void handleStar(int starNumber)
+    - void colorStars(int starNumber)
+    - void handleChangeComment()
+    - void handleSetArrivalDate()
+    - void handleSetDepartureDate()
+} 
+
+class DestinationListController {
+    - @FXML components
+    - Client client
+    - DestinationList destinationList
+    - String currentDestination
+    - String destinationListFile
+    
+    - void initialize()
+    - void setupListView()
+    - void switchToDestination(String destinationName)
+    + void handleAddDestination()
+    + void handleRemoveDestination()
+    + void handleSortByName()
+    + void handleSortByRating()
+}
+
+
+
+App --> DestinationListController
+DestinationListController --> DestinationController
+
+@enduml

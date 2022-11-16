@@ -1,0 +1,36 @@
+@startuml cdRest
+skin rose
+
+class TraveluController {
+    - TraveluService traveluService
+    + String getDestinationListJSON()
+    + String getDestinationJSON(String destinationName)
+    + String getDestinationJSON()
+    + void addDestinationJSON(String destinationJSON)
+    + void storeCurrentDestinationJSON(String destinationName)
+    + void removeDestinationJSON(String destinationName)
+    + void addActivityJSON(String activity)
+    + void removeActivityJSON(String activity)
+    + void setRatingJSON(String rating)
+    + void setArrivalDateJSON(String arrivalDate)
+    + void setDepartureDateJSON(String departureDate)
+    + void updateCommentJSON(String comment)
+}
+
+class TraveluService {
+    - DestinationList destinationList
+    + TraveluService()
+    + void load()
+    + void save()
+    + void saveDestinationName(String currentDestination)
+    + String getDestinationName()
+    # DestinationList getDestinationList()    
+}
+
+package core {
+    class DestinationList
+}
+
+TraveluController --> TraveluService
+TraveluService --> DestinationList
+@enduml
