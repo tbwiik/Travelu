@@ -2,11 +2,15 @@ package travelu.restserver;
 
 import java.util.NoSuchElementException;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -47,7 +51,14 @@ public class TraveluController {
     public String getDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
         Gson gson = new Gson();
-        return gson.toJson(traveluService.getDestinationList().getDestinationCopyByName(destinationName));
+
+        try {
+            Destination destination = traveluService.getDestinationList().getDestinationCopyByName(destinationName);
+            return gson.toJson(destination);
+        } catch (NoSuchElementException nsee) {
+            throw new NoSuchElementException(
+                    HttpStatus.NOT_FOUND + " Destination \"" + destinationName + "\" not found");
+        }
     }
 
     /**
@@ -241,4 +252,13 @@ public class TraveluController {
         // TODO lot of duplicate code with over
 
     }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String reportNoSuchElementException(
+            final NoSuchElementException nsee) {
+        return nsee.getMessage();
+    }
+
 }
