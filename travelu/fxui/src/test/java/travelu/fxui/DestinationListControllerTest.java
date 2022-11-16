@@ -21,9 +21,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 
 /**
  * JavaFX tests for DestinationListController
@@ -69,11 +71,11 @@ public class DestinationListControllerTest extends ApplicationTest {
         public void start(Stage stage) throws IOException {
 
                 destinationList = new DestinationList();
-                destinationList.addDestination(new Destination("Spain", null, 1, null,
+                destinationList.addDestination(new Destination("Spain", new DateInterval(), 1, null,
                                 null));
-                destinationList.addDestination(new Destination("Greece", null, 2, null,
+                destinationList.addDestination(new Destination("Greece", new DateInterval(), 2, null,
                                 null));
-                destinationList.addDestination(new Destination("Turkey", null, 3, null,
+                destinationList.addDestination(new Destination("Turkey", new DateInterval(), 3, null,
                                 null));
 
                 traveluHandler.writeJSON(destinationList, "testDestinationList.json");
@@ -94,6 +96,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("Greece", destinationListController.getDestinationListNames().get(1));
                 assertEquals("Turkey", destinationListController.getDestinationListNames().get(2));
 
+                assertEquals("Spain★", destinationListController.getListViewItems().get(0));
+                assertEquals("Greece★★", destinationListController.getListViewItems().get(1));
+                assertEquals("Turkey★★★", destinationListController.getListViewItems().get(2));
         }
 
         /**
@@ -102,7 +107,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         @Test
         public void testAdd() {
 
-                destinationList.addDestination(new Destination("Place", null, 0, null,
+                destinationList.addDestination(new Destination("Place", new DateInterval(), 0, null,
                                 null));
 
                 clickOn(destinationText).write("Place");
@@ -126,7 +131,7 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
 
-                clickOn("Greece");
+                clickOn("Greece★★");
                 clickOn(removeButton);
 
                 assertNotEquals(destinationList.getDestinationNames(),
@@ -141,27 +146,28 @@ public class DestinationListControllerTest extends ApplicationTest {
         @Test
         public void testSortByName() {
 
-                assertEquals("[Spain, Greece, Turkey]",
+                assertEquals("[Spain★, Greece★★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
 
                 clickOn(nameButton);
 
-                assertNotEquals("[Spain, Greece, Turkey]",
+                assertNotEquals("[Spain★, Greece★★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
 
-                assertEquals("[Greece, Spain, Turkey]",
+                assertEquals("[Greece★★, Spain★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
         }
 
         @Test
         public void testSortByRating() throws IOException {
 
-                assertEquals("[Spain, Greece, Turkey]",
+                assertEquals("[Spain★, Greece★★, Turkey★★★]",
                                 destinationListController.getListViewItems().toString());
 
                 clickOn(ratingButton);
 
-                assertEquals("[Turkey, Greece, Spain]", destinationListController.getListViewItems().toString());
+                assertEquals("[Turkey★★★, Greece★★, Spain★]",
+                                destinationListController.getListViewItems().toString());
 
         }
 

@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,18 +41,18 @@ public class DestinationListTest {
         newDestinations = new ArrayList<>();
 
         name = "Norway";
-        dateInterval = new DateInterval(new int[] { 31, 12, 1999 }, new int[] { 10, 01, 2000 });
+        dateInterval = new DateInterval();
         rating = 3;
         activities = new ArrayList<>();
         comment = null;
 
         norway = new Destination(name, dateInterval, rating, activities, comment);
-        buenosAires = new Destination("Buenos Aires", null, 2, null, null);
+        buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, null);
 
-        newDestinations.add(new Destination("Spain", null, 4, null, null));
+        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, null));
         newDestinations.add(buenosAires);
-        newDestinations.add(new Destination("Turkey", null, 5, null, null));
-        newDestinations.add(new Destination("Sweden", null, 1, null, null));
+        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, null));
+        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, null));
         newDestinations.add(norway);
 
         for (Destination destination : newDestinations) {
@@ -62,24 +63,24 @@ public class DestinationListTest {
     /**
      * Compares two destination objects, and check if copy works as expected
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the name of Destination
+     * Checks if NoSuchElementException gets thrown if the name of Destination
      * doesn't exist or is null
      */
     @Test
     public void testGetDestinationCopyByName() {
 
         assertEquals(norway.getName(), name);
-        assertEquals(Arrays.toString(norway.getDateInterval().getStartDate()),
-                Arrays.toString(dateInterval.getStartDate()));
-        assertEquals(Arrays.toString(norway.getDateInterval().getEndDate()),
-                Arrays.toString(dateInterval.getEndDate()));
+        assertEquals(norway.getDateInterval().getArrivalDate(),
+                dateInterval.getArrivalDate());
+        assertEquals(norway.getDateInterval().getDepartureDate(),
+                dateInterval.getDepartureDate());
         assertEquals(norway.getRating(), rating);
         assertEquals(norway.getActivities(), activities);
         assertEquals(norway.getComment(), comment);
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
+        assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.getDestinationCopyByName(null));
+        assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName(null));
     }
 
     /**
@@ -168,9 +169,9 @@ public class DestinationListTest {
 
         assertEquals(newDestinations, destinationList.getList());
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination("Norway"));
+        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Norway"));
 
-        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
+        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination(null));
     }
 
     /**
@@ -245,6 +246,49 @@ public class DestinationListTest {
         destinationList.sortByRating();
 
         assertEquals(expectedList, destinationList.getList());
+    }
+
+    /*
+     * Test if encapsulation is correctly handled
+     */
+    @Test
+    public void testCorrectEncapsulation() {
+
+        Destination destinationCopy = destinationList.getDestinationCopyByName("Norway");
+
+        assertEquals(destinationCopy.getComment(), norway.getComment());
+
+        // making changes to comment on destinationCopy should not change
+        // comment on norway
+        destinationCopy.setComment("This should not change comment in destinationCopy");
+
+        assertNotEquals(destinationCopy.getComment(), norway.getComment());
+
+        List<Destination> destinationListCopy = destinationList.getList();
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        // making changes to destinationListCopy should not impact destinationList
+        Destination extraDestination = new Destination("Extra destination", new DateInterval(), 3, null, null);
+        destinationListCopy.add(extraDestination);
+
+        assertNotEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        destinationListCopy.remove(extraDestination);
+
+        assertEquals(destinationListCopy.size(), destinationList.getList().size());
+
+        List<String> destinationNamesCopy = destinationList.getDestinationNames();
+
+        assertEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
+        destinationNamesCopy.add("Extra destination");
+
+        // making changes to destinationList through getDestinationNames should not work
+        destinationList.getDestinationNames().add("Extra destination");
+
+        assertNotEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
+
     }
 
 }
