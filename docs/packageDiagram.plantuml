@@ -52,4 +52,5 @@ travelu.localpersistence ...> gson
 travelu.core <...> travelu.localpersistence
 travelu.restserver ...> travelu.core
 travelu.restserver ...> boot
+travelu.restserver ...> travelu.localpersistence
 @enduml
