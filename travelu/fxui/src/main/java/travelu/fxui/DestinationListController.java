@@ -1,24 +1,30 @@
 package travelu.fxui;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import travelu.client.Client;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class DestinationListController {
+
+    /**
+     * Initialize client for server communication
+     */
+    private final Client client = new Client("http://localhost", 8080);
 
     @FXML
     private ListView<String> listView;
@@ -27,30 +33,28 @@ public class DestinationListController {
     private TextArea destinationText;
 
     @FXML
-    private Text feedbackText;
+    private Label feedbackLabel;
 
     private DestinationList destinationList;
 
     private String currentDestination;
 
-    private TraveluHandler traveluHandler = new TraveluHandler();
-
     private String destinationListFile;
-    private String currentDestinationFile;
 
     /**
-     * Initiliaze start-page
+     * Initialize start-page
      * 
      * @throws IOException
      */
     @FXML
     private void initialize() throws IOException {
 
-        destinationListFile = "DestinationList.json";
-        currentDestinationFile = "CurrentDestinationName.json";
-
-        // get DestinationList from file
-        this.destinationList = traveluHandler.readDestinationListJSON();
+        try {
+            this.destinationList = client.getDestinationList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO better handling
+        }
 
         setUpListView();
     }
@@ -108,7 +112,7 @@ public class DestinationListController {
                             // load the destination chosen
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
-                            feedbackText.setText("Could not find " + currentDestinationName);
+                            feedbackLabel.setText("Could not find " + currentDestinationName);
                             e.printStackTrace();
                         }
                     }
@@ -125,9 +129,11 @@ public class DestinationListController {
      */
     private void switchToDestination(String destinationName) throws IOException {
 
-        // Write current destination name to file, so it can be accessed from
-        // destination controller
-        traveluHandler.writeJSON(destinationName, currentDestinationFile);
+        try {
+            client.storeCurrentDestination(destinationName);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         App.setRoot("destination");
 
@@ -145,14 +151,14 @@ public class DestinationListController {
         if (newDestinationName.isBlank()) {
             // if user didn't input any text
             // remove any feedback given and do nothing
-            feedbackText.setText("");
+            feedbackLabel.setText("");
         } else if (destinationList.containsDestination(newDestinationName)) {
             // if the input text matches any of the already registrations
             // give feedback
-            feedbackText.setText("You have already registered this destination");
+            feedbackLabel.setText("You have already registered this destination");
         } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
             // if the input text contains anything but letters, spaces and dashes
-            feedbackText.setText("Destination name must contain only letters, spaces and dashes");
+            feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
         } else {
             // if everything is ok with the input
             // create new destination with input as name
@@ -164,13 +170,17 @@ public class DestinationListController {
             destinationList.addDestination(newDestination);
 
             // remove any feedback given
-            feedbackText.setText("");
+            feedbackLabel.setText("");
 
             // remove text in inputField
             destinationText.clear();
-        }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
 
+            try {
+                client.addDestination(newDestination);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
     }
 
     /**
@@ -183,18 +193,25 @@ public class DestinationListController {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
-            feedbackText.setText("Please select a destination you would like to remove");
+            feedbackLabel.setText("Please select a destination you would like to remove");
         } else {
+
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
             // remove the star-rating from the selected destination
             String currentDestinationName = currentDestination.replace("★", "");
 
+            try {
+                client.removeDestination(currentDestinationName);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+
             // remove the destination from destinationList and list-view
             destinationList.removeDestination(currentDestinationName);
             listView.getItems().remove(currentDestination);
         }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
+
     }
 
     @FXML
@@ -224,9 +241,8 @@ public class DestinationListController {
 
     public void initiliazeFromTestFiles() throws IOException {
         destinationListFile = "testDestinationList.json";
-        currentDestinationFile = "testCurrentDestinationName.json";
 
-        destinationList = traveluHandler.readDestinationListJSON(destinationListFile);
+        destinationList = TraveluHandler.readDestinationListJSON(destinationListFile);
 
         setUpListView();
     }

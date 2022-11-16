@@ -2,15 +2,17 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import travelu.client.Client;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -23,6 +25,11 @@ import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
 
+    /**
+     * Initialize client used for server communication
+     */
+    private final Client client = new Client("http://localhost", 8080);
+
     // currently selected destination
     private Destination currentDestination;
     private DestinationList destinationList;
@@ -30,8 +37,6 @@ public class DestinationController {
 
     // currently selected activity
     private String currentActivity;
-
-    private String destinationListFile;
 
     @FXML
     Label destinationLabel;
@@ -81,16 +86,15 @@ public class DestinationController {
     @FXML
     private void initialize() throws FileNotFoundException, IOException {
 
-        destinationListFile = "DestinationList.json";
-
-        this.destinationList = traveluHandler.readDestinationListJSON();
-        String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
-
-        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+        try {
+            this.currentDestination = this.client.getDestination();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         colorStars(this.currentDestination.getRating());
 
-        destinationLabel.setText(currentDestinationName);
+        destinationLabel.setText(currentDestination.getName());
 
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
@@ -99,7 +103,8 @@ public class DestinationController {
         arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
         departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
 
-        // Standardizes date formatting in datePicker. Largely copied from documentation for datePicker.setconverter
+        // Standardizes date formatting in datePicker. Largely copied from documentation
+        // for datePicker.setconverter
         StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
             // Standard date formatting
             String pattern = "dd/MM/yyyy";
@@ -109,45 +114,52 @@ public class DestinationController {
                 arrivalDatePicker.setPromptText(pattern.toLowerCase());
                 departureDatePicker.setPromptText(pattern.toLowerCase());
             }
+
             /**
-             * Generates string from LocalDate object, used for displaying selected date in DatePicker text field
+             * Generates string from LocalDate object, used for displaying selected date in
+             * DatePicker text field
              */
-            @Override public String toString(LocalDate date) {
-                try{
+            @Override
+            public String toString(LocalDate date) {
+                try {
                     if (date != null) {
                         return formatter.format(date);
                     } else {
                         return "";
-                    }}catch(Exception e){
-                        return "";}
+                    }
+                } catch (Exception e) {
+                    return "";
+                }
             }
+
             /**
-             * Generates LocalDate object from string, used for validating written input date
+             * Generates LocalDate object from string, used for validating written input
+             * date
              */
-            @Override public LocalDate fromString(String string) {
-                try{
+            @Override
+            public LocalDate fromString(String string) {
+                try {
                     if (string != null && !string.isEmpty()) {
                         return LocalDate.parse(string, formatter);
                     } else {
                         return null;
                     }
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     return null;
                 }
 
             }
         };
-        
+
         arrivalDatePicker.setConverter(stringConverter);
         departureDatePicker.setConverter(stringConverter);
-        
+
         setupListView();
         updateListView();
     }
 
     /**
-     * Sets up listener for changing selected activity in activitiesListView
+     * Set up listener for changing selected activity in activitiesListView
      */
     @FXML
     private void setupListView() {
@@ -162,7 +174,7 @@ public class DestinationController {
     }
 
     /**
-     * Updates view of activity list
+     * Update view of activity list
      */
     @FXML
     private void updateListView() {
@@ -171,7 +183,7 @@ public class DestinationController {
     }
 
     /**
-     * Returns to destination-list
+     * Return to destination-list
      * 
      * @throws IOException
      */
@@ -195,11 +207,11 @@ public class DestinationController {
 
         try {
             currentDestination.addActivity(activity);
+            this.client.addActivity(activity);
         } catch (Exception e) {
             // TODO: give relevant user feedback here
         }
 
-        writeChanges();
         updateListView();
         newActivityTextField.setText("");
 
@@ -211,28 +223,14 @@ public class DestinationController {
     @FXML
     private void handleRemoveActivity() {
         if (currentActivity != null) {
+            try {
+                this.client.removeActivity(currentActivity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             currentDestination.removeActivity(currentActivity);
             updateListView();
-            try {
-                writeChanges();
-            } catch (Exception e) {
-            }
         }
-    }
-
-    /**
-     * Updates changes to currentDestination, and writes these to json.
-     * 
-     * @throws IOException in case of filehandling issue
-     */
-    private void writeChanges() throws IOException {
-        this.destinationList.updateDestination(currentDestination);
-
-        traveluHandler.writeJSON(this.destinationList, destinationListFile);
-    }
-
-    @FXML
-    private void handleSelectFile() {
     }
 
     /**
@@ -265,6 +263,7 @@ public class DestinationController {
 
     /**
      * Set rating of current destination to starNumber, and update stars
+     * 
      * @param starNumber
      */
     private void handleStar(int starNumber) {
@@ -274,19 +273,21 @@ public class DestinationController {
         colorStars(starNumber);
 
         try {
-            writeChanges();
-        } catch (IOException e) {
+            this.client.setRating(starNumber);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Color starNumber stars yellow, and the rest of the stars white
+     * 
      * @param rating
      */
     private void colorStars(int starNumber) {
 
-        // Sets color of the clicked star, and all stars before it to yellow. Updates color of all stars after clicked star to white.
+        // Sets color of the clicked star, and all stars before it to yellow. Updates
+        // color of all stars after clicked star to white.
         if (starNumber >= 1) {
             star1.setStyle("-fx-fill: #FFD700");
         } else {
@@ -330,7 +331,7 @@ public class DestinationController {
 
         currentDestination.setComment(newComment);
         try {
-            writeChanges();
+            this.client.updateComment(newComment);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -341,12 +342,13 @@ public class DestinationController {
      */
     @FXML
     private void handleSetArrivalDate() {
-        String arrivalDate = arrivalDatePicker.getValue() == null ? "" : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String arrivalDate = arrivalDatePicker.getValue() == null ? ""
+                : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
             currentDestination.setArrivalDate(arrivalDate);
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
-            writeChanges();
+            this.client.setArrivalDate(arrivalDate);
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
             arrivalDatePicker.getEditor().setText("");
@@ -361,22 +363,19 @@ public class DestinationController {
     @FXML
     private void handleSetDepartureDate() {
 
-        String departureDate = departureDatePicker.getValue() == null ? "" : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String departureDate = departureDatePicker.getValue() == null ? ""
+                : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
             currentDestination.setDepartureDate(departureDate);
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
-            writeChanges();
+            this.client.setDepartureDate(departureDate);
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
             departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
-    }
-
-    public void changeFileWritingName(String fileWritingName) {
-        this.destinationListFile = fileWritingName;
     }
 
     // For testing purposes
@@ -402,7 +401,7 @@ public class DestinationController {
 
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
-        destinationListFile = "testDestinationList.json";
+        // destinationListFile = "testDestinationList.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
         String currentDestinationName = traveluHandler
@@ -414,6 +413,7 @@ public class DestinationController {
 
         colorStars(this.currentDestination.getRating());
 
+        commentTextField.setText("");
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }

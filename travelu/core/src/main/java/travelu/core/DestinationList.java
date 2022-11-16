@@ -2,6 +2,7 @@ package travelu.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * List of Destinations
@@ -19,6 +20,9 @@ public class DestinationList {
     public void addDestination(Destination destination) {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
+        
+        if(destinations.contains(destination))
+            throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
 
         destinations.add(destination);
     }
@@ -27,21 +31,22 @@ public class DestinationList {
      * Get actual destination by name
      * 
      * @param name of destination
-     * @return destination
+     * @return {@link Destination}
+     * @throws NoSuchElementException if no such element
      */
     private Destination getDestinationByName(String name) {
         return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Destination " + name + " does not exist in list"));
+                .orElseThrow(() -> new NoSuchElementException("Destination " + name + " does not exist in list"));
     }
 
     /**
      * Get copy of destination by name
      * 
      * @param name of destination
-     * @throws IllegalArgumentException if no destination with name
+     * @throws NoSuchElementException if no destination with name
      * @return destination
      */
-    public Destination getDestinationCopyByName(String name) {
+    public Destination getDestinationCopyByName(String name) throws NoSuchElementException {
         return new Destination(getDestinationByName(name));
     }
 

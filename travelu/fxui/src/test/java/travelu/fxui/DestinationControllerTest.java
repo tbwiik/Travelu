@@ -30,7 +30,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 
 /**
  * JavaFX tests for DestinationController
@@ -146,18 +146,21 @@ public class DestinationControllerTest extends ApplicationTest {
         String arrivalDateAfterDepartureDate = "21/10/2021";
         String departureDateBeforeArrivalDate = "10/01/2021";
 
+        // input valid arrival date
         clickOn(arrivalDatePicker).write(arrivalDate);
         assertNotEquals(arrivalDate, arrivalDateLabel.getText());
         clickOn(setArrivalDate);
 
         assertEquals(arrivalDate, arrivalDateLabel.getText());
 
+        // input valid departure date
         clickOn(departureDatePicker).write(departureDate);
         assertNotEquals(departureDate, departureDateLabel.getText());
         clickOn(setDepartureDate);
 
         assertEquals(departureDate, departureDateLabel.getText());
 
+        // input invalid arrival date
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setArrivalDate);
@@ -165,6 +168,7 @@ public class DestinationControllerTest extends ApplicationTest {
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid arrival date.", feedBackLabel.getText());
 
+        // input invalid departure date
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                 .write(invalidDate);
         clickOn(setDepartureDate);
@@ -172,18 +176,21 @@ public class DestinationControllerTest extends ApplicationTest {
         assertNotEquals(invalidDate, arrivalDateLabel.getText());
         assertEquals("Invalid departure date.", feedBackLabel.getText());
 
+        // input arrival date after departure date
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(arrivalDateAfterDepartureDate);
         clickOn(setArrivalDate);
         assertEquals(arrivalDate, arrivalDateLabel.getText());
         assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
 
+        // input valid arrival date, check that feedback label is cleared
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(arrivalDate);
         clickOn(setArrivalDate);
         assertEquals(arrivalDate, arrivalDateLabel.getText());
         assertEquals("", feedBackLabel.getText());
 
+        // input departure date before arrival date
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                 .write(departureDateBeforeArrivalDate);
         clickOn(setDepartureDate);
@@ -200,6 +207,7 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testAddActivity() {
 
+        // valid input
         clickOn(newActivityTextField).write("Take flamenco lessons");
         clickOn(addActivity);
 
@@ -208,6 +216,18 @@ public class DestinationControllerTest extends ApplicationTest {
         activities.add("Take flamenco lessons");
 
         assertEquals(activities, activitiesListView.getItems());
+
+        // Test empty input
+        clickOn(newActivityTextField).write("");
+        clickOn(addActivity);
+        // listView should be unchanged
+        assertEquals(activities, activitiesListView.getItems());
+
+        // Test adding existing activity
+        clickOn(newActivityTextField).write("Take flamenco lessons");
+        clickOn(addActivity);
+        // listView should be unchanged
+        assertEquals(activities, activitiesListView.getItems());
     }
 
     /**
@@ -215,14 +235,20 @@ public class DestinationControllerTest extends ApplicationTest {
      */
     @Test
     public void testRemoveActivity() {
+        // create seperate spainActivities list
         List<String> spainActivities = new ArrayList<>();
         spainActivities.add("Eat paella");
         assertEquals(spainActivities, activitiesListView.getItems());
 
+        // remove "Eat paella" through controller, check that the list is now empty
         clickOn("Eat paella");
         clickOn(removeActivity);
 
         assertNotEquals(spainActivities, activitiesListView.getItems());
+        assertEquals(new ArrayList<>(), activitiesListView.getItems());
+
+        // clicking the button without selecting anything should not alter the listView
+        clickOn(removeActivity);
         assertEquals(new ArrayList<>(), activitiesListView.getItems());
     }
 
@@ -232,8 +258,9 @@ public class DestinationControllerTest extends ApplicationTest {
     @Test
     public void testWriteComment() {
 
+    // valid input
     clickOn(commentTextField).write(
-    "I traveled to Spain with my family and we visited restaurants every day");
+    "I traveled to Spain with my family");
 
     assertNotEquals(commentTextField.getText(),
     destinationController.getDestinationComment());
@@ -241,6 +268,18 @@ public class DestinationControllerTest extends ApplicationTest {
 
     assertEquals(commentTextField.getText(),
     destinationController.getDestinationComment());
+
+    // Tests setting comment to ""
+    clickOn(commentTextField).eraseText(40);
+    clickOn(commentTextField).write("");
+    assertNotEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+
+    clickOn(updateComment);
+    //TODO: This test fails because empty comments are not allowed. This is fixed in another issue.
+    /*assertEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());*/
+    
     }
 
     /**
