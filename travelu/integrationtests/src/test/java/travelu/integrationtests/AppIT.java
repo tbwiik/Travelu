@@ -189,4 +189,32 @@ public class AppIT extends ApplicationTest {
             fail("Could not update comment");
         }
     }
+
+    @Test
+    public void testGetDestinationList() {
+
+        Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, new ArrayList<>(),
+                "I went to Hawaii and it was great!");
+
+        Destination japan = new Destination("Japan", new DateInterval(), 3, new ArrayList<>(),
+                "I went to Japan and it was cool!");
+
+        Destination france = new Destination("France", new DateInterval(), 3, new ArrayList<>(),
+                "I went to France and it was fun!");
+
+        try {
+            client.addDestination(hawaii);
+            client.addDestination(japan);
+            client.addDestination(france);
+        } catch (Exception e) {
+            fail("Could not add destinations");
+        }
+
+        try {
+            DestinationList destinationList = client.getDestinationList();
+            assertEquals(destinationList.getList(), client.getDestinationList().getList());
+        } catch (Exception e) {
+            fail("Could not get destination list");
+        }
+    }
 }
