@@ -217,4 +217,24 @@ public class AppIT extends ApplicationTest {
             fail("Could not get destination list");
         }
     }
+
+    @Test
+    public void testGetDestination() {
+
+        Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, new ArrayList<>(),
+                "I went to Hawaii and it was great!");
+
+        try {
+            client.addDestination(hawaii);
+        } catch (Exception e) {
+            fail("Could not add destination");
+        }
+
+        try {
+            Destination destinationFromName = client.getDestination("Hawaii");
+            assertEquals(destinationFromName, client.getDestination("Hawaii"));
+        } catch (Exception e) {
+            fail("Could not get destination");
+        }
+    }
 }
