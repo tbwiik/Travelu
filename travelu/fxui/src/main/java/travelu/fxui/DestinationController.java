@@ -7,8 +7,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -84,12 +86,18 @@ public class DestinationController {
     SVGPath star5;
 
     @FXML
-    private void initialize() throws FileNotFoundException, IOException {
+    private void initialize() {
 
         try {
-            this.currentDestination = this.client.getDestination();
-        } catch (Exception e) {
-            // TODO: handle exception
+            this.destinationList = client.getDestinationList();
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentUpdatedFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         colorStars(this.currentDestination.getRating());
@@ -208,8 +216,14 @@ public class DestinationController {
         try {
             currentDestination.addActivity(activity);
             this.client.addActivity(activity);
-        } catch (Exception e) {
-            // TODO: give relevant user feedback here
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentUpdatedFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         updateListView();
@@ -225,8 +239,14 @@ public class DestinationController {
         if (currentActivity != null) {
             try {
                 this.client.removeActivity(currentActivity);
-            } catch (Exception e) {
+            } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
+            } catch (ServerException se) {
+                commentUpdatedFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                // TODO switch to correct label
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
             }
             currentDestination.removeActivity(currentActivity);
             updateListView();
@@ -332,8 +352,14 @@ public class DestinationController {
         currentDestination.setComment(newComment);
         try {
             this.client.updateComment(newComment);
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            commentUpdatedFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
     }
 
@@ -350,9 +376,14 @@ public class DestinationController {
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             this.client.setArrivalDate(arrivalDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (Exception e) {
-            arrivalDatePicker.getEditor().setText("");
-            dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentUpdatedFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
     }
@@ -371,9 +402,17 @@ public class DestinationController {
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             this.client.setDepartureDate(departureDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentUpdatedFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
     }
