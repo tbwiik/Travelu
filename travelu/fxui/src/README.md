@@ -9,14 +9,14 @@ From travelu folder
 - `mvn -pl restserver spring-boot:run`
 
 The application is hosted on **localhost** port **8080**.  
-Manuall testing can be done by opening [localhost:8080](http://localhost:8080/) in browser and appending api address.  
+Manual testing can be done by opening [localhost:8080](http://localhost:8080/) in browser and appending api address.  
 Ex: [http://localhost:8080/api/v1/entries/destinationList](http://localhost:8080/api/v1/entries/destinationList)
 
 ## Application
 
-The application initialize the server.  
-Even though the application class is very small codewise there is a lot of stuff going on under the hood due to the `@SpringBootApplication` annotation.  
-Without going into too much detail this class set up the server using a DispatchServlet (aka Front Controller) as the entrypoint for the client on the other side further delegating tasks to the controllers.
+The application initializes the server.  
+Even though the application class is very small codewise there is a lot going on under the hood due to the `@SpringBootApplication` annotation.  
+Without going into too much detail this class sets up the server using a DispatchServlet (aka Front Controller) as the entrypoint for the client on the other side further delegating tasks to the controllers.
 
 
 ## Controller
@@ -30,7 +30,7 @@ Persistence is handled by the Service.
 ## Service
 
 The Service is responsible for communicating with the module handling local persistence.  
-The class mainly do two things: load and save. It also give the controller access to (not a copy) of the interal object to able to write these changes to file.
+The class mainly does two things: load and save. It also give the controller access to (not a copy) of the interal object to able to write these changes to file.
 
 ### Sources
 - [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
