@@ -114,7 +114,7 @@ public class TraveluController {
      * @param activity to add
      */
     @PostMapping(value = "/addActivity", produces = "application/json")
-    public void addActivityJSON(final @RequestBody String activity) {
+    public void addActivityJSON(final @RequestBody String activity) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
 
@@ -130,7 +130,7 @@ public class TraveluController {
      * @param activity to remove
      */
     @PostMapping(value = "/removeActivity", produces = "application/json")
-    public void removeActivityJSON(final @RequestBody String activity) {
+    public void removeActivityJSON(final @RequestBody String activity) throws NoSuchElementException {
 
         Destination updatedDestination = getDestination();
 
@@ -146,7 +146,7 @@ public class TraveluController {
      * @param rating to set
      */
     @PostMapping(value = "/setRating", produces = "application/json")
-    public void setRatingJSON(final @RequestBody String rating) {
+    public void setRatingJSON(final @RequestBody String rating) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
 
@@ -162,7 +162,7 @@ public class TraveluController {
      * @param arrivalDate
      */
     @PostMapping(value = "/setArrivalDate", produces = "application/json")
-    public void setArrivalDateJSON(final @RequestBody String arrivalDate) {
+    public void setArrivalDateJSON(final @RequestBody String arrivalDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
 
@@ -178,7 +178,7 @@ public class TraveluController {
      * @param departureDate to set
      */
     @PostMapping(value = "/setDepartureDate", produces = "application/json")
-    public void setDepartureDateJSON(final @RequestBody String departureDate) {
+    public void setDepartureDateJSON(final @RequestBody String departureDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
 
