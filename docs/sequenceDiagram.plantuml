@@ -1,23 +1,20 @@
 @startuml sequenceDiagram
 skin rose
 actor User as user
-participant "addButton: Button" as addButton
 participant "DestinationListController" as destListCon
-participant "TraveluHandler" as persistence
-participant "RestTemplate" as rest
+participant "DestinationController" as destCon
+participant "Client" as client
 participant "TraveluController" as tcon
 participant "TraveluService" as tser
-participant "TraveluListners" as tlist 
-' maybe add this to the diagram
 
-user --> addButton : Click on the "Add" button
-addButton --> destListCon : addDestination
-destListCon --> persistence : writeJSON
-persistence --> rest : PostForObject("/destinations".destination)
-rest --> tcon : POST: baseURL/destinations
-tcon --> tser : addDestination
-tser --> rest : HTTP:OK 200
-rest --> persistence : HTTOP:OK 200
-persistence --> user : New destination \nadded in the list
+user --> destListCon : Double click destination
+destListCon --> destListCon : check if destination in list
+destListCon --> client : switchToDestination(currentDestinationName)
+client --> tcon : POST: storeCurrentDestinationJSON(String destinationName)
+tcon --> tser : saveDestinationName(String currentDestination)
+tser --> tcon : getDestinationName()    
+tcon --> client : GET: getDestinationJSON()
+client --> destCon: getDestination()  
+destCon --> user : Open Destination page
 
 @enduml
