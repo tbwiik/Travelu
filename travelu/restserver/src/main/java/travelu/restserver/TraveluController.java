@@ -77,15 +77,11 @@ public class TraveluController {
      * @param destinationJSON {@link Destination} to add in JSON format
      */
     @PostMapping(value = "/add", produces = "application/json")
-    public void addDestinationJSON(final @RequestBody String destinationJSON) {
+    public void addDestinationJSON(final @RequestBody String destinationJSON) throws IllegalArgumentException {
         Gson gson = new Gson();
-        try {
-            Destination destination = gson.fromJson(destinationJSON, Destination.class);
-            traveluService.getDestinationList().addDestination(destination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Destination destination = gson.fromJson(destinationJSON, Destination.class);
+        traveluService.getDestinationList().addDestination(destination);
+        traveluService.save();
     }
 
     /**
@@ -232,6 +228,13 @@ public class TraveluController {
     @ResponseBody
     public String reportNoSuchElementException(final NoSuchElementException nsee) {
         return nsee.getMessage();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String reportIllegalArgumentException(final IllegalArgumentException iae) {
+        return HttpStatus.BAD_REQUEST + iae.getMessage();
     }
 
 }
