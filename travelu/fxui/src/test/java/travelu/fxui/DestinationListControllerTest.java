@@ -208,10 +208,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 clickOn("Greece★★");
                 clickOn(removeButton);
 
-                // TODO: this test fails because feedbacklabel reset is not implemented yet
-                /*
+                
                 // check if feedbackLabel is reset
-                assertEquals("", feedbackLabel.getText()); */
+                assertEquals("", feedbackLabel.getText());
 
 
                 assertNotEquals(destinationList.getDestinationNames(),
@@ -221,21 +220,14 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
 
-                // TODO: this test fails because there is a bug. Fixed in seperate issue
-                /*
                 clickOn(listView);
                 clickOn(removeButton);
                 assertEquals(destinationList.getDestinationNames(),
                                 destinationListController.getDestinationListNames());
-                */
-
 
                 // check if feedbackLabel gives proper feedback
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
 
-        
-                // TODO: this test fails because of bugs.
-                /*
                 // check clicking remove button after removing destination
                 clickOn(removeButton);
                 // check if feedbackLabel gives proper feedback
@@ -243,9 +235,8 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 // this should not change destinationList
                 assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames()); */
+                                destinationListController.getDestinationListNames());
 
-                
         }
 
         /**
