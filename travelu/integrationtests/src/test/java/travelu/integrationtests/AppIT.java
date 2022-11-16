@@ -173,4 +173,20 @@ public class AppIT extends ApplicationTest {
             fail("Could not set departure date");
         }
     }
+
+    @Test
+    public void testUpdateComment() {
+
+        try {
+            client.storeCurrentDestination("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+
+        try {
+            client.updateComment("I went to Hawaii and it was great!");
+        } catch (Exception e) {
+            fail("Could not update comment");
+        }
+    }
 }
