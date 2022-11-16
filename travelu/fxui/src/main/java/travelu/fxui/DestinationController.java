@@ -94,7 +94,7 @@ public class DestinationController {
     private void initialize() {
 
         try {
-            this.destinationList = client.getDestinationList();
+            this.currentDestination = client.getDestination();
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -301,8 +301,14 @@ public class DestinationController {
 
         try {
             this.client.setRating(starNumber);
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
     }
 

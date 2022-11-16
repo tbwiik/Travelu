@@ -116,7 +116,7 @@ public class DestinationListController {
                 }
 
                 // we want currentDestination to be null, not "null"
-                if (currentDestination.equals("null")) {
+                if (currentDestination != null && currentDestination.equals("null")) {
                     currentDestination = null;
                 }
 
@@ -132,6 +132,7 @@ public class DestinationListController {
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
                             feedbackLabel.setText("Could not find " + currentDestinationName);
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -200,21 +201,19 @@ public class DestinationListController {
                 destinationText.clear();
 
                 client.addDestination(newDestination);
-            } catch (URISyntaxException | InterruptedException e) {
-                e.printStackTrace();
-            } catch (ServerException se) {
-                feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-                // TODO switch to correct label
-            } catch (ExecutionException ee) {
-                ee.printStackTrace();
-                // TODO better handling
             }
-
         } catch (IllegalArgumentException iae) {
             feedbackLabel.setText("");
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
-            // TODO: handle exception
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
+
     }
 
     /**
@@ -240,10 +239,11 @@ public class DestinationListController {
                 // remove the destination from destinationList and list-view
                 destinationList.removeDestination(currentDestinationName);
                 listView.getItems().remove(currentDestination);
+                currentDestination = null;
 
             } catch (NoSuchElementException nsee) {
                 feedbackLabel.setText("Please select a destination you would like to remove");
-            } catch (URISyntaxException | InterruptedURISyntaxException | InterruptedException | ExecutionException e) {
+            } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
                 feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
