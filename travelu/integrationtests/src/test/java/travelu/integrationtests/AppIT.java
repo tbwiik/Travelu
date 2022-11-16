@@ -71,4 +71,31 @@ public class AppIT extends ApplicationTest {
             fail("Could not store current destination");
         }
     }
+
+    @Test
+    public void testAddAndRemoveDestination() {
+
+        List<String> activities = new ArrayList<>();
+        activities.add("See volcanoes");
+        activities.add("Dance hula with locals");
+        Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, activities,
+                "I went to Hawaii and it was great!");
+
+        try {
+            client.addDestination(hawaii);
+        } catch (Exception e) {
+            fail("Could not add destination");
+        }
+
+        try {
+            client.removeDestination("Hawaii");
+        } catch (Exception e) {
+            fail("Could not remove destination");
+        }
+
+        // TODO: client.removeDestination("Hawaii") should throw an exception:
+        // assertThrows(NoSuchElementException.class, () -> {
+        // client.removeDestination("Hawaii");
+        // });
+    }
 }
