@@ -134,9 +134,7 @@ public class DestinationTest {
         // removeActivity is case sensitive
         assertThrows(NoSuchElementException.class, () -> destination.removeActivity("circus"));
 
-        assertEquals(testActivities, destination.getActivities());
-
-        // tests for removing all elements in activities
+        // Tests for removing all elements in activities
         destination.removeActivity("Circus");
         destination.removeActivity("Fancy dinner");
         testActivities.remove("Circus");

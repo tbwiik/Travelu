@@ -172,8 +172,8 @@ public class DestinationListTest {
     /**
      * Tests if removeDestination removes destination
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the destination doesn't
-     * exist or is null
+     * Checks if NoSuchElementException gets thrown if the destination doesn't
+     * exist in list, and IllegalArgumentException is thrown if destination is null
      */
     @Test
     public void testRemoveDestination() {
@@ -189,7 +189,7 @@ public class DestinationListTest {
 
         assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Not in list"));
 
-        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination(null));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
     }
 
     /**
@@ -206,8 +206,7 @@ public class DestinationListTest {
         assertEquals(norwayCopy.getComment(), destinationList.getDestinationCopyByName("Norway").getComment());
 
         // null input
-        // TODO: This test fails, updateDestination does not have a nullcheck or other exception handling
-        //assertThrows(IllegalArgumentException.class, () -> destinationList.updateDestination(null));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.updateDestination(null));
 
         // destination is not in list
         assertThrows(NoSuchElementException.class, () -> destinationList.updateDestination(new Destination("Not in list", new DateInterval(), 1, null, null)));
