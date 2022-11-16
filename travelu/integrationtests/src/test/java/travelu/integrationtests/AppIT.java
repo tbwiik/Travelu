@@ -56,4 +56,9 @@ public class AppIT extends ApplicationTest {
         }
     }
 
+    @Test
+    public void testApp() throws Exception {
+        assertNotNull(controller);
+        assertNotNull(client);
+    }
 }
