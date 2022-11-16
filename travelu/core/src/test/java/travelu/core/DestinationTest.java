@@ -94,4 +94,46 @@ public class DestinationTest {
 
         assertEquals(testActivities, destination.getActivities());
     }
+
+    /*
+     * Test if encapsulation is correctly handled
+     */
+    @Test
+    public void testCorrectEncapsulation() {
+
+        Destination destinationCopy = new Destination(destination);
+
+        assertEquals(destinationCopy.getComment(), destination.getComment());
+
+        // making changes to comment on destinationCopy should not impact
+        // comment on destination
+        destinationCopy.setComment("This should not change comment in destinationCopy");
+
+        assertNotEquals(destinationCopy.getComment(), destination.getComment());
+
+        DateInterval dateIntervalCopy = destination.getDateInterval();
+
+        assertEquals(dateIntervalCopy.getArrivalDate(), destination.getDateInterval().getArrivalDate());
+
+        // making changes to dateIntervalCopy should not impact
+        // dateInterval in destination
+        dateIntervalCopy.setArrivalDate("01/01/2020");
+
+        assertNotEquals(dateIntervalCopy.getArrivalDate(), destination.getDateInterval().getArrivalDate());
+
+        List<String> activitiesCopy = destination.getActivities();
+
+        assertEquals(activitiesCopy, destination.getActivities());
+        assertEquals(3, destination.getActivities().size());
+
+        activitiesCopy.add("Skateboarding");
+
+        // making changes to activities through getActivities should not work
+        destination.getActivities().add("Skateboarding");
+
+        assertEquals(3, destination.getActivities().size());
+
+        assertNotEquals(activitiesCopy, destination.getActivities());
+
+    }
 }

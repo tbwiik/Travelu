@@ -71,26 +71,28 @@ public class Destination {
 
     /**
      * Set arrival date for destination
+     * 
      * @param arrivalDate - string in format dd/MM/yyyy
      * @throws IllegalArgumentException
      */
-    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException{
+    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException {
         dateInterval.setArrivalDate(arrivalDate);
     }
 
     /**
      * Set departure date for destination
+     * 
      * @param departureDate - string in format dd/MM/yyyy
      * @throws IllegalArgumentException
      */
-    public void setDepartureDate(String departureDate) throws IllegalArgumentException{
+    public void setDepartureDate(String departureDate) throws IllegalArgumentException {
         dateInterval.setDepartureDate(departureDate);
     }
 
     /**
      * @return the rating of the destination
      */
-    public Integer getRating() {
+    public int getRating() {
         return rating;
     }
 

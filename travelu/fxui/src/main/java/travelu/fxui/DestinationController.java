@@ -2,15 +2,17 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import travelu.client.Client;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -23,6 +25,11 @@ import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
 
+    /**
+     * Initialize client used for server communication
+     */
+    private final Client client = new Client("http://localhost", 8080);
+
     // currently selected destination
     private Destination currentDestination;
     private DestinationList destinationList;
@@ -30,8 +37,6 @@ public class DestinationController {
 
     // currently selected activity
     private String currentActivity;
-
-    private String destinationListFile;
 
     @FXML
     Label destinationLabel;
@@ -84,16 +89,15 @@ public class DestinationController {
     @FXML
     private void initialize() throws FileNotFoundException, IOException {
 
-        destinationListFile = "DestinationList.json";
-
-        this.destinationList = traveluHandler.readDestinationListJSON();
-        String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
-
-        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+        try {
+            this.currentDestination = this.client.getDestination();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         colorStars(this.currentDestination.getRating());
 
-        destinationLabel.setText(currentDestinationName);
+        destinationLabel.setText(currentDestination.getName());
 
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
@@ -158,7 +162,7 @@ public class DestinationController {
     }
 
     /**
-     * Sets up listener for changing selected activity in activitiesListView
+     * Set up listener for changing selected activity in activitiesListView
      */
     @FXML
     private void setupListView() {
@@ -173,7 +177,7 @@ public class DestinationController {
     }
 
     /**
-     * Updates view of activity list
+     * Update view of activity list
      */
     @FXML
     private void updateListView() {
@@ -182,7 +186,7 @@ public class DestinationController {
     }
 
     /**
-     * Returns to destination-list
+     * Return to destination-list
      * 
      * @throws IOException
      */
@@ -204,13 +208,11 @@ public class DestinationController {
 
         try {
             currentDestination.addActivity(activity);
-            writeChanges();
-            activityFeedbackLabel.setText("");
-        } catch (IllegalArgumentException iae) {
-            activityFeedbackLabel.setText("Add unique activity to update.");
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+            this.client.addActivity(activity);
+        } catch (Exception e) {
+            // TODO: give relevant user feedback here
         }
+
         updateListView();
         newActivityTextField.setText("");
     }
@@ -222,30 +224,13 @@ public class DestinationController {
     private void handleRemoveActivity() {
         if (currentActivity != null) {
             try {
-                currentDestination.removeActivity(currentActivity);
-                updateListView();
-                writeChanges();
-            } catch (IllegalArgumentException iae) {
-                iae.printStackTrace();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
+                this.client.removeActivity(currentActivity);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            currentDestination.removeActivity(currentActivity);
+            updateListView();
         }
-    }
-
-    /**
-     * Updates changes to currentDestination, and writes these to json.
-     * 
-     * @throws IOException in case of filehandling issue
-     */
-    private void writeChanges() throws IOException {
-        this.destinationList.updateDestination(currentDestination);
-
-        traveluHandler.writeJSON(this.destinationList, destinationListFile);
-    }
-
-    @FXML
-    private void handleSelectFile() {
     }
 
     /**
@@ -288,8 +273,8 @@ public class DestinationController {
         colorStars(starNumber);
 
         try {
-            writeChanges();
-        } catch (IOException e) {
+            this.client.setRating(starNumber);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -344,12 +329,9 @@ public class DestinationController {
         String newComment = commentTextField.getText();
         currentDestination.setComment(newComment);
         try {
-            writeChanges();
-            if (!newComment.isBlank()) {
-                commentFeedbackLabel.setText("Comment updated!");
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+            this.client.updateComment(newComment);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -364,7 +346,7 @@ public class DestinationController {
         try {
             currentDestination.setArrivalDate(arrivalDate);
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
-            writeChanges();
+            this.client.setArrivalDate(arrivalDate);
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
             arrivalDatePicker.getEditor().setText("");
@@ -385,17 +367,13 @@ public class DestinationController {
         try {
             currentDestination.setDepartureDate(departureDate);
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
-            writeChanges();
+            this.client.setDepartureDate(departureDate);
             dateUpdatedFeedbackLabel.setText("");
         } catch (Exception e) {
             departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
 
-    }
-
-    public void changeFileWritingName(String fileWritingName) {
-        this.destinationListFile = fileWritingName;
     }
 
     // For testing purposes
@@ -421,7 +399,7 @@ public class DestinationController {
 
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
-        destinationListFile = "testDestinationList.json";
+        // destinationListFile = "testDestinationList.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
         String currentDestinationName = traveluHandler
