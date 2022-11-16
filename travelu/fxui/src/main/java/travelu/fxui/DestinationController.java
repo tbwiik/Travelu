@@ -357,9 +357,11 @@ public class DestinationController {
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             this.client.setArrivalDate(arrivalDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             arrivalDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch(URISyntaxException | InterruptedException | ExecutionException e){
+            // TODO: handle this
         }
 
     }
@@ -378,9 +380,11 @@ public class DestinationController {
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             this.client.setDepartureDate(departureDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch(URISyntaxException | InterruptedException | ExecutionException e){
+            // TODO: handle this
         }
 
     }
