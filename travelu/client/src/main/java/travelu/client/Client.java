@@ -72,7 +72,7 @@ public class Client {
 
         HttpResponse<String> httpResponse = this.getAsync(endpoint).get();
 
-        if (!Pattern.matches(String.valueOf(httpResponse.statusCode()), HTTP_STATUS_OK))
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode())))
             throw new ServerException("Error getting data", httpResponse.statusCode());
 
         return this.getAsync(endpoint).get();
@@ -185,7 +185,7 @@ public class Client {
 
         HttpResponse<String> httpResponse = this.postAsync(endpoint, payload).get();
 
-        if (!Pattern.matches(String.valueOf(httpResponse.statusCode()), HTTP_STATUS_OK))
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode())))
             throw new ServerException("Error getting data", httpResponse.statusCode());
 
         return httpResponse;
