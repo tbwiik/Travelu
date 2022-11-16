@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 
@@ -17,7 +18,7 @@ import travelu.core.Destination;
 public class Client {
 
     private final static String API_ADDRESS = "/api/v1/entries/";
-    private final static String HTTP_STATUS_OK = "^(2)";
+    private final static String HTTP_STATUS_OK = "[2][0-9]*";
 
     private final String serverUrl;
     private final int serverPort;
@@ -71,7 +72,7 @@ public class Client {
 
         HttpResponse<String> httpResponse = this.getAsync(endpoint).get();
 
-        if (String.valueOf(httpResponse.statusCode()) != HTTP_STATUS_OK)
+        if (!Pattern.matches(String.valueOf(httpResponse.statusCode()), HTTP_STATUS_OK))
             throw new ServerException("Error getting data", httpResponse.statusCode());
 
         return this.getAsync(endpoint).get();
@@ -184,7 +185,7 @@ public class Client {
 
         HttpResponse<String> httpResponse = this.postAsync(endpoint, payload).get();
 
-        if (String.valueOf(httpResponse.statusCode()) != HTTP_STATUS_OK)
+        if (!Pattern.matches(String.valueOf(httpResponse.statusCode()), HTTP_STATUS_OK))
             throw new ServerException("Error getting data", httpResponse.statusCode());
 
         return httpResponse;
