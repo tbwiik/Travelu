@@ -106,6 +106,10 @@ public class DestinationListController {
                             .split("\"")[1];
                 }
 
+                if (currentDestination.equals("null")) {
+                    currentDestination = null;
+                }
+
                 if (click.getClickCount() == 2) {
 
                     // switch to currentDestination page on double-click if a destination was
@@ -198,7 +202,7 @@ public class DestinationListController {
      */
     @FXML
     public void handleRemoveDestination() {
-        if (currentDestination.equals("null")) {
+        if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
             feedbackText.setText("Please select a destination you would like to remove");
@@ -209,6 +213,7 @@ public class DestinationListController {
             String currentDestinationName = currentDestination.replace("★", "");
 
             try {
+                feedbackText.setText("");
                 client.removeDestination(currentDestinationName);
             } catch (Exception e) {
                 // TODO: handle exception
@@ -221,7 +226,6 @@ public class DestinationListController {
             } catch (NoSuchElementException nsee) {
                 feedbackText.setText("Please select a destination you would like to remove");
             }
-
         }
     }
 
