@@ -25,7 +25,7 @@ module travelu.fxui {
     requires javafx.fxml;
 
     requires travelu.core;
-    requires travelu.fxutil;
+    requires travelu.localpersistence;
 
     opens travelu.fxui to javafx.fxml, javafx.graphics;
 }
