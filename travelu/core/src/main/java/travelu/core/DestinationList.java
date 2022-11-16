@@ -20,6 +20,9 @@ public class DestinationList {
     public void addDestination(Destination destination) {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
+        
+        if(destinations.contains(destination))
+            throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
 
         destinations.add(destination);
     }
@@ -52,7 +55,14 @@ public class DestinationList {
      * 
      * @param name of destination
      */
-    public void removeDestination(String name) {
+    public void removeDestination(String name) throws IllegalArgumentException, NoSuchElementException {
+        // Name of destination to remove cannot be null
+        if(name == null) {
+            throw new IllegalArgumentException("Cannot remove null");
+        }
+        if(!this.containsDestination(name)){
+            throw new NoSuchElementException(name + " is not in destination list");
+        }
         Destination destination = getDestinationByName(name);
         destinations.remove(destination);
     }
@@ -62,7 +72,11 @@ public class DestinationList {
      * 
      * @param destination to be updated
      */
-    public void updateDestination(Destination destination) {
+    public void updateDestination(Destination destination) throws IllegalArgumentException, NoSuchElementException {
+        // Updated destination cannot be null
+        if(destination == null) {
+            throw new IllegalArgumentException("Cannot remove null");
+        }
         // Removes old version of destination from list, adds new version
         removeDestination(destination.getName());
         addDestination(destination);

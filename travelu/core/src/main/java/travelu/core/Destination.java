@@ -2,6 +2,7 @@ package travelu.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Destination object for use in travel-journal
@@ -120,7 +121,7 @@ public class Destination {
      */
     public void addActivity(String activity) throws IllegalArgumentException {
 
-        if (activity.isBlank() || getActivities().contains(activity))
+        if (activity == null || activity.isBlank() || getActivities().contains(activity))
             throw new IllegalArgumentException("Invalid activity");
 
         activities.add(activity);
@@ -129,11 +130,11 @@ public class Destination {
     /**
      * 
      * @param activity the activity we want to remove
-     * @throws IllegalArgumentException if activity is not in list
+     * @throws NoSuchElementException if activity is not in list
      */
-    public void removeActivity(String activity) throws IllegalArgumentException {
+    public void removeActivity(String activity) throws NoSuchElementException {
         if (!getActivities().contains(activity)) {
-            throw new IllegalArgumentException("Activity is not in activity list");
+            throw new NoSuchElementException("Activity is not in activity list");
         }
 
         activities.remove(activity);

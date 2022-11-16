@@ -1,5 +1,6 @@
 package travelu.core;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -148,14 +149,31 @@ public class DestinationListTest {
     public void testAddDestination() {
         assertEquals(newDestinations, destinationList.getList());
 
+        Destination newDestination = new Destination("Greenland", new DateInterval(), 1, null, null);
+        
+        // Adding a valid new destination to list
+        newDestinations.add(newDestination);
+        assertNotEquals(newDestinations, destinationList.getList());
+
+        destinationList.addDestination(newDestination);
+        assertEquals(newDestinations, destinationList.getList());
+
+        // Adding an existing destination to list
+        assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(norway));
+
+        // Adding null to list
         assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(null));
+
+        // Checks that list is unchanged after invalid inputs
+        assertEquals(newDestinations, destinationList.getList());
+
     }
 
     /**
      * Tests if removeDestination removes destination
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the destination doesn't
-     * exist or is null
+     * Checks if NoSuchElementException gets thrown if the destination doesn't
+     * exist in list, and IllegalArgumentException is thrown if destination is null
      */
     @Test
     public void testRemoveDestination() {
@@ -169,9 +187,30 @@ public class DestinationListTest {
 
         assertEquals(newDestinations, destinationList.getList());
 
-        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Norway"));
+        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Not in list"));
 
-        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination(null));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
+    }
+
+    /**
+     * Tests if updateDestination sets correct values in destination
+     */
+    @Test
+    public void testUpdateDestination() {
+        
+        Destination norwayCopy = destinationList.getDestinationCopyByName("Norway");
+        norwayCopy.setComment("Changed comment");
+        assertNotEquals(norwayCopy.getComment(), destinationList.getDestinationCopyByName("Norway").getComment());
+
+        destinationList.updateDestination(norwayCopy);
+        assertEquals(norwayCopy.getComment(), destinationList.getDestinationCopyByName("Norway").getComment());
+
+        // null input
+        assertThrows(IllegalArgumentException.class, () -> destinationList.updateDestination(null));
+
+        // destination is not in list
+        assertThrows(NoSuchElementException.class, () -> destinationList.updateDestination(new Destination("Not in list", new DateInterval(), 1, null, null)));
+
     }
 
     /**

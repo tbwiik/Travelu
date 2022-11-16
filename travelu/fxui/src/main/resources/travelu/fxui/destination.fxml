@@ -151,6 +151,11 @@
                   <Font size="15.0" />
                </font>
             </Button>
+            <Label fx:id="activityFeedbackLabel" layoutX="173.0" layoutY="11.0" prefHeight="31.0" prefWidth="206.0" textFill="#f54f2c">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -162,7 +167,10 @@
                   <Font size="19.0" />
                </font>
             </Label>
-            <Label fx:id="commentUpdatedFeedbackLabel" layoutX="622.0" layoutY="99.0" prefHeight="25.0" prefWidth="124.0" text="Comment was updated" visible="false" />
+            <Label fx:id="commentFeedbackLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="626.0" layoutY="94.0" prefHeight="25.0" prefWidth="124.0" textAlignment="CENTER">
+               <font>
+                  <Font size="12.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </children>
