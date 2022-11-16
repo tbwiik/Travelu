@@ -51,14 +51,8 @@ public class TraveluController {
     public String getDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
         Gson gson = new Gson();
-
-        try {
-            Destination destination = traveluService.getDestinationList().getDestinationCopyByName(destinationName);
-            return gson.toJson(destination);
-        } catch (NoSuchElementException nsee) {
-            throw new NoSuchElementException(
-                    HttpStatus.NOT_FOUND + " Destination \"" + destinationName + "\" not found");
-        }
+        Destination destination = traveluService.getDestinationList().getDestinationCopyByName(destinationName);
+        return gson.toJson(destination);
     }
 
     /**
@@ -227,14 +221,14 @@ public class TraveluController {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
     public String reportNoSuchElementException(final NoSuchElementException nsee) {
-        return nsee.getMessage();
+        return HttpStatus.NOT_FOUND + " - " + nsee.getMessage();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public String reportIllegalArgumentException(final IllegalArgumentException iae) {
-        return HttpStatus.BAD_REQUEST + iae.getMessage();
+        return HttpStatus.BAD_REQUEST + " - " + iae.getMessage();
     }
 
 }
