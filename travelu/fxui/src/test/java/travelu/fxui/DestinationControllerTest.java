@@ -276,9 +276,8 @@ public class DestinationControllerTest extends ApplicationTest {
     destinationController.getDestinationComment());
 
     clickOn(updateComment);
-    //TODO: This test fails because empty comments are not allowed. This is fixed in another issue.
-    /*assertEquals(commentTextField.getText(),
-    destinationController.getDestinationComment());*/
+    assertEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
     
     }
 
