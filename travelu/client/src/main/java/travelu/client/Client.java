@@ -224,7 +224,7 @@ public class Client {
     public void storeCurrentDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        this.post(API_ADDRESS + "storeCurrent", destinationName.replace(" ", "%"));
+        this.post(API_ADDRESS + "storeCurrent", destinationName);
     }
 
     /**
@@ -241,7 +241,6 @@ public class Client {
     public void removeDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        storeCurrentDestination("");
         this.post(API_ADDRESS + "remove", destinationName);
     }
 
