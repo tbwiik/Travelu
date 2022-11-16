@@ -100,7 +100,7 @@ public class DestinationListController {
                     // we then need to get the element after the first '
                     currentDestination = click.getTarget().toString()
                             .split("'")[1];
-                } else {
+                } else if (click.getTarget().toString().contains("\"")) {
                     // if you click directly on the text the format is
                     // Text[text="DestinationName" objectinformation="..."]]
                     // we then need to get the element after the first "
@@ -108,7 +108,7 @@ public class DestinationListController {
                             .split("\"")[1];
                 }
 
-                if (currentDestination.equals("null")) {
+                else {
                     currentDestination = null;
                 }
 
@@ -116,15 +116,16 @@ public class DestinationListController {
 
                     // switch to currentDestination page on double-click if a destination was
                     // clicked
-                    if (!currentDestination.equals("null")) {
+                    if (currentDestination != null) {
                         // remove the stars from the selected destination
                         String currentDestinationName = currentDestination.replace("★", "");
                         try {
                             // load the destination chosen
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
-                            feedbackText.setText("Could not find " + currentDestinationName);
-                            e.printStackTrace();
+                            if (currentDestinationName != null) {
+                                feedbackText.setText("Could not find " + currentDestinationName);
+                            }
                         }
                     }
                 }
