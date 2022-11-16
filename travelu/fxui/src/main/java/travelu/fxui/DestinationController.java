@@ -208,7 +208,6 @@ public class DestinationController {
             activityFeedbackLabel.setText("");
         } catch (IllegalArgumentException iae) {
             activityFeedbackLabel.setText("Add unique activity to update.");
-            iae.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -343,18 +342,12 @@ public class DestinationController {
     @FXML
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
-
-        if (newComment.isBlank()) {
-            commentFeedbackLabel.setText("Add comment to update.");
-        }
-
         currentDestination.setComment(newComment);
-        if (!newComment.isBlank()) {
-            commentFeedbackLabel.setText("Comment updated!");
-        }
-
         try {
             writeChanges();
+            if (!newComment.isBlank()) {
+                commentFeedbackLabel.setText("Comment updated!");
+            }
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

@@ -158,7 +158,19 @@ public class DestinationListController {
                 // create new destination with input as name
                 Destination newDestination = new Destination(newDestinationName.strip(), null, 0,
                         new ArrayList<String>(), null);
+
+                // add destination to list-view and destinations
+                listView.getItems().add(newDestination.getName());
+                destinationList.addDestination(newDestination);
+
+                // remove any feedback given
+                feedbackText.setText("");
+
+                // remove text in inputField
+                destinationText.clear();
+
             }
+
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
         }
