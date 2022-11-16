@@ -106,15 +106,8 @@ public class TraveluController {
      * @param destinationJSON
      */
     @PostMapping(value = "/remove", produces = "application/json")
-    public void removeDestinationJSON(final @RequestBody String destinationName) {
-        Gson gson = new Gson();
-        String destination = gson.fromJson(destinationName, String.class);
-        try {
-            traveluService.getDestinationList().removeDestination(destination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void removeDestinationJSON(final @RequestBody String destinationName) throws NoSuchElementException {
+        traveluService.getDestinationList().removeDestination(destinationName);
     }
 
     /**
