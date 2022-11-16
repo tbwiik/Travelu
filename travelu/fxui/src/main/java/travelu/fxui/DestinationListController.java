@@ -1,11 +1,14 @@
 package travelu.fxui;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;
@@ -47,16 +50,21 @@ public class DestinationListController {
      * @throws IOException
      */
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
 
         try {
             this.destinationList = client.getDestinationList();
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
             // TODO better handling
         }
 
         setUpListView();
+
     }
 
     private void setUpListView() {
@@ -131,8 +139,14 @@ public class DestinationListController {
 
         try {
             client.storeCurrentDestination(destinationName);
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         App.setRoot("destination");
@@ -177,8 +191,14 @@ public class DestinationListController {
 
             try {
                 client.addDestination(newDestination);
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (URISyntaxException | InterruptedException e) {
+                e.printStackTrace();
+            } catch (ServerException se) {
+                feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                // TODO switch to correct label
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
             }
         }
     }
@@ -203,8 +223,14 @@ public class DestinationListController {
 
             try {
                 client.removeDestination(currentDestinationName);
-            } catch (Exception e) {
-                // TODO: handle exception
+            } catch (URISyntaxException | InterruptedException e) {
+                e.printStackTrace();
+            } catch (ServerException se) {
+                feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                // TODO switch to correct label
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
             }
 
             // remove the destination from destinationList and list-view
