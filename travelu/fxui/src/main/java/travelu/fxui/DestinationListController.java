@@ -1,10 +1,12 @@
 package travelu.fxui;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
 import travelu.core.Destination;
@@ -51,7 +53,7 @@ public class DestinationListController {
 
         try {
             this.destinationList = client.getDestinationList();
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
             // TODO better handling
         }
@@ -74,7 +76,7 @@ public class DestinationListController {
                 // add destination with name and number stars equal to rating
                 destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
             } catch (NoSuchElementException nsee) {
-                nsee.printStackTrace();
+                feedbackText.setText("No such element: " + nsee.getMessage());
             }
 
         }
@@ -140,7 +142,7 @@ public class DestinationListController {
 
         try {
             client.storeCurrentDestination(destinationName);
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             // TODO: handle exception
         }
 
@@ -188,17 +190,15 @@ public class DestinationListController {
             }
 
         } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-            // remove text in inputField
-        } catch (Exception e) {
+            feedbackText.setText("");
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             // TODO: handle exception
         }
     }
 
     /**
      * Removes destination from list
-     * 
-     * @throws IOException if error writing to file
+     *
      */
     @FXML
     public void handleRemoveDestination() {
@@ -215,16 +215,14 @@ public class DestinationListController {
             try {
                 feedbackText.setText("");
                 client.removeDestination(currentDestinationName);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
 
-            try {
                 // remove the destination from destinationList and list-view
                 destinationList.removeDestination(currentDestinationName);
                 listView.getItems().remove(currentDestination);
+
             } catch (NoSuchElementException nsee) {
                 feedbackText.setText("Please select a destination you would like to remove");
+            } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             }
         }
     }

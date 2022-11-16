@@ -3,10 +3,13 @@ package travelu.fxui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
 import travelu.core.DateInterval;
@@ -91,7 +94,7 @@ public class DestinationController {
 
         try {
             this.currentDestination = this.client.getDestination();
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             // TODO: handle exception
         }
 
@@ -130,7 +133,7 @@ public class DestinationController {
                     } else {
                         return "";
                     }
-                } catch (Exception e) {
+                } catch (DateTimeException dte) {
                     return "";
                 }
             }
@@ -147,7 +150,7 @@ public class DestinationController {
                     } else {
                         return null;
                     }
-                } catch (Exception e) {
+                } catch (DateTimeParseException dtpe) {
                     return null;
                 }
 
@@ -212,7 +215,7 @@ public class DestinationController {
             activityFeedbackLabel.setText("");
         } catch (IllegalArgumentException iae) {
             activityFeedbackLabel.setText("Add unique activity to update.");
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             // TODO: give relevant user feedback
         }
 
@@ -228,7 +231,7 @@ public class DestinationController {
         if (currentActivity != null) {
             try {
                 this.client.removeActivity(currentActivity);
-            } catch (Exception e) {
+            } catch (URISyntaxException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
             currentDestination.removeActivity(currentActivity);
@@ -277,7 +280,7 @@ public class DestinationController {
 
         try {
             this.client.setRating(starNumber);
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -324,8 +327,7 @@ public class DestinationController {
 
     /**
      * Changes comment, and writes this to file
-     * 
-     * @throws IOException in case of filehandling issue
+     *
      */
     @FXML
     private void handleChangeComment() {
@@ -335,7 +337,7 @@ public class DestinationController {
             this.client.updateComment(newComment);
             commentFeedbackLabel.setText("Comment updated!");
 
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -353,7 +355,7 @@ public class DestinationController {
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             this.client.setArrivalDate(arrivalDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             arrivalDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
@@ -374,7 +376,7 @@ public class DestinationController {
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             this.client.setDepartureDate(departureDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
             departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
         }
