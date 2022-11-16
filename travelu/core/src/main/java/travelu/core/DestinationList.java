@@ -56,6 +56,10 @@ public class DestinationList {
      * @param name of destination
      */
     public void removeDestination(String name) throws NoSuchElementException {
+        // Name of destination to remove cannot be null
+        if(name == null){
+            throw new IllegalArgumentException("Cannot remove null");
+        }
         Destination destination = getDestinationByName(name);
         destinations.remove(destination);
     }
@@ -66,6 +70,10 @@ public class DestinationList {
      * @param destination to be updated
      */
     public void updateDestination(Destination destination) throws NoSuchElementException, IllegalArgumentException {
+        // Updated destination cannot be null
+        if(destination == null){
+            throw new IllegalArgumentException("Cannot remove null");
+        }
         // Removes old version of destination from list, adds new version
         removeDestination(destination.getName());
         addDestination(destination);
