@@ -95,13 +95,11 @@ public class TraveluController {
      */
     @PostMapping(value = "/storeCurrent", produces = "application/json")
     public void storeCurrentDestinationJSON(final @RequestBody String destinationName) {
-        Gson gson = new Gson();
-        String destination = gson.fromJson(destinationName, String.class);
-        traveluService.saveDestinationName(destination);
+        traveluService.saveDestinationName(destinationName);
     }
 
     /**
-     * Remove destination
+     * Remove chosen destination
      * 
      * @param destinationJSON
      */
@@ -118,16 +116,11 @@ public class TraveluController {
     @PostMapping(value = "/addActivity", produces = "application/json")
     public void addActivityJSON(final @RequestBody String activity) {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.addActivity(activity);
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateDestination(updatedDestination);
 
     }
 
@@ -139,17 +132,11 @@ public class TraveluController {
     @PostMapping(value = "/removeActivity", produces = "application/json")
     public void removeActivityJSON(final @RequestBody String activity) {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.removeActivity(activity);
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // TODO lot of duplicate code with over
+        updateDestination(updatedDestination);
 
     }
 
@@ -161,18 +148,11 @@ public class TraveluController {
     @PostMapping(value = "/setRating", produces = "application/json")
     public void setRatingJSON(final @RequestBody String rating) {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setRating(Integer.parseInt(rating));
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // TODO lot of duplicate code with over
+        updateDestination(updatedDestination);
 
     }
 
@@ -184,19 +164,11 @@ public class TraveluController {
     @PostMapping(value = "/setArrivalDate", produces = "application/json")
     public void setArrivalDateJSON(final @RequestBody String arrivalDate) {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setArrivalDate(arrivalDate);
-        ;
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // TODO lot of duplicate code with over
+        updateDestination(updatedDestination);
 
     }
 
@@ -208,18 +180,11 @@ public class TraveluController {
     @PostMapping(value = "/setDepartureDate", produces = "application/json")
     public void setDepartureDateJSON(final @RequestBody String departureDate) {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setDepartureDate(departureDate);
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // TODO lot of duplicate code with over
+        updateDestination(updatedDestination);
 
     }
 
@@ -231,26 +196,41 @@ public class TraveluController {
     @PostMapping(value = "/updateComment", produces = "application/json")
     public void updateCommentJSON(final @RequestBody String comment) {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setComment(comment);
 
+        updateDestination(updatedDestination);
+
+    }
+
+    /**
+     * Get a copy of the chosen destination
+     * 
+     * @return chosen destination
+     */
+    private Destination getDestination() {
+        return traveluService.getDestinationList().getDestinationCopyByName(traveluService.getDestinationName());
+    }
+
+    /**
+     * Update chosen destination
+     * 
+     * @param destination to update
+     */
+    private void updateDestination(Destination destination) {
         try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.getDestinationList().updateDestination(destination);
             traveluService.save();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // TODO lot of duplicate code with over
-
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
-    public String reportNoSuchElementException(
-            final NoSuchElementException nsee) {
+    public String reportNoSuchElementException(final NoSuchElementException nsee) {
         return nsee.getMessage();
     }
 
