@@ -121,7 +121,7 @@ public class Destination {
      */
     public void addActivity(String activity) throws IllegalArgumentException {
 
-        if (activity.isBlank() || getActivities().contains(activity))
+        if (activity == null || activity.isBlank() || getActivities().contains(activity))
             throw new IllegalArgumentException("Invalid activity");
 
         activities.add(activity);

@@ -16,6 +16,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -35,7 +36,7 @@ public class DestinationListController {
     private TextArea destinationText;
 
     @FXML
-    private Text feedbackText;
+    private Label feedbackLabel;
 
     private DestinationList destinationList;
 
@@ -206,7 +207,7 @@ public class DestinationListController {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
-            feedbackText.setText("Please select a destination you would like to remove");
+            feedbackLabel.setText("Please select a destination you would like to remove");
         } else {
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
