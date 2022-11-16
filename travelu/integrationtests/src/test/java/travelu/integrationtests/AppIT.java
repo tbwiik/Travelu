@@ -98,4 +98,31 @@ public class AppIT extends ApplicationTest {
         // client.removeDestination("Hawaii");
         // });
     }
+
+    @Test
+    public void testAddAndRemoveActivity() {
+
+        try {
+            client.storeCurrentDestination("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+
+        try {
+            client.addActivity("Climb a volcano");
+        } catch (Exception e) {
+            fail("Could not add activity");
+        }
+
+        try {
+            client.removeActivity("Climb a volcano");
+        } catch (Exception e) {
+            fail("Could not remove activity");
+        }
+
+        // TODO: client.removeActivity("Climb a volcano") should throw an exception:
+        // assertThrows(NoSuchElementException.class, () -> {
+        // client.removeActivity("Climb a volcano");
+        // });
+    }
 }
