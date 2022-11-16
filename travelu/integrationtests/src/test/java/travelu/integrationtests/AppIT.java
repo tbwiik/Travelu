@@ -237,4 +237,30 @@ public class AppIT extends ApplicationTest {
             fail("Could not get destination");
         }
     }
+
+    @Test
+    public void testGetCurrentDestination() {
+
+        Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, new ArrayList<>(),
+                "I went to Hawaii and it was great!");
+
+        try {
+            client.addDestination(hawaii);
+        } catch (Exception e) {
+            fail("Could not add destination");
+        }
+
+        try {
+            client.storeCurrentDestination("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+
+        try {
+            Destination currentDestination = client.getDestination();
+            assertEquals(hawaii, currentDestination);
+        } catch (Exception e) {
+            fail("Could not get current destination");
+        }
+    }
 }
