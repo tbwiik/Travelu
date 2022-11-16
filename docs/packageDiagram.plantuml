@@ -1,12 +1,12 @@
-@startuml 
+@startuml packageDiagram 
+skin rose
+
+component restserver {
+  [travelu.restserver]
+}
 
 component fxui {
   package travelu.fxui {
-}
-}
-
-component fxutil {
-  package travelu.fxutil {
 }
 }
 
@@ -15,31 +15,27 @@ component core {
 }
 }
 
-skinparam component{
-  BorderColor #800080
-  ArrowColor purple
-  BackgroundColor orchid
+component fxutil {
+  package travelu.fxutil {
+}
 }
 
-skinparam package{
-  BackgroundColor lightyellow
-  BorderColor #8B0000
+component spring {
+  [boot] 
 }
 
-[fxml] 
-[javafx]
-[com.google.gson] 
+component javafx {
+  [fxml] 
+}
 
-fxui ...> fxml
-fxui ...> javafx
-fxutil ...> fxml
-fxutil ...> javafx
-fxutil ..> com.google.gson
 
-core ...> com.google.gson
+component google {
+  [gson] 
+}
 
-travelu.fxui ..> travelu.core
-travelu.fxui ..> travelu.fxutil
-travelu.fxutil ..> travelu.fxui
-
+travelu.fxui ...> fxml
+travelu.fxui ...> travelu.fxutil
+travelu.fxutil ...> gson
+travelu.core <...> travelu.fxutil
+travelu.restserver ...> travelu.core
 @enduml
