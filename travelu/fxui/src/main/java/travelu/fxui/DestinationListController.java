@@ -109,7 +109,8 @@ public class DestinationListController {
                             .split("\"")[1];
                 }
 
-                else {
+                // we want currentDestination to be null, not "null"
+                if(currentDestination.equals("null")) {
                     currentDestination = null;
                 }
 
@@ -124,9 +125,7 @@ public class DestinationListController {
                             // load the destination chosen
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
-                            if (currentDestinationName != null) {
-                                feedbackLabel.setText("Could not find " + currentDestinationName);
-                            }
+                            feedbackLabel.setText("Could not find " + currentDestinationName);
                         }
                     }
                 }
