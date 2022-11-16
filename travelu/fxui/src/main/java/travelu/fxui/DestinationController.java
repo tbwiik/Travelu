@@ -420,6 +420,7 @@ public class DestinationController {
 
         colorStars(this.currentDestination.getRating());
 
+        commentTextField.setText("");
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
