@@ -52,7 +52,7 @@ public class DestinationList {
      * 
      * @param name of destination
      */
-    public void removeDestination(String name) {
+    public void removeDestination(String name) throws NoSuchElementException {
         Destination destination = getDestinationByName(name);
         destinations.remove(destination);
     }
@@ -62,7 +62,7 @@ public class DestinationList {
      * 
      * @param destination to be updated
      */
-    public void updateDestination(Destination destination) {
+    public void updateDestination(Destination destination) throws NoSuchElementException, IllegalArgumentException {
         // Removes old version of destination from list, adds new version
         removeDestination(destination.getName());
         addDestination(destination);
