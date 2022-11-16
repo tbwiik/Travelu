@@ -40,7 +40,7 @@ public class DateIntervalTest {
      * Compares the two DateInterval objects, and checks if changed dates work
      */
     @Test
-    public void testStartAndEndDates() {
+    public void testArrivalAndDepartureDates() {
 
         assertNull(dateInterval1.getArrivalDate());
         assertNull(dateInterval1.getDepartureDate());
@@ -66,6 +66,10 @@ public class DateIntervalTest {
         // date
         assertThrows(IllegalStateException.class, () -> dateInterval2.setDepartureDate("01/01/2018"));
         assertEquals("04/01/2019", dateInterval2.getDepartureDate());
+
+        dateInterval1.setArrivalDate(null);
+        // dates are allowed to be null
+        assertEquals(null, dateInterval1.getArrivalDate());
 
     }
 
