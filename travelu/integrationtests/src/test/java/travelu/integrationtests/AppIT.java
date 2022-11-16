@@ -157,4 +157,20 @@ public class AppIT extends ApplicationTest {
             fail("Could not set arrival date");
         }
     }
+
+    @Test
+    public void testSetDepartureDate() {
+
+        try {
+            client.storeCurrentDestination("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+
+        try {
+            client.setDepartureDate("11/03/2019");
+        } catch (Exception e) {
+            fail("Could not set departure date");
+        }
+    }
 }
