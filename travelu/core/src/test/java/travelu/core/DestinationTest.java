@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,12 +70,11 @@ public class DestinationTest {
         destination.setComment("");
         assertEquals("", destination.getComment());
 
-
         // Test string with uncommon characters
         comment = "!* ~/?+ . æøå";
         destination.setComment(comment);
         assertEquals(comment, destination.getComment());
-        
+
     }
 
     /**
@@ -127,11 +128,11 @@ public class DestinationTest {
         assertEquals(testActivities, destination.getActivities());
 
         // we do not allow removing elements that are not in activities list
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity(null));
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity(""));
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("Fake activity"));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity(null));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity(""));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity("Fake activity"));
         // removeActivity is case sensitive
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("circus"));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity("circus"));
 
         assertEquals(testActivities, destination.getActivities());
 
