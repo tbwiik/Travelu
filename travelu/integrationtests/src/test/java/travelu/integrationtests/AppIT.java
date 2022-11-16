@@ -125,4 +125,20 @@ public class AppIT extends ApplicationTest {
         // client.removeActivity("Climb a volcano");
         // });
     }
+
+    @Test
+    public void testSetRating() {
+
+        try {
+            client.storeCurrentDestination("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+
+        try {
+            client.setRating(5);
+        } catch (Exception e) {
+            fail("Could not set rating");
+        }
+    }
 }
