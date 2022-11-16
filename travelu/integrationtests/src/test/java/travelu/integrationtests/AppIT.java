@@ -61,4 +61,14 @@ public class AppIT extends ApplicationTest {
         assertNotNull(controller);
         assertNotNull(client);
     }
+
+    @Test
+    public void testStoreCurrentDestination() {
+
+        try {
+            client.storeCurrentDestination("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+    }
 }
