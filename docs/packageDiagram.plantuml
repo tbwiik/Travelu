@@ -10,11 +10,6 @@ component fxui {
 }
 }
 
-component localpersistence {
-  package travelu.localpersistence {
-}
-}
-
 component core {
   package travelu.core {
 }
