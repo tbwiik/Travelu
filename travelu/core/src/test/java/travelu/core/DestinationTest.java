@@ -129,10 +129,10 @@ public class DestinationTest {
 
         // we do not allow removing elements that are not in activities list
         assertThrows(NoSuchElementException.class, () -> destination.removeActivity(null));
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity(""));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity(""));
         assertThrows(NoSuchElementException.class, () -> destination.removeActivity("Fake activity"));
         // removeActivity is case sensitive
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("circus"));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity("circus"));
 
         // Tests for removing all elements in activities
         destination.removeActivity("Circus");
