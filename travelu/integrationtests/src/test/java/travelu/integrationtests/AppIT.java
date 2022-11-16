@@ -35,11 +35,25 @@ public class AppIT extends ApplicationTest {
 
     private Client client;
 
+    // TODO: change methods to impact test JSON files
+
     @BeforeEach
     public void setUp() throws Exception {
         client = new Client("http://localhost", port);
 
+        // remove all destinations from destinationlist
+        clearDestinations();
     }
 
+    private void clearDestinations() {
+
+        try {
+            for (Destination destination : client.getDestinationList().getList()) {
+                client.removeDestination(destination.getName());
+            }
+        } catch (Exception e) {
+            fail("Could not remove destinations");
+        }
+    }
 
 }
