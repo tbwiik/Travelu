@@ -6,6 +6,12 @@ For the third and last release, we implemented a REST-API with springboot and ex
 
 We expanded the functionality, where you can now rate the destinations between 1-5, sort the list of destinations by rating or by alphabetic order, and have the option to remove added activities.
 
+### Screenshots of UI for release 3:
+
+|        Front page with sorting feature and rating display         |      Destination page with rating and remove button      |
+| :---------------------------------------------------------------: | :------------------------------------------------------: |
+| ![Destination-List View](../pictures/destinationListRelease3.png) | ![Destination View](../pictures/destinationRelease3.png) |
+
 ## Sprint 5 – Preparation for the final release
 
 ### Meeting 1 - Sprint review and sprint planning
