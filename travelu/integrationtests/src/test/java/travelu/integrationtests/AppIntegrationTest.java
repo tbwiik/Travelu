@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = { TraveluController.class, TraveluApplication.class, TraveluService.class })
-public class AppIT extends ApplicationTest {
+public class AppIntegrationTest extends ApplicationTest {
 
     @LocalServerPort
     private int port;
