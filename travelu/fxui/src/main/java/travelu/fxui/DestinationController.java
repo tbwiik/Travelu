@@ -225,8 +225,9 @@ public class DestinationController {
         try {
             currentDestination.addActivity(activity);
             this.client.addActivity(activity);
+            activityFeedbackLabel.setText("");
         } catch (IllegalArgumentException iae) {
-            errorPopup("Invalid input", "Add unique activity to update.");
+            activityFeedbackLabel.setText("Add unique activity to update.");
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -376,6 +377,7 @@ public class DestinationController {
             e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            commentFeedbackLabel.setText("");
             // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
             // se.getStatusCode());
             // TODO switch to correct label
@@ -397,9 +399,10 @@ public class DestinationController {
             currentDestination.setArrivalDate(arrivalDate);
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             this.client.setArrivalDate(arrivalDate);
+            dateUpdatedFeedbackLabel.setText("");
         } catch (IllegalArgumentException | IllegalStateException e) {
             arrivalDatePicker.getEditor().setText("");
-            errorPopup("Invalid input", e.getMessage());
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -427,9 +430,10 @@ public class DestinationController {
             currentDestination.setDepartureDate(departureDate);
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             this.client.setDepartureDate(departureDate);
+            dateUpdatedFeedbackLabel.setText("");
         } catch (IllegalArgumentException | IllegalStateException e) {
             departureDatePicker.getEditor().setText("");
-            errorPopup("Invalid input", e.getMessage());
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {

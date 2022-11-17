@@ -87,7 +87,7 @@ public class DestinationListController {
                 // add destination with name and number stars equal to rating
                 destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
             } catch (NoSuchElementException nsee) {
-                errorPopup("Invalid input", "No such element: " + nsee.getMessage());
+                feedbackLabel.setText("No such element: " + nsee.getMessage());
             }
 
         }
@@ -135,7 +135,7 @@ public class DestinationListController {
                             // load the destination chosen
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
-                            errorPopup("Invalid input", "Could not find " + currentDestinationName);
+                            feedbackLabel.setText("Could not find " + currentDestinationName);
                             e.printStackTrace();
                         }
                     }
@@ -182,13 +182,14 @@ public class DestinationListController {
             if (newDestinationName.isBlank()) {
                 // if user didn't input any text
                 // remove any feedback given and do nothing
+                feedbackLabel.setText("");
             } else if (destinationList.containsDestination(newDestinationName)) {
                 // if the input text matches any of the already registrations
                 // give feedback
-                errorPopup("Invalid input", "You have already registered this destination");
+                feedbackLabel.setText("You have already registered this destination");
             } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
                 // if the input text contains anything but letters, spaces and dashes
-                errorPopup("Invalid input", "Destination name must contain only letters, spaces and dashes");
+                feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
             } else {
                 // if everything is ok with the input
                 // create new destination with input as name
@@ -199,13 +200,16 @@ public class DestinationListController {
                 listView.getItems().add(newDestination.getName());
                 destinationList.addDestination(newDestination);
 
+                // remove any feedback given
+                feedbackLabel.setText("");
+
                 // remove text in inputField
                 destinationText.clear();
 
                 client.addDestination(newDestination);
             }
         } catch (IllegalArgumentException iae) {
-            errorPopup("Invalid input", "");
+            feedbackLabel.setText("");
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -229,7 +233,7 @@ public class DestinationListController {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
-            errorPopup("No destination selected", "Please select a destination you would like to remove");
+            feedbackLabel.setText("Please select a destination you would like to remove");
         } else {
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
@@ -237,7 +241,7 @@ public class DestinationListController {
             String currentDestinationName = currentDestination.replace("★", "");
 
             try {
-                // feedbackLabel.setText("");
+                feedbackLabel.setText("");
                 client.removeDestination(currentDestinationName);
 
                 // remove the destination from destinationList and list-view
@@ -246,8 +250,7 @@ public class DestinationListController {
                 currentDestination = null;
 
             } catch (NoSuchElementException nsee) {
-                errorPopup("No destination selected", "Please select a destination you would like to remove");
-
+                feedbackLabel.setText("Please select a destination you would like to remove");
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
