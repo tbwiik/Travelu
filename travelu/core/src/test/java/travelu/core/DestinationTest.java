@@ -143,6 +143,27 @@ public class DestinationTest {
         assertEquals(testActivities, destination.getActivities());
     }
 
+    /**
+     * Test setting rating. New rating must be between 1-5
+     */
+    @Test
+    public void testSetRating() {
+        // valid input
+        int rating = 4;
+        assertNotEquals(rating, destination.getRating());
+        destination.setRating(rating);
+        assertEquals(rating, destination.getRating());
+
+        // invalid input
+        assertThrows(IllegalArgumentException.class, () -> destination.setRating(6));
+        assertThrows(IllegalArgumentException.class, () -> destination.setRating(0));
+        assertThrows(IllegalArgumentException.class, () -> destination.setRating(-1));
+
+        // check that rating is unchanged
+        assertEquals(rating, destination.getRating());
+
+    }
+
     /*
      * Test if encapsulation is correctly handled
      */
