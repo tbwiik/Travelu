@@ -20,8 +20,8 @@ public class DestinationList {
     public void addDestination(Destination destination) {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
-        
-        if(destinations.contains(destination))
+
+        if (destinations.contains(destination))
             throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
 
         destinations.add(destination);
@@ -54,13 +54,14 @@ public class DestinationList {
      * Remove destination by name
      * 
      * @param name of destination
+     * @throws NoSuchElementException if no such element exist
      */
     public void removeDestination(String name) throws IllegalArgumentException, NoSuchElementException {
         // Name of destination to remove cannot be null
-        if(name == null) {
+        if (name == null) {
             throw new IllegalArgumentException("Cannot remove null");
         }
-        if(!this.containsDestination(name)){
+        if (!this.containsDestination(name)) {
             throw new NoSuchElementException(name + " is not in destination list");
         }
         Destination destination = getDestinationByName(name);
@@ -71,13 +72,13 @@ public class DestinationList {
      * updates destination. For use in DestinationController
      * 
      * @param destination to be updated
+     * @throws NoSuchElementException   if no such element exist
+     * @throws IllegalArgumentException if inputing null-element
      */
-    public void updateDestination(Destination destination) throws IllegalArgumentException, NoSuchElementException {
-        // Updated destination cannot be null
-        if(destination == null) {
-            throw new IllegalArgumentException("Cannot remove null");
-        }
+    public void updateDestination(Destination destination) throws NoSuchElementException, IllegalArgumentException {
         // Removes old version of destination from list, adds new version
+        if (destination == null)
+            throw new IllegalArgumentException("Cannot update a non existing destination");
         removeDestination(destination.getName());
         addDestination(destination);
     }

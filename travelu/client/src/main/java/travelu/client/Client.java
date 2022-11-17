@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 
@@ -17,6 +18,7 @@ import travelu.core.Destination;
 public class Client {
 
     private final static String API_ADDRESS = "/api/v1/entries/";
+    private final static String HTTP_STATUS_OK = "[2][0-9]*";
 
     private final String serverUrl;
     private final int serverPort;
@@ -63,9 +65,15 @@ public class Client {
      * @throws InterruptedException if interruption occurs during retrieval of
      *                              response
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
     private HttpResponse<String> get(String endpoint)
-            throws URISyntaxException, InterruptedException, ExecutionException {
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
+
+        HttpResponse<String> httpResponse = this.getAsync(endpoint).get();
+
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode())))
+            throw new ServerException("A server error occured", httpResponse.statusCode());
 
         return this.getAsync(endpoint).get();
     }
@@ -78,8 +86,10 @@ public class Client {
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
-    public DestinationList getDestinationList() throws URISyntaxException, InterruptedException, ExecutionException {
+    public DestinationList getDestinationList()
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         HttpResponse<String> response = this.get(API_ADDRESS + "destinationlist");
 
@@ -98,9 +108,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
     public Destination getDestination(String destinationName)
-            throws URISyntaxException, InterruptedException, ExecutionException {
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         HttpResponse<String> response = this.get(API_ADDRESS + destinationName);
 
@@ -122,8 +133,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
-    public Destination getDestination() throws URISyntaxException, InterruptedException, ExecutionException {
+    public Destination getDestination()
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         HttpResponse<String> response = this.get(API_ADDRESS + "currentDestination");
 
@@ -165,11 +178,17 @@ public class Client {
      * @throws InterruptedException if interruption occurs during retrieval of
      *                              response
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
     private HttpResponse<String> post(String endpoint, String payload)
-            throws URISyntaxException, InterruptedException, ExecutionException {
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        return this.postAsync(endpoint, payload).get();
+        HttpResponse<String> httpResponse = this.postAsync(endpoint, payload).get();
+
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode())))
+            throw new ServerException("A server error occured", httpResponse.statusCode());
+
+        return httpResponse;
     }
 
     /**
@@ -179,9 +198,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
     public void addDestination(Destination destination)
-            throws URISyntaxException, InterruptedException, ExecutionException {
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         Gson gson = new Gson();
 
@@ -199,9 +219,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
     public void storeCurrentDestination(String destinationName)
-            throws URISyntaxException, InterruptedException, ExecutionException {
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         this.post(API_ADDRESS + "storeCurrent", destinationName);
     }
@@ -215,9 +236,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
     public void removeDestination(String destinationName)
-            throws URISyntaxException, InterruptedException, ExecutionException {
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         this.post(API_ADDRESS + "remove", destinationName);
     }
@@ -229,8 +251,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
-    public void addActivity(String activity) throws URISyntaxException, InterruptedException, ExecutionException {
+    public void addActivity(String activity)
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         this.post(API_ADDRESS + "addActivity", activity);
     }
 
@@ -241,8 +265,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
-    public void removeActivity(String activity) throws URISyntaxException, InterruptedException, ExecutionException {
+    public void removeActivity(String activity)
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         this.post(API_ADDRESS + "removeActivity", activity);
     }
 
@@ -253,8 +279,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
-    public void setRating(int starNumber) throws URISyntaxException, InterruptedException, ExecutionException {
+    public void setRating(int starNumber)
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         String starStr = String.valueOf(starNumber);
         this.post(API_ADDRESS + "setRating", starStr);
     }
@@ -266,8 +294,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
-    public void setArrivalDate(String arrivalDate) throws URISyntaxException, InterruptedException, ExecutionException {
+    public void setArrivalDate(String arrivalDate)
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         this.post(API_ADDRESS + "setArrivalDate", arrivalDate);
     }
 
@@ -278,9 +308,10 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
     public void setDepartureDate(String departureDate)
-            throws URISyntaxException, InterruptedException, ExecutionException {
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         this.post(API_ADDRESS + "setDepartureDate", departureDate);
     }
 
@@ -291,8 +322,11 @@ public class Client {
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
      */
-    public void updateComment(String comment) throws URISyntaxException, InterruptedException, ExecutionException {
+    public void updateComment(String comment)
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
+
         this.post(API_ADDRESS + "updateComment", comment);
     }
 

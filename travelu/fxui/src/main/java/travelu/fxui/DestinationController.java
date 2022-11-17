@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -93,9 +94,15 @@ public class DestinationController {
     private void initialize() {
 
         try {
-            this.currentDestination = this.client.getDestination();
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
-            // TODO: handle exception
+            this.currentDestination = client.getDestination();
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         colorStars(this.currentDestination.getRating());
@@ -217,8 +224,14 @@ public class DestinationController {
             activityFeedbackLabel.setText("");
         } catch (IllegalArgumentException iae) {
             activityFeedbackLabel.setText("Add unique activity to update.");
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
-            // TODO: give relevant user feedback
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         updateListView();
@@ -233,8 +246,14 @@ public class DestinationController {
         if (currentActivity != null) {
             try {
                 this.client.removeActivity(currentActivity);
-            } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+            } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
+            } catch (ServerException se) {
+                commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                // TODO switch to correct label
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
             }
             currentDestination.removeActivity(currentActivity);
             updateListView();
@@ -282,8 +301,14 @@ public class DestinationController {
 
         try {
             this.client.setRating(starNumber);
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
     }
 
@@ -338,9 +363,14 @@ public class DestinationController {
         try {
             this.client.updateComment(newComment);
             commentFeedbackLabel.setText("Comment updated!");
-
-        } catch (URISyntaxException | InterruptedException | ExecutionException e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
     }
 
@@ -360,8 +390,14 @@ public class DestinationController {
         } catch (IllegalArgumentException | IllegalStateException e) {
             arrivalDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
-        } catch(URISyntaxException | InterruptedException | ExecutionException e){
-            // TODO: handle this
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
     }
@@ -383,8 +419,14 @@ public class DestinationController {
         } catch (IllegalArgumentException | IllegalStateException e) {
             departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
-        } catch(URISyntaxException | InterruptedException | ExecutionException e){
-            // TODO: handle this
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
     }

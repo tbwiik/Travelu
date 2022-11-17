@@ -25,7 +25,7 @@ public class TraveluService {
     public void load() {
         try {
             this.destinationList = TraveluHandler.readDestinationListJSON();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
