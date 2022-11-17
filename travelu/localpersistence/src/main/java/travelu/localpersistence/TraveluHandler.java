@@ -87,6 +87,8 @@ public class TraveluHandler {
     /**
      * Read from file using {@code Gson}, where it reads from DestinationList object
      * <p>
+     * Return an empty destinationlist if file is blank
+     * <p>
      * Used in testing and have therefore an own filename input
      * 
      * @param filename input
@@ -97,8 +99,15 @@ public class TraveluHandler {
     public static DestinationList readDestinationListJSON(String filename) throws FileNotFoundException, IOException {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
-        DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);
-        return DList;
+        DestinationList destinationList;
+        destinationList = gson.fromJson(bufferedReader, DestinationList.class);
+
+        // If file is blank, create destinationlist
+        if (destinationList == null) {
+            destinationList = new DestinationList();
+        }
+
+        return destinationList;
     }
 
     /**
