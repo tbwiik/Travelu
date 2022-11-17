@@ -35,8 +35,6 @@ public class AppIntegrationTest extends ApplicationTest {
 
     private Client client;
 
-    // TODO: change methods to impact test JSON files
-
     /**
      * initialize client for server communication and clear destination list
      */
