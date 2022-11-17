@@ -270,6 +270,9 @@ public class DestinationControllerTest extends ApplicationTest {
     destinationController.getDestinationComment());
 
     // Tests setting comment to ""
+    // TODO: This throws a server error, so the test is not succesful
+    // the test only checks whether local destination object is changed, which it is.
+    // this should be fixed when implementing mock server for ui tests
     clickOn(commentTextField).eraseText(40);
     clickOn(commentTextField).write("");
     assertNotEquals(commentTextField.getText(),
