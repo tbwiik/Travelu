@@ -170,7 +170,7 @@
                     <appVersion>1.0.0</appVersion>
                     <vendor>gr2219</vendor>
                     <destination>target/dist</destination>
-                    <module>travelu/travelu.fxui.App</module>
+                    <module>travelu.fxui/travelu.fxui.App</module>
                     <runtimeImage>target/travelu</runtimeImage>
                     <linuxShortcut>true</linuxShortcut>
                     <linuxPackageName>travelu</linuxPackageName>
