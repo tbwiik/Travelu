@@ -49,18 +49,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- javafx -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>18</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>18</version>
-        </dependency>
-
         <!-- junit testing with jupiter -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -96,63 +84,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs</artifactId>
-            <version>4.4.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.guicedee.services</groupId>
-            <artifactId>json</artifactId>
-            <version>1.2.0.2-jre16</version>
-        </dependency>
-
-        <!-- test javafx with TextFX -->
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-core</artifactId>
-            <version>4.0.16-alpha</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit5</artifactId>
-            <version>4.0.16-alpha</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest</artifactId>
-            <version>2.2</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
-
-    <!-- 
-        **Not in use**
-        <profiles>
-    
-        <profile>
-            <id>headless</id>
-            <properties>
-                <headlessTests>true</headlessTests>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.testfx</groupId>
-                    <artifactId>openjfx-monocle</artifactId>
-                    <version>jdk-12.0.1+2</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-    </profiles> -->
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -161,36 +97,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>${skipUITests}</skipTests>
-                    <systemPropertyVariables>
-                        <headless>${headlessTests}</headless>
-                    </systemPropertyVariables>
-                    <argLine>
-                    --add-opens travelu.integrationtests/travelu.integrationtests=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
-                    --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                    --add-exports javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
-                    </argLine>
-                </configuration>
-
             </plugin>
 
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <!-- Need version because not in travelu.pom!! -->
-                <version>0.0.6</version>
-                <executions>
-                    <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>travelu.integrationtests.App</mainClass> <!-- Rename if App.java is changed!!!!-->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 
             <!-- Jacoco plugin for test coverage -->
             <plugin>
@@ -209,26 +117,6 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
             </plugin>
-
-            <!-- Failsafe plugin fore integration tests -->
-            <!-- <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.19</version>
-                <configuration>
-                    <includes>
-                        <include>**/*AppIT.java</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin> -->
 
         </plugins>
     </build>
