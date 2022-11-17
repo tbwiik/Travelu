@@ -25,7 +25,6 @@ public class TraveluHandlerTest {
     private Destination sanMarino;
     private Destination portugal;
     private DateInterval dateInterval = new DateInterval();
-    private TraveluHandler traveluHandler = new TraveluHandler();
 
     /**
      * Create Destination objects, and add to DestinationList
@@ -52,14 +51,14 @@ public class TraveluHandlerTest {
     @Test
     public void testWriteToFileWhenAdding() {
         try {
-            traveluHandler.writeJSON(destinationList, "testDestinationList.json");
+            TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
         } catch (IOException ioe) {
             fail("Error when writing to file");
         }
 
         try {
             assertEquals(destinationList.getDestinationNames(),
-                    traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
+                    TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
         } catch (IOException ioe) {
             fail("Error when reading from file");
         }
@@ -67,27 +66,27 @@ public class TraveluHandlerTest {
         destinationList.addDestination(portugal);
         try {
             assertNotEquals(destinationList.getDestinationNames(),
-                    traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
+                    TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
         } catch (IOException ioe) {
             fail("Error when reading from file");
         }
 
         try {
-            traveluHandler.writeJSON(destinationList, "testDestinationList.json");
+            TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
         } catch (IOException ioe) {
             fail("Error when writing to file");
         }
         
         try {
             assertEquals(destinationList.getDestinationNames(),
-                    traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
+                    TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
         } catch (IOException ioe) {
             fail("Error when reading from file");
         }
 
         
         assertThrows(FileNotFoundException.class, () -> {
-                traveluHandler.readDestinationListJSON("noExistingFile.json");
+                TraveluHandler.readDestinationListJSON("noExistingFile.json");
         });
                     
         
@@ -102,14 +101,14 @@ public class TraveluHandlerTest {
     public void testWriteToFileWhenRemoving() {
         destinationList.removeDestination("Sweden");
         try{
-            traveluHandler.writeJSON(destinationList, "testDestinationList.json");
+            TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
         }  catch (IOException ioe){
             fail("Error when writing to file");
         }
 
         try{
             assertEquals(destinationList.getDestinationNames(),
-                    traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
+                    TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
         } catch (IOException ioe){
             fail("Error when reading from file");
         }
@@ -117,14 +116,14 @@ public class TraveluHandlerTest {
         destinationList.removeDestination("San Marino");
 
         try{
-            traveluHandler.writeJSON(destinationList, "testDestinationList.json");
+            TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
         } catch (IOException ioe){
             fail("Error when writing to file");
         }
 
 
         try{
-            assertTrue(traveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames().isEmpty());
+            assertTrue(TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames().isEmpty());
         } catch (IOException ioe){
             fail("Error when reading from file");
         }
