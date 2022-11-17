@@ -56,6 +56,7 @@ public class DestinationList {
      * Remove destination by name
      * 
      * @param name of destination
+     * @throws IllegalArgumentException if name is null
      * @throws NoSuchElementException if no such element exist
      */
     public void removeDestination(String name) throws IllegalArgumentException, NoSuchElementException {
