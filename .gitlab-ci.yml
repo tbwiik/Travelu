@@ -20,6 +20,10 @@ test:
   stage: test
   script:
     - "cd travelu; mvn clean test $MAVEN_CLI_OPTS"
+  artifacts:
+    paths:
+      - travelu/core/target/surefire-reports/*.xml
+      - travelu/localpersistence/target/surefire-reports/*.xml
 
 build:
   stage: build
