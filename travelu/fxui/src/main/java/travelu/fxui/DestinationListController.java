@@ -151,7 +151,7 @@ public class DestinationListController {
     private void switchToDestination(String destinationName) throws IOException {
 
         try {
-            client.storeCurrentDestination(destinationName);
+            client.storeCurrentDestinationName(destinationName);
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {

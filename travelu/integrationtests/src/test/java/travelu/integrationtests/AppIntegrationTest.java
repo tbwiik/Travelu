@@ -316,7 +316,7 @@ public class AppIntegrationTest extends ApplicationTest {
 
         // checking if destination from client is the same as the one added
         try {
-            Destination currentDestination = client.getDestination();
+            Destination currentDestination = client.getCurrentDestination();
             assertEquals(hawaii, currentDestination);
         } catch (Exception e) {
             fail("Could not get current destination");
