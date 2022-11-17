@@ -57,12 +57,14 @@ public class TraveluController {
 
     /**
      * Get name of chosen destination
+     * <p>
+     * Formats space as %20
      * 
      * @return name of destination
      */
     @GetMapping(value = "/currentDestination", produces = "application/json")
     public String getDestinationJSON() {
-        return traveluService.getDestinationName();
+        return traveluService.getDestinationName().replace(" ", "%20");
     }
 
     /**
