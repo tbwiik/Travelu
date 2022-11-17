@@ -24,6 +24,7 @@ public class DateInterval {
      * Create copy of DateInterval
      * 
      * @param dateInterval object
+     * @throws IllegalArgumentException if dateInterval is null
      */
     public DateInterval(DateInterval dateInterval) throws IllegalArgumentException {
         if (dateInterval == null)

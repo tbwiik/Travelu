@@ -17,7 +17,7 @@ public class DestinationList {
      * @param destination to add
      * @throws IllegalArgumentException if destination is null, or if a destination with the same name already exists
      */
-    public void addDestination(Destination destination) {
+    public void addDestination(Destination destination) throws IllegalArgumentException {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
 
@@ -36,7 +36,7 @@ public class DestinationList {
      * @return {@link Destination}
      * @throws NoSuchElementException if no such element
      */
-    private Destination getDestinationByName(String name) {
+    private Destination getDestinationByName(String name) throws NoSuchElementException {
         return destinations.stream().filter(destination -> destination.getName().equals(name)).findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Destination " + name + " does not exist in list"));
     }
@@ -56,6 +56,7 @@ public class DestinationList {
      * Remove destination by name
      * 
      * @param name of destination
+     * @throws IllegalArgumentException if name is null
      * @throws NoSuchElementException if no such element exist
      */
     public void removeDestination(String name) throws IllegalArgumentException, NoSuchElementException {
@@ -125,7 +126,7 @@ public class DestinationList {
      * @throws IllegalArgumentException if destinationName is null
      * @return boolean representing whether list contains destination or not
      */
-    public boolean containsDestination(String destinationName) {
+    public boolean containsDestination(String destinationName) throws IllegalArgumentException {
         if (destinationName == null)
             throw new IllegalArgumentException("Destination name cannot be null");
 
