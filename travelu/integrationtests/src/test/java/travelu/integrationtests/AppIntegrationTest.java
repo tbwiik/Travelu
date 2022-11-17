@@ -1,6 +1,7 @@
 package travelu.integrationtests;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -14,17 +15,25 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.testfx.framework.junit5.ApplicationTest;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = { TraveluController.class, TraveluApplication.class, TraveluService.class })
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // Set up server
+@ContextConfiguration(classes = { TraveluController.class, TraveluApplication.class, TraveluService.class }) // Defines
+                                                                                                             // how to
+                                                                                                             // load
+                                                                                                             // data
+@TestInstance(Lifecycle.PER_CLASS) // Enables @AfterAll function
 public class AppIntegrationTest extends ApplicationTest {
 
     @LocalServerPort
@@ -36,13 +45,25 @@ public class AppIntegrationTest extends ApplicationTest {
     private Client client;
 
     /**
-     * initialize client for server communication and clear destination list
+     * Initialize client
+     */
+    @BeforeAll
+    public void setUpAll() {
+        client = new Client("http://localhost", port);
+    }
+
+    /**
+     * Clear destinationList
      */
     @BeforeEach
-    public void setUp() throws Exception {
-        client = new Client("http://localhost", port);
+    public void setUpEach() {
+        clearDestinations();
+    }
 
-        // remove all destinations from destinationlist
+    @AfterAll
+    public void tearDown() {
+
+        // remove all test destinations
         clearDestinations();
     }
 
@@ -76,7 +97,7 @@ public class AppIntegrationTest extends ApplicationTest {
     public void testStoreCurrentDestination() {
 
         try {
-            client.storeCurrentDestination("Hawaii");
+            client.storeCurrentDestinationName("Hawaii");
         } catch (Exception e) {
             fail("Could not store current destination");
         }
@@ -91,19 +112,19 @@ public class AppIntegrationTest extends ApplicationTest {
         List<String> activities = new ArrayList<>();
         activities.add("See volcanoes");
         activities.add("Dance hula with locals");
-        Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, activities,
-                "I went to Hawaii and it was great!");
+        Destination holland = new Destination("Holland", new DateInterval(), 3, activities,
+                "I went to Holland and it was great!");
 
         // adding a destination
         try {
-            client.addDestination(hawaii);
+            client.addDestination(holland);
         } catch (Exception e) {
             fail("Could not add destination");
         }
 
         // removing the same destination
         try {
-            client.removeDestination("Hawaii");
+            client.removeDestination("Holland");
         } catch (Exception e) {
             fail("Could not remove destination");
         }
@@ -115,17 +136,43 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
+     * Helpermethod for setting up a destination
+     * <p>
+     * For testing of destination-functionality
+     * <p>
+     * <b>NB:</b> Initialized with name, but no other info
+     * 
+     * @param destinationName name of destination
+     */
+    private void setupDestination(final String destinationName) {
+
+        // Set up dummy destination
+        Destination destination = new Destination("Hawaii", new DateInterval(), 0, new ArrayList<>(),
+                "");
+
+        // Add destination to file
+        try {
+            client.addDestination(destination);
+        } catch (Exception e) {
+            fail("Could not add destination");
+        }
+
+        // Store destination as the chosen one
+        try {
+            client.storeCurrentDestinationName("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+
+    }
+
+    /**
      * test if adding and removing an activity works
      */
     @Test
     public void testAddAndRemoveActivity() {
 
-        // choosing which destination to add activity to
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination("Hawaii");
 
         // adding an activity
         try {
@@ -153,12 +200,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetRating() {
 
-        // choosing which destination to set rating for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination("Hawaii");
 
         // setting rating
         try {
@@ -174,12 +216,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetArrivalDate() {
 
-        // choosing which destination to set arrival date for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination("Hawaii");
 
         // setting arrival date
         try {
@@ -195,12 +232,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetDepartureDate() {
 
-        // choosing which destination to set departure date for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination("Hawaii");
 
         // setting departure date
         try {
@@ -216,12 +248,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testUpdateComment() {
 
-        // choosing which destination to update comment for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination("Hawaii");
 
         // updating comment
         try {
@@ -307,14 +334,14 @@ public class AppIntegrationTest extends ApplicationTest {
 
         // choosing a destination which we are going to get
         try {
-            client.storeCurrentDestination("Hawaii");
+            client.storeCurrentDestinationName("Hawaii");
         } catch (Exception e) {
             fail("Could not store current destination");
         }
 
         // checking if destination from client is the same as the one added
         try {
-            Destination currentDestination = client.getDestination();
+            Destination currentDestination = client.getCurrentDestination();
             assertEquals(hawaii, currentDestination);
         } catch (Exception e) {
             fail("Could not get current destination");

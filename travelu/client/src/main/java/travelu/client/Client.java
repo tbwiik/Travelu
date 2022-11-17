@@ -135,7 +135,7 @@ public class Client {
      * @throws ExecutionException
      * @throws ServerException      if http request not successfull
      */
-    public Destination getDestination()
+    public Destination getCurrentDestination()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         HttpResponse<String> response = this.get(API_ADDRESS + "currentDestination");
@@ -211,17 +211,17 @@ public class Client {
     }
 
     /**
-     * Store chosen destination to file through server
+     * Store name of chosen destination to file through server
      * <p>
      * Used for accessing correct destination when switching views
      * 
-     * @param destinationName
+     * @param destinationName name of destination
      * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
      * @throws ServerException      if http request not successfull
      */
-    public void storeCurrentDestination(String destinationName)
+    public void storeCurrentDestinationName(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         this.post(API_ADDRESS + "storeCurrent", destinationName);
