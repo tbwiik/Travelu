@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.testfx.matcher.control.LabeledMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -16,20 +16,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.SVGPath;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
+
+import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 
 /**
  * JavaFX tests for DestinationController
@@ -53,30 +54,43 @@ public class DestinationControllerTest extends ApplicationTest {
     private Button setDepartureDate;
     private Label arrivalDateLabel;
     private Label departureDateLabel;
+    private Label feedBackLabel;
 
     private ListView<String> activitiesListView;
     private TextField newActivityTextField;
     private Button addActivity;
+    private Button removeActivity;
 
     private TextField commentTextField;
     private Button updateComment;
+
+    private SVGPath star1;
+    private SVGPath star2;
+    private SVGPath star3;
+    private SVGPath star4;
+    private SVGPath star5;
 
     /**
      * Enables headless-testing
      */
     @BeforeAll
-    private void setupHeadless() {
+    public void setupHeadless() {
         TestHelperMethods.supportHeadless();
     }
 
     /**
-     * Tests if app works as intended
+     * Initialize everything, declaring variables that are used later and setting up the files
+     * TODO: clean up this method, and write better docs for it
      */
     @Override
     public void start(Stage stage) throws IOException {
 
         destinationList = new DestinationList();
-        destinationList.addDestination(new Destination("Spain", null, null, null, null));
+
+        List<String> spainActivities = new ArrayList<>();
+        spainActivities.add("Eat paella");
+
+        destinationList.addDestination(new Destination("Spain", null, 0, spainActivities, null));
 
         traveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
@@ -100,6 +114,7 @@ public class DestinationControllerTest extends ApplicationTest {
         activitiesListView = lookup("#activitiesListView").query();
         newActivityTextField = lookup("#newActivityTextField").query();
         addActivity = lookup("#addActivityButton").query();
+        removeActivity = lookup("#removeActivityButton").query();
 
         commentTextField = lookup("#commentTextField").query();
         updateComment = lookup("#updateButton").query();
@@ -107,63 +122,233 @@ public class DestinationControllerTest extends ApplicationTest {
         arrivalDateLabel = lookup("#arrivalDateLabel").query();
         departureDateLabel = lookup("#departureDateLabel").query();
 
+        star1 = lookup("#star1").query();
+        star2 = lookup("#star2").query();
+        star3 = lookup("#star3").query();
+        star4 = lookup("#star4").query();
+        star5 = lookup("#star5").query();
+
+        feedBackLabel = lookup("#dateUpdatedFeedbackLabel").query();
+
     }
 
     /**
-     * Tests if you can pick different dates for arrival and departure
+     * Tests picking different dates for arrival and departure
      */
     @Test
     public void testDatePicker() {
 
-        String startDate = "5/2/2021";
-        String endDate = "8/2/2021";
-        String errorDate = "10/10/2030";
+        // dates in format dd/MM/yyyy
+        String arrivalDate = "05/02/2021";
+        String departureDate = "19/10/2021";
+        String invalidDate = "11/13/2021";
 
-        clickOn(arrivalDatePicker).write(startDate);
-        assertNotEquals(startDate, arrivalDateLabel.getText());
+        String arrivalDateAfterDepartureDate = "21/10/2021";
+        String departureDateBeforeArrivalDate = "10/01/2021";
+
+        // input valid arrival date
+        clickOn(arrivalDatePicker).write(arrivalDate);
+        assertNotEquals(arrivalDate, arrivalDateLabel.getText());
         clickOn(setArrivalDate);
-        assertNotEquals(errorDate, arrivalDateLabel.getText());
-        assertEquals(startDate, arrivalDateLabel.getText());
 
-        clickOn(departureDatePicker).write(endDate);
-        assertNotEquals(endDate, departureDateLabel.getText());
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+
+        // input valid departure date
+        clickOn(departureDatePicker).write(departureDate);
+        assertNotEquals(departureDate, departureDateLabel.getText());
         clickOn(setDepartureDate);
-        assertNotEquals(errorDate, departureDateLabel.getText());
+
+        assertEquals(departureDate, departureDateLabel.getText());
+
+        // input invalid arrival date
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(invalidDate);
+        clickOn(setArrivalDate);
+
+        assertNotEquals(invalidDate, arrivalDateLabel.getText());
+        assertEquals("Invalid arrival date.", feedBackLabel.getText());
+
+        // input invalid departure date
+        clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
+                .write(invalidDate);
+        clickOn(setDepartureDate);
+
+        assertNotEquals(invalidDate, arrivalDateLabel.getText());
+        assertEquals("Invalid departure date.", feedBackLabel.getText());
+
+        // input arrival date after departure date
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(arrivalDateAfterDepartureDate);
+        clickOn(setArrivalDate);
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+        assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
+
+        // input valid arrival date, check that feedback label is cleared
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(arrivalDate);
+        clickOn(setArrivalDate);
+        assertEquals(arrivalDate, arrivalDateLabel.getText());
+        assertEquals("", feedBackLabel.getText());
+
+        // input departure date before arrival date
+        clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
+                .write(departureDateBeforeArrivalDate);
+        clickOn(setDepartureDate);
+        assertEquals(departureDate, departureDateLabel.getText());
+        assertEquals("Arrival date must be before departure date.", feedBackLabel.getText());
 
         assertNotNull(destinationController.getDestinationDateInterval());
 
     }
 
     /**
-     * Tests if you can add activity to current destination
-     */
+    * Tests adding activity to current destination
+    */
     @Test
     public void testAddActivity() {
 
+        // valid input
         clickOn(newActivityTextField).write("Take flamenco lessons");
         clickOn(addActivity);
 
         assertNotEquals(activities, activitiesListView.getItems());
 
         activities.add("Take flamenco lessons");
-        activitiesListView = lookup("#activitiesListView").query();
 
+        assertEquals(activities, activitiesListView.getItems());
+
+        // Test empty input
+        clickOn(newActivityTextField).write("");
+        clickOn(addActivity);
+        // listView should be unchanged
+        assertEquals(activities, activitiesListView.getItems());
+
+        // Test adding existing activity
+        clickOn(newActivityTextField).write("Take flamenco lessons");
+        clickOn(addActivity);
+        // listView should be unchanged
         assertEquals(activities, activitiesListView.getItems());
     }
 
     /**
-     * Tests if you can write comment to current destination
+     * Tests removing activity from destination
+     */
+    @Test
+    public void testRemoveActivity() {
+        // create seperate spainActivities list
+        List<String> spainActivities = new ArrayList<>();
+        spainActivities.add("Eat paella");
+        assertEquals(spainActivities, activitiesListView.getItems());
+
+        // remove "Eat paella" through controller, check that the list is now empty
+        clickOn("Eat paella");
+        clickOn(removeActivity);
+
+        assertNotEquals(spainActivities, activitiesListView.getItems());
+        assertEquals(new ArrayList<>(), activitiesListView.getItems());
+
+        // clicking the button without selecting anything should not alter the listView
+        clickOn(removeActivity);
+        assertEquals(new ArrayList<>(), activitiesListView.getItems());
+    }
+
+    /**
+     * Tests writing comment to current destination
      */
     @Test
     public void testWriteComment() {
 
-        clickOn(commentTextField).write(
-                "I traveled to Spain with my family and we visited restaurants every day");
+    // valid input
+    clickOn(commentTextField).write(
+    "I traveled to Spain with my family");
 
-        assertNotEquals(commentTextField.getText(), destinationController.getDestinationComment());
-        clickOn(updateComment);
+    assertNotEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+    clickOn(updateComment);
 
-        assertEquals(commentTextField.getText(), destinationController.getDestinationComment());
+    assertEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+
+    // Tests setting comment to ""
+    // TODO: This throws a server error, so the test is not succesful
+    // the test only checks whether local destination object is changed, which it is.
+    // this should be fixed when implementing mock server for ui tests
+    clickOn(commentTextField).eraseText(40);
+    clickOn(commentTextField).write("");
+    assertNotEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+
+    clickOn(updateComment);
+    assertEquals(commentTextField.getText(),
+    destinationController.getDestinationComment());
+    
     }
+
+    /**
+     * Tests if the correct number of stars are filled
+     * <p>
+     * Tests if destination rating is updated correctly
+     */
+    @Test
+    public void testRating() {
+
+        assertEquals("-fx-fill: #FFFFFF", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        assertEquals(0, destinationController.getDestinationRating());
+
+        clickOn(star1);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(1, destinationController.getDestinationRating());
+
+        clickOn(star2);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(2, destinationController.getDestinationRating());
+
+        clickOn(star3);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(3, destinationController.getDestinationRating());
+
+        clickOn(star4);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(4, destinationController.getDestinationRating());
+
+        clickOn(star5);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFD700", star5.getStyle());
+        assertEquals(5, destinationController.getDestinationRating());
+
+        clickOn(star2);
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+        assertEquals(2, destinationController.getDestinationRating());
+
+    }
+
 
 }

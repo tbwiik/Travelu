@@ -1,23 +1,34 @@
 package travelu.fxui;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
+import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class DestinationListController {
+
+    /**
+     * Initialize client for server communication
+     */
+    private final Client client = new Client("http://localhost", 8080);
 
     @FXML
     private ListView<String> listView;
@@ -26,63 +37,103 @@ public class DestinationListController {
     private TextArea destinationText;
 
     @FXML
-    private Text feedbackText;
+    private Label feedbackLabel;
 
     private DestinationList destinationList;
 
     private String currentDestination;
 
-    private TraveluHandler traveluHandler = new TraveluHandler();
-
     private String destinationListFile;
-    private String currentDestinationFile;
 
     /**
-     * Initiliaze start-page
+     * Initialize start-page
      * 
      * @throws IOException
      */
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
 
-        destinationListFile = "DestinationList.json";
-        currentDestinationFile = "CurrentDestinationName.json";
-
-        // get DestinationList from file
-        this.destinationList = traveluHandler.readDestinationListJSON();
+        try {
+            this.destinationList = client.getDestinationList();
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
+        }
 
         setUpListView();
+
     }
 
     private void setUpListView() {
 
         listView.setStyle("-fx-font-size:20;");
 
-        // add all destinations to the list-view
-        listView.getItems()
-                .addAll(destinationList.getDestinationNames());
+        listView.getItems().clear();
 
-        // make currentDestination the selected list-view item
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentDestination = listView.getSelectionModel().selectedItemProperty().getValue();
+        // create list of all destinations with star-rating
+        List<String> destinationNameAndRating = new ArrayList<>();
+        for (String destinationName : destinationList.getDestinationNames()) {
+            try {
+                // get rating of destination
+                int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
+                // add destination with name and number stars equal to rating
+                destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
+            } catch (NoSuchElementException nsee) {
+                feedbackLabel.setText("No such element: " + nsee.getMessage());
             }
-        });
 
+        }
+
+        // add all destinations and rating to list-view
+        listView.getItems().addAll(destinationNameAndRating);
+
+        // make click select currentDestination
         // make double-click on list-view item take you to page with currentDestination
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent click) {
 
+                // set currentDestination to the selected item from input on format
+                // objectinformation'DestinationName'
+
+                if (click.getTarget().toString().contains("'")) {
+                    // if you click on the box around the text the format is
+                    // objectinformation'DestinationName'
+                    // we then need to get the element after the first '
+                    currentDestination = click.getTarget().toString()
+                            .split("'")[1];
+                } else if (click.getTarget().toString().contains("\"")) {
+                    // if you click directly on the text the format is
+                    // Text[text="DestinationName" objectinformation="..."]]
+                    // we then need to get the element after the first "
+                    currentDestination = click.getTarget().toString()
+                            .split("\"")[1];
+                }
+
+                // we want currentDestination to be null, not "null"
+                if (currentDestination != null && currentDestination.equals("null")) {
+                    currentDestination = null;
+                }
+
                 if (click.getClickCount() == 2) {
-                    try {
-                        switchToDestination(currentDestination);
-                    } catch (IOException e) {
-                        feedbackText.setText("Could not find " + currentDestination);
-                        e.printStackTrace();
+
+                    // switch to currentDestination page on double-click if a destination was
+                    // clicked
+                    if (currentDestination != null) {
+                        // remove the stars from the selected destination
+                        String currentDestinationName = currentDestination.replace("★", "");
+                        try {
+                            // load the destination chosen
+                            switchToDestination(currentDestinationName);
+                        } catch (IOException e) {
+                            feedbackLabel.setText("Could not find " + currentDestinationName);
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -97,9 +148,17 @@ public class DestinationListController {
      */
     private void switchToDestination(String destinationName) throws IOException {
 
-        // Write current destination name to file, so it can be accessed from
-        // destination controller
-        traveluHandler.writeJSON(destinationName, currentDestinationFile);
+        try {
+            client.storeCurrentDestination(destinationName);
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
+        }
 
         App.setRoot("destination");
 
@@ -108,58 +167,108 @@ public class DestinationListController {
     /**
      * Add destination to list
      * 
-     * @throws IOException if error writing to file
+     * @throws IllegalArgumentException if destinationName is null
      */
-    @FXML
-    public void handleAddDestination() throws IOException {
 
-        String newDestinationName = destinationText.getText();
-        if (newDestinationName.isBlank()) {
-            // if user didn't input any text
-            // remove any feedback given and do nothing
-            feedbackText.setText("");
-        } else if (destinationList.containsDestination(newDestinationName)) {
-            // if the input text matches any of the already registrations
-            // give feedback
-            feedbackText.setText("You have already registered this destination");
-        } else {
-            // if everything is ok with the input
-            // create new destination with input as name
-            Destination newDestination = new Destination(newDestinationName.strip(), null, 0, new ArrayList<String>(),
-                    null);
+    public void handleAddDestination() {
+        String newDestinationName = destinationText.getText().trim();
+        try {
+            if (newDestinationName.isBlank()) {
+                // if user didn't input any text
+                // remove any feedback given and do nothing
+                feedbackLabel.setText("");
+            } else if (destinationList.containsDestination(newDestinationName)) {
+                // if the input text matches any of the already registrations
+                // give feedback
+                feedbackLabel.setText("You have already registered this destination");
+            } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
+                // if the input text contains anything but letters, spaces and dashes
+                feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
+            } else {
+                // if everything is ok with the input
+                // create new destination with input as name
+                Destination newDestination = new Destination(newDestinationName.strip(), null, 0,
+                        new ArrayList<String>(), null);
 
-            // add destination to list-view and destinations
-            listView.getItems().add(newDestination.getName());
-            destinationList.addDestination(newDestination);
+                // add destination to list-view and destinations
+                listView.getItems().add(newDestination.getName());
+                destinationList.addDestination(newDestination);
 
-            // remove any feedback given
-            feedbackText.setText("");
+                // remove any feedback given
+                feedbackLabel.setText("");
 
-            // remove text in inputField
-            destinationText.clear();
+                // remove text in inputField
+                destinationText.clear();
+
+                client.addDestination(newDestination);
+            }
+        } catch (IllegalArgumentException iae) {
+            feedbackLabel.setText("");
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
 
     }
 
     /**
      * Removes destination from list
-     * 
-     * @throws IOException if error writing to file
+     *
      */
     @FXML
-    public void handleRemoveDestination() throws IOException {
+    public void handleRemoveDestination() {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
-            feedbackText.setText("Please select a destination you would like to remove");
+            feedbackLabel.setText("Please select a destination you would like to remove");
         } else {
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
-            destinationList.removeDestination(currentDestination);
-            listView.getItems().remove(currentDestination);
+            // remove the star-rating from the selected destination
+            String currentDestinationName = currentDestination.replace("★", "");
+
+            try {
+                feedbackLabel.setText("");
+                client.removeDestination(currentDestinationName);
+
+                // remove the destination from destinationList and list-view
+                destinationList.removeDestination(currentDestinationName);
+                listView.getItems().remove(currentDestination);
+                currentDestination = null;
+
+            } catch (NoSuchElementException nsee) {
+                feedbackLabel.setText("Please select a destination you would like to remove");
+            } catch (URISyntaxException | InterruptedException e) {
+                e.printStackTrace();
+            } catch (ServerException se) {
+                feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                // TODO switch to correct label
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
+            }
         }
-        traveluHandler.writeJSON(destinationList, destinationListFile);
+    }
+
+    @FXML
+    public void handleSortByName() {
+
+        destinationList.sortByName();
+
+        setUpListView();
+    }
+
+    @FXML
+    public void handleSortByRating() {
+
+        destinationList.sortByRating();
+
+        setUpListView();
     }
 
     // For testing purposes
@@ -167,11 +276,14 @@ public class DestinationListController {
         return destinationList.getDestinationNames();
     }
 
+    public List<String> getListViewItems() {
+        return new ArrayList<String>(listView.getItems());
+    }
+
     public void initiliazeFromTestFiles() throws IOException {
         destinationListFile = "testDestinationList.json";
-        currentDestinationFile = "testCurrentDestinationName.json";
 
-        destinationList = traveluHandler.readDestinationListJSON(destinationListFile);
+        destinationList = TraveluHandler.readDestinationListJSON(destinationListFile);
 
         setUpListView();
     }

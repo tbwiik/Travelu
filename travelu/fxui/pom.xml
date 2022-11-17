@@ -21,7 +21,13 @@
 
         <dependency>
             <groupId>gr2219</groupId>
-            <artifactId>fxutil</artifactId>
+            <artifactId>localpersistence</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gr2219</groupId>
+            <artifactId>client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -79,7 +85,9 @@
     
     </dependencies>
 
-    <profiles>
+    <!-- 
+        **Not in use**
+        <profiles>
     
         <profile>
             <id>headless</id>
@@ -87,7 +95,6 @@
                 <headlessTests>true</headlessTests>
             </properties>
             <dependencies>
-                <!-- https://mvnrepository.com/artifact/org.testfx/openjfx-monocle -->
                 <dependency>
                     <groupId>org.testfx</groupId>
                     <artifactId>openjfx-monocle</artifactId>
@@ -97,13 +104,30 @@
             </dependencies>
         </profile>
 
-    </profiles>
+    </profiles> -->
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${skipUITests}</skipTests>
+                    <systemPropertyVariables>
+                        <headless>${headlessTests}</headless>
+                    </systemPropertyVariables>
+                    <argLine>
+                    --add-opens travelu.fxui/travelu.fxui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                    --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+                    --add-exports javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+
             </plugin>
 
             <plugin>

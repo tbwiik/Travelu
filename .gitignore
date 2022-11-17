@@ -17,3 +17,15 @@ hs_err_pid*
 
 # Target
 target/
+
+# Unneccessary json files used in testing
+test*.json
+
+# STS - Rest/Spring
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache

@@ -2,26 +2,45 @@ package travelu.fxui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.fxutil.TraveluHandler;
+import travelu.localpersistence.TraveluHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
+import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
+
+    /**
+     * Initialize client used for server communication
+     */
+    private final Client client = new Client("http://localhost", 8080);
 
     // currently selected destination
     private Destination currentDestination;
     private DestinationList destinationList;
     private TraveluHandler traveluHandler = new TraveluHandler();
 
-    private String destinationListFile;
+    // currently selected activity
+    private String currentActivity;
 
     @FXML
     Label destinationLabel;
@@ -39,6 +58,9 @@ public class DestinationController {
     DatePicker departureDatePicker;
 
     @FXML
+    Label dateUpdatedFeedbackLabel;
+
+    @FXML
     ListView<String> activitiesListView;
 
     @FXML
@@ -48,30 +70,126 @@ public class DestinationController {
     TextField commentTextField;
 
     @FXML
-    Label commentUpdatedFeedbackLabel;
+    Label commentFeedbackLabel;
 
     @FXML
-    private void initialize() throws FileNotFoundException, IOException {
+    Label activityFeedbackLabel;
 
-        destinationListFile = "DestinationList.json";
+    @FXML
+    SVGPath star1;
 
-        this.destinationList = traveluHandler.readDestinationListJSON();
-        String currentDestinationName = traveluHandler.readCurrentDestinationNameJSON();
+    @FXML
+    SVGPath star2;
 
-        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
+    @FXML
+    SVGPath star3;
 
-        destinationLabel.setText(currentDestinationName);
+    @FXML
+    SVGPath star4;
+
+    @FXML
+    SVGPath star5;
+
+    @FXML
+    private void initialize() {
+
+        try {
+            this.currentDestination = client.getDestination();
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
+        }
+
+        colorStars(this.currentDestination.getRating());
+
+        destinationLabel.setText(currentDestination.getName());
 
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
-        updateListView();
+        arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
+        departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
 
+        // Standardizes date formatting in datePicker. Largely copied from documentation
+        // for datePicker.setconverter
+        StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
+            // Standard date formatting
+            String pattern = "dd/MM/yyyy";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            {
+                // Display format in DatePicker text fields
+                arrivalDatePicker.setPromptText(pattern.toLowerCase());
+                departureDatePicker.setPromptText(pattern.toLowerCase());
+            }
+
+            /**
+             * Generates string from LocalDate object, used for displaying selected date in
+             * DatePicker text field
+             * <p>
+             * Returns null if date is invalid
+             */
+            @Override
+            public String toString(LocalDate date) {
+                try {
+                    if (date != null) {
+                        return formatter.format(date);
+                    } else {
+                        return "";
+                    }
+                } catch (DateTimeException dte) {
+                    return "";
+                }
+            }
+
+            /**
+             * Generates LocalDate object from string, used for validating written input
+             * date
+             */
+            @Override
+            public LocalDate fromString(String string) {
+                try {
+                    if (string != null && !string.isEmpty()) {
+                        return LocalDate.parse(string, formatter);
+                    } else {
+                        return null;
+                    }
+                } catch (DateTimeParseException dtpe) {
+                    return null;
+                }
+
+            }
+        };
+
+        arrivalDatePicker.setConverter(stringConverter);
+        departureDatePicker.setConverter(stringConverter);
+
+        setupListView();
+        updateListView();
     }
 
     /**
-     * updates view of activity list
+     * Set up listener for changing selected activity in activitiesListView
+     */
+    @FXML
+    private void setupListView() {
+        // make currentDestination the selected list-view item
+        activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                currentActivity = activitiesListView.getSelectionModel().selectedItemProperty().getValue();
+            }
+        });
+    }
+
+    /**
+     * Update view of activity list
      */
     @FXML
     private void updateListView() {
@@ -80,7 +198,7 @@ public class DestinationController {
     }
 
     /**
-     * Returns to destination-list
+     * Return to destination-list
      * 
      * @throws IOException
      */
@@ -90,96 +208,227 @@ public class DestinationController {
     }
 
     /**
-     * add activity to the list of activities, and update listview
+     * Adds activity to the list of activities, and updates activitiesListView
      * 
-     * @throws IOException in case of filehandling issue
+     * 
+     * @throws IOException              in case of filehandling issue
+     * @throws IllegalArgumentException if input is blank or already existing
      */
     @FXML
-    private void handleAddActivity() throws IOException {
+    private void handleAddActivity() {
         String activity = newActivityTextField.getText();
-        if (activity.isBlank())
-            return;
 
         try {
             currentDestination.addActivity(activity);
-        } catch (Exception e) {
-            // TODO: give relevant user feedback here
+            this.client.addActivity(activity);
+            activityFeedbackLabel.setText("");
+        } catch (IllegalArgumentException iae) {
+            activityFeedbackLabel.setText("Add unique activity to update.");
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
-        writeChanges();
         updateListView();
         newActivityTextField.setText("");
-
     }
 
     /**
-     * updates changes to currentDestination, and writes these to json.
-     * 
-     * @throws IOException in case of filehandling issue
+     * Removes activity from list of activities, and updates activitiesListView
      */
-    private void writeChanges() throws IOException {
-        this.destinationList.updateDestination(currentDestination);
+    @FXML
+    private void handleRemoveActivity() {
+        if (currentActivity != null) {
+            try {
+                this.client.removeActivity(currentActivity);
+            } catch (URISyntaxException | InterruptedException e) {
+                e.printStackTrace();
+            } catch (ServerException se) {
+                commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                // TODO switch to correct label
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
+            }
+            currentDestination.removeActivity(currentActivity);
+            updateListView();
+        }
+    }
 
-        traveluHandler.writeJSON(this.destinationList, destinationListFile);
+    /**
+     * call method handleStar with parameter based on which star was clicked
+     */
+    @FXML
+    private void handleStar1() {
+        handleStar(1);
     }
 
     @FXML
-    private void handleSelectFile() {
+    private void handleStar2() {
+        handleStar(2);
+    }
 
+    @FXML
+    private void handleStar3() {
+        handleStar(3);
+    }
+
+    @FXML
+    private void handleStar4() {
+        handleStar(4);
+    }
+
+    @FXML
+    private void handleStar5() {
+        handleStar(5);
+    }
+
+    /**
+     * Set rating of current destination to starNumber, and update stars
+     * 
+     * @param starNumber
+     */
+    private void handleStar(int starNumber) {
+
+        currentDestination.setRating(starNumber);
+
+        colorStars(starNumber);
+
+        try {
+            this.client.setRating(starNumber);
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
+        }
+    }
+
+    /**
+     * Color starNumber stars yellow, and the rest of the stars white
+     * 
+     * @param rating
+     */
+    private void colorStars(int starNumber) {
+
+        // Sets color of the clicked star, and all stars before it to yellow. Updates
+        // color of all stars after clicked star to white.
+        if (starNumber >= 1) {
+            star1.setStyle("-fx-fill: #FFD700");
+        } else {
+            star1.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 2) {
+            star2.setStyle("-fx-fill: #FFD700");
+        } else {
+            star2.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 3) {
+            star3.setStyle("-fx-fill: #FFD700");
+        } else {
+            star3.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 4) {
+            star4.setStyle("-fx-fill: #FFD700");
+        } else {
+            star4.setStyle("-fx-fill: #FFFFFF");
+        }
+
+        if (starNumber >= 5) {
+            star5.setStyle("-fx-fill: #FFD700");
+        } else {
+            star5.setStyle("-fx-fill: #FFFFFF");
+        }
     }
 
     /**
      * Changes comment, and writes this to file
+     *
      */
     @FXML
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
-        // if there is no comment. TODO: Give feedback to user
-        if (newComment.isBlank())
-            return;
-
         currentDestination.setComment(newComment);
         try {
-            writeChanges();
-        } catch (Exception e) {
+            this.client.updateComment(newComment);
+            commentFeedbackLabel.setText("Comment updated!");
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
     }
 
+    /**
+     * Sets arrival date, and catches exceptions due to date validation errors
+     */
     @FXML
     private void handleSetArrivalDate() {
+        String arrivalDate = arrivalDatePicker.getValue() == null ? ""
+                : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-        String arrivalDate = arrivalDatePicker.getEditor().getText();
-        String departureDate = departureDatePicker.getEditor().getText();
-
-        arrivalDateLabel.setText(arrivalDate);
-
-        if (departureDate.isBlank()) {
-            currentDestination.setDateInterval(arrivalDate, arrivalDate);
-        } else {
-            currentDestination.setDateInterval(arrivalDate, departureDate);
+        try {
+            currentDestination.setArrivalDate(arrivalDate);
+            arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
+            this.client.setArrivalDate(arrivalDate);
+            dateUpdatedFeedbackLabel.setText("");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            arrivalDatePicker.getEditor().setText("");
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
     }
 
+    /**
+     * Sets departure date, and catches exceptions due to date validation errors
+     */
     @FXML
     private void handleSetDepartureDate() {
 
-        String arrivalDate = arrivalDatePicker.getEditor().getText();
-        String departureDate = departureDatePicker.getEditor().getText();
+        String departureDate = departureDatePicker.getValue() == null ? ""
+                : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-        arrivalDateLabel.setText(arrivalDate);
-
-        if (arrivalDate.isBlank()) {
-            currentDestination.setDateInterval(departureDate, departureDate);
-        } else {
-            currentDestination.setDateInterval(arrivalDate, departureDate);
+        try {
+            currentDestination.setDepartureDate(departureDate);
+            departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
+            this.client.setDepartureDate(departureDate);
+            dateUpdatedFeedbackLabel.setText("");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            departureDatePicker.getEditor().setText("");
+            dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // TODO switch to correct label
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
-    }
-
-    public void changeFileWritingName(String fileWritingName) {
-        this.destinationListFile = fileWritingName;
     }
 
     // For testing purposes
@@ -199,9 +448,13 @@ public class DestinationController {
         return currentDestination.getDateInterval();
     }
 
+    public int getDestinationRating() {
+        return currentDestination.getRating();
+    }
+
     public void initializeFromTestFiles() throws FileNotFoundException, IOException {
 
-        destinationListFile = "testDestinationList.json";
+        // destinationListFile = "testDestinationList.json";
 
         this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
         String currentDestinationName = traveluHandler
@@ -211,6 +464,9 @@ public class DestinationController {
 
         destinationLabel.setText(currentDestinationName);
 
+        colorStars(this.currentDestination.getRating());
+
+        commentTextField.setText("");
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }

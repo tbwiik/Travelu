@@ -2,6 +2,7 @@ package travelu.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Destination object for use in travel-journal
@@ -10,7 +11,7 @@ public class Destination {
 
     private String name;
     private DateInterval dateInterval;
-    private Integer ranking;
+    private int rating;
     private List<String> activities;
     private String comment;
 
@@ -19,18 +20,18 @@ public class Destination {
      * 
      * @param name       of destination
      * @param date       visit from-to
-     * @param ranking    on a scale from 1-5
+     * @param rating     on a scale from 1-5
      * @param activities you did during your visit
      * @param comment    with other relevant info
      */
-    public Destination(String name, DateInterval dateInterval, Integer ranking, List<String> activities,
+    public Destination(String name, DateInterval dateInterval, int rating, List<String> activities,
             String comment) {
         this.name = name;
 
         // dateinterval is allowed to be null, but constructor should not take in null
         // as input
-        this.dateInterval = dateInterval == null ? null : new DateInterval(dateInterval);
-        this.ranking = ranking;
+        this.dateInterval = dateInterval == null ? new DateInterval() : new DateInterval(dateInterval);
+        this.rating = rating;
 
         // if activities are null, create new list. Otherwise create copy of old
         this.activities = activities == null ? new ArrayList<String>() : new ArrayList<String>(activities);
@@ -47,7 +48,7 @@ public class Destination {
     public Destination(Destination destination) {
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
-        this.ranking = destination.getRanking();
+        this.rating = destination.getRating();
         this.activities = destination.getActivities();
         this.comment = destination.getComment();
     }
@@ -70,56 +71,42 @@ public class Destination {
     }
 
     /**
-     * Function used to set date-intervals with string input
-     * <p>
-     * Used by controller
+     * Set arrival date for destination
      * 
-     * @param startDate of stay on the form {@code d/m/y}
-     * @param endDate   of stay on the form {@code d/m/y}
-     * @throws IllegalArgumentException if lacking input on either startdate or
-     *                                  enddate
-     * @throws NumberFormatException    if input is wrong format
+     * @param arrivalDate - string in format dd/MM/yyyy
+     * @throws IllegalArgumentException
      */
-    public void setDateInterval(String startDate, String endDate)
-            throws IllegalArgumentException, NumberFormatException {
-
-        if (startDate.isBlank() || endDate.isBlank()) {
-            throw new IllegalArgumentException("Waiting for both dates to be set");
-        }
-
-        int[] startDateArray = { 0, 0, 0 };
-        int i = 0;
-        for (String dateComponent : startDate.toString().split("/")) {
-            startDateArray[i] = Integer.parseInt(dateComponent);
-            i++;
-        }
-
-        int[] endDateArray = { 0, 0, 0 };
-        int j = 0;
-        for (String dateComponent : endDate.toString().split("/")) {
-            endDateArray[j] = Integer.parseInt(dateComponent);
-            j++;
-        }
-
-        this.dateInterval = new DateInterval(startDateArray, endDateArray);
-
+    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException {
+        dateInterval.setArrivalDate(arrivalDate);
     }
 
     /**
-     * @return the ranking of the destination
+     * Set departure date for destination
+     * 
+     * @param departureDate - string in format dd/MM/yyyy
+     * @throws IllegalArgumentException
      */
-    public Integer getRanking() {
-        return ranking;
+    public void setDepartureDate(String departureDate) throws IllegalArgumentException {
+        dateInterval.setDepartureDate(departureDate);
     }
 
     /**
-     * @param ranking on a scale of 1-5
+     * @return the rating of the destination
      */
-    public void setRanking(Integer ranking) {
-        if (ranking < 1 || ranking > 5) {
-            throw new IllegalArgumentException("Ranking must be between 1 and 5");
+    public int getRating() {
+        return rating;
+    }
+
+    /**
+     * @param rating on a scale of 1-5
+     * 
+     * @throws IllegalArgumentException if <1 and >5
+     */
+    public void setRating(int rating) throws IllegalArgumentException {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
         }
-        this.ranking = ranking;
+        this.rating = rating;
     }
 
     /**
@@ -136,10 +123,23 @@ public class Destination {
      */
     public void addActivity(String activity) throws IllegalArgumentException {
 
-        if (activity.isBlank() || getActivities().contains(activity))
+        if (activity == null || activity.isBlank() || getActivities().contains(activity))
             throw new IllegalArgumentException("Invalid activity");
 
         activities.add(activity);
+    }
+
+    /**
+     * 
+     * @param activity the activity we want to remove
+     * @throws NoSuchElementException if activity is not in list
+     */
+    public void removeActivity(String activity) throws NoSuchElementException {
+        if (!getActivities().contains(activity)) {
+            throw new NoSuchElementException("Activity " + activity + " is not in activity list");
+        }
+
+        activities.remove(activity);
     }
 
     /**
@@ -156,17 +156,6 @@ public class Destination {
      */
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    /**
-     * Appends further comment
-     * <p>
-     * Starts on a new line
-     * 
-     * @param addComment comment to append
-     */
-    public void addComment(String addComment) {
-        this.comment = this.comment + "\n" + addComment;
     }
 
     /**
