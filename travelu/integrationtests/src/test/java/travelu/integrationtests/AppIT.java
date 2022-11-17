@@ -285,7 +285,7 @@ public class AppIT extends ApplicationTest {
         // checking if destination from client is the same as the one added
         try {
             Destination destinationFromName = client.getDestination("Hawaii");
-            assertEquals(destinationFromName, client.getDestination("Hawaii"));
+            assertEquals(hawaii, destinationFromName);
         } catch (Exception e) {
             fail("Could not get destination");
         }
