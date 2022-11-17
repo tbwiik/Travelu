@@ -1,6 +1,7 @@
 package travelu.integrationtests;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -17,7 +18,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ContextConfiguration;
@@ -76,7 +76,7 @@ public class AppIntegrationTest extends ApplicationTest {
     public void testStoreCurrentDestination() {
 
         try {
-            client.storeCurrentDestination("Hawaii");
+            client.storeCurrentDestinationName("Hawaii");
         } catch (Exception e) {
             fail("Could not store current destination");
         }
@@ -115,17 +115,39 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
+     * Helpermethod for setting up a destination
+     * <p>
+     * For testing of destination-functionality
+     */
+    private void setupDestination() {
+
+        // Set up dummy destination
+        Destination hawaii = new Destination("Hawaii", new DateInterval(), 0, new ArrayList<>(),
+                "");
+
+        // Add destination to file
+        try {
+            client.addDestination(hawaii);
+        } catch (Exception e) {
+            fail("Could not add destination");
+        }
+
+        // Store destination as the chosen one
+        try {
+            client.storeCurrentDestinationName("Hawaii");
+        } catch (Exception e) {
+            fail("Could not store current destination");
+        }
+
+    }
+
+    /**
      * test if adding and removing an activity works
      */
     @Test
     public void testAddAndRemoveActivity() {
 
-        // choosing which destination to add activity to
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination();
 
         // adding an activity
         try {
@@ -153,12 +175,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetRating() {
 
-        // choosing which destination to set rating for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination();
 
         // setting rating
         try {
@@ -174,12 +191,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetArrivalDate() {
 
-        // choosing which destination to set arrival date for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination();
 
         // setting arrival date
         try {
@@ -195,12 +207,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetDepartureDate() {
 
-        // choosing which destination to set departure date for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination();
 
         // setting departure date
         try {
@@ -216,12 +223,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testUpdateComment() {
 
-        // choosing which destination to update comment for
-        try {
-            client.storeCurrentDestination("Hawaii");
-        } catch (Exception e) {
-            fail("Could not store current destination");
-        }
+        setupDestination();
 
         // updating comment
         try {
@@ -307,7 +309,7 @@ public class AppIntegrationTest extends ApplicationTest {
 
         // choosing a destination which we are going to get
         try {
-            client.storeCurrentDestination("Hawaii");
+            client.storeCurrentDestinationName("Hawaii");
         } catch (Exception e) {
             fail("Could not store current destination");
         }
