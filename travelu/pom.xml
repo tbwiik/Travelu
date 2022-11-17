@@ -25,6 +25,7 @@
     <!-- Change to version 17 for use locally -->
 
     <skipUITests>true</skipUITests>
+    <skipServerTests>false</skipServerTests>
 
     <!-- <headlessTests>false</headlessTests> Not in use -->
 
