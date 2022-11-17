@@ -1,7 +1,6 @@
 package travelu.integrationtests;
 
 import travelu.client.Client;
-import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -118,16 +117,20 @@ public class AppIntegrationTest extends ApplicationTest {
      * Helpermethod for setting up a destination
      * <p>
      * For testing of destination-functionality
+     * <p>
+     * <b>NB:</b> Initialized with name, but no other info
+     * 
+     * @param destinationName name of destination
      */
-    private void setupDestination() {
+    private void setupDestination(final String destinationName) {
 
         // Set up dummy destination
-        Destination hawaii = new Destination("Hawaii", new DateInterval(), 0, new ArrayList<>(),
+        Destination destination = new Destination("Hawaii", new DateInterval(), 0, new ArrayList<>(),
                 "");
 
         // Add destination to file
         try {
-            client.addDestination(hawaii);
+            client.addDestination(destination);
         } catch (Exception e) {
             fail("Could not add destination");
         }
@@ -147,7 +150,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testAddAndRemoveActivity() {
 
-        setupDestination();
+        setupDestination("Hawaii");
 
         // adding an activity
         try {
@@ -175,7 +178,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetRating() {
 
-        setupDestination();
+        setupDestination("Hawaii");
 
         // setting rating
         try {
@@ -191,7 +194,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetArrivalDate() {
 
-        setupDestination();
+        setupDestination("Hawaii");
 
         // setting arrival date
         try {
@@ -207,7 +210,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testSetDepartureDate() {
 
-        setupDestination();
+        setupDestination("Hawaii");
 
         // setting departure date
         try {
@@ -223,7 +226,7 @@ public class AppIntegrationTest extends ApplicationTest {
     @Test
     public void testUpdateComment() {
 
-        setupDestination();
+        setupDestination("Hawaii");
 
         // updating comment
         try {
