@@ -15,13 +15,15 @@ public class DestinationList {
      * Add destination to list
      * 
      * @param destination to add
-     * @throws IllegalArgumentException if destination is null
+     * @throws IllegalArgumentException if destination is null, or if a destination with the same name already exists
      */
     public void addDestination(Destination destination) {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
 
-        if (destinations.contains(destination))
+        // if list of destination names contains destination name, regardless of casing,
+        // destination should not be added to destination list
+        if (getDestinationNames().stream().anyMatch(name -> name.equalsIgnoreCase(destination.getName())))
             throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
 
         destinations.add(destination);
