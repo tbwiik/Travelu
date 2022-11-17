@@ -135,6 +135,18 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <!-- Need version because not in travelu.pom!! -->
                 <version>0.0.6</version>
+                <configuration>
+                <!-- JLink configuration for shipping app -->
+                <!-- code taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <launcher>travelu</launcher>
+                    <mainClass>travelu/travelu.fxui.App</mainClass>
+                    <jlinkImageName>travelu</jlinkImageName>
+                    <jlinkZipName>travelu</jlinkZipName>
+                </configuration>
                 <executions>
                     <execution>
                         <!-- Default configuration for running -->
@@ -163,24 +175,6 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-            </plugin>
-
-            <!-- JLink plugin for shipping app -->
-            <!-- XML code from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.5</version>
-                <configuration>
-                <compress>2</compress>
-                <noHeaderFiles>true</noHeaderFiles>
-                <stripDebug>true</stripDebug>
-                <noManPages>true</noManPages>
-                <launcher>treefx</launcher>
-                <mainClass>treefx/com.acme.treefx.TreeFX</mainClass>
-                <jlinkImageName>treefx</jlinkImageName>
-                <jlinkZipName>treefx</jlinkZipName>
-                </configuration>
             </plugin>
 
         </plugins>
