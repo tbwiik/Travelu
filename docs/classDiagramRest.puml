@@ -2,7 +2,6 @@
 skin rose
 
 class TraveluController {
-    - TraveluService traveluService
     + String getDestinationListJSON()
     + String getDestinationJSON(String destinationName)
     + String getDestinationJSON()
@@ -18,8 +17,6 @@ class TraveluController {
 }
 
 class TraveluService {
-    - DestinationList destinationList
-    + TraveluService()
     + void load()
     + void save()
     + void saveDestinationName(String currentDestination)
@@ -31,6 +28,6 @@ package core {
     class DestinationList
 }
 
-TraveluController --> TraveluService
-TraveluService --> DestinationList
+TraveluController --> "traveluService: 1" TraveluService
+TraveluService --> DestinationList : " destinationList: 1"
 @enduml

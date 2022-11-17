@@ -1,13 +1,15 @@
 @startuml cdPersistence
 skin rose
+skinparam linetype ortho
+
 package core {
     class DestinationList
 }
+
 package fxui {
     class DestinationController
-    class DestinationListController
+    'class DestinationListController
 }
-
 
 class TraveluHandler {
     - {static} String DEFAULT_FILENAME_DLIST
@@ -22,10 +24,7 @@ class TraveluHandler {
     + {static} String readCurrentDestinationNameJSON(String filename)
     + {static} String readCurrentDestinationName()
 }
-skinparam Linetype ortho
 
-DestinationListController --> TraveluHandler
 DestinationController --> TraveluHandler
 TraveluHandler --> DestinationList
-
 @enduml
