@@ -1,6 +1,7 @@
 package travelu.integrationtests;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -14,16 +15,25 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = { TraveluController.class, TraveluApplication.class, TraveluService.class })
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // Set up server
+@ContextConfiguration(classes = { TraveluController.class, TraveluApplication.class, TraveluService.class }) // Defines
+                                                                                                             // how to
+                                                                                                             // load
+                                                                                                             // data
+@TestInstance(Lifecycle.PER_CLASS) // Enables @AfterAll function
 public class AppIntegrationTest extends ApplicationTest {
 
     @LocalServerPort
@@ -35,13 +45,25 @@ public class AppIntegrationTest extends ApplicationTest {
     private Client client;
 
     /**
-     * initialize client for server communication and clear destination list
+     * Initialize client
+     */
+    @BeforeAll
+    public void setUpAll() {
+        client = new Client("http://localhost", port);
+    }
+
+    /**
+     * Clear destinationList
      */
     @BeforeEach
-    public void setUp() throws Exception {
-        client = new Client("http://localhost", port);
+    public void setUpEach() {
+        clearDestinations();
+    }
 
-        // remove all destinations from destinationlist
+    @AfterAll
+    public void tearDown() {
+
+        // remove all test destinations
         clearDestinations();
     }
 
@@ -90,19 +112,19 @@ public class AppIntegrationTest extends ApplicationTest {
         List<String> activities = new ArrayList<>();
         activities.add("See volcanoes");
         activities.add("Dance hula with locals");
-        Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, activities,
-                "I went to Hawaii and it was great!");
+        Destination holland = new Destination("Holland", new DateInterval(), 3, activities,
+                "I went to Holland and it was great!");
 
         // adding a destination
         try {
-            client.addDestination(hawaii);
+            client.addDestination(holland);
         } catch (Exception e) {
             fail("Could not add destination");
         }
 
         // removing the same destination
         try {
-            client.removeDestination("Hawaii");
+            client.removeDestination("Holland");
         } catch (Exception e) {
             fail("Could not remove destination");
         }
