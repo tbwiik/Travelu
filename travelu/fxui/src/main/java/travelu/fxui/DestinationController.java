@@ -20,10 +20,12 @@ import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 import javafx.scene.shape.SVGPath;
 
@@ -221,9 +223,8 @@ public class DestinationController {
         try {
             currentDestination.addActivity(activity);
             this.client.addActivity(activity);
-            activityFeedbackLabel.setText("");
         } catch (IllegalArgumentException iae) {
-            activityFeedbackLabel.setText("Add unique activity to update.");
+            errorPopup("Invalid input", "Add unique activity to update.");
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -386,10 +387,9 @@ public class DestinationController {
             currentDestination.setArrivalDate(arrivalDate);
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             this.client.setArrivalDate(arrivalDate);
-            dateUpdatedFeedbackLabel.setText("");
         } catch (IllegalArgumentException | IllegalStateException e) {
             arrivalDatePicker.getEditor().setText("");
-            dateUpdatedFeedbackLabel.setText(e.getMessage());
+            errorPopup("Invalid input", e.getMessage());
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -415,10 +415,9 @@ public class DestinationController {
             currentDestination.setDepartureDate(departureDate);
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             this.client.setDepartureDate(departureDate);
-            dateUpdatedFeedbackLabel.setText("");
         } catch (IllegalArgumentException | IllegalStateException e) {
             departureDatePicker.getEditor().setText("");
-            dateUpdatedFeedbackLabel.setText(e.getMessage());
+            errorPopup("Invalid input", e.getMessage());
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -429,6 +428,13 @@ public class DestinationController {
             // TODO better handling
         }
 
+    }
+
+    private void errorPopup(String type, String message) {
+        Alert invalidInput = new Alert(AlertType.WARNING);
+        invalidInput.setTitle(type);
+        invalidInput.setHeaderText(message);
+        invalidInput.showAndWait();
     }
 
     // For testing purposes

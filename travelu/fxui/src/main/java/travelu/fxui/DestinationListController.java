@@ -17,9 +17,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
@@ -83,7 +85,7 @@ public class DestinationListController {
                 // add destination with name and number stars equal to rating
                 destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
             } catch (NoSuchElementException nsee) {
-                feedbackLabel.setText("No such element: " + nsee.getMessage());
+                errorPopup("Invalid input", "No such element: " + nsee.getMessage());
             }
 
         }
@@ -131,7 +133,7 @@ public class DestinationListController {
                             // load the destination chosen
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
-                            feedbackLabel.setText("Could not find " + currentDestinationName);
+                            errorPopup("Invalid input", "Could not find " + currentDestinationName);
                             e.printStackTrace();
                         }
                     }
@@ -176,14 +178,13 @@ public class DestinationListController {
             if (newDestinationName.isBlank()) {
                 // if user didn't input any text
                 // remove any feedback given and do nothing
-                feedbackLabel.setText("");
             } else if (destinationList.containsDestination(newDestinationName)) {
                 // if the input text matches any of the already registrations
                 // give feedback
-                feedbackLabel.setText("You have already registered this destination");
+                errorPopup("Invalid input", "You have already registered this destination");
             } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
                 // if the input text contains anything but letters, spaces and dashes
-                feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
+                errorPopup("Invalid input", "Destination name must contain only letters, spaces and dashes");
             } else {
                 // if everything is ok with the input
                 // create new destination with input as name
@@ -194,16 +195,13 @@ public class DestinationListController {
                 listView.getItems().add(newDestination.getName());
                 destinationList.addDestination(newDestination);
 
-                // remove any feedback given
-                feedbackLabel.setText("");
-
                 // remove text in inputField
                 destinationText.clear();
 
                 client.addDestination(newDestination);
             }
         } catch (IllegalArgumentException iae) {
-            feedbackLabel.setText("");
+            errorPopup("Invalid input", "");
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
@@ -225,7 +223,7 @@ public class DestinationListController {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
-            feedbackLabel.setText("Please select a destination you would like to remove");
+            errorPopup("No destination selected", "Please select a destination you would like to remove");
         } else {
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
@@ -233,7 +231,7 @@ public class DestinationListController {
             String currentDestinationName = currentDestination.replace("★", "");
 
             try {
-                feedbackLabel.setText("");
+                // feedbackLabel.setText("");
                 client.removeDestination(currentDestinationName);
 
                 // remove the destination from destinationList and list-view
@@ -242,7 +240,8 @@ public class DestinationListController {
                 currentDestination = null;
 
             } catch (NoSuchElementException nsee) {
-                feedbackLabel.setText("Please select a destination you would like to remove");
+                errorPopup("No destination selected", "Please select a destination you would like to remove");
+
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
@@ -269,6 +268,13 @@ public class DestinationListController {
         destinationList.sortByRating();
 
         setUpListView();
+    }
+
+    private void errorPopup(String type, String message) {
+        Alert invalidInput = new Alert(AlertType.WARNING);
+        invalidInput.setTitle(type);
+        invalidInput.setHeaderText(message);
+        invalidInput.showAndWait();
     }
 
     // For testing purposes
