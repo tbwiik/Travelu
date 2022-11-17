@@ -102,6 +102,8 @@ public class Client {
 
     /**
      * Get a {@link Destination} from the server
+     * <p>
+     * Formats space as %20
      * 
      * @param destinationName identifier for wanted destination
      * @return wanted {@link Destination} object
@@ -110,10 +112,11 @@ public class Client {
      * @throws ExecutionException
      * @throws ServerException      if http request not successfull
      */
-    public Destination getDestination(String destinationName)
+    public Destination getDestination(final String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        HttpResponse<String> response = this.get(API_ADDRESS + destinationName);
+        String fixedDestinationName = destinationName.replace(" ", "%20");
+        HttpResponse<String> response = this.get(API_ADDRESS + fixedDestinationName);
 
         Gson gson = new Gson();
 
@@ -214,6 +217,8 @@ public class Client {
      * Store name of chosen destination to file through server
      * <p>
      * Used for accessing correct destination when switching views
+     * <p>
+     * Formats space as %20
      * 
      * @param destinationName name of destination
      * @throws URISyntaxException
@@ -221,10 +226,11 @@ public class Client {
      * @throws ExecutionException
      * @throws ServerException      if http request not successfull
      */
-    public void storeCurrentDestinationName(String destinationName)
+    public void storeCurrentDestinationName(final String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        this.post(API_ADDRESS + "storeCurrent", destinationName);
+        String fixedDestinationName = destinationName.replace(" ", "%20");
+        this.post(API_ADDRESS + "storeCurrent", fixedDestinationName);
     }
 
     /**
