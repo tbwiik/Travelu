@@ -134,12 +134,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.guicedee.services</groupId>
-            <artifactId>json</artifactId>
-            <version>1.2.0.2-jre16</version>
-        </dependency>
-
     </dependencies>
 
     <!-- 
