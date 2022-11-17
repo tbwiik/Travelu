@@ -94,7 +94,7 @@ public class DestinationController {
     private void initialize() {
 
         try {
-            this.currentDestination = client.getDestination();
+            this.currentDestination = client.getCurrentDestination();
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
