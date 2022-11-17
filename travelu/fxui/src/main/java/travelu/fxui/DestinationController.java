@@ -20,10 +20,12 @@ import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 import javafx.scene.shape.SVGPath;
 
@@ -98,8 +100,7 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -227,8 +228,7 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -249,8 +249,7 @@ public class DestinationController {
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
-                commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-                // TODO switch to correct label
+                errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
             } catch (ExecutionException ee) {
                 ee.printStackTrace();
                 // TODO better handling
@@ -304,8 +303,7 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -366,8 +364,8 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            commentFeedbackLabel.setText("");
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -393,8 +391,7 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -422,13 +419,19 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
         }
 
+    }
+
+    private void errorPopup(String type, String message) {
+        Alert invalidInput = new Alert(AlertType.WARNING);
+        invalidInput.setTitle(type);
+        invalidInput.setHeaderText(message);
+        invalidInput.showAndWait();
     }
 
     // For testing purposes

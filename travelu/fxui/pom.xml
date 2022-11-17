@@ -135,6 +135,18 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <!-- Need version because not in travelu.pom!! -->
                 <version>0.0.6</version>
+                <configuration>
+                <!-- JLink configuration for shipping app -->
+                <!-- code taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <launcher>travelu</launcher>
+                    <mainClass>travelu/travelu.fxui.App</mainClass>
+                    <jlinkImageName>travelu</jlinkImageName>
+                    <jlinkZipName>travelu</jlinkZipName>
+                </configuration>
                 <executions>
                     <execution>
                         <!-- Default configuration for running -->
@@ -146,6 +158,29 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- JPackage configuration for shipping app -->
+            <!-- code taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <name>Travelu</name>
+                    <appVersion>1.0.0</appVersion>
+                    <vendor>gr2219</vendor>
+                    <destination>target/dist</destination>
+                    <module>travelu.fxui/travelu.fxui.App</module>
+                    <runtimeImage>target/travelu</runtimeImage>
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxPackageName>travelu</linuxPackageName>
+                    <linuxAppCategory>Utilities</linuxAppCategory>
+                    <linuxMenuGroup>Utilities</linuxMenuGroup>
+                    <javaOptions>
+                    <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                </configuration>
+                </plugin>
 
             <!-- Jacoco plugin for test coverage -->
             <plugin>
