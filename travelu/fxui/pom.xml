@@ -159,6 +159,29 @@
                 </executions>
             </plugin>
 
+            <!-- JPackage configuration for shipping app -->
+            <!-- code taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <name>Travelu</name>
+                    <appVersion>1.0.0</appVersion>
+                    <vendor>gr2219</vendor>
+                    <destination>target/dist</destination>
+                    <module>travelu/travelu.fxui.App</module>
+                    <runtimeImage>target/travelu</runtimeImage>
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxPackageName>travelu</linuxPackageName>
+                    <linuxAppCategory>Utilities</linuxAppCategory>
+                    <linuxMenuGroup>Utilities</linuxMenuGroup>
+                    <javaOptions>
+                    <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                </configuration>
+                </plugin>
+
             <!-- Jacoco plugin for test coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
