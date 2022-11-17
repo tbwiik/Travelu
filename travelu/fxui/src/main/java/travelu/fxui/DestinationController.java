@@ -101,9 +101,6 @@ public class DestinationController {
             e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
-            // se.getStatusCode());
-            // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -232,9 +229,6 @@ public class DestinationController {
             e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
-            // se.getStatusCode());
-            // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -256,9 +250,6 @@ public class DestinationController {
                 e.printStackTrace();
             } catch (ServerException se) {
                 errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-                // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
-                // se.getStatusCode());
-                // TODO switch to correct label
             } catch (ExecutionException ee) {
                 ee.printStackTrace();
                 // TODO better handling
@@ -313,9 +304,6 @@ public class DestinationController {
             e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
-            // se.getStatusCode());
-            // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -378,9 +366,6 @@ public class DestinationController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
             commentFeedbackLabel.setText("");
-            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
-            // se.getStatusCode());
-            // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -407,9 +392,6 @@ public class DestinationController {
             e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
-            // se.getStatusCode());
-            // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -438,9 +420,6 @@ public class DestinationController {
             e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
-            // se.getStatusCode());
-            // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
