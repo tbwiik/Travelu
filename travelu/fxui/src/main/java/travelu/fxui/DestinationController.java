@@ -100,7 +100,9 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -228,7 +230,9 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -250,7 +254,9 @@ public class DestinationController {
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
-                commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+                // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
+                // se.getStatusCode());
                 // TODO switch to correct label
             } catch (ExecutionException ee) {
                 ee.printStackTrace();
@@ -305,7 +311,9 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -367,7 +375,9 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -393,7 +403,9 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -421,7 +433,9 @@ public class DestinationController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            commentFeedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // commentFeedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();

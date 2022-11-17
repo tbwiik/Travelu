@@ -60,7 +60,9 @@ public class DestinationListController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            // feedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -155,7 +157,9 @@ public class DestinationListController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // feedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -205,7 +209,9 @@ public class DestinationListController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            // feedbackLabel.setText(se.getMessage() + " with status: " +
+            // se.getStatusCode());
             // TODO switch to correct label
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -245,7 +251,9 @@ public class DestinationListController {
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
-                feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+                errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+                // feedbackLabel.setText(se.getMessage() + " with status: " +
+                // se.getStatusCode());
                 // TODO switch to correct label
             } catch (ExecutionException ee) {
                 ee.printStackTrace();
