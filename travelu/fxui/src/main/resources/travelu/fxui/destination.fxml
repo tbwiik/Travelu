@@ -41,7 +41,7 @@
                   </Label>
                </graphic>
             </Label>
-            <Button fx:id="backButton" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="30.0" prefWidth="161.0" style="-fx-background-color: lightgray;" text="Back to destinations">
+            <Button fx:id="backButton" contentDisplay="CENTER" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleReturnButton" prefHeight="33.0" prefWidth="184.0" style="-fx-background-color: lightgray;" text="Back to destinations" wrapText="true">
                <font>
                   <Font size="15.0" />
                </font>
@@ -50,7 +50,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Label fx:id="dateUpdatedFeedbackLabel" contentDisplay="RIGHT" layoutX="300.0" layoutY="105.0" />
+            <Label fx:id="dateUpdatedFeedbackLabel" contentDisplay="RIGHT" layoutX="272.0" layoutY="107.0" prefHeight="76.0" prefWidth="165.0" wrapText="true" />
             <Label contentDisplay="RIGHT" layoutX="14.0" layoutY="23.0" text="Arrival: ">
                <font>
                   <Font size="20.0" />
@@ -125,13 +125,13 @@
       </AnchorPane>
       <AnchorPane prefHeight="230.0" prefWidth="754.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <ListView fx:id="activitiesListView" layoutX="14.0" layoutY="60.0" prefHeight="166.0" prefWidth="637.0" />
+            <ListView fx:id="activitiesListView" layoutX="14.0" layoutY="60.0" prefHeight="175.0" prefWidth="637.0" />
             <Label layoutX="274.0" layoutY="14.0" text="Activities">
                <font>
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="removeActivityButton" layoutX="659.0" layoutY="197.0" mnemonicParsing="false" onAction="#handleRemoveActivity" prefHeight="25.0" prefWidth="89.0" text="Remove">
+            <Button fx:id="removeActivityButton" layoutX="659.0" layoutY="206.0" mnemonicParsing="false" onAction="#handleRemoveActivity" prefHeight="25.0" prefWidth="89.0" text="Remove">
                <font>
                   <Font size="15.0" />
                </font>
@@ -151,7 +151,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Label fx:id="activityFeedbackLabel" layoutX="173.0" layoutY="11.0" prefHeight="31.0" prefWidth="206.0" textFill="#f54f2c">
+            <Label fx:id="activityFeedbackLabel" layoutX="212.0" layoutY="11.0" prefHeight="31.0" prefWidth="406.0" textFill="#f54f2c">
                <font>
                   <Font size="16.0" />
                </font>

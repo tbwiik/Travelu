@@ -51,6 +51,6 @@
             <Font size="27.0" />
          </font>
       </Text>
-      <Label fx:id="feedbackLabel" layoutX="14.0" layoutY="71.0" prefHeight="17.0" prefWidth="264.0" />
+      <Label fx:id="feedbackLabel" layoutX="14.0" layoutY="71.0" prefHeight="39.0" prefWidth="291.0" wrapText="true" />
    </children>
 </Pane>
