@@ -33,12 +33,6 @@
 
         <dependency>
             <groupId>gr2219</groupId>
-            <artifactId>localpersistence</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>gr2219</groupId>
             <artifactId>client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
