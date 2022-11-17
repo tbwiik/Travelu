@@ -2,7 +2,7 @@ image: maven:3.8.3-openjdk-17
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository" #Used by pipeline
-  MAVEN_CLI_OPTS: "--batch-mode -DskipUITests" #Skips UI tests (but still builds test-jars)
+  MAVEN_CLI_OPTS: "--batch-mode -DskipUITests -DskipServerTests" #(still builds test-jars)
 
 stages:
   - test
