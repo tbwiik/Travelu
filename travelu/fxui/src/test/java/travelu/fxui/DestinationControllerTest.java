@@ -145,7 +145,7 @@ public class DestinationControllerTest extends ApplicationTest {
      * Initializes FXML elements
      */
     @BeforeEach
-    public void start(Stage stage) throws IOException {
+    public void start() throws IOException {
 
         arrivalDatePicker = lookup("#arrivalDatePicker").query();
         departureDatePicker = lookup("#departureDatePicker").query();
@@ -170,6 +170,20 @@ public class DestinationControllerTest extends ApplicationTest {
         star5 = lookup("#star5").query();
 
         feedBackLabel = lookup("#dateUpdatedFeedbackLabel").query();
+
+    }
+
+    /**
+     * Tests if DestinationList works as intended
+     */
+    @Override
+    public void start(Stage stage) throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("destination.fxml"));
+        root = fxmlLoader.load();
+        destinationController = fxmlLoader.getController();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 
