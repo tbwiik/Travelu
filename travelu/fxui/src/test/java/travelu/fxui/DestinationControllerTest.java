@@ -91,13 +91,21 @@ public class DestinationControllerTest extends ApplicationTest {
 
         WireMock.configureFor("localhost", wireMockConfiguration.portNumber());
 
+        // getting finland destination
+        stubFor(get(urlEqualTo("/api/v1/entries/Spain"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(
+                                "{\"name\": \"Spain\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 0,\"activities\": [\"Go to the beach\"],\"comment\": \"\"}")));
+
         // getting current destination
         stubFor(get(urlEqualTo("/api/v1/entries/currentDestination"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(
-                                "{\"name\": \"Finland\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 4,\"activities\": [\"Went to sauna\", \"Learned finish\"],\"comment\": \"I traveled to Finland and I went to the sauna. It was very hot.\"}")));
+                                "Spain")));
 
         // adding activity
         stubFor(post(urlEqualTo("/api/v1/entries/addActivity"))
