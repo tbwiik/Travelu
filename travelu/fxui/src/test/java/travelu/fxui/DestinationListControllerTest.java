@@ -29,8 +29,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import travelu.core.DestinationList;
-
 /**
  * JavaFX tests for DestinationListController
  */
