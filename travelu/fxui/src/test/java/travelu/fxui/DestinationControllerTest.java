@@ -291,4 +291,54 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals("", dateUpdatedFeedbackLabel.getText());
 
     }
+
+    /**
+     * Tests adding activity to current destination
+     */
+    @Test
+    public void testAddActivity() {
+
+        // valid input
+        clickOn(newActivityTextField).write("Take flamenco lessons");
+        clickOn(addActivity);
+
+        // should post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
+
+        // activityFeedbackLabel should be empty
+        // newActivityTextField should be reset
+        assertEquals("", activityFeedbackLabel.getText());
+        assertEquals("", newActivityTextField.getText());
+
+        // Test empty input
+        clickOn(newActivityTextField).write("");
+        clickOn(addActivity);
+
+        // should not post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
+
+        // activityFeedbackLabel should be updated
+        assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
+
+        // Test if label is reset after valid input
+        clickOn(newActivityTextField).eraseText(newActivityTextField.getText().length()).write("Dance salsa");
+        clickOn(addActivity);
+
+        // should post request to server
+        wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
+
+        // activityFeedbackLabel should be reset
+        assertEquals("", activityFeedbackLabel.getText());
+        assertEquals("", newActivityTextField.getText());
+
+        // Test adding existing activity
+        clickOn(newActivityTextField).write("Go to the beach");
+        clickOn(addActivity);
+
+        // should not post request to server
+        wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
+
+        assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
+        assertEquals("", newActivityTextField.getText());
+    }
 }
