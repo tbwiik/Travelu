@@ -330,9 +330,8 @@ public class Client {
      * @throws ExecutionException
      * @throws ServerException      if http request not successfull
      */
-    public void updateComment(String comment)
+    public void updateComment(final String comment)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
         this.post(API_ADDRESS + "updateComment", comment);
     }
 

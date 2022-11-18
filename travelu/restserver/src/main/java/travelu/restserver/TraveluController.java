@@ -82,11 +82,16 @@ public class TraveluController {
 
     /**
      * Store chosen destination
+     * <p>
+     * Accepts empty input
      * 
      * @param destinationName
      */
     @PostMapping(value = "/storeCurrent", produces = "application/json")
-    public void storeCurrentDestinationJSON(final @RequestBody String destinationName) {
+    public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
+        // Convert to empty string if empty comment is sent
+        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON;
+
         traveluService.saveDestinationName(destinationName);
     }
 
@@ -183,11 +188,16 @@ public class TraveluController {
 
     /**
      * Set new comment for current destination
+     * <p>
+     * Accepts empty input
      * 
      * @param comment
      */
     @PostMapping(value = "/updateComment", produces = "application/json")
-    public void updateCommentJSON(final @RequestBody String comment) {
+    public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
+
+        // Convert to empty string if empty comment is sent
+        String comment = (commentJSON == null) ? "" : commentJSON;
 
         Destination updatedDestination = getDestination();
 
