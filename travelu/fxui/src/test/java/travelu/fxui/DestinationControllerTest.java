@@ -341,4 +341,29 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
         assertEquals("", newActivityTextField.getText());
     }
+
+    /**
+     * Tests removing activity from current destination
+     */
+    @Test
+    public void testRemoveActivity() {
+
+        // Clicking remove activity with no activity selected should not post server
+        // request
+        clickOn(removeActivity);
+
+        wireMockServer.verify(0, postRequestedFor(urlEqualTo("/api/v1/entries/removeActivity")));
+
+        // Selecting and removing activity should post server request
+        clickOn("Go to the beach");
+        clickOn(removeActivity);
+
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/removeActivity")));
+
+        // Clicking remove activity with no activity selected should not post server
+        clickOn(removeActivity);
+
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/removeActivity")));
+
+    }
 }
