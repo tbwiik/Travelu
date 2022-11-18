@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.SVGPath;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -77,6 +78,8 @@ public class DestinationControllerTest extends ApplicationTest {
     private SVGPath star4;
     private SVGPath star5;
 
+    private WireMockServer wireMockServer;
+
     /**
      * Enables headless-testing
      */
@@ -91,7 +94,7 @@ public class DestinationControllerTest extends ApplicationTest {
     @BeforeAll
     public void startWireMockServer() {
         WireMockConfiguration wireMockConfiguration = WireMockConfiguration.wireMockConfig().port(8080);
-        WireMockServer wireMockServer = new WireMockServer(wireMockConfiguration.portNumber());
+        wireMockServer = new WireMockServer(wireMockConfiguration.portNumber());
         wireMockServer.start();
 
         WireMock.configureFor("localhost", wireMockConfiguration.portNumber());
@@ -139,6 +142,11 @@ public class DestinationControllerTest extends ApplicationTest {
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")));
+    }
+
+    @AfterAll
+    public void stopWireMockServer() {
+        wireMockServer.stop();
     }
 
     /**
