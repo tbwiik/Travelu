@@ -388,4 +388,85 @@ public class DestinationControllerTest extends ApplicationTest {
         wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/updateComment")));
 
     }
+
+    /**
+     * Tests if the correct number of stars are filled
+     * <p>
+     * Star coloring is handled entirely by the controller and is therefore relevant
+     * to test in a controller test
+     */
+    @Test
+    public void testRating() {
+
+        // All start should be white
+        assertEquals("-fx-fill: #FFFFFF", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        wireMockServer.verify(0, postRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
+
+        clickOn(star1);
+        // first star should be yellow, rest should be white
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
+
+        clickOn(star2);
+        // first two stars should be yellow, rest should be white
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
+
+        clickOn(star3);
+        // first three stars should be yellow, rest should be white
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        wireMockServer.verify(3, postRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
+
+        clickOn(star4);
+        // first four stars should be yellow, rest should be white
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        wireMockServer.verify(4, postRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
+
+        clickOn(star5);
+        // all stars should be yellow
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFD700", star2.getStyle());
+        assertEquals("-fx-fill: #FFD700", star3.getStyle());
+        assertEquals("-fx-fill: #FFD700", star4.getStyle());
+        assertEquals("-fx-fill: #FFD700", star5.getStyle());
+
+        wireMockServer.verify(5, postRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
+
+        clickOn(star1);
+        // first star should be yellow, rest should be white
+        assertEquals("-fx-fill: #FFD700", star1.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star2.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star3.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star4.getStyle());
+        assertEquals("-fx-fill: #FFFFFF", star5.getStyle());
+
+        wireMockServer.verify(6, postRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
+
+    }
+
 }
