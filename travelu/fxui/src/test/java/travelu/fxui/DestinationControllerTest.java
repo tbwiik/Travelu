@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.shape.SVGPath;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -138,6 +139,38 @@ public class DestinationControllerTest extends ApplicationTest {
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")));
+    }
+
+    /**
+     * Initializes FXML elements
+     */
+    @BeforeEach
+    public void start(Stage stage) throws IOException {
+
+        arrivalDatePicker = lookup("#arrivalDatePicker").query();
+        departureDatePicker = lookup("#departureDatePicker").query();
+        setArrivalDate = lookup("#arrivalDateButton").query();
+        setDepartureDate = lookup("#departureDateButton").query();
+
+        activitiesListView = lookup("#activitiesListView").query();
+        newActivityTextField = lookup("#newActivityTextField").query();
+        addActivity = lookup("#addActivityButton").query();
+        removeActivity = lookup("#removeActivityButton").query();
+
+        commentTextField = lookup("#commentTextField").query();
+        updateComment = lookup("#updateButton").query();
+
+        arrivalDateLabel = lookup("#arrivalDateLabel").query();
+        departureDateLabel = lookup("#departureDateLabel").query();
+
+        star1 = lookup("#star1").query();
+        star2 = lookup("#star2").query();
+        star3 = lookup("#star3").query();
+        star4 = lookup("#star4").query();
+        star5 = lookup("#star5").query();
+
+        feedBackLabel = lookup("#dateUpdatedFeedbackLabel").query();
+
     }
 
 }
