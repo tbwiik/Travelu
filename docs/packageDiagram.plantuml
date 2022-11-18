@@ -1,4 +1,4 @@
-@startuml packageDiagram 
+@startuml packageDiagram
 skin rose
 
 component restserver {
@@ -17,6 +17,11 @@ component core {
 
 component localpersistence {
   package travelu.localpersistence {
+}
+}
+
+component client {
+  package travelu.client {
 }
 }
 
@@ -45,11 +50,12 @@ skinparam ArrowColor #cc1836
 
 HIDE <<inside>> stereotype
 
-
+travelu.client <... travelu.fxui
+travelu.client ..> gson
 travelu.fxui ...> fxml
 travelu.fxui ...> travelu.localpersistence
 travelu.localpersistence ...> gson
-travelu.core <...> travelu.localpersistence
+travelu.core <... travelu.localpersistence
 travelu.restserver ...> travelu.core
 travelu.restserver ...> boot
 travelu.restserver ...> travelu.localpersistence
