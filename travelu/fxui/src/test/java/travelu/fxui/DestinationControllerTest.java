@@ -27,6 +27,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -78,5 +84,60 @@ public class DestinationControllerTest extends ApplicationTest {
         TestHelperMethods.supportHeadless();
     }
 
+    /**
+     * Sets up wiremock server
+     */
+    @BeforeAll
+    public void startWireMockServer() {
+        WireMockConfiguration wireMockConfiguration = WireMockConfiguration.wireMockConfig().port(8080);
+        WireMockServer wireMockServer = new WireMockServer(wireMockConfiguration.portNumber());
+        wireMockServer.start();
+
+        WireMock.configureFor("localhost", wireMockConfiguration.portNumber());
+
+        // getting current destination
+        stubFor(get(urlEqualTo("/api/v1/entries/currentDestination"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(
+                                "{\"name\": \"Finland\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 4,\"activities\": [\"Went to sauna\", \"Learned finish\"],\"comment\": \"I traveled to Finland and I went to the sauna. It was very hot.\"}")));
+
+        // adding activity
+        stubFor(post(urlEqualTo("/api/v1/entries/addActivity"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")));
+
+        // removing activity
+        stubFor(post(urlEqualTo("/api/v1/entries/removeActivity"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")));
+
+        // setting rating
+        stubFor(post(urlEqualTo("/api/v1/entries/setRating"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")));
+
+        // setting arrival date
+        stubFor(post(urlEqualTo("/api/v1/entries/setArrivalDate"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")));
+
+        // setting departure date
+        stubFor(post(urlEqualTo("/api/v1/entries/setDepartureDate"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")));
+
+        // updating comment
+        stubFor(post(urlEqualTo("/api/v1/entries/updateComment"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")));
+    }
 
 }
