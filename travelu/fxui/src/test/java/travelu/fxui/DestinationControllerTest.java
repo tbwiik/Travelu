@@ -191,4 +191,104 @@ public class DestinationControllerTest extends ApplicationTest {
         stage.show();
 
     }
+
+    /**
+     * Tests if the arrival date and departure date is set correctly
+     */
+    @Test
+    public void testSetDates() {
+
+        // dates in format dd/MM/yyyy
+        String validArrivalDate = "05/02/2021";
+        String validDepartureDate = "19/10/2021";
+        String invalidDate = "11/13/2021";
+
+        String arrivalDateAfterDepartureDate = "21/10/2021";
+        String departureDateBeforeArrivalDate = "10/01/2021";
+
+        // ensure that there are no post requests to the server yet
+        wireMockServer.verify(0, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
+        wireMockServer.verify(0, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
+
+        // input valid arrival date
+        clickOn(arrivalDatePicker).write(validArrivalDate);
+        clickOn(setArrivalDate);
+
+        // check if there is no feedback
+        assertEquals("", dateUpdatedFeedbackLabel.getText());
+
+        // should post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
+
+        // input valid departure date
+        clickOn(departureDatePicker).write(validDepartureDate);
+        clickOn(setDepartureDate);
+
+        // check if there is no feedback
+        assertEquals("", dateUpdatedFeedbackLabel.getText());
+
+        // should post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
+
+        // input invalid arrival date
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(invalidDate);
+        clickOn(setArrivalDate);
+
+        // should not post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
+
+        assertEquals("Invalid arrival date.", dateUpdatedFeedbackLabel.getText());
+
+        // input invalid departure date
+        clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
+                .write(invalidDate);
+        clickOn(setDepartureDate);
+
+        // should not post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
+
+        assertEquals("Invalid departure date.", dateUpdatedFeedbackLabel.getText());
+
+        // input arrival date after departure date
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(arrivalDateAfterDepartureDate);
+        clickOn(setArrivalDate);
+
+        // should not post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
+
+        assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
+
+        // input valid arrival date, check that feedback label is cleared
+        clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
+                .write(validArrivalDate);
+        clickOn(setArrivalDate);
+
+        // should post request to server
+        wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
+
+        assertEquals("", dateUpdatedFeedbackLabel.getText());
+
+        // input departure date before arrival date
+        clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
+                .write(departureDateBeforeArrivalDate);
+        clickOn(setDepartureDate);
+
+        // should not post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
+
+        assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
+
+        // input valid departure date, check that feedback label is cleared
+        clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
+                .write(validDepartureDate);
+        clickOn(setDepartureDate);
+
+        // should post request to server
+        wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
+
+        assertEquals("", dateUpdatedFeedbackLabel.getText());
+
+    }
 }
