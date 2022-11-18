@@ -366,4 +366,26 @@ public class DestinationControllerTest extends ApplicationTest {
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/removeActivity")));
 
     }
+
+    /**
+     * Tests writing comment to current destination
+     */
+    @Test
+    public void testWriteComment() {
+
+        // valid input
+        clickOn(commentTextField).write(
+                "I traveled to Spain with my family");
+        clickOn(updateComment);
+
+        // should post request to server
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/updateComment")));
+
+        clickOn(commentTextField).eraseText(commentTextField.getText().length());
+        clickOn(updateComment);
+
+        // should post request to server
+        wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/updateComment")));
+
+    }
 }
