@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -46,6 +47,8 @@ public class DestinationListControllerTest extends ApplicationTest {
         private Label feedbackLabel;
         private ListView<String> listView;
 
+        private WireMockServer wireMockServer;
+
         /**
          * Enables headless testing
          */
@@ -60,7 +63,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         @BeforeAll
         public void startWireMockServer() {
                 WireMockConfiguration wireMockConfiguration = WireMockConfiguration.wireMockConfig().port(8080);
-                WireMockServer wireMockServer = new WireMockServer(wireMockConfiguration.portNumber());
+                wireMockServer = new WireMockServer(wireMockConfiguration.portNumber());
                 wireMockServer.start();
 
                 WireMock.configureFor("localhost", wireMockConfiguration.portNumber());
@@ -84,6 +87,11 @@ public class DestinationListControllerTest extends ApplicationTest {
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
 
+        }
+
+        @AfterAll
+        public void stopWireMockServer() {
+                wireMockServer.stop();
         }
 
         /**
