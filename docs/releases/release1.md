@@ -11,7 +11,7 @@ You can double-click on each destination to get to a window where you can descri
 ### Screenshots of UI for release 1: 
 Front page           |  Destination page
 :-------------------------:|:-------------------------: 
-![Destination-List View](../pictures/destinationList.png)  | ![Destination View](../pictures/destination.png)
+![Destination-List View](/pictures/destinationList.png)  | ![Destination View](/pictures/destination.png)
 
 ## Sprint 1 - Planning the project
 
