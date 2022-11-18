@@ -54,6 +54,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 TestHelperMethods.supportHeadless();
         }
 
+        /**
+         * Sets up wiremock server
+         */
         @BeforeAll
         public void startWireMockServer() {
                 WireMockConfiguration wireMockConfiguration = WireMockConfiguration.wireMockConfig().port(8080);
@@ -83,6 +86,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         }
 
+        /**
+         * Initializes FXML elements
+         */
         @BeforeEach
         private void start() {
                 destinationText = lookup("#destinationText").query();
