@@ -173,6 +173,8 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         /**
          * Tests if the remove button works as intended
+         * <p>
+         * This also implicitly tests that currentDestination field is updated correctly
          */
         @Test
         public void testRemoveDestination() {
