@@ -37,6 +37,8 @@ component google {
   [gson] <<inside>>
 }
 
+component java.net.http <<inside>> {
+}
 skinparam Component {
   BackgroundColor transparent
   BorderColor black
@@ -52,8 +54,8 @@ HIDE <<inside>> stereotype
 
 travelu.client <... travelu.fxui
 travelu.client ..> gson
+travelu.client ..> java.net.http
 travelu.fxui ...> fxml
-travelu.fxui ...> travelu.localpersistence
 travelu.localpersistence ...> gson
 travelu.core <... travelu.localpersistence
 travelu.restserver ...> travelu.core
