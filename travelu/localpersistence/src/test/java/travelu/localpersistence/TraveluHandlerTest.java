@@ -46,7 +46,7 @@ public class TraveluHandlerTest {
      * despite adding new Destination objects
      * <p>
      * Checks if FileNotFoundException gets thrown if file doesn't exist
-     * 
+     *
      */
     @Test
     public void testWriteAndReadWhenAdding() {
@@ -76,7 +76,7 @@ public class TraveluHandlerTest {
         } catch (IOException ioe) {
             fail("Error when writing to file");
         }
-        
+
         try {
             assertEquals(destinationList.getDestinationNames(),
                     TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
@@ -84,32 +84,30 @@ public class TraveluHandlerTest {
             fail("Error when reading from file");
         }
 
-        
         assertThrows(FileNotFoundException.class, () -> {
-                TraveluHandler.readDestinationListJSON("noExistingFile.json");
+            TraveluHandler.readDestinationListJSON("noExistingFile.json");
         });
-                    
-        
+
     }
 
     /**
      * Tests if JSON file is equal to DestinationList when removing Destination
      * objects
-     * 
+     *
      */
     @Test
     public void testWriteAndReadWhenRemoving() {
         destinationList.removeDestination("Sweden");
         try {
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
-        }  catch (IOException ioe){
+        } catch (IOException ioe) {
             fail("Error when writing to file");
         }
 
         try {
             assertEquals(destinationList.getDestinationNames(),
                     TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
-        } catch (IOException ioe){
+        } catch (IOException ioe) {
             fail("Error when reading from file");
         }
 
@@ -117,14 +115,14 @@ public class TraveluHandlerTest {
 
         try {
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
-        } catch (IOException ioe){
+        } catch (IOException ioe) {
             fail("Error when writing to file");
         }
 
-
         try {
-            assertTrue(TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames().isEmpty());
-        } catch (IOException ioe){
+            assertTrue(
+                    TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames().isEmpty());
+        } catch (IOException ioe) {
             fail("Error when reading from file");
         }
     }
@@ -137,13 +135,14 @@ public class TraveluHandlerTest {
 
         try {
             TraveluHandler.writeJSON("Norway", "testCurrentDestinationName.json");
-        } catch (IOException ioe){
+        } catch (IOException ioe) {
             fail("Error when writing to file");
         }
 
         try {
-            assertEquals("Norway", TraveluHandler.readCurrentDestinationNameJSON("testCurrentDestinationName.json"));
-        } catch (IOException ioe){
+            assertEquals("Norway",
+                    TraveluHandler.readCurrentDestinationNameJSON("testCurrentDestinationName.json"));
+        } catch (IOException ioe) {
             fail("Error when writing to file");
         }
     }

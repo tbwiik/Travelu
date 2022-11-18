@@ -97,9 +97,19 @@ public class TraveluHandler {
      * @throws IOException
      */
     public static DestinationList readDestinationListJSON(String filename) throws FileNotFoundException, IOException {
+
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
         DestinationList destinationList;
+        BufferedReader bufferedReader;
+
+        try {
+            bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+        } catch (FileNotFoundException e) {
+            destinationList = new DestinationList();
+            writeJSON(destinationList, filename);
+            return destinationList;
+        }
+
         destinationList = gson.fromJson(bufferedReader, DestinationList.class);
 
         // If file is blank, create destinationlist
@@ -135,8 +145,17 @@ public class TraveluHandler {
      */
     public static String readCurrentDestinationNameJSON(String filename) throws FileNotFoundException, IOException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
-        String currentDestinationName = gson.fromJson(bufferedReader, String.class);
+        String currentDestinationName = "";
+        BufferedReader bufferedReader;
+
+        try {
+            bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+        } catch (FileNotFoundException e) {
+            writeJSON("%%%%%", filename);
+            return currentDestinationName;
+        }
+
+        currentDestinationName = gson.fromJson(bufferedReader, String.class);
         return currentDestinationName;
     }
 
@@ -151,6 +170,25 @@ public class TraveluHandler {
      */
     public static String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
         return readCurrentDestinationNameJSON("CurrentDestinationName.json");
+    }
+
+    /**
+     * Clear default files
+     * <p>
+     * 
+     * @return true if both successfull
+     */
+    public static boolean clear() {
+        try {
+            File current = getFile(DEFAULT_FILENAME_CURRENTD);
+            File dList = getFile(DEFAULT_FILENAME_DLIST);
+            return current.delete() && dList.delete();
+        } catch (Exception e) {
+            // Assumes empty files if exception thrown
+            return true;
+        }
+        // return getFile(DEFAULT_FILENAME_CURRENTD).delete() &&
+        // getFile(DEFAULT_FILENAME_DLIST).delete();
     }
 
 }
