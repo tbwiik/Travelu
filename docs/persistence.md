@@ -1,4 +1,4 @@
-## Persistence
+# Persistence
 ### Gson
 Since the requirement of persistence in this project is JSON, we decided to use GSON as the library to store the data and access it. GSON is an open-source Java library, where you can use simple methods to serialize Java objects to JSON and also deserialize JSON to Java objects. The reasons why we used GSON instead of other libraries such as Jackson and JSON-simple, is because:
 
