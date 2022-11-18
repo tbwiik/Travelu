@@ -141,7 +141,7 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 // invalid input
                 String invalidInput = "51*@4´,a#";
-                destinationText.setText(invalidInput);
+                clickOn(destinationText).write(invalidInput);
 
                 clickOn(addButton);
 
