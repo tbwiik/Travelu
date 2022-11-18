@@ -200,4 +200,25 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         }
 
+        /**
+         * Tests if sorting works as intended
+         */
+        @Test
+        public void testSortDestinations() {
+                // sorting by rating
+                clickOn(ratingButton);
+
+                assertEquals("Finland★★★★", listView.getItems().get(0));
+                assertEquals("Norway★★", listView.getItems().get(1));
+                assertEquals("Costa Rica", listView.getItems().get(2));
+
+                // sorting by name
+                clickOn(nameButton);
+
+                assertEquals("Costa Rica", listView.getItems().get(0));
+                assertEquals("Finland★★★★", listView.getItems().get(1));
+                assertEquals("Norway★★", listView.getItems().get(2));
+
+        }
+
 }
