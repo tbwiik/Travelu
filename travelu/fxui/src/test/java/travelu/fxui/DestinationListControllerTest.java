@@ -171,4 +171,33 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         }
 
+        /**
+         * Tests if the remove button works as intended
+         */
+        @Test
+        public void testRemoveDestination() {
+                // clicking on remove before selecting destination
+                clickOn(removeButton);
+
+                assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
+
+                // selecting destination and clicking on remove
+                clickOn("Norway★★");
+                clickOn(removeButton);
+
+                assertEquals("", feedbackLabel.getText());
+
+                // clicking remove again
+                clickOn(removeButton);
+
+                assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
+
+                // clicking on list-view and clicking remove
+                clickOn(listView);
+                clickOn(removeButton);
+
+                assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
+
+        }
+
 }
