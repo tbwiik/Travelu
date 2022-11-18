@@ -1,12 +1,12 @@
-@startuml 
+@startuml packageDiagram
+skin rose
+
+component restserver {
+  [travelu.restserver] <<inside>>
+}
 
 component fxui {
   package travelu.fxui {
-}
-}
-
-component localpersistence {
-  package travelu.localpersistence {
 }
 }
 
@@ -15,31 +15,50 @@ component core {
 }
 }
 
-skinparam component{
-  BorderColor #800080
-  ArrowColor purple
-  BackgroundColor orchid
+component localpersistence {
+  package travelu.localpersistence {
+}
 }
 
-skinparam package{
-  BackgroundColor lightyellow
-  BorderColor #8B0000
+component client {
+  package travelu.client {
+}
 }
 
-[fxml] 
-[javafx]
-[com.google.gson] 
+component spring {
+  [boot] <<inside>>
+}
 
-fxui ...> fxml
-fxui ...> javafx
-localpersistence ...> fxml
-localpersistence ...> javafx
-localpersistence ..> com.google.gson
+component javafx {
+  [fxml] <<inside>>
+}
 
-core ...> com.google.gson
+component google {
+  [gson] <<inside>>
+}
 
-travelu.fxui ..> travelu.core
-travelu.fxui ..> travelu.localpersistence
-travelu.localpersistence ..> travelu.fxui
+component java.net.http <<inside>> {
+}
+skinparam Component {
+  BackgroundColor transparent
+  BorderColor black
+  BorderColor<<inside>> #cc1836
+}
 
+skinparam ComponentBorderThickness 1.2
+skinparam PackageBorderThickness 1.2
+skinparam PackageBorderColor black
+skinparam ArrowColor #cc1836
+
+HIDE <<inside>> stereotype
+
+travelu.client <... travelu.fxui
+travelu.client ..> gson
+travelu.client ..> java.net.http
+travelu.fxui ...> fxml
+travelu.localpersistence ...> gson
+travelu.core <... travelu.localpersistence
+travelu.restserver ...> travelu.core
+travelu.restserver ...> boot
+travelu.restserver ...> travelu.localpersistence
 @enduml
