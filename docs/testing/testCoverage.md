@@ -26,7 +26,7 @@ Note that this functionality is not yet implemented and can therefore be ignored
 
 
 ## Report Example
-![JaCoCo-report-demo](../pictures/JaCoCoReportDemo.png)
+![JaCoCo-report-demo](/pictures/JaCoCoReportDemo.png)
 
 
 
