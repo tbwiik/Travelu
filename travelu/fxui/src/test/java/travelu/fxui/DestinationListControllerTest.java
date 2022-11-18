@@ -1,5 +1,11 @@
 package travelu.fxui;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -52,6 +58,46 @@ public class DestinationListControllerTest extends ApplicationTest {
         @BeforeAll
         public void setupHeadless() {
                 TestHelperMethods.supportHeadless();
+        }
+
+        @BeforeAll
+        public void startWireMockServer() {
+                WireMockConfiguration wireMockConfiguration = WireMockConfiguration.wireMockConfig().port(8080);
+                WireMockServer wireMockServer = new WireMockServer(wireMockConfiguration.portNumber());
+                wireMockServer.start();
+
+                WireMock.configureFor("localhost", wireMockConfiguration.portNumber());
+
+                // getting destinationList
+                stubFor(get(urlEqualTo("/api/v1/entries/destinationlist"))
+                                .willReturn(aResponse()
+                                                .withStatus(200)
+                                                .withHeader("Content-Type", "application/json")
+                                                .withBody("{\"destinations\": [{\"name\": \"Costa Rica\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 0,\"activities\": [],\"comment\": null},{\"name\": \"Finland\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 4,\"activities\": [],\"comment\": null},{\"name\": \"Norway\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 2,\"activities\": [],\"comment\": null}]}")));
+
+                // adding destination
+                stubFor(post(urlEqualTo("/api/v1/entries/add"))
+                                .willReturn(aResponse()
+                                                .withStatus(200)
+                                                .withHeader("Content-Type", "application/json")));
+
+                // removing destination
+                stubFor(post(urlEqualTo("/api/v1/entries/remove"))
+                                .willReturn(aResponse()
+                                                .withStatus(200)
+                                                .withHeader("Content-Type", "application/json")));
+
+        }
+
+        @BeforeEach
+        private void start() {
+                destinationText = lookup("#destinationText").query();
+                addButton = lookup("#addButton").query();
+                removeButton = lookup("#removeButton").query();
+                nameButton = lookup("#nameButton").query();
+                ratingButton = lookup("#ratingButton").query();
+                feedbackLabel = lookup("#feedbackLabel").query();
+                listView = lookup("#listView").query();
         }
 
 }
