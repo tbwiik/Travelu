@@ -24,7 +24,7 @@ class DestinationController {
     - void handleChangeComment()
     - void handleSetArrivalDate()
     - void handleSetDepartureDate()
-} 
+}
 
 class DestinationListController {
     - @FXML components
@@ -32,7 +32,7 @@ class DestinationListController {
     - DestinationList destinationList
     - String currentDestination
     - String destinationListFile
-    
+
     - void initialize()
     - void setupListView()
     - void switchToDestination(String destinationName)
@@ -64,8 +64,8 @@ class Client {
     + void updateComment(String comment)
 }
 
-App --> DestinationListController
-DestinationListController <--> DestinationController
+App .. DestinationController
+App .. DestinationListController
 DestinationListController --> "client: 1  " Client
 DestinationController --> "client: 1 " Client
 @enduml

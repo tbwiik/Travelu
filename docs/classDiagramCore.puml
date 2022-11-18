@@ -1,14 +1,14 @@
 @startuml cdCore
 skin rose
-skinparam linetype ortho 
+skinparam linetype ortho
 
 class Destination {
     - String name
     - int rating
-    - List<String> activities 
+    - List<String> activities
     - String comment
 
-    + Destination(String name, DateInterval dateInterval, 
+    + Destination(String name, DateInterval dateInterval,
     int rating, List<String> activities, String comment)
     + Destination(Destination destination)
     + void addActivity(String activity)
@@ -34,11 +34,11 @@ class DateInterval << (D,orchid) >> {
     - int[] endDate
 
     + DateInterval(int[] startDate, int[] endDate)
-    + DateInterval(int startDay, int startMonth, 
+    + DateInterval(int startDay, int startMonth,
     int startYear, int endDay, int endMonth, int endYear)
     + DateInterval(DateInterval dateInterval)
 }
 
-DestinationList --o "destinations: *" Destination
-Destination --> "dateInterval: *" DateInterval
+DestinationList --> "destinations: *" Destination
+Destination --> "dateInterval: 1" DateInterval
 @enduml

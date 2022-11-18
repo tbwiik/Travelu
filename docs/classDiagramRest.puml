@@ -1,6 +1,10 @@
 @startuml cdRest
 skin rose
 
+package travelu.client{
+    class Client
+}
+
 class TraveluController {
     + String getDestinationListJSON()
     + String getDestinationJSON(String destinationName)
@@ -21,13 +25,24 @@ class TraveluService {
     + void save()
     + void saveDestinationName(String currentDestination)
     + String getDestinationName()
-    # DestinationList getDestinationList()    
+    # DestinationList getDestinationList()
 }
 
-package core {
-    class DestinationList
+class TraveluHandler {
+    - {static} String DEFAULT_FILENAME_DLIST
+    - {static} String DEFAULT_FILENAME_CURRENTD
+
+    - {static} String getFilePath(String filename)
+    - {static} getFile(String filename)
+    + {static} void writeJSON(Object object, String filename)
+    + {static} void save(DestinationList destinationList)
+    + {static} void saveDestinationName(String destinationName)
+    + {static} DestinationList readDestinationListJSON(String filename)
+    + {static} String readCurrentDestinationNameJSON(String filename)
+    + {static} String readCurrentDestinationName()
 }
 
+Client .. TraveluController
 TraveluController --> "traveluService: 1" TraveluService
-TraveluService --> DestinationList : " destinationList: 1"
+TraveluService --> "traveluHandler: 1" TraveluHandler
 @enduml
