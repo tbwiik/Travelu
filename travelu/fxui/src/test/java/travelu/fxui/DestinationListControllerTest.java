@@ -100,4 +100,17 @@ public class DestinationListControllerTest extends ApplicationTest {
                 listView = lookup("#listView").query();
         }
 
+        /**
+         * Tests if DestinationList works as intended
+         */
+        @Override
+        public void start(Stage stage) throws IOException {
+
+                FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("destinationList.fxml"));
+                root = fxmlLoader.load();
+                stage.setScene(new Scene(root));
+                stage.show();
+
+        }
+
 }
