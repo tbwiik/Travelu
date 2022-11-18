@@ -3,10 +3,9 @@
 ## Current functionality of the project
 Since this is the first release, we prioritized making an application that is interactive and visual. 
 
-The application first consists of a list of destinations. You can add different destinations to the list by writing them down in the textbox and clicking on the “add"-button. It is also possible to remove each designated destination using the “remove"-button. The destinations in the list will be saved whenever you add or remove a destination from the list. If you close and reopen the app, the list will be the same as when you closed it.
+The application first consists of a list of destinations. You can add different destinations to the list by writing them down in the textbox and clicking on the “add"-button. It is also possible to remove each designated destination by clicking on it and using the “remove"-button. The destinations in the list will also be saved whenever you add or remove a destination from the list. If you close and reopen the app, the list will therefore be the same as when you closed it.
 
-You can double-click on each destination to get to a window where you can describe your visit. In future releases you will be able to write a detailed description of your trip, along with a rating, date, and activities.  
-**Note:** This functionality will be added in a later release
+You can double-click on each destination to get to a window where you can describe your visit. In future releases you will be able to write a description of your trip, add activities and and set a date and rating for the destination.
 
 ### Screenshots of UI for release 1: 
 Front page           |  Destination page
