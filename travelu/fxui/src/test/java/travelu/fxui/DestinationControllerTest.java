@@ -62,7 +62,10 @@ public class DestinationControllerTest extends ApplicationTest {
     private Button setDepartureDate;
     private Label arrivalDateLabel;
     private Label departureDateLabel;
-    private Label feedBackLabel;
+
+    private Label dateUpdatedFeedbackLabel;
+    private Label commentFeedbackLabel;
+    private Label activityFeedbackLabel;
 
     private ListView<String> activitiesListView;
     private TextField newActivityTextField;
@@ -177,7 +180,9 @@ public class DestinationControllerTest extends ApplicationTest {
         star4 = lookup("#star4").query();
         star5 = lookup("#star5").query();
 
-        feedBackLabel = lookup("#dateUpdatedFeedbackLabel").query();
+        dateUpdatedFeedbackLabel = lookup("#dateUpdatedFeedbackLabel").query();
+        commentFeedbackLabel = lookup("#commentFeedbackLabel").query();
+        activityFeedbackLabel = lookup("#activityFeedbackLabel").query();
 
     }
 
