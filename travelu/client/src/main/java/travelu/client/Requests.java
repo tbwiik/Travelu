@@ -1,4 +1,4 @@
-
+package travelu.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
