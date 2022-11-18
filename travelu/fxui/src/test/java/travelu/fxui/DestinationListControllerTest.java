@@ -7,7 +7,6 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
 
@@ -29,10 +28,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import travelu.core.DateInterval;
-import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.localpersistence.TraveluHandler;
 
 /**
  * JavaFX tests for DestinationListController
@@ -41,8 +37,6 @@ import travelu.localpersistence.TraveluHandler;
 public class DestinationListControllerTest extends ApplicationTest {
 
         private Parent root;
-
-        private DestinationList destinationList;
 
         private TextArea destinationText;
         private Button addButton;
@@ -220,6 +214,5 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("Norway★★", listView.getItems().get(2));
 
         }
-
 
 }
