@@ -46,28 +46,17 @@ import travelu.localpersistence.TraveluHandler;
 @TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationControllerTest extends ApplicationTest {
 
-    private DestinationController destinationController;
-
     private Parent root;
-
-    private DestinationList destinationList;
-
-    private TraveluHandler traveluHandler = new TraveluHandler();
-
-    private List<String> activities;
 
     private DatePicker arrivalDatePicker;
     private DatePicker departureDatePicker;
     private Button setArrivalDate;
     private Button setDepartureDate;
-    private Label arrivalDateLabel;
-    private Label departureDateLabel;
 
     private Label dateUpdatedFeedbackLabel;
     private Label commentFeedbackLabel;
     private Label activityFeedbackLabel;
 
-    private ListView<String> activitiesListView;
     private TextField newActivityTextField;
     private Button addActivity;
     private Button removeActivity;
@@ -163,16 +152,12 @@ public class DestinationControllerTest extends ApplicationTest {
         setArrivalDate = lookup("#arrivalDateButton").query();
         setDepartureDate = lookup("#departureDateButton").query();
 
-        activitiesListView = lookup("#activitiesListView").query();
         newActivityTextField = lookup("#newActivityTextField").query();
         addActivity = lookup("#addActivityButton").query();
         removeActivity = lookup("#removeActivityButton").query();
 
         commentTextField = lookup("#commentTextField").query();
         updateComment = lookup("#updateButton").query();
-
-        arrivalDateLabel = lookup("#arrivalDateLabel").query();
-        departureDateLabel = lookup("#departureDateLabel").query();
 
         star1 = lookup("#star1").query();
         star2 = lookup("#star2").query();
@@ -194,10 +179,8 @@ public class DestinationControllerTest extends ApplicationTest {
 
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("destination.fxml"));
         root = fxmlLoader.load();
-        destinationController = fxmlLoader.getController();
         stage.setScene(new Scene(root));
         stage.show();
 
     }
-
 }
