@@ -113,4 +113,62 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         }
 
+        /**
+         * Tests if the add button works as intended
+         */
+        @Test
+        public void testAddDestination() {
+                // valid input
+                clickOn(destinationText).write("Helsinki");
+                clickOn(addButton);
+
+                assertEquals("", destinationText.getText());
+                assertEquals("", feedbackLabel.getText());
+
+                // empty input
+                clickOn(addButton);
+
+                assertEquals("", destinationText.getText());
+                assertEquals("", feedbackLabel.getText());
+
+                // invalid input
+                String invalidInput = "51*@4´,a#";
+                destinationText.setText(invalidInput);
+
+                clickOn(addButton);
+
+                assertEquals(invalidInput, destinationText.getText());
+                assertEquals("Destination name must contain only letters, spaces and dashes", feedbackLabel.getText());
+
+        }
+
+        /**
+         * Tests if adding duplicate destinations works as intended
+         */
+        @Test
+        public void testAddDuplicates() {
+
+                // duplicate input
+                clickOn(destinationText).write("Norway");
+                clickOn(addButton);
+
+                assertEquals("Norway", destinationText.getText());
+                assertEquals("You have already registered this destination", feedbackLabel.getText());
+
+                // case insensitive duplicate input
+                clickOn(destinationText).eraseText(destinationText.getText().length()).write("fInLaNd");
+                clickOn(addButton);
+
+                assertEquals("fInLaNd", destinationText.getText());
+                assertEquals("You have already registered this destination", feedbackLabel.getText());
+
+                // duplicate input with spaces
+                clickOn(destinationText).eraseText(destinationText.getText().length()).write("  Costa Rica  ");
+                clickOn(addButton);
+
+                assertEquals("  Costa Rica  ", destinationText.getText());
+                assertEquals("You have already registered this destination", feedbackLabel.getText());
+
+        }
+
 }
