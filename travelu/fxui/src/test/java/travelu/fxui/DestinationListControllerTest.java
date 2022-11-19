@@ -109,7 +109,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         }
 
         /**
-         * Tests if DestinationList works as intended
+         * Initializes GUI
          */
         @Override
         public void start(Stage stage) throws IOException {

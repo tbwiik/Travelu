@@ -189,7 +189,7 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if DestinationList works as intended
+     * Initializes GUI
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -419,8 +419,8 @@ public class DestinationControllerTest extends ApplicationTest {
     /**
      * Tests if the correct number of stars are filled
      * <p>
-     * Star coloring is handled entirely by the controller and is therefore relevant
-     * to test in a controller test
+     * Star coloring is handled entirely by the controller,
+     * so this test is isolated from core
      */
     @Test
     public void testRating() {
