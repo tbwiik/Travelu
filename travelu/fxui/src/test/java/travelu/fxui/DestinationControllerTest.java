@@ -54,6 +54,9 @@ public class DestinationControllerTest extends ApplicationTest {
     private DatePicker departureDatePicker;
     private Button setArrivalDate;
     private Button setDepartureDate;
+    private Label departureDateLabel;
+    private Label arrivalDateLabel;
+
 
     private Label dateUpdatedFeedbackLabel;
     private Label commentFeedbackLabel;
@@ -62,6 +65,7 @@ public class DestinationControllerTest extends ApplicationTest {
     private TextField newActivityTextField;
     private Button addActivity;
     private Button removeActivity;
+    private ListView<String> activitiesListView; 
 
     private TextField commentTextField;
     private Button updateComment;
@@ -161,10 +165,13 @@ public class DestinationControllerTest extends ApplicationTest {
         departureDatePicker = lookup("#departureDatePicker").query();
         setArrivalDate = lookup("#arrivalDateButton").query();
         setDepartureDate = lookup("#departureDateButton").query();
+        arrivalDateLabel = lookup("#arrivalDateLabel").query();
+        departureDateLabel = lookup("#departureDateLabel").query();
 
         newActivityTextField = lookup("#newActivityTextField").query();
         addActivity = lookup("#addActivityButton").query();
         removeActivity = lookup("#removeActivityButton").query();
+        activitiesListView = lookup("#activitiesListView").query();
 
         commentTextField = lookup("#commentTextField").query();
         updateComment = lookup("#updateButton").query();
