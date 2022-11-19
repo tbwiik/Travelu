@@ -432,6 +432,9 @@ public class DestinationControllerTest extends ApplicationTest {
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/updateComment")));
 
+        // commentFeedBackLabel should be updated
+        assertEquals("Comment updated!", commentFeedbackLabel.getText());
+
         clickOn(commentTextField).eraseText(commentTextField.getText().length());
         clickOn(updateComment);
 
