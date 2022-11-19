@@ -320,6 +320,14 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
+     * Tests that listview correctly displays activities gotten from the mock server
+     */
+    @Test
+    public void testActivitiesListViewUpdated() {
+        assertEquals("[Go to the beach]", activitiesListView.getItems().toString());
+    }
+
+    /**
      * Tests adding activity to current destination
      */
     @Test
@@ -331,6 +339,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
+
+        // activitiesListView should be updated
+        assertEquals("[Go to the beach, Take flamenco lessons]", activitiesListView.getItems().toString());
 
         // activityFeedbackLabel should be empty
         // newActivityTextField should be reset
@@ -347,6 +358,9 @@ public class DestinationControllerTest extends ApplicationTest {
         // activityFeedbackLabel should be updated
         assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
 
+        // activitiesListView should be unchanged
+        assertEquals("[Go to the beach, Take flamenco lessons]", activitiesListView.getItems().toString());
+
         // Test if label is reset after valid input
         clickOn(newActivityTextField).eraseText(newActivityTextField.getText().length()).write("Dance salsa");
         clickOn(addActivity);
@@ -358,6 +372,9 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals("", activityFeedbackLabel.getText());
         assertEquals("", newActivityTextField.getText());
 
+        // activitiesListView should be updated
+        assertEquals("[Go to the beach, Take flamenco lessons, Dance salsa]", activitiesListView.getItems().toString());
+
         // Test adding existing activity
         clickOn(newActivityTextField).write("Go to the beach");
         clickOn(addActivity);
@@ -367,6 +384,10 @@ public class DestinationControllerTest extends ApplicationTest {
 
         assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
         assertEquals("", newActivityTextField.getText());
+
+        // activitiesListView should be unchanged
+        assertEquals("[Go to the beach, Take flamenco lessons, Dance salsa]", activitiesListView.getItems().toString());
+
     }
 
     /**
@@ -391,6 +412,9 @@ public class DestinationControllerTest extends ApplicationTest {
         clickOn(removeActivity);
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/removeActivity")));
+
+        // activitiesListView should now be empty
+        assertEquals(true, activitiesListView.getItems().isEmpty());
 
     }
 
