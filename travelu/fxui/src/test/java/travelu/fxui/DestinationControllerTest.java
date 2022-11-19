@@ -203,6 +203,8 @@ public class DestinationControllerTest extends ApplicationTest {
 
     /**
      * Tests if the arrival date and departure date is set correctly
+     * <p>
+     * This test is dependent on validation from core
      */
     @Test
     public void testSetDates() {
@@ -226,6 +228,9 @@ public class DestinationControllerTest extends ApplicationTest {
         // check if there is no feedback
         assertEquals("", dateUpdatedFeedbackLabel.getText());
 
+        // check if arrivalDateLabel is correctly updated
+        assertEquals(validArrivalDate, arrivalDateLabel.getText());
+
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
@@ -235,6 +240,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
         // check if there is no feedback
         assertEquals("", dateUpdatedFeedbackLabel.getText());
+
+        // check if departureDateLabel is correctly updated
+        assertEquals(validDepartureDate, departureDateLabel.getText());
 
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
@@ -259,6 +267,10 @@ public class DestinationControllerTest extends ApplicationTest {
 
         assertEquals("Invalid departure date.", dateUpdatedFeedbackLabel.getText());
 
+        // date labels should be unchanged
+        assertEquals(validArrivalDate, arrivalDateLabel.getText());
+        assertEquals(validDepartureDate, departureDateLabel.getText());
+
         // input arrival date after departure date
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(arrivalDateAfterDepartureDate);
@@ -268,6 +280,9 @@ public class DestinationControllerTest extends ApplicationTest {
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
         assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
+
+        // arrivalDateLabel should be unchanged
+        assertEquals(validArrivalDate, arrivalDateLabel.getText());
 
         // input valid arrival date, check that feedback label is cleared
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
@@ -288,6 +303,9 @@ public class DestinationControllerTest extends ApplicationTest {
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
 
         assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
+
+        // departure date label should be unchanged
+        assertEquals(validDepartureDate, departureDateLabel.getText());
 
         // input valid departure date, check that feedback label is cleared
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
