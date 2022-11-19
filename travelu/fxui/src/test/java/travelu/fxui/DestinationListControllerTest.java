@@ -30,7 +30,9 @@ import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 
 /**
- * JavaFX tests for DestinationListController
+ * JavaFX tests for DestinationListController, isolated from server
+ * <p>
+ * Due to the way the controllers are implemented, some of these tests are dependent on validation in core.
  */
 @TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationListControllerTest extends ApplicationTest {
@@ -210,6 +212,8 @@ public class DestinationListControllerTest extends ApplicationTest {
 
         /**
          * Tests if sorting works as intended
+         * <p>
+         * This test depends on core.
          */
         @Test
         public void testSortDestinations() {

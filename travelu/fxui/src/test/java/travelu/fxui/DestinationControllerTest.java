@@ -41,7 +41,9 @@ import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;
 
 /**
- * JavaFX tests for DestinationController
+ * JavaFX tests for DestinationController, isolated from server
+ * <p>
+ * Due to the way the controllers are implemented, some of these tests are dependent on validation in core.
  */
 @TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationControllerTest extends ApplicationTest {
