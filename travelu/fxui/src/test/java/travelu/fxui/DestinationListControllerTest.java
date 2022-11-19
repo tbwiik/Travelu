@@ -122,16 +122,30 @@ public class DestinationListControllerTest extends ApplicationTest {
         }
 
         /**
+         * Tests if listiew is properly updated with data from the mock server
+         * <p>
+         * This tests that the stored DestinationList copy is correctly used to display destinations
+         */
+        @Test
+        public void testListViewUpdated() {
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+        }
+
+        /**
          * Tests if the add button works as intended
          */
         @Test
         public void testAddDestination() {
+
                 // valid input
                 clickOn(destinationText).write("Helsinki");
                 clickOn(addButton);
 
                 assertEquals("", destinationText.getText());
                 assertEquals("", feedbackLabel.getText());
+
+                // listView should be updated with our new destination
+                assertEquals(listView.getItems().get(3), "Helsinki");
 
                 // empty input
                 clickOn(addButton);
@@ -177,6 +191,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("  Costa Rica  ", destinationText.getText());
                 assertEquals("You have already registered this destination", feedbackLabel.getText());
 
+                // listView should be unchanged:
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+
         }
 
         /**
@@ -197,16 +214,23 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 assertEquals("", feedbackLabel.getText());
 
+                // listView should be updated:
+                assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
+
+
                 // clicking remove again
                 clickOn(removeButton);
 
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
 
-                // clicking on list-view and clicking remove
+                // clicking on listView and clicking remove
                 clickOn(listView);
                 clickOn(removeButton);
 
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
+
+                // listView should be unchanged:
+                assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
 
         }
 
