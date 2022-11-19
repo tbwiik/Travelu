@@ -145,7 +145,7 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("", feedbackLabel.getText());
 
                 // listView should be updated with our new destination
-                assertEquals(listView.getItems().get(3), "Helsinki");
+                assertEquals("Helsinki", listView.getItems().get(3));
 
                 // empty input
                 clickOn(addButton);
