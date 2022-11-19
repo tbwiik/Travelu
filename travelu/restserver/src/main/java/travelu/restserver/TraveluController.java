@@ -64,7 +64,7 @@ public class TraveluController {
      */
     @GetMapping(value = "/currentDestination", produces = "application/json")
     public String getDestinationJSON() {
-        return traveluService.getDestinationName().replace(" ", "%20");
+        return traveluService.getDestinationName();
     }
 
     /**
@@ -90,7 +90,7 @@ public class TraveluController {
     @PostMapping(value = "/storeCurrent", produces = "application/json")
     public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
         // Convert to empty string if empty comment is sent
-        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON;
+        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replace("%20", " ");
 
         traveluService.saveDestinationName(destinationName);
     }
@@ -213,7 +213,8 @@ public class TraveluController {
      * @return chosen destination
      */
     private Destination getDestination() {
-        return traveluService.getDestinationList().getDestinationCopyByName(traveluService.getDestinationName());
+        String destinationName = traveluService.getDestinationName();
+        return traveluService.getDestinationList().getDestinationCopyByName(destinationName);
     }
 
     /**
