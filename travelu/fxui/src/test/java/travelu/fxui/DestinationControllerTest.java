@@ -382,7 +382,9 @@ public class DestinationControllerTest extends ApplicationTest {
         // should not post request to server
         wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
 
+        // activityFeedbackLabel should be updated
         assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
+        // newActivityTextField should be emptied
         assertEquals("", newActivityTextField.getText());
 
         // activitiesListView should be unchanged
