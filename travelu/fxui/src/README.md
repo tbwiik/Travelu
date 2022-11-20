@@ -112,19 +112,7 @@ The class mainly does two things: load and save. It also give the controller acc
 - Returns: `String`: The JSON file [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json) as a string.
 
 ```json
-{
-  "name": "Sweden",
-  "dateInterval": {
-    "arrivalDate": "02/11/2022",
-    "departureDate": "26/11/2022"
-  },
-  "rating": 2,
-  "activities": [
-    "Go hiking",
-    "Go skiing"
-  ],
-  "comment": "Visiting Sweden was a lot of fun. I love traveling with friends!"
-}
+"Sweden"
 ```
 
 
