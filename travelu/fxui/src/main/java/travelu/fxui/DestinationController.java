@@ -85,7 +85,7 @@ public class DestinationController {
     @FXML
     SVGPath star5;
 
-    /*
+    /**
      * Loads the current destination selected from the server and displays its
      * information
      */
