@@ -156,6 +156,7 @@ public class DestinationListController {
     private void switchToDestination(String destinationName) throws IOException {
 
         try {
+            // Store the currently selected destination's name to the server
             client.storeCurrentDestinationName(destinationName);
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
