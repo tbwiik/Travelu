@@ -56,9 +56,7 @@ public class TraveluController {
     }
 
     /**
-     * Get name of chosen destination
-     * <p>
-     * Formats space as %20
+     * Get name of stored chosen destination
      * 
      * @return name of destination
      */
@@ -81,7 +79,7 @@ public class TraveluController {
     }
 
     /**
-     * Store chosen destination
+     * Store chosen destination, replaces %20 with space
      * <p>
      * Accepts empty input
      * 
