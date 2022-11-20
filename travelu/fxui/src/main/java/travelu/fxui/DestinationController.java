@@ -32,14 +32,14 @@ import javafx.scene.shape.SVGPath;
 public class DestinationController {
 
     /**
-     * Initialize client used for server communication
+     * Client used for server communication
      */
     private final Client client = new Client("http://localhost", 8080);
 
-    // currently selected destination
+    // Currently selected destination
     private Destination currentDestination;
 
-    // currently selected activity
+    // Currently selected activity
     private String currentActivity;
 
     @FXML
@@ -90,6 +90,10 @@ public class DestinationController {
     @FXML
     SVGPath star5;
 
+    /*
+     * Loads the current destination selected from the server and displays its
+     * information
+     */
     @FXML
     private void initialize() {
 
@@ -104,19 +108,24 @@ public class DestinationController {
             // TODO better handling
         }
 
-        colorStars(this.currentDestination.getRating());
-
+        // Set the destination label to the name of the destination
         destinationLabel.setText(currentDestination.getName());
 
+        // Color the stars according to the rating
+        colorStars(this.currentDestination.getRating());
+
+        // Set comment text field to the comment of the destination if it exists
         if (this.currentDestination.getComment() != null) {
             commentTextField.setText(this.currentDestination.getComment());
         }
 
+        // Set the arrival and departure labels to the arrival and departure dates
         arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
         departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
 
-        // Standardizes date formatting in datePicker. Largely copied from documentation
-        // for datePicker.setconverter
+        // Standardizes date formatting in datePicker
+        // Code gotten from documentation for datePicker.setconverter
+        // https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/DatePicker.html#setConverter-javafx.util.StringConverter-
         StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
             // Standard date formatting
             String pattern = "dd/MM/yyyy";
@@ -165,6 +174,7 @@ public class DestinationController {
             }
         };
 
+        // Set the date pickers to both use the string converter
         arrivalDatePicker.setConverter(stringConverter);
         departureDatePicker.setConverter(stringConverter);
 
@@ -177,7 +187,7 @@ public class DestinationController {
      */
     @FXML
     private void setupListView() {
-        // make currentDestination the selected list-view item
+        // Make currentDestination get set to the selected list-view item
         activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
             @Override
@@ -208,18 +218,20 @@ public class DestinationController {
 
     /**
      * Adds activity to the list of activities, and updates activitiesListView
-     * 
-     * 
-     * @throws IOException              in case of filehandling issue
-     * @throws IllegalArgumentException if input is blank or already existing
+     * Updates activityFeedbackLabel to give feedback to user if any errors occur
      */
     @FXML
     private void handleAddActivity() {
+        // Get the text from the text field
         String activity = newActivityTextField.getText();
 
         try {
+            // Add activity to the current destination
+            // TODO: Stop interacting directly with core through currentDestination
             currentDestination.addActivity(activity);
             this.client.addActivity(activity);
+
+            // Clear feedback label if everything went well
             activityFeedbackLabel.setText("");
         } catch (IllegalArgumentException iae) {
             activityFeedbackLabel.setText("Add unique activity to update.");
@@ -233,6 +245,8 @@ public class DestinationController {
         }
 
         updateListView();
+
+        // Clear text field when done
         newActivityTextField.setText("");
     }
 
@@ -243,6 +257,7 @@ public class DestinationController {
     private void handleRemoveActivity() {
         if (currentActivity != null) {
             try {
+                // Remove activity from the server
                 this.client.removeActivity(currentActivity);
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
@@ -252,13 +267,16 @@ public class DestinationController {
                 ee.printStackTrace();
                 // TODO better handling
             }
+
+            // Remove the activity from the current destination object
+            // TODO: Stop interacting directly with core through currentDestination
             currentDestination.removeActivity(currentActivity);
             updateListView();
         }
     }
 
     /**
-     * call method handleStar with parameter based on which star was clicked
+     * Call method handleStar with parameter based on which star was clicked
      */
     @FXML
     private void handleStar1() {
@@ -292,6 +310,8 @@ public class DestinationController {
      */
     private void handleStar(int starNumber) {
 
+        // Set the rating to the star number clicked
+        // TODO: Stop interacting directly with core through currentDestination
         currentDestination.setRating(starNumber);
 
         colorStars(starNumber);
@@ -309,14 +329,14 @@ public class DestinationController {
     }
 
     /**
-     * Color starNumber stars yellow, and the rest of the stars white
+     * Color starNumber stars from the left yellow, and the rest of the stars white
      * 
      * @param rating
      */
     private void colorStars(int starNumber) {
 
-        // Sets color of the clicked star, and all stars before it to yellow. Updates
-        // color of all stars after clicked star to white.
+        // Sets color of the clicked star, and all stars before it to yellow
+        // Updates color of all stars after clicked star to white
         if (starNumber >= 1) {
             star1.setStyle("-fx-fill: #FFD700");
         } else {
@@ -349,12 +369,13 @@ public class DestinationController {
     }
 
     /**
-     * Changes comment, and writes this to file
-     *
+     * Updates comment and displays feedback to user if successful
+     * Shows error popup if unsuccessful
      */
     @FXML
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
+        // TODO: Stop interacting directly with core through currentDestination
         currentDestination.setComment(newComment);
         try {
             this.client.updateComment(newComment);
@@ -363,6 +384,8 @@ public class DestinationController {
             e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+
+            // Clear comment in case it shows "Comment updated!" when it wasn't
             commentFeedbackLabel.setText("");
         } catch (ExecutionException ee) {
             ee.printStackTrace();
@@ -379,9 +402,15 @@ public class DestinationController {
                 : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
+            // TODO: Stop interacting directly with core through currentDestination
             currentDestination.setArrivalDate(arrivalDate);
+            // Updates arrival date label
+            // This throws an exception if the date is invalid and therefore gets catched
+            // TODO: Stop interacting directly with core through currentDestination
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             this.client.setArrivalDate(arrivalDate);
+
+            // Clear feedback label if everything went well
             dateUpdatedFeedbackLabel.setText("");
         } catch (IllegalArgumentException | IllegalStateException e) {
             arrivalDatePicker.getEditor().setText("");
@@ -407,9 +436,16 @@ public class DestinationController {
                 : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
+
+            // TODO: Stop interacting directly with core through currentDestination
             currentDestination.setDepartureDate(departureDate);
+            // Updates arrival date label
+            // This throws an exception if the date is invalid and therefore gets catched
+            // TODO: Stop interacting directly with core through currentDestination
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             this.client.setDepartureDate(departureDate);
+
+            // Clear feedback label if everything went well
             dateUpdatedFeedbackLabel.setText("");
         } catch (IllegalArgumentException | IllegalStateException e) {
             departureDatePicker.getEditor().setText("");
@@ -425,6 +461,10 @@ public class DestinationController {
 
     }
 
+    /*
+     * Creates a popup with the given title and message that will be shown until
+     * closed
+     */
     private void errorPopup(String type, String message) {
         Alert invalidInput = new Alert(AlertType.WARNING);
         invalidInput.setTitle(type);
