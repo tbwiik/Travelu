@@ -4,6 +4,10 @@ The User Interface (UI) module is resposible for handeling the user interface of
 
 The UI module is connected to the domain logic module through a REST API. The best way of handling the connection between the UI and the domain logic (core) is to make all the information go through the API. However, our controllers currently access our domain logic directly. This is not optimal, since seperating the controller and backend allows the frontend to be changed without having to change the backend. This is a good thing, since the frontend is the part of the application that the user interacts with. If the user doesn't like the frontend, they can change it without having to change the backend. This is not the case if the frontend and backend are connected. If the frontend and backend are connected, the user is forced to change the backend if they want to change the frontend. Therefore, this is something that should be fixed if the app goes further into development.
 
+## App
+
+The [App](/travelu/fxui/src/main/java/travelu/fxui/App.java) class is the class that starts the application. It loads the destination list view and shows it to the user.
+
 ## JavaFX controllers
 
 The app has to seperate controllers for the different views. They control each of their respective views.
