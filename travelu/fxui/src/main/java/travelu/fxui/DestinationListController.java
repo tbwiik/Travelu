@@ -45,8 +45,6 @@ public class DestinationListController {
 
     private String currentDestination;
 
-    private String destinationListFile;
-
     /**
      * Initialize start-page
      * 
@@ -275,23 +273,6 @@ public class DestinationListController {
         invalidInput.setTitle(type);
         invalidInput.setHeaderText(message);
         invalidInput.showAndWait();
-    }
-
-    // For testing purposes
-    public List<String> getDestinationListNames() {
-        return destinationList.getDestinationNames();
-    }
-
-    public List<String> getListViewItems() {
-        return new ArrayList<String>(listView.getItems());
-    }
-
-    public void initiliazeFromTestFiles() throws IOException {
-        destinationListFile = "testDestinationList.json";
-
-        destinationList = TraveluHandler.readDestinationListJSON(destinationListFile);
-
-        setUpListView();
     }
 
 }
