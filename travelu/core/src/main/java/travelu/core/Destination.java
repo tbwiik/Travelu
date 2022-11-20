@@ -158,44 +158,4 @@ public class Destination {
         this.comment = comment;
     }
 
-    /**
-     * Return true if names are equal
-     * <p>
-     * This is satisfactory because there will never be more than one object per
-     * destination
-     * <p>
-     * Note: auto-generated stub
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Destination other = (Destination) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
-
-    /**
-     * Hashes Destination according to name
-     * <p>
-     * Implemented to ensure safe use where hashing is needed
-     * <p>
-     * Note: Auto generated stub
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
 }
