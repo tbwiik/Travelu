@@ -271,10 +271,10 @@ public class DestinationListTest {
         expectedList.add("Spain");
         expectedList.add("Norway");
         expectedList.add("Buenos Aires");
+        expectedList.add("Sweden");
 
         assertNotEquals(expectedList, destinationList.getDestinationNames());
 
-        expectedList.add("Sweden");
         destinationList.sortByRating();
 
         assertEquals(expectedList, destinationList.getDestinationNames());
