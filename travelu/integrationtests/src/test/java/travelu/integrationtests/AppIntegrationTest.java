@@ -69,6 +69,8 @@ public class AppIntegrationTest extends ApplicationTest {
 
     /**
      * remove all destinations from destinationlist
+     * <p>
+     * store empty string as current destination name
      */
     private void clearDestinations() {
 
@@ -76,6 +78,7 @@ public class AppIntegrationTest extends ApplicationTest {
             for (Destination destination : client.getDestinationList().getList()) {
                 client.removeDestination(destination.getName());
             }
+            client.storeCurrentDestinationName("");
         } catch (Exception e) {
             fail("Could not remove destinations");
         }
