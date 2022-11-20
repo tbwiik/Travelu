@@ -3,7 +3,6 @@ package travelu.fxui;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
@@ -12,9 +11,6 @@ import travelu.client.Client;
 import travelu.client.ServerException;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
-import travelu.localpersistence.TraveluHandler;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -23,7 +19,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 
 public class DestinationListController {
 
