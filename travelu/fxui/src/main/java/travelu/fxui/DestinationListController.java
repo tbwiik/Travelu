@@ -41,12 +41,14 @@ public class DestinationListController {
     @FXML
     private Label feedbackLabel;
 
+    // List of destinations
     private DestinationList destinationList;
 
+    // Name of the currently selected destination
     private String currentDestination;
 
     /**
-     * Initialize start-page
+     * Initialize start-page.
      * 
      * @throws IOException
      */
@@ -54,6 +56,7 @@ public class DestinationListController {
     private void initialize() {
 
         try {
+            // Get destination list from server
             this.destinationList = client.getDestinationList();
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
@@ -68,19 +71,28 @@ public class DestinationListController {
 
     }
 
+    /**
+     * Make the list view be a list of all destination names in the desitnation
+     * list.
+     * 
+     * Each name with a number of stars at the end equal to the rating.
+     */
     private void setUpListView() {
 
+        // Set font size in list view to 20px
         listView.setStyle("-fx-font-size:20;");
 
+        // Clear list view
         listView.getItems().clear();
 
-        // create list of all destinations with star-rating
+        // Create list of all destinations with star-rating
         List<String> destinationNameAndRating = new ArrayList<>();
+        // TODO: Stop interacting directly with core through destinationList
         for (String destinationName : destinationList.getDestinationNames()) {
             try {
-                // get rating of destination
+                // Get rating of destination
                 int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
-                // add destination with name and number stars equal to rating
+                // Add destination with name and number stars equal to rating
                 destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
             } catch (NoSuchElementException nsee) {
                 feedbackLabel.setText("No such element: " + nsee.getMessage());
@@ -88,49 +100,46 @@ public class DestinationListController {
 
         }
 
-        // add all destinations and rating to list-view
+        // Add all destinations and rating to list-view
         listView.getItems().addAll(destinationNameAndRating);
 
-        // make click select currentDestination
-        // make double-click on list-view item take you to page with currentDestination
+        // Make click select currentDestination
+        // Make double-click on list-view item take you to page with currentDestination
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent click) {
 
-                // set currentDestination to the selected item from input on format
-                // objectinformation'DestinationName'
-
                 if (click.getTarget().toString().contains("'")) {
-                    // if you click on the box around the text the format is
+                    // If you click on the box around the text the format is
                     // objectinformation'DestinationName'
-                    // we then need to get the element after the first '
+                    // We then need to get the element after the first '
                     currentDestination = click.getTarget().toString()
                             .split("'")[1];
                 } else if (click.getTarget().toString().contains("\"")) {
-                    // if you click directly on the text the format is
+                    // If you click directly on the text the format is
                     // Text[text="DestinationName" objectinformation="..."]]
-                    // we then need to get the element after the first "
+                    // We then need to get the element after the first "
                     currentDestination = click.getTarget().toString()
                             .split("\"")[1];
                 }
 
-                // we want currentDestination to be null, not "null"
+                // We want currentDestination to be null instead of not "null"
                 if (currentDestination != null && currentDestination.equals("null")) {
                     currentDestination = null;
                 }
 
+                // Switch to desitnation page on double-click
                 if (click.getClickCount() == 2) {
-
-                    // switch to currentDestination page on double-click if a destination was
-                    // clicked
+                    // If currentDestination is null, the user has not clicked a destination
                     if (currentDestination != null) {
-                        // remove the stars from the selected destination
+                        // Remove the stars from the selected destination
                         String currentDestinationName = currentDestination.replace("★", "");
                         try {
-                            // load the destination chosen
+                            // Load the destination chosen
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
+                            // Give feedback to user that the destination could not be found
                             feedbackLabel.setText("Could not find " + currentDestinationName);
                             e.printStackTrace();
                         }
@@ -173,32 +182,37 @@ public class DestinationListController {
         String newDestinationName = destinationText.getText().trim();
         try {
             if (newDestinationName.isBlank()) {
-                // if user didn't input any text
-                // remove any feedback given and do nothing
+                // If user didn't input any text
+                // Remove any feedback given and do nothing
                 feedbackLabel.setText("");
-            } else if (destinationList.containsDestination(newDestinationName)) {
-                // if the input text matches any of the already registrations
-                // give feedback
+            }
+            // TODO: Stop interacting directly with core through destinationList
+            else if (destinationList.containsDestination(newDestinationName)) {
+                // If the input text matches any of the already registrations
+                // Give feedback
                 feedbackLabel.setText("You have already registered this destination");
             } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
-                // if the input text contains anything but letters, spaces and dashes
+                // If the input text contains anything but letters, spaces and dashes
                 feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
             } else {
-                // if everything is ok with the input
-                // create new destination with input as name
+                // If everything is ok with the input
+                // Create new destination with input as name
                 Destination newDestination = new Destination(newDestinationName.strip(), null, 0,
                         new ArrayList<String>(), null);
 
-                // add destination to list-view and destinations
+                // Add destination to list-view and destinations
                 listView.getItems().add(newDestination.getName());
+
+                // TODO: Stop interacting directly with core through destinationList
                 destinationList.addDestination(newDestination);
 
-                // remove any feedback given
+                // Remove any feedback given
                 feedbackLabel.setText("");
 
-                // remove text in inputField
+                // Remove text in inputField
                 destinationText.clear();
 
+                // Add destination to server
                 client.addDestination(newDestination);
             }
         } catch (IllegalArgumentException iae) {
@@ -216,25 +230,26 @@ public class DestinationListController {
 
     /**
      * Removes destination from list
-     *
      */
     @FXML
     public void handleRemoveDestination() {
         if (currentDestination == null) {
-            // if there is no selected destination
-            // give user feedback
+            // If there is no selected destination
+            // Give user feedback
             feedbackLabel.setText("Please select a destination you would like to remove");
         } else {
-            // if there is a selected destination
-            // remove the selected destination from destinations and list-view
-            // remove the star-rating from the selected destination
+            // If there is a selected destination
+            // Remove the selected destination from destinations and list-view
+            // Remove the star-rating from the selected destination
             String currentDestinationName = currentDestination.replace("★", "");
 
             try {
+                // Clear feedback if everything went well
                 feedbackLabel.setText("");
                 client.removeDestination(currentDestinationName);
 
-                // remove the destination from destinationList and list-view
+                // Remove the destination from destinationList and list-view
+                // TODO: Stop interacting directly with core through destinationList
                 destinationList.removeDestination(currentDestinationName);
                 listView.getItems().remove(currentDestination);
                 currentDestination = null;
@@ -252,22 +267,34 @@ public class DestinationListController {
         }
     }
 
+    /**
+     * Sort the list of destinations alphabetically from A to Z
+     */
     @FXML
     public void handleSortByName() {
 
+        // TODO: Stop interacting directly with core through destinationList
         destinationList.sortByName();
 
         setUpListView();
     }
 
+    /**
+     * Sort the list of destinations by rating from highest to lowest
+     */
     @FXML
     public void handleSortByRating() {
 
+        // TODO: Stop interacting directly with core through destinationList
         destinationList.sortByRating();
 
         setUpListView();
     }
 
+    /*
+     * Creates a popup with the given title and message that will be shown until
+     * closed
+     */
     private void errorPopup(String type, String message) {
         Alert invalidInput = new Alert(AlertType.WARNING);
         invalidInput.setTitle(type);
