@@ -234,8 +234,9 @@ public class DestinationListTest {
 
         assertEquals(expectedList, destinationList.getDestinationNames());
 
-        Destination dashDestination = new Destination("-Place", null, 5, null, null);
-        expectedList.add(0, dashDestination.getName());
+        String dashDestinationName = "-Place";
+        Destination dashDestination = new Destination(dashDestinationName, null, 5, null, null);
+        expectedList.add(0, dashDestinationName);
         destinationList.addDestination(dashDestination);
 
         assertNotEquals(expectedList, destinationList.getDestinationNames());
@@ -244,8 +245,9 @@ public class DestinationListTest {
 
         assertEquals(expectedList, destinationList.getDestinationNames());
 
-        Destination lowerCaseDestination = new Destination("aa", null, 5, null, null);
-        expectedList.add(1, lowerCaseDestination.getName());
+        String lowerCaseDestinationName = "aa";
+        Destination lowerCaseDestination = new Destination(lowerCaseDestinationName, null, 5, null, null);
+        expectedList.add(1, lowerCaseDestinationName);
 
         destinationList.addDestination(lowerCaseDestination);
 
@@ -277,8 +279,9 @@ public class DestinationListTest {
 
         assertEquals(expectedList, destinationList.getDestinationNames());
 
-        Destination noStarsDestination = new Destination("France", null, 0, null, null);
-        expectedList.add(noStarsDestination.getName());
+        String noStarsDestinationName = "France";
+        Destination noStarsDestination = new Destination(noStarsDestinationName, null, 0, null, null);
+        expectedList.add(noStarsDestinationName);
 
         assertNotEquals(expectedList, destinationList.getDestinationNames());
 
