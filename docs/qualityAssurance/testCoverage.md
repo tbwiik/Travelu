@@ -13,6 +13,8 @@ Then run either:
 - `mvn verify` run appropriate lifecycle for checkstyle
 - `mvn install` will also run `verify` phase
 
+**NOTE:** The UI tests will fail if you have a spring-boot server running when you run the tests. You can either stop the server or run the tests with the `-DskipUITests=true` flag.
+
 ## The report
 There are several ways to view the report:
 

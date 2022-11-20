@@ -54,14 +54,16 @@ See [module-info](docs/development/module-info.md) for explanation
 
 ## Testing & coverage
 
-After building project and cd-ing into right folder,  
-in terminal:
+After building project, run the following commands in terminal to run tests and generate coverage reports:
 
+- `cd travelu` to change into project-folder
 - Run `mvn test` to get test results
 - Run `mvn verify` to get test-coverage and quality report
 - Report found in [travelu/core/target/site/jacoco/index.html](travelu/core/target/site/jacoco/index.html)
 
 See documentaion about [test coverage](docs/qualityAssurance/testCoverage.md) for more information.
+
+**NOTE:** The UI tests will fail if you have a spring-boot server running when you run the tests. You can either stop the server or run the tests with the `-DskipUITests=true` flag.
 
 ## Tech-stack
 
