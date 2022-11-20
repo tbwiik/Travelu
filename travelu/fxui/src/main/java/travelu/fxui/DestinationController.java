@@ -38,8 +38,6 @@ public class DestinationController {
 
     // currently selected destination
     private Destination currentDestination;
-    private DestinationList destinationList;
-    private TraveluHandler traveluHandler = new TraveluHandler();
 
     // currently selected activity
     private String currentActivity;
@@ -432,49 +430,6 @@ public class DestinationController {
         invalidInput.setTitle(type);
         invalidInput.setHeaderText(message);
         invalidInput.showAndWait();
-    }
-
-    // For testing purposes
-    public String getDestination() {
-        return currentDestination.getName();
-    }
-
-    public List<String> getDestinationActivities() {
-        return currentDestination.getActivities();
-    }
-
-    public String getDestinationComment() {
-        return currentDestination.getComment();
-    }
-
-    public DateInterval getDestinationDateInterval() {
-        return currentDestination.getDateInterval();
-    }
-
-    public int getDestinationRating() {
-        return currentDestination.getRating();
-    }
-
-    public void initializeFromTestFiles() throws FileNotFoundException, IOException {
-
-        // destinationListFile = "testDestinationList.json";
-
-        this.destinationList = traveluHandler.readDestinationListJSON("testDestinationList.json");
-        String currentDestinationName = traveluHandler
-                .readCurrentDestinationNameJSON("testCurrentDestinationName.json");
-
-        this.currentDestination = this.destinationList.getDestinationCopyByName(currentDestinationName);
-
-        destinationLabel.setText(currentDestinationName);
-
-        colorStars(this.currentDestination.getRating());
-
-        commentTextField.setText("");
-        if (this.currentDestination.getComment() != null) {
-            commentTextField.setText(this.currentDestination.getComment());
-        }
-
-        updateListView();
     }
 
 }
