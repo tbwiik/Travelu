@@ -46,6 +46,8 @@ To run the project, in terminal:
 - `mvn install` in root folder
   - **Note:** this also runs tests and installs package
 - `mvn -pl restserver spring-boot:run` to start the server handling the rest-api
+
+In a new terminal:
 - `mvn -pl fxui javafx:run` to start the application
 
 **Notice:**   
