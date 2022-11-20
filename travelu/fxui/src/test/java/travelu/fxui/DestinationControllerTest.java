@@ -41,7 +41,9 @@ import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;
 
 /**
- * JavaFX tests for DestinationController
+ * JavaFX tests for DestinationController, isolated from server
+ * <p>
+ * Due to the way the controllers are implemented, some of these tests are dependent on validation in core.
  */
 @TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationControllerTest extends ApplicationTest {
@@ -52,6 +54,9 @@ public class DestinationControllerTest extends ApplicationTest {
     private DatePicker departureDatePicker;
     private Button setArrivalDate;
     private Button setDepartureDate;
+    private Label departureDateLabel;
+    private Label arrivalDateLabel;
+
 
     private Label dateUpdatedFeedbackLabel;
     private Label commentFeedbackLabel;
@@ -60,6 +65,7 @@ public class DestinationControllerTest extends ApplicationTest {
     private TextField newActivityTextField;
     private Button addActivity;
     private Button removeActivity;
+    private ListView<String> activitiesListView; 
 
     private TextField commentTextField;
     private Button updateComment;
@@ -159,10 +165,13 @@ public class DestinationControllerTest extends ApplicationTest {
         departureDatePicker = lookup("#departureDatePicker").query();
         setArrivalDate = lookup("#arrivalDateButton").query();
         setDepartureDate = lookup("#departureDateButton").query();
+        arrivalDateLabel = lookup("#arrivalDateLabel").query();
+        departureDateLabel = lookup("#departureDateLabel").query();
 
         newActivityTextField = lookup("#newActivityTextField").query();
         addActivity = lookup("#addActivityButton").query();
         removeActivity = lookup("#removeActivityButton").query();
+        activitiesListView = lookup("#activitiesListView").query();
 
         commentTextField = lookup("#commentTextField").query();
         updateComment = lookup("#updateButton").query();
@@ -180,7 +189,7 @@ public class DestinationControllerTest extends ApplicationTest {
     }
 
     /**
-     * Tests if DestinationList works as intended
+     * Initializes GUI
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -194,6 +203,8 @@ public class DestinationControllerTest extends ApplicationTest {
 
     /**
      * Tests if the arrival date and departure date is set correctly
+     * <p>
+     * This test is dependent on validation from core
      */
     @Test
     public void testSetDates() {
@@ -217,6 +228,9 @@ public class DestinationControllerTest extends ApplicationTest {
         // check if there is no feedback
         assertEquals("", dateUpdatedFeedbackLabel.getText());
 
+        // check if arrivalDateLabel is correctly updated
+        assertEquals(validArrivalDate, arrivalDateLabel.getText());
+
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
@@ -226,6 +240,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
         // check if there is no feedback
         assertEquals("", dateUpdatedFeedbackLabel.getText());
+
+        // check if departureDateLabel is correctly updated
+        assertEquals(validDepartureDate, departureDateLabel.getText());
 
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
@@ -250,6 +267,10 @@ public class DestinationControllerTest extends ApplicationTest {
 
         assertEquals("Invalid departure date.", dateUpdatedFeedbackLabel.getText());
 
+        // date labels should be unchanged
+        assertEquals(validArrivalDate, arrivalDateLabel.getText());
+        assertEquals(validDepartureDate, departureDateLabel.getText());
+
         // input arrival date after departure date
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                 .write(arrivalDateAfterDepartureDate);
@@ -259,6 +280,9 @@ public class DestinationControllerTest extends ApplicationTest {
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
         assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
+
+        // arrivalDateLabel should be unchanged
+        assertEquals(validArrivalDate, arrivalDateLabel.getText());
 
         // input valid arrival date, check that feedback label is cleared
         clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
@@ -280,6 +304,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
         assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
 
+        // departure date label should be unchanged
+        assertEquals(validDepartureDate, departureDateLabel.getText());
+
         // input valid departure date, check that feedback label is cleared
         clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                 .write(validDepartureDate);
@@ -290,6 +317,14 @@ public class DestinationControllerTest extends ApplicationTest {
 
         assertEquals("", dateUpdatedFeedbackLabel.getText());
 
+    }
+
+    /**
+     * Tests that listview correctly displays activities gotten from the mock server
+     */
+    @Test
+    public void testActivitiesListViewUpdated() {
+        assertEquals("[Go to the beach]", activitiesListView.getItems().toString());
     }
 
     /**
@@ -304,6 +339,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
+
+        // activitiesListView should be updated
+        assertEquals("[Go to the beach, Take flamenco lessons]", activitiesListView.getItems().toString());
 
         // activityFeedbackLabel should be empty
         // newActivityTextField should be reset
@@ -320,6 +358,9 @@ public class DestinationControllerTest extends ApplicationTest {
         // activityFeedbackLabel should be updated
         assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
 
+        // activitiesListView should be unchanged
+        assertEquals("[Go to the beach, Take flamenco lessons]", activitiesListView.getItems().toString());
+
         // Test if label is reset after valid input
         clickOn(newActivityTextField).eraseText(newActivityTextField.getText().length()).write("Dance salsa");
         clickOn(addActivity);
@@ -331,6 +372,9 @@ public class DestinationControllerTest extends ApplicationTest {
         assertEquals("", activityFeedbackLabel.getText());
         assertEquals("", newActivityTextField.getText());
 
+        // activitiesListView should be updated
+        assertEquals("[Go to the beach, Take flamenco lessons, Dance salsa]", activitiesListView.getItems().toString());
+
         // Test adding existing activity
         clickOn(newActivityTextField).write("Go to the beach");
         clickOn(addActivity);
@@ -338,8 +382,14 @@ public class DestinationControllerTest extends ApplicationTest {
         // should not post request to server
         wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
 
+        // activityFeedbackLabel should be updated
         assertEquals("Add unique activity to update.", activityFeedbackLabel.getText());
+        // newActivityTextField should be emptied
         assertEquals("", newActivityTextField.getText());
+
+        // activitiesListView should be unchanged
+        assertEquals("[Go to the beach, Take flamenco lessons, Dance salsa]", activitiesListView.getItems().toString());
+
     }
 
     /**
@@ -365,6 +415,9 @@ public class DestinationControllerTest extends ApplicationTest {
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/removeActivity")));
 
+        // activitiesListView should now be empty
+        assertEquals(true, activitiesListView.getItems().isEmpty());
+
     }
 
     /**
@@ -381,6 +434,9 @@ public class DestinationControllerTest extends ApplicationTest {
         // should post request to server
         wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/updateComment")));
 
+        // commentFeedBackLabel should be updated
+        assertEquals("Comment updated!", commentFeedbackLabel.getText());
+
         clickOn(commentTextField).eraseText(commentTextField.getText().length());
         clickOn(updateComment);
 
@@ -392,8 +448,8 @@ public class DestinationControllerTest extends ApplicationTest {
     /**
      * Tests if the correct number of stars are filled
      * <p>
-     * Star coloring is handled entirely by the controller and is therefore relevant
-     * to test in a controller test
+     * Star coloring is handled entirely by the controller,
+     * so this test is isolated from core
      */
     @Test
     public void testRating() {

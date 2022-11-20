@@ -30,7 +30,9 @@ import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 
 /**
- * JavaFX tests for DestinationListController
+ * JavaFX tests for DestinationListController, isolated from server
+ * <p>
+ * Due to the way the controllers are implemented, some of these tests are dependent on validation in core.
  */
 @TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationListControllerTest extends ApplicationTest {
@@ -107,7 +109,7 @@ public class DestinationListControllerTest extends ApplicationTest {
         }
 
         /**
-         * Tests if DestinationList works as intended
+         * Initializes GUI
          */
         @Override
         public void start(Stage stage) throws IOException {
@@ -120,16 +122,30 @@ public class DestinationListControllerTest extends ApplicationTest {
         }
 
         /**
+         * Tests if listiew is properly updated with data from the mock server
+         * <p>
+         * This tests that the stored DestinationList copy is correctly used to display destinations
+         */
+        @Test
+        public void testListViewUpdated() {
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+        }
+
+        /**
          * Tests if the add button works as intended
          */
         @Test
         public void testAddDestination() {
+
                 // valid input
                 clickOn(destinationText).write("Helsinki");
                 clickOn(addButton);
 
                 assertEquals("", destinationText.getText());
                 assertEquals("", feedbackLabel.getText());
+
+                // listView should be updated with our new destination
+                assertEquals("Helsinki", listView.getItems().get(3));
 
                 // empty input
                 clickOn(addButton);
@@ -175,6 +191,9 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("  Costa Rica  ", destinationText.getText());
                 assertEquals("You have already registered this destination", feedbackLabel.getText());
 
+                // listView should be unchanged:
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+
         }
 
         /**
@@ -195,37 +214,40 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 assertEquals("", feedbackLabel.getText());
 
+                // listView should be updated:
+                assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
+
+
                 // clicking remove again
                 clickOn(removeButton);
 
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
 
-                // clicking on list-view and clicking remove
+                // clicking on listView and clicking remove
                 clickOn(listView);
                 clickOn(removeButton);
 
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
 
+                // listView should be unchanged:
+                assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
+
         }
 
         /**
          * Tests if sorting works as intended
+         * <p>
+         * This test depends on core.
          */
         @Test
         public void testSortDestinations() {
                 // sorting by rating
                 clickOn(ratingButton);
-
-                assertEquals("Finland★★★★", listView.getItems().get(0));
-                assertEquals("Norway★★", listView.getItems().get(1));
-                assertEquals("Costa Rica", listView.getItems().get(2));
+                assertEquals("[Finland★★★★, Norway★★, Costa Rica]", listView.getItems().toString());
 
                 // sorting by name
                 clickOn(nameButton);
-
-                assertEquals("Costa Rica", listView.getItems().get(0));
-                assertEquals("Finland★★★★", listView.getItems().get(1));
-                assertEquals("Norway★★", listView.getItems().get(2));
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
 
         }
 
