@@ -238,8 +238,6 @@ public class DestinationListController {
             String currentDestinationName = currentDestination.replace("★", "");
 
             try {
-                // Clear feedback if everything went well
-                feedbackLabel.setText("");
                 client.removeDestination(currentDestinationName);
 
                 // Remove the destination from destinationList and list-view
@@ -247,6 +245,9 @@ public class DestinationListController {
                 destinationList.removeDestination(currentDestinationName);
                 listView.getItems().remove(currentDestination);
                 currentDestination = null;
+
+                // Clear feedback if everything went well
+                feedbackLabel.setText("");
 
             } catch (NoSuchElementException nsee) {
                 feedbackLabel.setText("Please select a destination you would like to remove");
