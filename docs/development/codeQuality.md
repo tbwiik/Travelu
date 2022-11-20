@@ -13,6 +13,8 @@ Implementation of SpotBugs is done to find problems or weaknesses not picked up 
 ### To run:
 
 - `cd travelu` to change into project-folder
+
+Then run either:
 - `mvn verify` to run appropiate lifecycle for `check` goal
   - SpotBugs will run here
 - `mvn install` will also run `verify` phase
