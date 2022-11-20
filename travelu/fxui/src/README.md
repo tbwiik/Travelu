@@ -32,6 +32,101 @@ Persistence is handled by the Service.
 The Service is responsible for communicating with the module handling local persistence.  
 The class mainly does two things: load and save. It also give the controller access to (not a copy) of the interal object to able to write these changes to file.
 
+<br>
+
+# REST API methods
+
+## GET
+
+### getDestinationListJSON()
+
+- API address: `/api/v1/entries/destinationlist`
+
+- Inputs: None
+
+- Returns: `String`: The JSON file [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json) as a string.
+
+```json
+{
+  "destinations": [
+    {
+      "name": "Sweden",
+      "dateInterval": {
+        "arrivalDate": "02/11/2022",
+        "departureDate": "26/11/2022"
+      },
+      "rating": 2,
+      "activities": [
+        "Go hiking",
+        "Go skiing"
+      ],
+      "comment": "Visiting Sweden was a lot of fun. I love traveling with friends!"
+    },
+    {
+      "name": "USA",
+      "dateInterval": {
+        "arrivalDate": null,
+        "departureDate": null
+      },
+      "rating": 4,
+      "activities": [
+        "Visit Walmart",
+        "Eat at Taco Bell"
+      ],
+      "comment": "A family trip to the USA never fails!"
+    }
+  ]
+}
+```
+
+### getDestinationJSON(String destinationName)
+
+- API address: `/api/v1/entries/{destinationName}`
+
+- Inputs: `String destinationName`: Name of destination to get
+
+- Returns: `String`: The destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json) with the inputted name as a string.
+
+```json
+{
+  "name": "Sweden",
+  "dateInterval": {
+    "arrivalDate": "02/11/2022",
+    "departureDate": "26/11/2022"
+  },
+  "rating": 2,
+  "activities": [
+    "Go hiking",
+    "Go skiing"
+  ],
+  "comment": "Visiting Sweden was a lot of fun. I love traveling with friends!"
+}
+```
+
+### getDestinationJSON()
+
+- API address: `/api/v1/entries/currentDestination`
+
+- Inputs: None
+
+- Returns: `String`: The JSON file [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json) as a string.
+
+```json
+{
+  "name": "Sweden",
+  "dateInterval": {
+    "arrivalDate": "02/11/2022",
+    "departureDate": "26/11/2022"
+  },
+  "rating": 2,
+  "activities": [
+    "Go hiking",
+    "Go skiing"
+  ],
+  "comment": "Visiting Sweden was a lot of fun. I love traveling with friends!"
+}
+```
+
 ### Sources
 - [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
 - [Spring Boot Tutorial](https://www.baeldung.com/spring-boot-start)
