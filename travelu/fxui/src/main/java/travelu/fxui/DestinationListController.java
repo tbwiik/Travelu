@@ -58,12 +58,10 @@ public class DestinationListController {
         try {
             // Get destination list from server
             this.destinationList = client.getDestinationList();
-        } catch (URISyntaxException | InterruptedException e) {
-            e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-        } catch (ExecutionException ee) {
-            ee.printStackTrace();
+        } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
             // TODO better handling
         }
 
@@ -159,12 +157,10 @@ public class DestinationListController {
 
         try {
             client.storeCurrentDestinationName(destinationName);
-        } catch (URISyntaxException | InterruptedException e) {
-            e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-        } catch (ExecutionException ee) {
-            ee.printStackTrace();
+        } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
             // TODO better handling
         }
 
@@ -217,12 +213,10 @@ public class DestinationListController {
             }
         } catch (IllegalArgumentException iae) {
             feedbackLabel.setText("");
-        } catch (URISyntaxException | InterruptedException e) {
-            e.printStackTrace();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-        } catch (ExecutionException ee) {
-            ee.printStackTrace();
+        } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
             // TODO better handling
         }
 
@@ -256,12 +250,10 @@ public class DestinationListController {
 
             } catch (NoSuchElementException nsee) {
                 feedbackLabel.setText("Please select a destination you would like to remove");
-            } catch (URISyntaxException | InterruptedException e) {
-                e.printStackTrace();
             } catch (ServerException se) {
                 errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
-            } catch (ExecutionException ee) {
-                ee.printStackTrace();
+            } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+                e.printStackTrace();
                 // TODO better handling
             }
         }
