@@ -219,40 +219,41 @@ public class DestinationListTest {
     @Test
     public void testSortByName() {
 
-        List<Destination> expectedList = new ArrayList<>();
+        List<String> expectedList = new ArrayList<>();
 
         // adding destinations in alphabetical order
-        expectedList.add(buenosAires);
-        expectedList.add(norway);
-        expectedList.add(new Destination("Spain", null, 4, null, null));
-        expectedList.add(new Destination("Sweden", null, 1, null, null));
+        expectedList.add("Buenos Aires");
+        expectedList.add("Norway");
+        expectedList.add("Spain");
+        expectedList.add("Sweden");
+        expectedList.add("Turkey");
 
-        assertNotEquals(expectedList, destinationList.getList());
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
 
-        expectedList.add(new Destination("Turkey", null, 5, null, null));
         destinationList.sortByName();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
 
         Destination dashDestination = new Destination("-Place", null, 5, null, null);
-        expectedList.add(0, dashDestination);
-
-        assertNotEquals(expectedList, destinationList.getList());
-
+        expectedList.add(0, dashDestination.getName());
         destinationList.addDestination(dashDestination);
+
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
+
         destinationList.sortByName();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
 
         Destination lowerCaseDestination = new Destination("aa", null, 5, null, null);
-        expectedList.add(1, lowerCaseDestination);
-
-        assertNotEquals(expectedList, destinationList.getList());
+        expectedList.add(1, lowerCaseDestination.getName());
 
         destinationList.addDestination(lowerCaseDestination);
+
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
+
         destinationList.sortByName();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
     }
 
     /**
@@ -261,30 +262,30 @@ public class DestinationListTest {
     @Test
     public void testSortByRating() {
 
-        List<Destination> expectedList = new ArrayList<>();
+        List<String> expectedList = new ArrayList<>();
 
         // adding destinations in order of rating
-        expectedList.add(new Destination("Turkey", null, 5, null, null));
-        expectedList.add(new Destination("Spain", null, 4, null, null));
-        expectedList.add(norway);
-        expectedList.add(buenosAires);
+        expectedList.add("Turkey");
+        expectedList.add("Spain");
+        expectedList.add("Norway");
+        expectedList.add("Buenos Aires");
 
-        assertNotEquals(expectedList, destinationList.getList());
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
 
-        expectedList.add(new Destination("Sweden", null, 1, null, null));
+        expectedList.add("Sweden");
         destinationList.sortByRating();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
 
         Destination noStarsDestination = new Destination("France", null, 0, null, null);
-        expectedList.add(noStarsDestination);
+        expectedList.add(noStarsDestination.getName());
 
-        assertNotEquals(expectedList, destinationList.getList());
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
 
         destinationList.addDestination(noStarsDestination);
         destinationList.sortByRating();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
     }
 
     /*
