@@ -190,7 +190,8 @@ public class DestinationController {
         activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
             @Override
-            public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+            public void changed(final ObservableValue<? extends String> observable,
+                final String oldValue, final String newValue) {
                 // Update currentActivity field
                 currentActivity = activitiesListView.getSelectionModel().selectedItemProperty().getValue();
             }

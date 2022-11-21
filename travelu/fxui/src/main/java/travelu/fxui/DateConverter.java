@@ -13,8 +13,10 @@ import javafx.util.StringConverter;
  * Code from {@link DatePicker#setConverter}
  * <p>
  * See: <a href=
- * "https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/DatePicker.html#setConverter-javafx.util.StringConverter-
+ * "https://shorturl.at/lnOX9
  * ">docs.oracle.com</a>
+ * <p>
+ * Link shortened to satisfy CheckStyle
  */
 public class DateConverter extends StringConverter<LocalDate> {
 
