@@ -1,4 +1,0 @@
-# Our choices related to testing
-We used JUnit 5 as our testing framework for our project, as the programming language for this project is Java. Testing is essential in developing software products, and the main purpose of testing is to ensure that the product is of high quality and satisfies the requirements. We can easily spot bugs using unit tests, forcing us to write better and more efficient code, saving us time. 
-
-We decided to test all of our classes and write tests for different use cases and edge cases. The disadvantage of using unit tests is that it can be very time-consuming, where we test all of our methods and find the best way to use the unit test. In addition, we can’t catch all of the errors using unit tests therefore we can consider using different testing frameworks as well if the project gets more complex.
