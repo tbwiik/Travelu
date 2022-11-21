@@ -80,7 +80,6 @@ public class DestinationListController {
 
         // Create list of all destinations with star-rating
         List<String> destinationNameAndRating = new ArrayList<>();
-        // TODO: Stop interacting directly with core through destinationList
         for (String destinationName : destinationList.getDestinationNames()) {
             try {
                 // Get rating of destination
@@ -178,7 +177,6 @@ public class DestinationListController {
                 // Remove any feedback given and do nothing
                 feedbackLabel.setText("");
             }
-            // TODO: Stop interacting directly with core through destinationList
             else if (destinationList.containsDestination(newDestinationName)) {
                 // If the input text matches any of the already existing registrations
                 // Give feedback
@@ -194,8 +192,6 @@ public class DestinationListController {
 
                 // Add destination to list-view and destinations
                 listView.getItems().add(newDestination.getName());
-
-                // TODO: Stop interacting directly with core through destinationList
                 destinationList.addDestination(newDestination);
 
                 // Remove any feedback given
@@ -237,7 +233,6 @@ public class DestinationListController {
                 client.removeDestination(currentDestinationName);
 
                 // Remove the destination from destinationList and list-view
-                // TODO: Stop interacting directly with core through destinationList
                 destinationList.removeDestination(currentDestinationName);
                 listView.getItems().remove(currentDestination);
                 currentDestination = null;
@@ -261,10 +256,7 @@ public class DestinationListController {
      */
     @FXML
     public void handleSortByName() {
-
-        // TODO: Stop interacting directly with core through destinationList
         destinationList.sortByName();
-
         setUpListView();
     }
 
@@ -273,10 +265,7 @@ public class DestinationListController {
      */
     @FXML
     public void handleSortByRating() {
-
-        // TODO: Stop interacting directly with core through destinationList
         destinationList.sortByRating();
-
         setUpListView();
     }
 

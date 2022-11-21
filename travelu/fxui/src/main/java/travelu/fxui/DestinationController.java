@@ -221,7 +221,6 @@ public class DestinationController {
 
         try {
             // Add activity to the current destination
-            // TODO: Stop interacting directly with core through currentDestination
             currentDestination.addActivity(activity);
             client.addActivity(activity);
 
@@ -259,7 +258,6 @@ public class DestinationController {
             }
 
             // Remove the activity from the current destination object
-            // TODO: Stop interacting directly with core through currentDestination
             currentDestination.removeActivity(currentActivity);
             updateListView();
         }
@@ -301,7 +299,6 @@ public class DestinationController {
     private void handleStar(int starNumber) {
 
         // Set the rating to the star number clicked
-        // TODO: Stop interacting directly with core through currentDestination
         currentDestination.setRating(starNumber);
 
         colorStars(starNumber);
@@ -339,7 +336,6 @@ public class DestinationController {
     @FXML
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
-        // TODO: Stop interacting directly with core through currentDestination
         currentDestination.setComment(newComment);
         try {
             client.updateComment(newComment);
@@ -364,13 +360,11 @@ public class DestinationController {
                 : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
-            // TODO: Stop interacting directly with core through currentDestination
             // This throws an exception if the date is invalid and therefore gets caught
             currentDestination.setArrivalDate(arrivalDate);
             client.setArrivalDate(arrivalDate);
 
             // Updates arrival date label
-            // TODO: Stop interacting directly with core through currentDestination
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
 
             // Clear feedback label if everything went well
@@ -397,13 +391,11 @@ public class DestinationController {
                 : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
-            // TODO: Stop interacting directly with core through currentDestination
             // This throws an exception if the date is invalid and therefore gets catched
             currentDestination.setDepartureDate(departureDate);
             client.setDepartureDate(departureDate);
 
             // Updates arrival date label
-            // TODO: Stop interacting directly with core through currentDestination
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
 
             // Clear feedback label if everything went well
