@@ -178,6 +178,8 @@ public class DestinationListController {
                 // if user didn't input any text
                 // remove any feedback given and do nothing
                 feedbackLabel.setText("");
+            } else if (newDestinationName.equals("null")) {
+                feedbackLabel.setText("The name null is invalid for a destination");
             } else if (destinationList.containsDestination(newDestinationName)) {
                 // if the input text matches any of the already registrations
                 // give feedback
