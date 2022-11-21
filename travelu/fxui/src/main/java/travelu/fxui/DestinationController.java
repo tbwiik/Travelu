@@ -99,8 +99,8 @@ public class DestinationController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
 
         // Set the destination label to the name of the destination
@@ -227,8 +227,8 @@ public class DestinationController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
 
         updateListView();
@@ -249,8 +249,8 @@ public class DestinationController {
             } catch (ServerException se) {
                 errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
             } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+                errorPopup("Error", "Error: \n" + e.getMessage());
                 e.printStackTrace();
-                // TODO better handling
             }
 
             // Remove the activity from the current destination object
@@ -304,8 +304,8 @@ public class DestinationController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
     }
 
@@ -342,8 +342,8 @@ public class DestinationController {
             // Clear comment in case it shows "Comment updated!" when it wasn't
             commentFeedbackLabel.setText("");
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
     }
 
@@ -371,8 +371,8 @@ public class DestinationController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
 
     }
@@ -402,8 +402,8 @@ public class DestinationController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
 
     }
