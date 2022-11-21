@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -16,10 +14,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -294,6 +293,62 @@ class RestserverApplicationTests {
 		}
 
 	}
+
+	/**
+	 * Store destination and name of destination to files
+	 * <p>
+	 * Helper-method for destination related methods
+	 * <p>
+	 * Use with {@link #tearDownDestination()}
+	 * 
+	 * @throws Exception of failing
+	 */
+	private void setupDestination() throws Exception {
+
+		// Store current name of activity
+		mockMvc.perform(put(API_ADRESS +
+				"storeCurrent").content(mockDestinationName))
+				.andDo(print()).andExpect(status().isOk())
+				.andReturn();
+
+		// Add destination
+		mockMvc.perform(post(API_ADRESS + "add").content(mockDestination))
+				.andDo(print()).andExpect(status().isOk())
+				.andReturn();
+
+	}
+
+	/**
+	 * Remove default destination and current destination from files
+	 * <p>
+	 * Helper-method for tearing down what is done in {@link #setupDestination()}.
+	 * This is done because server cache information and deleting from files is not
+	 * enough.
+	 * <p>
+	 * Will throw a {@code fail()} if failing to tear down
+	 * 
+	 * @throws Exception
+	 */
+	private void tearDownDestination() {
+
+		try {
+
+			// Delete destination
+			mockMvc.perform(delete(API_ADRESS + "delete/" +
+					mockDestinationName).characterEncoding("UTF-8"))
+					.andDo(print())
+					.andExpect(status().isOk())
+					.andReturn();
+
+			// Set current destination as empty
+			mockMvc.perform(put(API_ADRESS + "storeCurrent").content(""))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+		} catch (Exception e) {
+			fail("Failed to tear down destination. This will result in other tests failing");
+		}
+
 	}
 
 }
