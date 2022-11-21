@@ -61,12 +61,12 @@ public class DestinationList {
      */
     public void removeDestination(String name) throws IllegalArgumentException, NoSuchElementException {
         // Name of destination to remove cannot be null
-        if (name == null) {
+        if (name == null)
             throw new IllegalArgumentException("Cannot remove null");
-        }
-        if (!this.containsDestination(name)) {
+
+        if (!this.containsDestination(name))
             throw new NoSuchElementException(name + " is not in destination list");
-        }
+
         Destination destination = getDestinationByName(name);
         destinations.remove(destination);
     }
@@ -141,20 +141,16 @@ public class DestinationList {
      * Sorts destinations by name
      */
     public void sortByName() {
-
         destinations.sort(
                 (destination1, destination2) -> destination1.getName().toLowerCase()
                         .compareTo(destination2.getName().toLowerCase()));
-
     }
 
     /**
      * Sorts destinations by rating
      */
     public void sortByRating() {
-
         destinations.sort((destination1, destination2) -> destination2.getRating() - destination1.getRating());
-
     }
 
 }
