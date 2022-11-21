@@ -270,6 +270,30 @@ class RestserverApplicationTests {
 
 	}
 
+	/**
+	 * Test updating comment
+	 */
+	@Test
+	public void testUpdateComment() {
+
+		try {
+
+			// Set up destination
+			setupDestination();
+
+			// Set rating on destination
+			mockMvc.perform(put(API_ADRESS + "updateComment").content(mockComment))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		} finally {
+			// Tear down destination
+			tearDownDestination();
+		}
+
+	}
 	}
 
 }
