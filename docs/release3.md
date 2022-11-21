@@ -30,7 +30,7 @@ We discussed the fixes we have done from the previous meeting for this meeting. 
 
 ### Meeting 1 – Sprint review and planning
 
-We started this sprint by discussing what we have done, and what needed to be done for the next sprint. We had fixed most of the problems by now, but the problem related to dates has not been resolved yet. However, this meeting was dedicated to start our plan for release 3. We started by creating 10 issues based on the description of the assignment. By following our decision for release 3, we have reduced the number of issues. For this release, our main goal is to add new functionality, implement REST-API, write tests and create diagrams.
+We started this sprint by discussing what we have done, and what needed to be done for the next sprint. We had fixed most of the problems by now, but the problem related to dates had not been resolved yet. However, this meeting was dedicated to start our plan for release 3. We started by creating 10 issues based on the description of the assignment. By following our decision for release 3, we have reduced the number of issues. For this release, our main goal is to add new functionality, implement REST-API, write tests and create diagrams.
 
 ### Meeting 2 – Working on the assigned issues
 
@@ -60,7 +60,7 @@ In this meeting, we reviewed what we had done since the last sprint and our next
 
 Although spending a decent amount of time on REST-API and springboot, the progress of understanding it and applying it to our project is still challenging. We came further from last time, but there is still a decent amount remaining. That is why we decided to prioritize this problem by getting two people to mainly focus on this matter.
 
-Since the deadline is coming closer, we have decided to increase our workload to be more efficient. We need to implement REST-API with springboot so that we can start working on the remaining issues related to them. We must also continue to write documentation and clean up necessary code. During this time, we realized we should have used a development branch to create a structured and logical master branch, but since we are so close to the finalized product it was too late to create this type of branch. If we had done it this way, we could have pushed to the master branch after each release, making it easier to see what changes have been made.
+Since the deadline is coming closer, we have decided to increase our workload to be more efficient. We need to implement REST-API with springboot so that we can start working on the remaining issues related to them. We must also continue to write documentation and clean up necessary code. During this time, we also realized that we each sprint should have used a development branch that acted like a master branch until the end of release. The reason for this is that the master branch gets messy when we merge a lot of small changes into it. A lot of issues are related and merging them one by one into master makes the master branch have temprorarily unnecessary code. Therefore, we could instead merge all our changes into the development branch first and then merge the development branch into master when we are ready to release. This would also add an additional check before merging into master and therefore a second layer of security. It would also be easier to see what changes had been made from release to release. However, since we are so close to the finalized product it was too late to create this type of branch.
 
 ### Meeting 2 – Creating more meetings to work together
 
