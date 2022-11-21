@@ -235,9 +235,9 @@ public class Client {
      * @throws ExecutionException
      * @throws ServerException      if http request not successfull
      */
-    public void removeActivity(String activity)
+    public void removeActivity(final String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.delete(API_ADDRESS + "removeActivity/" + activity);
+        httpRequests.delete(API_ADDRESS + "removeActivity/" + activity.replaceAll(" ", "%20"));
     }
 
     public List<String> getActivites()

@@ -189,7 +189,7 @@ public class TraveluController {
     public void removeDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
 
-        traveluService.getDestinationList().removeDestination(destinationName);
+        traveluService.getDestinationList().removeDestination(destinationName.replace("%20", " "));
 
         traveluService.save();
     }
@@ -204,7 +204,7 @@ public class TraveluController {
 
         Destination updatedDestination = getDestination();
 
-        updatedDestination.removeActivity(activity);
+        updatedDestination.removeActivity(activity.replace("%20", " "));
 
         updateDestination(updatedDestination);
 
