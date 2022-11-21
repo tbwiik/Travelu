@@ -1,0 +1,32 @@
+@startuml cdSummary
+skin rose
+skinparam Linetype ortho
+
+class Destination
+class DestinationList
+class DateInterval << (D,orchid) >> {}
+class DestinationController
+class DestinationListController
+class App {
+    +void start(Stage stage)
+}
+class TraveluHandler
+class Client
+class TraveluController
+class TraveluService
+
+App .. DestinationListController
+App .. DestinationController
+Destination --> "dateInterval: 1" DateInterval
+DestinationList --> "destinations: *" Destination
+DestinationController -> "currentDestination: 1" Destination
+DestinationController ---> "client: 1" Client
+DestinationListController ---> "destinationList: 1" DestinationList
+DestinationListController ---> "client: 1" Client
+TraveluService --> "traveluHandler: 1" TraveluHandler
+TraveluController --> "traveluService: 1" TraveluService
+TraveluHandler -[hidden]-> DestinationList
+TraveluHandler -[hidden]-> Destination
+Client . TraveluController
+@enduml
+

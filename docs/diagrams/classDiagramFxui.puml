@@ -1,0 +1,69 @@
+@startuml cdFxui
+skin rose
+skinparam linetype ortho
+
+class App {
+    + void start(Stage stage)
+}
+
+class DestinationController {
+    - @FXML components
+    - Destination currentDestination
+    - String currentActivity
+
+    - void initialize()
+    - void setupListView()
+    - void updateListView()
+    - void handleReturnButton()
+    - void handleAddActivity()
+    - void handleRemoveActivity()
+    - void handleStar(int starNumber)
+    - void colorStars(int starNumber)
+    - void handleChangeComment()
+    - void handleSetArrivalDate()
+    - void handleSetDepartureDate()
+    - void errorPopup(String type, String message)
+}
+
+class DestinationListController {
+    - @FXML components
+    - DestinationList destinationList
+    - String currentDestination
+
+    - void initialize()
+    - void setupListView()
+    - void switchToDestination(String destinationName)
+    - void handleAddDestination()
+    - void handleRemoveDestination()
+    - void handleSortByName()
+    - void handleSortByRating()
+    - void errorPopup(String type, String message)
+}
+
+class Client {
+    - {static} String API_ADDRESS
+    - String serverUrl
+    - String serverPort
+    - CompletalbeFuture<HttpResponse<String>> getAsync(String endpoint)
+    - HttpResponse<String> get(String endpoint)
+    + DestinationList getDestinationList()
+    + Destination getDestination(String destinationName)
+    + Destination getDestination()
+    - CompletalbeFuture<HttpResponse<String>> postAsync(String endpoint, String payload)
+    - HttpResponse<String> post(String endpoint, String payload)
+    + void addDestination(Destination destination)
+    + void storeCurrentDestination(String destinationName)
+    + void removeDestination(String destinationName)
+    + void addActivity(String activity)
+    + void removeActivity(String activity)
+    + void setRating(int starNumber)
+    + void setArrivalDate(String arrivalDate)
+    + void setDepartureDate(String departureDate)
+    + void updateComment(String comment)
+}
+
+App .. DestinationController
+App .. DestinationListController
+DestinationListController --> "client: 1  " Client
+DestinationController --> "client: 1 " Client
+@enduml

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -70,7 +69,7 @@ public class DestinationTest {
         destination.setComment("");
         assertEquals("", destination.getComment());
 
-        // Test string with uncommon characters
+        // Test string with uncommon but legal characters
         comment = "!* ~/?+ . æøå";
         destination.setComment(comment);
         assertEquals(comment, destination.getComment());
@@ -172,19 +171,20 @@ public class DestinationTest {
 
         Destination destinationCopy = new Destination(destination);
 
+        // Comments should be equal at start
         assertEquals(destinationCopy.getComment(), destination.getComment());
 
-        // making changes to comment on destinationCopy should not impact
-        // comment on destination
+        // Making changes to comment on destinationCopy should not impact
+        // comment in destination
         destinationCopy.setComment("This should not change comment in destinationCopy");
 
         assertNotEquals(destinationCopy.getComment(), destination.getComment());
 
+        // Create copy of date interval to test encapsulation here
         DateInterval dateIntervalCopy = destination.getDateInterval();
-
         assertEquals(dateIntervalCopy.getArrivalDate(), destination.getDateInterval().getArrivalDate());
 
-        // making changes to dateIntervalCopy should not impact
+        // Making changes to arrivalDate in dateIntervalCopy should not impact
         // dateInterval in destination
         dateIntervalCopy.setArrivalDate("01/01/2020");
 

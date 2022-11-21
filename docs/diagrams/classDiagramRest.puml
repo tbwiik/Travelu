@@ -1,0 +1,55 @@
+@startuml cdRest
+skin rose
+
+package travelu.client{
+    class Client
+}
+
+class TraveluController {
+
+    + String getDestinationListJSON()
+    + String getDestinationJSON(String destinationName)
+    + String getDestinationJSON()
+    + void addDestinationJSON(String destinationJSON)
+    + void addActivityJSON(String activity)
+    + void storeCurrentDestinationJSON(String destinationNameJSON)
+    + void setRatingJSON(String rating)
+    + void setArrivalDateJSON(arrivalDate)
+    + void setDepartureDateJSON(departureDate)
+    + void updateCommentJSON(String commentJSON)
+    + void removeDestinationJSON(String destinationName)
+    + void removeActivityJSON(String activity)
+    - Destination getDestination()
+    - void updateDestination(Destination destination)
+}
+
+class TraveluService {
+    - DestinationList destinationList
+    + void load()
+    + void save()
+    + void saveDestinationName(String currentDestination)
+    + String getDestinationName()
+    # DestinationList getDestinationList()
+}
+
+class TraveluHandler {
+    - {static} String DEFAULT_FILENAME_DLIST
+    - {static} String DEFAULT_FILENAME_CURRENTD
+
+    - {static} String getFilePath(String filename)
+    - {static} File getFile(String filename)
+    + {static} void writeJSON(Object object, String filename)
+    + {static} void save(DestinationList destinationList)
+    + {static} void saveDestinationName(String destinationName)
+    + {static} DestinationList readDestinationListJSON(String filename)
+    + {static} DestinationList readDestinationListJSON()
+    + {static} String readCurrentDestinationNameJSON(String filename)
+    + {static} String readCurrentDestinationNameJSON()
+    + {static} void clearDestinationName()
+    + {static} void clearDestinationList()
+}
+
+Client .. TraveluController
+TraveluController --> "traveluService: 1" TraveluService
+TraveluService --> "traveluHandler: 1" TraveluHandler
+@enduml
