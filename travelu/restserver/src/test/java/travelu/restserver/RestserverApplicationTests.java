@@ -99,6 +99,32 @@ class RestserverApplicationTests {
 		}
 	}
 
+	/**
+	 * Test storing and getting current destination
+	 */
+	@Test
+	public void testStoreAndGetCurrentDestination() {
+		try {
+
+			// Add current destination
+			mockMvc.perform(put(API_ADRESS + "storeCurrent").content("Mock"))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+			// Get current destination
+			MvcResult result = mockMvc.perform(get(API_ADRESS + "/currentDestination").characterEncoding("UTF-8"))
+					.andDo(print())
+					.andExpect(status().isOk())
+					.andReturn();
+
+			// Check that storing was successfull
+			assertEquals("Mock", result.getResponse().getContentAsString());
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
