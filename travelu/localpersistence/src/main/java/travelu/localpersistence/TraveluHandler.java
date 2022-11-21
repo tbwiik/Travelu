@@ -102,6 +102,8 @@ public class TraveluHandler {
         DestinationList destinationList;
         BufferedReader bufferedReader;
 
+        // If no file exists - create one containing empty destination-list
+        // Ensures that program don't crash if this for some reason is deleted
         try {
             bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
         } catch (FileNotFoundException e) {
@@ -110,6 +112,7 @@ public class TraveluHandler {
             return destinationList;
         }
 
+        // Convert destination-list from file
         destinationList = gson.fromJson(bufferedReader, DestinationList.class);
 
         // If file is blank, create destinationlist
@@ -148,6 +151,8 @@ public class TraveluHandler {
         String currentDestinationName = "";
         BufferedReader bufferedReader;
 
+        // If no file exists - create one containing empty string
+        // Ensures that program don't crash if this for some reason is deleted
         try {
             bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
         } catch (FileNotFoundException e) {
