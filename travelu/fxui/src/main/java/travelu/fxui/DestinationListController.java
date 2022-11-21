@@ -179,6 +179,8 @@ public class DestinationListController {
                 // remove any feedback given and do nothing
                 feedbackLabel.setText("");
             } else if (newDestinationName.equals("null")) {
+                // because of how getting items from list-views work, we do not allow the user
+                // to add a destination with the name "null"
                 feedbackLabel.setText("The name null is invalid for a destination");
             } else if (destinationList.containsDestination(newDestinationName)) {
                 // if the input text matches any of the already registrations
