@@ -9,29 +9,52 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * JavaFX App.
  */
-public class App extends Application {
+public final class App extends Application {
 
+    /**
+     * Scene object.
+     */
     private static Scene scene;
 
+    /**
+     * Starts application.
+     */
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("destinationList"), 754, 920);
+    public void start(final Stage stage) throws IOException {
+        final int width = 754;
+        final int height = 920;
+        scene = new Scene(loadFXML("destinationList"), width, height);
         stage.setScene(scene);
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    /**
+     * Sets root.
+     * @param fxml
+     * @throws IOException
+     */
+    static void setRoot(final String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    /**
+     * Loads FXML view.
+     * @param fxml
+     * @return Parent - loaded fxmlloader
+     * @throws IOException
+     */
+    private static Parent loadFXML(final String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) {
+    /**
+     * Main method, launches application.
+     * @param args
+     */
+    public static void main(final String[] args) {
         launch();
     }
 

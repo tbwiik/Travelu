@@ -23,35 +23,35 @@ import javafx.scene.input.MouseEvent;
 public class DestinationListController {
 
     /**
-     * Initialize client for server communication
+     * Initialize client for server communication.
      */
     private final Client client = new Client("http://localhost", 8080);
 
     /**
-     * ListView containing names of all destinations in DestinationList
+     * ListView containing names of all destinations in DestinationList.
      */
     @FXML
     private ListView<String> listView;
 
     /**
-     * TextArea for adding destination by typing in name
+     * TextArea for adding destination by typing in name.
      */
     @FXML
     private TextArea destinationText;
 
     /**
-     * Label for giving feedback related to destination list
+     * Label for giving feedback related to destination list.
      */
     @FXML
     private Label feedbackLabel;
 
     /**
-     * DestinationList object, contains all destinations
+     * DestinationList object, contains all destinations.
      */
     private DestinationList destinationList;
 
     /**
-     * Currently selected destination, used for changing views
+     * Currently selected destination, used for changing views.
      */
     private String currentDestination;
 
@@ -76,9 +76,9 @@ public class DestinationListController {
     }
 
     /**
-     * Make the list view be a list of all destination names in the desitnation
+     * Make the list view be a list of all destination names in the desitnation.
      * list.
-     * 
+     *
      * Each name with a number of stars at the end equal to the rating.
      */
     private void setUpListView() {
@@ -111,7 +111,7 @@ public class DestinationListController {
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
-            public void handle(MouseEvent click) {
+            public void handle(final MouseEvent click) {
 
                 if (click.getTarget().toString().contains("'")) {
                     // If you click on the box around the text the format is
@@ -154,12 +154,12 @@ public class DestinationListController {
     }
 
     /**
-     * Switch to Destination-View
-     * 
-     * @param destinationName
+     * Switch to Destination-View.
+     *
+     * @param destinationName string
      * @throws IOException if error initializing new page
      */
-    private void switchToDestination(String destinationName) throws IOException {
+    private void switchToDestination(final String destinationName) throws IOException {
 
         try {
             // Store the currently selected destination's name to the server
@@ -176,7 +176,7 @@ public class DestinationListController {
     }
 
     /**
-     * Add destination to list
+     * Add destination to list.
      */
     @FXML
     private void handleAddDestination() {
@@ -228,7 +228,7 @@ public class DestinationListController {
     }
 
     /**
-     * Removes destination from list
+     * Removes destination from list.
      */
     @FXML
     private void handleRemoveDestination() {
@@ -265,7 +265,7 @@ public class DestinationListController {
     }
 
     /**
-     * Sort the list of destinations alphabetically from A to Z
+     * Sort the list of destinations alphabetically from A to Z.
      */
     @FXML
     private void handleSortByName() {
@@ -274,7 +274,7 @@ public class DestinationListController {
     }
 
     /**
-     * Sort the list of destinations by rating from highest to lowest
+     * Sort the list of destinations by rating from highest to lowest.
      */
     @FXML
     private void handleSortByRating() {
@@ -284,9 +284,9 @@ public class DestinationListController {
 
     /*
      * Creates a popup with the given title and message that will be shown until
-     * closed
+     * closed.
      */
-    private void errorPopup(String type, String message) {
+    private void errorPopup(final String type, final String message) {
         Alert invalidInput = new Alert(AlertType.WARNING);
         invalidInput.setTitle(type);
         invalidInput.setHeaderText(message);
