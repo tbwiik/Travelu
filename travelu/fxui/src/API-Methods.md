@@ -77,7 +77,7 @@ Example of destination in DestinationList.json:
 
 - Returns: `String`: The JSON file [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json) as a string.
 
-Example of CurrentDestination.json
+Example of CurrentDestination.json:
 ```json
 "Sweden"
 ```
