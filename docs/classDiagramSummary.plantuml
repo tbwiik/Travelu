@@ -18,16 +18,13 @@ class TraveluService
 App .. DestinationListController
 App .. DestinationController
 Destination --> "dateInterval: 1" DateInterval
-DestinationList ---> "destinations: *" Destination
+DestinationList --> "destinations: *" Destination
 DestinationController -> "currentDestination: 1" Destination
-DestinationController -> "destinationList: 1" DestinationList
 DestinationController ---> "client: 1" Client
 DestinationListController ---> "destinationList: 1" DestinationList
 DestinationListController ---> "client: 1" Client
-'TraveluHandler -[hidden]-> DestinationList
 TraveluService --> "traveluHandler: 1" TraveluHandler
 TraveluController --> "traveluService: 1" TraveluService
-'TraveluService ---> "destinationList: 1" DestinationList
 TraveluHandler -[hidden]-> DestinationList
 TraveluHandler -[hidden]-> Destination
 Client . TraveluController
