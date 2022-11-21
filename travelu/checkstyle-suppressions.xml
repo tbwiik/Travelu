@@ -5,5 +5,6 @@
 
 <!-- Suppress warnings from App files -->
 <suppressions>
-    <suppress checks="HideUtilityClassConstructor" files=".*\*App.java"/>
+    <suppress checks="HideUtilityClassConstructor" files=".*\TraveluApplication.java"/>
+    <suppress checks="HideUtilityClassConstructor" files=".*\TraveluHandler.java"/>
 </suppressions>
