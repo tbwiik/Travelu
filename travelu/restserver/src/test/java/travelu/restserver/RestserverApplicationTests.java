@@ -74,11 +74,17 @@ class RestserverApplicationTests {
 		}
 	}
 
+	/**
+	 * Check that the app runs
+	 */
 	@Test
 	public void testApp() {
 		TraveluApplication.main();
 	}
 
+	/**
+	 * Check that TraveluController exists
+	 */
 	@Test
 	public void testContextLoads() {
 		assertNotNull(traveluController);
@@ -89,7 +95,6 @@ class RestserverApplicationTests {
 	 */
 	@Test
 	public void testGetDestinationList() {
-
 		try {
 
 			// Get destination-list
@@ -336,7 +341,6 @@ class RestserverApplicationTests {
 	 * @throws Exception
 	 */
 	private void tearDownDestination() {
-
 		try {
 
 			// Delete destination
