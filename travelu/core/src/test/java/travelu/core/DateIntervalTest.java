@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
  */
 public class DateIntervalTest {
 
+    /**
+     * DateInterval object for use in tests
+     */
     private DateInterval dateInterval;
 
     /**
