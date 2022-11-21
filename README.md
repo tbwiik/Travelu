@@ -18,8 +18,8 @@ We are making an application called Travelu. We have written about its functiona
 This project contains:
 
 - A [README.md](travelu/README.md) explaining the functionality of the app
-- [User scenarios](docs/userscenarios) for the different use cases of the app
-- Documentation about [quality assurance](docs/qualityassurance) of the project
+- [User scenarios](docs/user-scenarios) for the different use cases of the app
+- Documentation about [quality assurance](docs/quality-assurance) of the project
 - Documentation of all [releases](docs/releases)
 - [Diagrams](docs/diagrams) of the project's architecture and how the application works
 - Documentation about our [development](docs/development) process
@@ -79,7 +79,7 @@ After building project, run the following commands in terminal to run tests and 
 - Run `mvn verify` to get test-coverage and quality report
 - Report found in [travelu/core/target/site/jacoco/index.html](travelu/core/target/site/jacoco/index.html)
 
-See documentaion about [test coverage](docs/qualityAssurance/testCoverage.md) for more information.
+See documentaion about [test coverage](docs/quality-assurance/testCoverage.md) for more information.
 
 **NOTE:** The UI tests will fail if you have a spring-boot server running when you run the tests. You can either stop the server or run the tests with the `-DskipUITests=true` flag.
 
