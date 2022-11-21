@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -82,21 +83,6 @@ public class TraveluController {
     }
 
     /**
-     * Store chosen destination
-     * <p>
-     * Accepts empty input
-     * 
-     * @param destinationName
-     */
-    @PostMapping(value = "/storeCurrent", produces = "application/json")
-    public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
-        // Convert to empty string if empty comment is sent
-        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON;
-
-        traveluService.saveDestinationName(destinationName);
-    }
-
-    /**
      * add activity to current destination
      *
      * @param activity to add
@@ -113,11 +99,26 @@ public class TraveluController {
     }
 
     /**
+     * Store chosen destination
+     * <p>
+     * Accepts empty input
+     * 
+     * @param destinationName
+     */
+    @PutMapping(value = "/storeCurrent", produces = "application/json")
+    public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
+        // Convert to empty string if empty comment is sent
+        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON;
+
+        traveluService.saveDestinationName(destinationName);
+    }
+
+    /**
      * set rating to current destination
      *
      * @param rating to set
      */
-    @PostMapping(value = "/setRating", produces = "application/json")
+    @PutMapping(value = "/setRating", produces = "application/json")
     public void setRatingJSON(final @RequestBody String rating) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -133,7 +134,7 @@ public class TraveluController {
      * 
      * @param arrivalDate
      */
-    @PostMapping(value = "/setArrivalDate", produces = "application/json")
+    @PutMapping(value = "/setArrivalDate", produces = "application/json")
     public void setArrivalDateJSON(final @RequestBody String arrivalDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -149,7 +150,7 @@ public class TraveluController {
      *
      * @param departureDate to set
      */
-    @PostMapping(value = "/setDepartureDate", produces = "application/json")
+    @PutMapping(value = "/setDepartureDate", produces = "application/json")
     public void setDepartureDateJSON(final @RequestBody String departureDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -167,7 +168,7 @@ public class TraveluController {
      * 
      * @param comment
      */
-    @PostMapping(value = "/updateComment", produces = "application/json")
+    @PutMapping(value = "/updateComment", produces = "application/json")
     public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
 
         // Convert to empty string if empty comment is sent
@@ -189,7 +190,9 @@ public class TraveluController {
     @DeleteMapping(value = "/delete/{destinationName}", produces = "application/json")
     public void removeDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
+
         traveluService.getDestinationList().removeDestination(destinationName);
+
         traveluService.save();
     }
 
