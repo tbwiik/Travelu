@@ -79,13 +79,26 @@ class RestserverApplicationTests {
 		assertNotNull(traveluController);
 	}
 
+	/**
+	 * Testing getting destination-list
+	 */
 	@Test
 	public void testGetDestinationList() {
 
 		try {
+
+			// Get destination-list
 			MvcResult result = mockMvc.perform(get(API_ADRESS + "destinationlist")).andDo(print())
 					.andExpect(status().isOk()).andReturn();
-			assertEquals(mockDList, result.getResponse().getContentAsString());
+
+			// Check that destination-list is empty
+			assertEquals(emptyDestinationList, result.getResponse().getContentAsString());
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
