@@ -1,10 +1,7 @@
 package travelu.fxui;
 
 import java.net.URISyntaxException;
-import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -22,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.util.StringConverter;
 import javafx.scene.shape.SVGPath;
 
 public class DestinationController {
@@ -171,7 +167,7 @@ public class DestinationController {
         // Set prompt text to display correct format
         String pattern = "dd/MM/yyyy";
         arrivalDatePicker.setPromptText(pattern.toLowerCase());
-        arrivalDatePicker.setPromptText(pattern.toLowerCase());
+        departureDatePicker.setPromptText(pattern.toLowerCase());
 
         // Init string converter
         DateConverter dateConverter = new DateConverter();
