@@ -246,7 +246,7 @@ public class DestinationListController {
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
-                errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+                errorPopup("Error", se.getMessage() + ": " + se.getStatusCode());
             } catch (ExecutionException ee) {
                 ee.printStackTrace();
                 // TODO better handling
