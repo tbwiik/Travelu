@@ -95,7 +95,7 @@ public class DestinationController {
     private void initialize() {
 
         try {
-            this.currentDestination = client.getCurrentDestination();
+            currentDestination = client.getCurrentDestination();
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
@@ -107,7 +107,7 @@ public class DestinationController {
         destinationLabel.setText(currentDestination.getName());
 
         // Color the stars according to the rating
-        colorStars(this.currentDestination.getRating());
+        colorStars(currentDestination.getRating());
 
         // Set comment text field to the comment of the destination if it exists
         if (this.currentDestination.getComment() != null) {
@@ -198,7 +198,7 @@ public class DestinationController {
     @FXML
     private void updateListView() {
         activitiesListView.getItems().clear();
-        activitiesListView.getItems().addAll(this.currentDestination.getActivities());
+        activitiesListView.getItems().addAll(currentDestination.getActivities());
     }
 
     /**
@@ -224,7 +224,7 @@ public class DestinationController {
             // Add activity to the current destination
             // TODO: Stop interacting directly with core through currentDestination
             currentDestination.addActivity(activity);
-            this.client.addActivity(activity);
+            client.addActivity(activity);
 
             // Clear feedback label if everything went well
             activityFeedbackLabel.setText("");
@@ -251,7 +251,7 @@ public class DestinationController {
         if (currentActivity != null) {
             try {
                 // Remove activity from the server
-                this.client.removeActivity(currentActivity);
+                client.removeActivity(currentActivity);
             } catch (ServerException se) {
                 errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
             } catch (ExecutionException | URISyntaxException | InterruptedException e) {
@@ -308,7 +308,7 @@ public class DestinationController {
         colorStars(starNumber);
 
         try {
-            this.client.setRating(starNumber);
+            client.setRating(starNumber);
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
@@ -343,7 +343,7 @@ public class DestinationController {
         // TODO: Stop interacting directly with core through currentDestination
         currentDestination.setComment(newComment);
         try {
-            this.client.updateComment(newComment);
+            client.updateComment(newComment);
             commentFeedbackLabel.setText("Comment updated!");
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
@@ -367,6 +367,8 @@ public class DestinationController {
         try {
             // TODO: Stop interacting directly with core through currentDestination
             currentDestination.setArrivalDate(arrivalDate);
+            client.setArrivalDate(arrivalDate);
+
             // Updates arrival date label
             // This throws an exception if the date is invalid and therefore gets catched
             // TODO: Stop interacting directly with core through currentDestination
@@ -400,6 +402,8 @@ public class DestinationController {
 
             // TODO: Stop interacting directly with core through currentDestination
             currentDestination.setDepartureDate(departureDate);
+            client.setDepartureDate(departureDate);
+
             // Updates arrival date label
             // This throws an exception if the date is invalid and therefore gets catched
             // TODO: Stop interacting directly with core through currentDestination
