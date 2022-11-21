@@ -118,45 +118,6 @@ public class Client {
     }
 
     /**
-     * Get names of stored Destinations
-     * 
-     * @return destination names
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
-     */
-    public List<String> getDestinationNames()
-            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "destinationNames");
-
-        String[] names = new Gson().fromJson(response.body(), String[].class);
-
-        return Arrays.asList(names);
-    }
-
-    /**
-     * Check if name is already present in list
-     * 
-     * @return true if in list
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
-     */
-    public boolean containsDestination(final String destinationName)
-            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
-        String destinationNameJSON = destinationName.replace(" ", "%20");
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "contains/" + destinationNameJSON);
-
-        Boolean contains = new Gson().fromJson(response.body(), Boolean.class);
-
-        return contains;
-    }
-
-    /**
      * Add new {@link Destination} through server
      * 
      * @param destination
@@ -268,24 +229,6 @@ public class Client {
     }
 
     /**
-     * Get rating for chosen destination through server
-     * 
-     * @return int - rating
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException
-     */
-    public int getRating() throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "getRating");
-
-        int rating = Integer.parseInt(response.body());
-
-        return rating;
-    }
-
-    /**
      * Save arrival date for chosen destination through server
      * 
      * @param arrivalDate
@@ -297,23 +240,6 @@ public class Client {
     public void setArrivalDate(String arrivalDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         httpRequests.put(API_ADDRESS + "setArrivalDate", arrivalDate);
-    }
-
-    /**
-     * Get arrival date for chosen destination through server
-     * 
-     * @return arrival date
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException
-     */
-    public String getArrivalDate()
-            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "getArrivalDate");
-
-        return response.body();
     }
 
     /**
@@ -331,23 +257,6 @@ public class Client {
     }
 
     /**
-     * Get departure date for chosen destination through server
-     * 
-     * @return departure date
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException
-     */
-    public String getDepartureDate()
-            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "getDepartureDate");
-
-        return response.body();
-    }
-
-    /**
      * Save updated comment for chosen destination through server
      * 
      * @param comment
@@ -360,23 +269,6 @@ public class Client {
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         httpRequests.put(API_ADDRESS + "updateComment", comment);
-    }
-
-    /**
-     * Get comment for chosen destination through server
-     * 
-     * @return comment
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException
-     */
-    public String getComment()
-            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "getComment");
-
-        return response.body();
     }
 
 }
