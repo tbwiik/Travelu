@@ -72,7 +72,7 @@ public class Destination {
         if (dateInterval != null) {
             return new DateInterval(dateInterval);
         }
-        return null;
+        return new DateInterval();
     }
 
     /**
