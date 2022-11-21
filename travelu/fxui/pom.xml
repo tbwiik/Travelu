@@ -3,6 +3,7 @@
     <groupId>gr2219</groupId>
     <artifactId>fxui</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>ui</name>
 
     <!--The identifier of the parent POM-->
     <parent>
@@ -21,19 +22,7 @@
 
         <dependency>
             <groupId>gr2219</groupId>
-            <artifactId>localpersistence</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>gr2219</groupId>
             <artifactId>client</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>gr2219</groupId>
-            <artifactId>restserver</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -89,6 +78,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Mocking of server -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -119,34 +109,16 @@
 
     </dependencies>
 
-    <!-- 
-        **Not in use**
-        <profiles>
-    
-        <profile>
-            <id>headless</id>
-            <properties>
-                <headlessTests>true</headlessTests>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.testfx</groupId>
-                    <artifactId>openjfx-monocle</artifactId>
-                    <version>jdk-12.0.1+2</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-    </profiles> -->
-
     <build>
         <plugins>
+
+            <!-- Maven compiling -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
 
+            <!-- Maven testing -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -234,12 +206,14 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
+                    <!-- Contains exlusion of non-solvable issue -->
                     <excludeFilterFile>config/spotbugs/exclude.xml</excludeFilterFile>
                 </configuration>
                 
             </plugin>
 
         </plugins>
+        
     </build>
 
 </project>
