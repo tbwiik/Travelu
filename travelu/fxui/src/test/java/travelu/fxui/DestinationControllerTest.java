@@ -90,7 +90,7 @@ public class DestinationControllerTest extends ApplicationTest {
 
                 WireMock.configureFor("localhost", wireMockConfiguration.portNumber());
 
-                // getting finland destination
+                // Getting Finland destination
                 stubFor(get(urlEqualTo("/api/v1/entries/Spain"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
@@ -98,7 +98,7 @@ public class DestinationControllerTest extends ApplicationTest {
                                                 .withBody(
                                                                 "{\"name\": \"Spain\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 0,\"activities\": [\"Go to the beach\"],\"comment\": \"\"}")));
 
-                // getting current destination
+                // Getting current destination
                 stubFor(get(urlEqualTo("/api/v1/entries/currentDestination"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
@@ -106,24 +106,25 @@ public class DestinationControllerTest extends ApplicationTest {
                                                 .withBody(
                                                                 "Spain")));
 
-                // adding activity
+                // Adding activity
                 stubFor(post(urlEqualTo("/api/v1/entries/addActivity"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
 
-                // removing activity
+                // Removing activity "Go to the beach"
                 stubFor(delete(urlEqualTo("/api/v1/entries/removeActivity/Go%20to%20the%20beach"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
 
+                // Removing activity
                 stubFor(delete(urlEqualTo("/api/v1/entries/removeActivity"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
 
-                // setting rating
+                // Setting rating
                 stubFor(put(urlEqualTo("/api/v1/entries/setRating"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
@@ -135,19 +136,22 @@ public class DestinationControllerTest extends ApplicationTest {
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
 
-                // setting departure date
+                // Setting departure date
                 stubFor(put(urlEqualTo("/api/v1/entries/setDepartureDate"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
 
-                // updating comment
+                // Updating comment
                 stubFor(put(urlEqualTo("/api/v1/entries/updateComment"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
         }
 
+        /**
+         * Stop WireMock server
+         */
         @AfterAll
         public void stopWireMockServer() {
                 wireMockServer.stop();
@@ -207,7 +211,7 @@ public class DestinationControllerTest extends ApplicationTest {
         @Test
         public void testSetDates() {
 
-                // dates in format dd/MM/yyyy
+                // Dates in format dd/MM/yyyy
                 String validArrivalDate = "05/02/2021";
                 String validDepartureDate = "19/10/2021";
                 String invalidDate = "11/13/2021";
@@ -215,66 +219,66 @@ public class DestinationControllerTest extends ApplicationTest {
                 String arrivalDateAfterDepartureDate = "21/10/2021";
                 String departureDateBeforeArrivalDate = "10/01/2021";
 
-                // ensure that there are no post requests to the server yet
+                // Ensure that there are no post requests to the server yet
                 wireMockServer.verify(0, putRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
                 wireMockServer.verify(0, putRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
 
-                // input valid arrival date
+                // Input valid arrival date
                 clickOn(arrivalDatePicker).write(validArrivalDate);
                 clickOn(setArrivalDate);
 
-                // check if there is no feedback
+                // Check if there is no feedback
                 assertEquals("", dateUpdatedFeedbackLabel.getText());
 
-                // check if arrivalDateLabel is correctly updated
+                // Check if arrivalDateLabel is correctly updated
                 assertEquals(validArrivalDate, arrivalDateLabel.getText());
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(1, putRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
-                // input valid departure date
+                // Input valid departure date
                 clickOn(departureDatePicker).write(validDepartureDate);
                 clickOn(setDepartureDate);
 
-                // check if there is no feedback
+                // Check if there is no feedback
                 assertEquals("", dateUpdatedFeedbackLabel.getText());
 
-                // check if departureDateLabel is correctly updated
+                // Check if departureDateLabel is correctly updated
                 assertEquals(validDepartureDate, departureDateLabel.getText());
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(1, putRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
 
-                // input invalid arrival date
+                // Input invalid arrival date
                 clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                                 .write(invalidDate);
                 clickOn(setArrivalDate);
 
-                // should not post request to server
+                // Should not post request to server
                 wireMockServer.verify(1, putRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
                 assertEquals("Invalid arrival date.", dateUpdatedFeedbackLabel.getText());
 
-                // input invalid departure date
+                // Input invalid departure date
                 clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                                 .write(invalidDate);
                 clickOn(setDepartureDate);
 
-                // should not post request to server
+                // Should not post request to server
                 wireMockServer.verify(1, putRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
 
                 assertEquals("Invalid departure date.", dateUpdatedFeedbackLabel.getText());
 
-                // date labels should be unchanged
+                // Date labels should be unchanged
                 assertEquals(validArrivalDate, arrivalDateLabel.getText());
                 assertEquals(validDepartureDate, departureDateLabel.getText());
 
-                // input arrival date after departure date
+                // Input arrival date after departure date
                 clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                                 .write(arrivalDateAfterDepartureDate);
                 clickOn(setArrivalDate);
 
-                // should not post request to server
+                // Should not post request to server
                 wireMockServer.verify(1, putRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
                 assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
@@ -282,35 +286,35 @@ public class DestinationControllerTest extends ApplicationTest {
                 // arrivalDateLabel should be unchanged
                 assertEquals(validArrivalDate, arrivalDateLabel.getText());
 
-                // input valid arrival date, check that feedback label is cleared
+                // Input valid arrival date, check that feedback label is cleared
                 clickOn(arrivalDatePicker).eraseText(arrivalDatePicker.getEditor().getText().length())
                                 .write(validArrivalDate);
                 clickOn(setArrivalDate);
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(2, putRequestedFor(urlEqualTo("/api/v1/entries/setArrivalDate")));
 
                 assertEquals("", dateUpdatedFeedbackLabel.getText());
 
-                // input departure date before arrival date
+                // Input departure date before arrival date
                 clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                                 .write(departureDateBeforeArrivalDate);
                 clickOn(setDepartureDate);
 
-                // should not post request to server
+                // Should not post request to server
                 wireMockServer.verify(1, putRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
 
                 assertEquals("Arrival date must be before departure date.", dateUpdatedFeedbackLabel.getText());
 
-                // departure date label should be unchanged
+                // Departure date label should be unchanged
                 assertEquals(validDepartureDate, departureDateLabel.getText());
 
-                // input valid departure date, check that feedback label is cleared
+                // Input valid departure date, check that feedback label is cleared
                 clickOn(departureDatePicker).eraseText(departureDatePicker.getEditor().getText().length())
                                 .write(validDepartureDate);
                 clickOn(setDepartureDate);
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(2, putRequestedFor(urlEqualTo("/api/v1/entries/setDepartureDate")));
 
                 assertEquals("", dateUpdatedFeedbackLabel.getText());
@@ -331,11 +335,11 @@ public class DestinationControllerTest extends ApplicationTest {
         @Test
         public void testAddActivity() {
 
-                // valid input
+                // Valid input
                 clickOn(newActivityTextField).write("Take flamenco lessons");
                 clickOn(addActivity);
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
 
                 // activitiesListView should be updated
@@ -350,7 +354,7 @@ public class DestinationControllerTest extends ApplicationTest {
                 clickOn(newActivityTextField).write("");
                 clickOn(addActivity);
 
-                // should not post request to server
+                // Should not post request to server
                 wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
 
                 // activityFeedbackLabel should be updated
@@ -363,7 +367,7 @@ public class DestinationControllerTest extends ApplicationTest {
                 clickOn(newActivityTextField).eraseText(newActivityTextField.getText().length()).write("Dance salsa");
                 clickOn(addActivity);
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
 
                 // activityFeedbackLabel should be reset
@@ -378,7 +382,7 @@ public class DestinationControllerTest extends ApplicationTest {
                 clickOn(newActivityTextField).write("Go to the beach");
                 clickOn(addActivity);
 
-                // should not post request to server
+                // Should not post request to server
                 wireMockServer.verify(2, postRequestedFor(urlEqualTo("/api/v1/entries/addActivity")));
 
                 // activityFeedbackLabel should be updated
@@ -428,12 +432,12 @@ public class DestinationControllerTest extends ApplicationTest {
         @Test
         public void testWriteComment() {
 
-                // valid input
+                // Valid input
                 clickOn(commentTextField).write(
                                 "I traveled to Spain with my family");
                 clickOn(updateComment);
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(1, putRequestedFor(urlEqualTo("/api/v1/entries/updateComment")));
 
                 // commentFeedBackLabel should be updated
@@ -442,7 +446,7 @@ public class DestinationControllerTest extends ApplicationTest {
                 clickOn(commentTextField).eraseText(commentTextField.getText().length());
                 clickOn(updateComment);
 
-                // should post request to server
+                // Should post request to server
                 wireMockServer.verify(2, putRequestedFor(urlEqualTo("/api/v1/entries/updateComment")));
 
         }
