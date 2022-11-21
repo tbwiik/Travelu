@@ -168,4 +168,55 @@ public class Requests {
         return httpResponse;
     }
 
+    /**
+     * Asynchronous put request
+     * <p>
+     * Method written per {@link HttpRequest} documentation
+     * 
+     * @param endpoint where the request is sent to
+     * @param payload  what to put
+     * @return the HTTP async response
+     * @throws URISyntaxException if invalid URI
+     */
+    private CompletableFuture<HttpResponse<String>> putAsync(String endpoint, String payload)
+            throws URISyntaxException {
+
+        HttpClient client = HttpClient.newBuilder().build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .PUT(HttpRequest.BodyPublishers.ofString(payload))
+                .uri(new URI(this.serverUrl + ":" + this.serverPort + endpoint))
+                .build();
+
+        return client.sendAsync(request, BodyHandlers.ofString());
+    }
+
+    /**
+     * Synchronous put request
+     * <p>
+     * Makes use of {@link #putAsync(String)}
+     * 
+     * @param endpoint where the request is sent to
+     * @param payload  what to put
+     * @return the HTTP response
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrieval of
+     *                              response
+     * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
+     */
+    public HttpResponse<String> put(String endpoint, String payload)
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
+
+        HttpResponse<String> httpResponse = this.putAsync(endpoint, payload).get();
+
+        if (!Pattern.matches(HTTP_STATUS_OK,
+                String.valueOf(httpResponse.statusCode())))
+            throw new ServerException(httpResponse.body(),
+                    httpResponse.statusCode());
+
+        System.out.println(httpResponse.body());
+        return httpResponse;
+    }
+
 }
