@@ -1,6 +1,5 @@
 package travelu.fxui;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -40,7 +39,7 @@ public class DestinationController {
 
     /**
      * Currently selected activity
-    */
+     */
     private String currentActivity;
 
     /**
@@ -121,8 +120,8 @@ public class DestinationController {
     @FXML
     SVGPath star2;
     /**
-    * Third star element
-    */
+     * Third star element
+     */
     @FXML
     SVGPath star3;
 
@@ -169,55 +168,17 @@ public class DestinationController {
         arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
         departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
 
-        // Standardizes date formatting in datePicker
-        // Code gotten from documentation for datePicker.setconverter
-        // https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/DatePicker.html#setConverter-javafx.util.StringConverter-
-        StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
-            // Standard date formatting
-            String pattern = "dd/MM/yyyy";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-            {
-                // Display format in DatePicker text fields
-                arrivalDatePicker.setPromptText(pattern.toLowerCase());
-                departureDatePicker.setPromptText(pattern.toLowerCase());
-            }
+        // Set prompt text to display correct format
+        String pattern = "dd/MM/yyyy";
+        arrivalDatePicker.setPromptText(pattern.toLowerCase());
+        arrivalDatePicker.setPromptText(pattern.toLowerCase());
 
-            /**
-             * Generates string from LocalDate object, used for displaying selected date in
-             * DatePicker text field
-             * <p>
-             * Returns empty string if date is invalid
-             */
-            @Override
-            public String toString(LocalDate date) {
-                try {
-                    if (date != null) {
-                        return formatter.format(date);
-                    }
-                } catch (DateTimeException dte) {
-                }
-                return "";
-            }
+        // Init string converter
+        DateConverter dateConverter = new DateConverter();
 
-            /**
-             * Generates LocalDate object from string, used for validating written input
-             * date
-             */
-            @Override
-            public LocalDate fromString(String string) {
-                try {
-                    if (string != null && !string.isEmpty()) {
-                        return LocalDate.parse(string, formatter);
-                    }
-                } catch (DateTimeParseException dtpe) {
-                }
-                return null;
-            }
-        };
-
-        // Set the date pickers to both use the string converter
-        arrivalDatePicker.setConverter(stringConverter);
-        departureDatePicker.setConverter(stringConverter);
+        // Set the date pickers to both use string converter
+        arrivalDatePicker.setConverter(dateConverter);
+        departureDatePicker.setConverter(dateConverter);
 
         setupListView();
         updateListView();
