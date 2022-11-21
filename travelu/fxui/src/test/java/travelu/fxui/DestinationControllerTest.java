@@ -35,11 +35,6 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-import travelu.core.DateInterval;
-import travelu.core.Destination;
-import travelu.core.DestinationList;
-import travelu.localpersistence.TraveluHandler;
-
 /**
  * JavaFX tests for DestinationController, isolated from server
  * <p>
