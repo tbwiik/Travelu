@@ -13,11 +13,11 @@ import java.time.format.DateTimeFormatter;
 public class DateInterval {
 
     /**
-     * Arrival date represented as string, on format dd/MM/yyyy
+     * Arrival date represented as string, on format dd/MM/yyyy.
      */
     private String arrivalDate;
     /**
-     * Departure date represented as string, on format dd/MM/yyyy
+     * Departure date represented as string, on format dd/MM/yyyy.
      */
     private String departureDate;
 
@@ -28,64 +28,67 @@ public class DateInterval {
     }
 
     /**
-     * Create copy of DateInterval
-     * 
+     * Create copy of DateInterval.
+     *
      * @param dateInterval object
      * @throws IllegalArgumentException if dateInterval is null
      */
-    public DateInterval(DateInterval dateInterval) throws IllegalArgumentException {
-        if (dateInterval == null)
+    public DateInterval(final DateInterval dateInterval) throws IllegalArgumentException {
+        if (dateInterval == null) {
             throw new IllegalArgumentException("dateInterval cannot be null");
+        }
 
         this.arrivalDate = dateInterval.getArrivalDate();
         this.departureDate = dateInterval.getDepartureDate();
     }
 
     /**
-     * @return arrivalDate - string on format dd/MM/yyyy
+     * @return arrivalDate - string on format dd/MM/yyyy.
      */
     public String getArrivalDate() {
         return this.arrivalDate;
     }
 
     /**
-     * @return departureDate - string on format dd/MM/yyyy
+     * @return departureDate - string on format dd/MM/yyyy.
      */
     public String getDepartureDate() {
         return this.departureDate;
     }
 
     /**
-     * Set arrival date
-     * 
-     * @param arrivalDate - string on format dd/MM/yyyy
-     * @throws IllegalArgumentException if arrivalDate is invalid
+     * Set arrival date.
+     *
+     * @param arrivalDate - string on format dd/MM/yyyy.
+     * @throws IllegalArgumentException if arrivalDate is invalid.
      */
-    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException {
+    public void setArrivalDate(final String arrivalDate) throws IllegalArgumentException {
         checkDatePair(arrivalDate, this.departureDate);
         this.arrivalDate = arrivalDate;
     }
 
     /**
-     * Set departure date
-     * 
+     * Set departure date.
+     *
      * @param departureDate - string on format dd/MM/yyyy
      * @throws IllegalArgumentException if departureDate is invalid
      */
-    public void setDepartureDate(String departureDate) throws IllegalArgumentException {
+    public void setDepartureDate(final String departureDate) throws IllegalArgumentException {
         checkDatePair(this.arrivalDate, departureDate);
         this.departureDate = departureDate;
     }
 
     /**
-     * Checks that dateString represents a valid date with 3 parts: day, month and
-     * year. Uses inbuilt LocalDate validation.
-     * 
+     * Checks that dateString represents a valid date with 3 parts:
+     * day, month and year.
+     * <p>
+     * Uses inbuilt LocalDate validation.
+     *
      * @param dateString on the format "dd/MM/yyyy". Formatting is strict, years
      *                   before 1000 and after 9999 are not accepted
-     * @return boolean
+     * @return true if date is valid
      */
-    private boolean isValidDate(String dateString) {
+    private boolean isValidDate(final String dateString) {
         try {
             // Split date into array of Strings, parse these as integers
             String[] dateArray = dateString.split("/");
@@ -101,16 +104,15 @@ public class DateInterval {
     }
 
     /**
-     * Checks whether arrival and departure dates are valid. Throws errors related
-     * to specific validity problems
-     * 
+     * Checks whether arrival and departure dates are valid.
+     * Throws errors related to specific validity problems.
+     *
      * @param arrivalDate   - string on format dd/MM/yyyy
      * @param departureDate - string on format dd/MM/yyyy
-     * 
      * @throws IllegalArgumentException - If the date pair is invalid. Exception
      *                                  message describes the specific problem.
      */
-    private void checkDatePair(String arrivalDate, String departureDate) throws IllegalArgumentException {
+    private void checkDatePair(final String arrivalDate, final String departureDate) throws IllegalArgumentException {
 
         boolean arrivalValid = isValidDate(arrivalDate);
         boolean departureValid = isValidDate(departureDate);
@@ -124,7 +126,7 @@ public class DateInterval {
             if (!departure.isAfter(arrival) && !departure.isEqual(arrival)) {
                 throw new IllegalStateException("Arrival date must be before departure date.");
             }
-            ;
+
         } else if (!departureValid && departureDate != null) {
             throw new IllegalArgumentException("Invalid departure date.");
         } else if (!arrivalValid && arrivalDate != null) {
