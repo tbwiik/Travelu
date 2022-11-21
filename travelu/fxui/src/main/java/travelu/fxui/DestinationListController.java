@@ -54,8 +54,8 @@ public class DestinationListController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
 
         setUpListView();
@@ -154,8 +154,8 @@ public class DestinationListController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
 
         App.setRoot("destination");
@@ -208,8 +208,8 @@ public class DestinationListController {
         } catch (ServerException se) {
             errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
-            // TODO better handling
         }
 
     }
@@ -245,8 +245,8 @@ public class DestinationListController {
             } catch (ServerException se) {
                 errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
             } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+                errorPopup("Error", "Error: \n" + e.getMessage());
                 e.printStackTrace();
-                // TODO better handling
             }
         }
     }
