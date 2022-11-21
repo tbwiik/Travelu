@@ -28,20 +28,31 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // Set up server
-@ContextConfiguration(classes = { TraveluController.class, TraveluApplication.class, TraveluService.class }) // Defines
-                                                                                                             // how to
-                                                                                                             // load
-                                                                                                             // data
-@TestInstance(Lifecycle.PER_CLASS) // Enables @AfterAll function
+// Set up server
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+// Defines how to load data
+@ContextConfiguration(classes = { TraveluController.class, TraveluApplication.class, TraveluService.class })
+
+// Enables @AfterAll function
+@TestInstance(Lifecycle.PER_CLASS)
 public class AppIntegrationTest extends ApplicationTest {
 
+    /**
+     * Port of local server
+     */
     @LocalServerPort
     private int port;
 
+    /**
+     * Controller used in test
+     */
     @Autowired
     private TraveluController controller;
 
+    /**
+     * Client used in test
+     */
     private Client client;
 
     /**
@@ -53,13 +64,16 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * Clear destinationList
+     * Clear file before each test
      */
     @BeforeEach
     public void setUpEach() {
         clearDestinations();
     }
 
+    /**
+     * Clear files after all tests
+     */
     @AfterAll
     public void tearDown() {
 
