@@ -75,7 +75,7 @@ Example of destination in DestinationList.json:
 
 - Inputs: None
 
-- Returns: `String`: The JSON file [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json) as a string.
+- Returns: `String`: The JSON file [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestinationName.json) as a string.
 
 Example of CurrentDestination.json:
 ```json
@@ -104,7 +104,7 @@ Put-requests are used for overwriting information.
 
 - HTTP address: `/api/v1/entries/storeCurrent`
 
-- Inputs: `String destinationNameJSON`: The name of the destination that should be stored in [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json).
+- Inputs: `String destinationNameJSON`: The name of the destination that should be stored in [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestinationName.json).
 
 ### setRatingJSON(String rating)
 

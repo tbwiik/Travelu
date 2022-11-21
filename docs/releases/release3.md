@@ -10,7 +10,7 @@ We expanded the functionality, where you can now rate the destinations between 1
 
 |        Front page with sorting feature and rating display         |      Destination page with rating and remove button      |
 | :---------------------------------------------------------------: | :------------------------------------------------------: |
-| ![Destination-List View](../pictures/destinationListRelease3.png) | ![Destination View](../pictures/destinationRelease3.png) |
+| ![Destination-List View](/pictures/destinationListRelease3.png) | ![Destination View](/pictures/destinationRelease3.png) |
 
 ## Sprint 5 – Preparation for the final release
 
