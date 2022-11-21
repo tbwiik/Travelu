@@ -194,7 +194,8 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("Norway", destinationText.getText());
                 assertEquals("You have already registered this destination", feedbackLabel.getText());
 
-                // should not post request to server, number of requests is already 1 from previous test
+                // should not post request to server, number of requests is already 1 from
+                // previous test
                 wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
 
                 // case insensitive duplicate input
@@ -216,6 +217,17 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 // listView should be unchanged:
                 assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+
+                // should not post request to server
+                wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
+
+                // input destination named "null"
+                clickOn(destinationText).eraseText(destinationText.getText().length()).write("null");
+                clickOn(addButton);
+
+                // listView should be unchanged:
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+                assertEquals("The name null is invalid for a destination", feedbackLabel.getText());
 
                 // should not post request to server
                 wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
