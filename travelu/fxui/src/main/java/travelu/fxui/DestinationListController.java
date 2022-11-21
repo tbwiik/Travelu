@@ -165,8 +165,8 @@ public class DestinationListController {
     /**
      * Add destination to list
      */
-
-    public void handleAddDestination() {
+    @FXML
+    private void handleAddDestination() {
         String newDestinationName = destinationText.getText().trim();
         try {
             if (newDestinationName.isBlank()) {
@@ -218,7 +218,7 @@ public class DestinationListController {
      * Removes destination from list
      */
     @FXML
-    public void handleRemoveDestination() {
+    private void handleRemoveDestination() {
         if (currentDestination == null) {
             // If there is no selected destination
             // Give user feedback
@@ -255,7 +255,7 @@ public class DestinationListController {
      * Sort the list of destinations alphabetically from A to Z
      */
     @FXML
-    public void handleSortByName() {
+    private void handleSortByName() {
         destinationList.sortByName();
         setUpListView();
     }
@@ -264,7 +264,7 @@ public class DestinationListController {
      * Sort the list of destinations by rating from highest to lowest
      */
     @FXML
-    public void handleSortByRating() {
+    private void handleSortByRating() {
         destinationList.sortByRating();
         setUpListView();
     }
