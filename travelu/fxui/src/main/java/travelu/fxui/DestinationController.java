@@ -250,12 +250,14 @@ public class DestinationController {
 
     /**
      * Return to destination-list
-     * 
-     * @throws IOException
      */
     @FXML
-    private void handleReturnButton() throws IOException {
-        App.setRoot("destinationList");
+    private void handleReturnButton() {
+        try {
+            App.setRoot("destinationList");
+        } catch (Exception e) {
+            errorPopup("Error", "Error: \n" + e.getMessage());
+        }
     }
 
     /**
