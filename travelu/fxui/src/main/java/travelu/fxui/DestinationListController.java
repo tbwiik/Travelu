@@ -116,8 +116,9 @@ public class DestinationListController {
                             .split("\"")[1];
                 }
 
-                // We want currentDestination to be null instead of "null"
-                if (currentDestination != null && currentDestination.equals("null")) {
+                // If the name of the current destination is "null", we want it to be null
+                // instead
+                if ("null".equals(currentDestination)) {
                     currentDestination = null;
                 }
 
@@ -176,8 +177,7 @@ public class DestinationListController {
                 // If user didn't input any text
                 // Remove any feedback given and do nothing
                 feedbackLabel.setText("");
-            }
-            else if (destinationList.containsDestination(newDestinationName)) {
+            } else if (destinationList.containsDestination(newDestinationName)) {
                 // If the input text matches any of the already existing registrations
                 // Give feedback
                 feedbackLabel.setText("You have already registered this destination");
