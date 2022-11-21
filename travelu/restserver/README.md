@@ -27,7 +27,7 @@ The controller is responsible for loading from, or saving to, local storage depe
 Here the api- and request-addresses are defined.  
 Persistence is handled by the Service.
 
-See [API-Methods](/travelu/restserver/API-Methods.md)
+See [API-Methods](/travelu/restserver/api-methods.md)
 
 ## Service
 
