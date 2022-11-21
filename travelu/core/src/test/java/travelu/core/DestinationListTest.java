@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -81,11 +80,6 @@ public class DestinationListTest {
         expectedNames.add("Sweden");
 
         assertEquals(expectedNames, destinationList.getDestinationNames());
-
-        expectedNames.remove("Sweden");
-        expectedNames.add("SwEden");
-
-        assertNotEquals(expectedNames, destinationList.getDestinationNames());
     }
 
     /**
