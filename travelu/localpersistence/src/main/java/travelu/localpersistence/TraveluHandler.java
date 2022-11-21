@@ -151,7 +151,7 @@ public class TraveluHandler {
         try {
             bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
         } catch (FileNotFoundException e) {
-            writeJSON("%%%%%", filename);
+            writeJSON("", filename);
             return currentDestinationName;
         }
 
