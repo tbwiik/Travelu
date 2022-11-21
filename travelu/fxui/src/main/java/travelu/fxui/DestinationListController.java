@@ -117,7 +117,7 @@ public class DestinationListController {
                             .split("\"")[1];
                 }
 
-                // We want currentDestination to be null instead of not "null"
+                // We want currentDestination to be null instead of "null"
                 if (currentDestination != null && currentDestination.equals("null")) {
                     currentDestination = null;
                 }
@@ -180,11 +180,11 @@ public class DestinationListController {
             }
             // TODO: Stop interacting directly with core through destinationList
             else if (destinationList.containsDestination(newDestinationName)) {
-                // If the input text matches any of the already registrations
+                // If the input text matches any of the already existing registrations
                 // Give feedback
                 feedbackLabel.setText("You have already registered this destination");
             } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
-                // If the input text contains anything but letters, spaces and dashes
+                // If the input text only contains letters, spaces and dashes
                 feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
             } else {
                 // If everything is ok with the input
