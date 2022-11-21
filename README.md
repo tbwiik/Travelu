@@ -46,7 +46,7 @@ See [module-info](docs/module-info.md) for explanation
 
 ## Installing the project
 
-The project can be installed with jlink.
+The project can be installed with JLink and JPackage.
 To install the project, in terminal:
 
 - `cd fxui` to change into ui-folder
@@ -55,6 +55,8 @@ To install the project, in terminal:
 - `mvn jpackage:jpackage -f ./fxui/pom.xml` to create a custom runtime image
 
 It is now possible to run the app by unzipping the zip file and running the executable file.
+
+This process is only functional locally (on mac). Teaching assistant has clarified on Piazza that this is sufficient.
 
 **Note:** The server must be running for the app to work.
 
