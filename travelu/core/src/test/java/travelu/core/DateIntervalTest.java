@@ -105,6 +105,10 @@ public class DateIntervalTest {
         assertThrows(IllegalArgumentException.class, () -> dateInterval.setArrivalDate("31/01/999"));
         assertEquals("04/01/2019", dateInterval.getDepartureDate());
 
+        // Dates after year 9999 are not allowed
+        assertThrows(IllegalArgumentException.class, () -> dateInterval.setArrivalDate("31/01/10000"));
+        assertEquals("04/01/2019", dateInterval.getDepartureDate());
+
         // Checks that the correct exception is thrown when inputting letters instead of
         // date
         assertThrows(IllegalArgumentException.class, () -> dateInterval.setArrivalDate("aa/bb/cccc"));
