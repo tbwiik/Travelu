@@ -39,11 +39,11 @@ public class DestinationListTest {
         norway = new Destination("Norway", new DateInterval(), 3, new ArrayList<>(), "");
         buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, "");
 
-        expectedDestinations.add(new Destination("Spain", new DateInterval(), 4, null, ""));
+        expectedDestinations.add(norway);
         expectedDestinations.add(buenosAires);
+        expectedDestinations.add(new Destination("Spain", new DateInterval(), 4, null, ""));
         expectedDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, ""));
         expectedDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, ""));
-        expectedDestinations.add(norway);
 
         for (Destination destination : expectedDestinations) {
             destinationList.addDestination(destination);
@@ -71,24 +71,24 @@ public class DestinationListTest {
     @Test
     public void testGetDestinationNames() {
         List<String> expectedNames = new ArrayList<>();
-        expectedNames.add("Spain");
+        expectedNames.add("Norway");
         expectedNames.add("Buenos Aires");
+        expectedNames.add("Spain");
         expectedNames.add("Turkey");
-        expectedNames.add("Sweden");
 
         assertNotEquals(expectedNames, destinationList.getDestinationNames());
 
-        expectedNames.add("Norway");
+        expectedNames.add("Sweden");
 
         assertEquals(expectedNames, destinationList.getDestinationNames());
 
-        expectedNames.remove("Norway");
-        expectedNames.add("Norway");
+        expectedNames.remove("Sweden");
+        expectedNames.add("Sweden");
 
         assertEquals(expectedNames, destinationList.getDestinationNames());
 
-        expectedNames.remove("Norway");
-        expectedNames.add("NorWay");
+        expectedNames.remove("Sweden");
+        expectedNames.add("SwEden");
 
         assertNotEquals(expectedNames, destinationList.getDestinationNames());
     }
@@ -102,10 +102,10 @@ public class DestinationListTest {
     @Test
     public void testContainsDestination() {
         String norwayString = "Norway";
-        String swedenString = "Sweden";
-        String spainString = "spAin";
         String buenosAiresString = "Buenos Aires";
+        String spainString = "spAin";
         String turkeyString = "TuRkEy";
+        String swedenString = "Sweden";
 
         assertTrue(destinationList.containsDestination(norwayString));
         assertTrue(destinationList.containsDestination(swedenString));
@@ -201,6 +201,9 @@ public class DestinationListTest {
     @Test
     public void testRemoveDestination() {
         expectedDestinations.remove(norway);
+
+        assertFalse(listsAreEqual(expectedDestinations, destinationList.getList()));
+
         destinationList.removeDestination("Norway");
 
         assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
