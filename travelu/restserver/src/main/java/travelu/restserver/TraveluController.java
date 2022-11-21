@@ -200,7 +200,7 @@ public class TraveluController {
      * @param activity to remove
      */
     @DeleteMapping(value = "/removeActivity/{activity}", produces = "application/json")
-    public void removeActivityJSON(final @RequestBody String activity) throws NoSuchElementException {
+    public void removeActivityJSON(final @PathVariable String activity) throws NoSuchElementException {
 
         Destination updatedDestination = getDestination();
 
