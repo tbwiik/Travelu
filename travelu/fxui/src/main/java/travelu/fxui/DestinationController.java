@@ -33,57 +33,108 @@ public class DestinationController {
      */
     private final Client client = new Client("http://localhost", 8080);
 
-    // Currently selected destination
+    /**
+     * Displayed and selected destination
+     */
     private Destination currentDestination;
 
-    // Currently selected activity
+    /**
+     * Currently selected activity
+    */
     private String currentActivity;
 
+    /**
+     * Label displaying destination name
+     */
     @FXML
     Label destinationLabel;
 
+    /**
+     * Label displaying arrival date, in format dd/MM/yyyy
+     */
     @FXML
     Label arrivalDateLabel;
 
+    /**
+     * Label displaying departure date, in format dd/MM/yyyy
+     */
     @FXML
     Label departureDateLabel;
 
+    /**
+     * DatePicker-element for selecting arrival date
+     */
     @FXML
     DatePicker arrivalDatePicker;
 
+    /**
+     * DatePicker-element for selecting departure date
+     */
     @FXML
     DatePicker departureDatePicker;
 
+    /**
+     * Label for giving feedback related to dates
+     */
     @FXML
     Label dateUpdatedFeedbackLabel;
 
+    /**
+     * ListView containing acitivities as Strings
+     */
     @FXML
     ListView<String> activitiesListView;
 
+    /**
+     * TextField for typing in new activity
+     */
     @FXML
     TextField newActivityTextField;
 
+    /**
+     * Textfield for typing in new comment
+     */
     @FXML
     TextField commentTextField;
 
+    /**
+     * Label for giving feedback related to comment
+     */
     @FXML
     Label commentFeedbackLabel;
 
+    /**
+     * Label for giving feedback related to activities
+     */
     @FXML
     Label activityFeedbackLabel;
 
+    /**
+     * First star element
+     */
     @FXML
     SVGPath star1;
 
+    /**
+     * Second star element
+     */
     @FXML
     SVGPath star2;
-
+    /**
+    * Third star element
+    */
     @FXML
     SVGPath star3;
 
+    /**
+     * Fourth star element
+     */
     @FXML
     SVGPath star4;
 
+    /**
+     * Fifth star element
+     */
     @FXML
     SVGPath star5;
 

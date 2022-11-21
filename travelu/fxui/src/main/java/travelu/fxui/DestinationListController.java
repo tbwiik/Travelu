@@ -27,19 +27,32 @@ public class DestinationListController {
      */
     private final Client client = new Client("http://localhost", 8080);
 
+    /**
+     * ListView containing names of all destinations in DestinationList
+     */
     @FXML
     private ListView<String> listView;
 
+    /**
+     * TextArea for adding destination by typing in name
+     */
     @FXML
     private TextArea destinationText;
 
+    /**
+     * Label for giving feedback related to destination list
+     */
     @FXML
     private Label feedbackLabel;
 
-    // List of destinations
+    /**
+     * DestinationList object, contains all destinations
+     */
     private DestinationList destinationList;
 
-    // Name of the currently selected destination
+    /**
+     * Currently selected destination, used for changing views
+     */
     private String currentDestination;
 
     /**
