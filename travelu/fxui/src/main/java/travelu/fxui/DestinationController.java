@@ -3,12 +3,16 @@ package travelu.fxui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.DateInterval;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
@@ -16,10 +20,12 @@ import travelu.localpersistence.TraveluHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.StringConverter;
 import javafx.scene.shape.SVGPath;
 
@@ -66,7 +72,10 @@ public class DestinationController {
     TextField commentTextField;
 
     @FXML
-    Label commentUpdatedFeedbackLabel;
+    Label commentFeedbackLabel;
+
+    @FXML
+    Label activityFeedbackLabel;
 
     @FXML
     SVGPath star1;
@@ -84,12 +93,17 @@ public class DestinationController {
     SVGPath star5;
 
     @FXML
-    private void initialize() throws FileNotFoundException, IOException {
+    private void initialize() {
 
         try {
-            this.currentDestination = this.client.getDestination();
-        } catch (Exception e) {
-            // TODO: handle exception
+            this.currentDestination = client.getCurrentDestination();
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         colorStars(this.currentDestination.getRating());
@@ -118,6 +132,8 @@ public class DestinationController {
             /**
              * Generates string from LocalDate object, used for displaying selected date in
              * DatePicker text field
+             * <p>
+             * Returns null if date is invalid
              */
             @Override
             public String toString(LocalDate date) {
@@ -127,7 +143,7 @@ public class DestinationController {
                     } else {
                         return "";
                     }
-                } catch (Exception e) {
+                } catch (DateTimeException dte) {
                     return "";
                 }
             }
@@ -144,7 +160,7 @@ public class DestinationController {
                     } else {
                         return null;
                     }
-                } catch (Exception e) {
+                } catch (DateTimeParseException dtpe) {
                     return null;
                 }
 
@@ -192,29 +208,34 @@ public class DestinationController {
         App.setRoot("destinationList");
     }
 
-    // TODO: Is throws IOException really needed here? Same for remove activity
     /**
      * Adds activity to the list of activities, and updates activitiesListView
      * 
      * 
-     * @throws IOException in case of filehandling issue
+     * @throws IOException              in case of filehandling issue
+     * @throws IllegalArgumentException if input is blank or already existing
      */
     @FXML
-    private void handleAddActivity() throws IOException {
+    private void handleAddActivity() {
         String activity = newActivityTextField.getText();
-        if (activity.isBlank())
-            return;
 
         try {
             currentDestination.addActivity(activity);
             this.client.addActivity(activity);
-        } catch (Exception e) {
-            // TODO: give relevant user feedback here
+            activityFeedbackLabel.setText("");
+        } catch (IllegalArgumentException iae) {
+            activityFeedbackLabel.setText("Add unique activity to update.");
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         updateListView();
         newActivityTextField.setText("");
-
     }
 
     /**
@@ -225,8 +246,13 @@ public class DestinationController {
         if (currentActivity != null) {
             try {
                 this.client.removeActivity(currentActivity);
-            } catch (Exception e) {
+            } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
+            } catch (ServerException se) {
+                errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
             }
             currentDestination.removeActivity(currentActivity);
             updateListView();
@@ -274,8 +300,13 @@ public class DestinationController {
 
         try {
             this.client.setRating(starNumber);
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
     }
 
@@ -321,19 +352,23 @@ public class DestinationController {
 
     /**
      * Changes comment, and writes this to file
+     *
      */
     @FXML
     private void handleChangeComment() {
         String newComment = commentTextField.getText();
-        // if there is no comment. TODO: Give feedback to user
-        if (newComment.isBlank())
-            return;
-
         currentDestination.setComment(newComment);
         try {
             this.client.updateComment(newComment);
-        } catch (Exception e) {
+            commentFeedbackLabel.setText("Comment updated!");
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            commentFeedbackLabel.setText("");
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
     }
 
@@ -350,9 +385,16 @@ public class DestinationController {
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
             this.client.setArrivalDate(arrivalDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             arrivalDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
     }
@@ -371,11 +413,25 @@ public class DestinationController {
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
             this.client.setDepartureDate(departureDate);
             dateUpdatedFeedbackLabel.setText("");
-        } catch (Exception e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             departureDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
+    }
+
+    private void errorPopup(String type, String message) {
+        Alert invalidInput = new Alert(AlertType.WARNING);
+        invalidInput.setTitle(type);
+        invalidInput.setHeaderText(message);
+        invalidInput.showAndWait();
     }
 
     // For testing purposes

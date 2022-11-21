@@ -87,6 +87,8 @@ public class TraveluHandler {
     /**
      * Read from file using {@code Gson}, where it reads from DestinationList object
      * <p>
+     * Return an empty destinationlist if file is blank
+     * <p>
      * Used in testing and have therefore an own filename input
      * 
      * @param filename input
@@ -95,10 +97,30 @@ public class TraveluHandler {
      * @throws IOException
      */
     public static DestinationList readDestinationListJSON(String filename) throws FileNotFoundException, IOException {
+
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
-        DestinationList DList = gson.fromJson(bufferedReader, DestinationList.class);
-        return DList;
+        DestinationList destinationList;
+        BufferedReader bufferedReader;
+
+        // If no file exists - create one containing empty destination-list
+        // Ensures that program don't crash if this for some reason is deleted
+        try {
+            bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+        } catch (FileNotFoundException e) {
+            destinationList = new DestinationList();
+            writeJSON(destinationList, filename);
+            return destinationList;
+        }
+
+        // Convert destination-list from file
+        destinationList = gson.fromJson(bufferedReader, DestinationList.class);
+
+        // If file is blank, create destinationlist
+        if (destinationList == null) {
+            destinationList = new DestinationList();
+        }
+
+        return destinationList;
     }
 
     /**
@@ -126,8 +148,19 @@ public class TraveluHandler {
      */
     public static String readCurrentDestinationNameJSON(String filename) throws FileNotFoundException, IOException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
-        String currentDestinationName = gson.fromJson(bufferedReader, String.class);
+        String currentDestinationName = "";
+        BufferedReader bufferedReader;
+
+        // If no file exists - create one containing empty string
+        // Ensures that program don't crash if this for some reason is deleted
+        try {
+            bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+        } catch (FileNotFoundException e) {
+            writeJSON("", filename);
+            return currentDestinationName;
+        }
+
+        currentDestinationName = gson.fromJson(bufferedReader, String.class);
         return currentDestinationName;
     }
 
@@ -142,6 +175,14 @@ public class TraveluHandler {
      */
     public static String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
         return readCurrentDestinationNameJSON("CurrentDestinationName.json");
+    }
+
+    public static void clearDestinationName() throws IOException {
+        saveDestinationName("");
+    }
+
+    public static void clearDestinationList() throws IOException {
+        save(new DestinationList());
     }
 
 }

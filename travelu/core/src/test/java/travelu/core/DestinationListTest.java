@@ -1,5 +1,6 @@
 package travelu.core;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -44,15 +45,15 @@ public class DestinationListTest {
         dateInterval = new DateInterval();
         rating = 3;
         activities = new ArrayList<>();
-        comment = null;
+        comment = "";
 
         norway = new Destination(name, dateInterval, rating, activities, comment);
-        buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, null);
+        buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, "");
 
-        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, null));
+        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, ""));
         newDestinations.add(buenosAires);
-        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, null));
-        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, null));
+        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, ""));
+        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, ""));
         newDestinations.add(norway);
 
         for (Destination destination : newDestinations) {
@@ -140,38 +141,121 @@ public class DestinationListTest {
     }
 
     /**
+     * Check that two lists of destinations have identical content.
+     * This method is useful because due to encapsulation we can not access the actual destination objects of list.
+     * Therefore we have to compare the fields of all destinations in lists to ensure that they are equal.
+     * @param list1 of destinations
+     * @param list2 of destinations
+     * @return true if lists are equal
+     */
+    private boolean listsAreEqual(List<Destination> list1, List<Destination> list2){
+        if(list1.size() != list2.size())
+            return false;
+
+        // Checks that every field of every Destination is the same in both lists
+        for(int i = 0; i < list1.size(); i++){
+            Destination dest1 = list1.get(i);
+            Destination dest2 = list2.get(i);
+            DateInterval dest1DateInterval = dest1.getDateInterval();
+            DateInterval dest2DateInterval = dest2.getDateInterval();
+            String dest1ArrivalDate = dest1DateInterval.getArrivalDate() == null ? "" : dest1DateInterval.getArrivalDate();
+            String dest2ArrivalDate = dest2DateInterval.getArrivalDate() == null ? "" : dest2DateInterval.getArrivalDate();
+            String dest1Comment = dest1.getComment() == null ? "" : dest1.getComment();
+            String dest2Comment = dest2.getComment() == null ? "" : dest2.getComment();
+
+
+            if(!dest1.getName().equals(dest2.getName()))
+                return false;
+            if(dest1.getRating() != dest2.getRating())
+                return false;
+            if(!dest1ArrivalDate.equals(dest2ArrivalDate))
+                return false;
+            if(!dest1ArrivalDate.equals(dest2ArrivalDate))
+                return false;
+            if(!dest1Comment.equals(dest2Comment))
+                return false;
+            if(!dest1.getActivities().equals(dest2.getActivities()))
+                return false;
+        }
+        return true;
+    }
+    
+
+    /**
      * Tests if the ArrayList and DestinationList are equal
      * 
      * @throws IllegalArgumentException if destinationName is null
      */
     @Test
     public void testAddDestination() {
-        assertEquals(newDestinations, destinationList.getList());
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
 
+        Destination newDestination = new Destination("Greenland", new DateInterval(), 1, null, null);
+        
+        // Adding a valid new destination to list
+        newDestinations.add(newDestination);
+        assertFalse(listsAreEqual(newDestinations, destinationList.getList()));
+
+        destinationList.addDestination(newDestination);
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+
+
+        // Adding an existing destination to list
+        assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(norway));
+
+        // Adding null to list
         assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(null));
+
+        // Checks that list is unchanged after invalid inputs
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
     }
 
     /**
      * Tests if removeDestination removes destination
      * <p>
-     * Checks if IllegalArgumentException gets thrown if the destination doesn't
-     * exist or is null
+     * Checks if NoSuchElementException gets thrown if the destination doesn't
+     * exist in list, and IllegalArgumentException is thrown if destination is null
      */
     @Test
     public void testRemoveDestination() {
         newDestinations.remove(norway);
         destinationList.removeDestination("Norway");
 
-        assertEquals(newDestinations, destinationList.getList());
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
 
         newDestinations.remove(buenosAires);
+        assertFalse(listsAreEqual(newDestinations, destinationList.getList()));
+
         destinationList.removeDestination("Buenos Aires");
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
 
-        assertEquals(newDestinations, destinationList.getList());
+        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Not in list"));
 
-        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Norway"));
+        assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
 
-        assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination(null));
+        // List should be unchanged after invalid input
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+    }
+
+    /**
+     * Tests if updateDestination sets correct values in destination
+     */
+    @Test
+    public void testUpdateDestination() {
+        
+        Destination norwayCopy = destinationList.getDestinationCopyByName("Norway");
+        norwayCopy.setComment("Changed comment");
+        assertNotEquals(norwayCopy.getComment(), destinationList.getDestinationCopyByName("Norway").getComment());
+
+        destinationList.updateDestination(norwayCopy);
+        assertEquals(norwayCopy.getComment(), destinationList.getDestinationCopyByName("Norway").getComment());
+
+        // null input
+        assertThrows(IllegalArgumentException.class, () -> destinationList.updateDestination(null));
+
+        // destination is not in list
+        assertThrows(NoSuchElementException.class, () -> destinationList.updateDestination(new Destination("Not in list", new DateInterval(), 1, null, null)));
+
     }
 
     /**
@@ -180,40 +264,43 @@ public class DestinationListTest {
     @Test
     public void testSortByName() {
 
-        List<Destination> expectedList = new ArrayList<>();
+        List<String> expectedList = new ArrayList<>();
 
         // adding destinations in alphabetical order
-        expectedList.add(buenosAires);
-        expectedList.add(norway);
-        expectedList.add(new Destination("Spain", null, 4, null, null));
-        expectedList.add(new Destination("Sweden", null, 1, null, null));
+        expectedList.add("Buenos Aires");
+        expectedList.add("Norway");
+        expectedList.add("Spain");
+        expectedList.add("Sweden");
+        expectedList.add("Turkey");
 
-        assertNotEquals(expectedList, destinationList.getList());
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
 
-        expectedList.add(new Destination("Turkey", null, 5, null, null));
         destinationList.sortByName();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
 
-        Destination dashDestination = new Destination("-Place", null, 5, null, null);
-        expectedList.add(0, dashDestination);
-
-        assertNotEquals(expectedList, destinationList.getList());
-
+        String dashDestinationName = "-Place";
+        Destination dashDestination = new Destination(dashDestinationName, null, 5, null, null);
+        expectedList.add(0, dashDestinationName);
         destinationList.addDestination(dashDestination);
+
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
+
         destinationList.sortByName();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
 
-        Destination lowerCaseDestination = new Destination("aa", null, 5, null, null);
-        expectedList.add(1, lowerCaseDestination);
-
-        assertNotEquals(expectedList, destinationList.getList());
+        String lowerCaseDestinationName = "aa";
+        Destination lowerCaseDestination = new Destination(lowerCaseDestinationName, null, 5, null, null);
+        expectedList.add(1, lowerCaseDestinationName);
 
         destinationList.addDestination(lowerCaseDestination);
+
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
+
         destinationList.sortByName();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
     }
 
     /**
@@ -222,30 +309,31 @@ public class DestinationListTest {
     @Test
     public void testSortByRating() {
 
-        List<Destination> expectedList = new ArrayList<>();
+        List<String> expectedList = new ArrayList<>();
 
         // adding destinations in order of rating
-        expectedList.add(new Destination("Turkey", null, 5, null, null));
-        expectedList.add(new Destination("Spain", null, 4, null, null));
-        expectedList.add(norway);
-        expectedList.add(buenosAires);
+        expectedList.add("Turkey");
+        expectedList.add("Spain");
+        expectedList.add("Norway");
+        expectedList.add("Buenos Aires");
+        expectedList.add("Sweden");
 
-        assertNotEquals(expectedList, destinationList.getList());
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
 
-        expectedList.add(new Destination("Sweden", null, 1, null, null));
         destinationList.sortByRating();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
 
-        Destination noStarsDestination = new Destination("France", null, 0, null, null);
-        expectedList.add(noStarsDestination);
+        String noStarsDestinationName = "France";
+        Destination noStarsDestination = new Destination(noStarsDestinationName, null, 0, null, null);
+        expectedList.add(noStarsDestinationName);
 
-        assertNotEquals(expectedList, destinationList.getList());
+        assertNotEquals(expectedList, destinationList.getDestinationNames());
 
         destinationList.addDestination(noStarsDestination);
         destinationList.sortByRating();
 
-        assertEquals(expectedList, destinationList.getList());
+        assertEquals(expectedList, destinationList.getDestinationNames());
     }
 
     /*

@@ -1,0 +1,20 @@
+@startuml sequenceDiagram
+skin rose
+actor User as user
+participant "DestinationListController" as destListCon
+participant "DestinationController" as destCon
+participant "Client" as client
+participant "TraveluController" as tcon
+participant "TraveluService" as tser
+
+user --> destListCon : Double click destination
+destListCon --> destListCon : check if destination in list
+destListCon --> client : switchToDestination(String destinationName)
+client --> tcon : POST: storeCurrentDestination(String destinationName)
+tcon --> tser : saveDestinationName(String currentDestination)
+tser --> tcon : getDestinationName()
+tcon --> client : GET: getDestinationJSON()
+client --> destCon: getDestination()
+destCon --> user : Open Destination page
+
+@enduml

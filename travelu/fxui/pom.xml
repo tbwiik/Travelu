@@ -3,7 +3,7 @@
     <groupId>gr2219</groupId>
     <artifactId>fxui</artifactId>
     <version>1.0-SNAPSHOT</version>
-    
+
     <!--The identifier of the parent POM-->
     <parent>
         <groupId>gr2219</groupId>
@@ -28,6 +28,12 @@
         <dependency>
             <groupId>gr2219</groupId>
             <artifactId>client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gr2219</groupId>
+            <artifactId>restserver</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -64,17 +70,17 @@
         </dependency>
 
         <!-- test javafx with TextFX -->
-		<dependency>
-			<groupId>org.testfx</groupId>
-			<artifactId>testfx-core</artifactId>
-			<version>4.0.16-alpha</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testfx</groupId>
-			<artifactId>testfx-junit5</artifactId>
-			<version>4.0.16-alpha</version>
-			<scope>test</scope>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-core</artifactId>
+            <version>4.0.16-alpha</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>4.0.16-alpha</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -82,7 +88,35 @@
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
-    
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>2.33.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version> 2.5.6 </version>
+        </dependency>
+
+        <!--Spring test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version> 2.5.6 </version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     <!-- 
@@ -125,6 +159,7 @@
                     --add-opens travelu.fxui/travelu.fxui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
                     --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                     --add-exports javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
+                    --add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
                     </argLine>
                 </configuration>
 
@@ -135,6 +170,18 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <!-- Need version because not in travelu.pom!! -->
                 <version>0.0.6</version>
+                <configuration>
+                <!-- JLink configuration for shipping app -->
+                <!-- code taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <launcher>travelu</launcher>
+                    <mainClass>travelu/travelu.fxui.App</mainClass>
+                    <jlinkImageName>travelu</jlinkImageName>
+                    <jlinkZipName>travelu</jlinkZipName>
+                </configuration>
                 <executions>
                     <execution>
                         <!-- Default configuration for running -->
@@ -146,6 +193,29 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- JPackage configuration for shipping app -->
+            <!-- code taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <name>Travelu</name>
+                    <appVersion>1.0.0</appVersion>
+                    <vendor>gr2219</vendor>
+                    <destination>target/dist</destination>
+                    <module>travelu.fxui/travelu.fxui.App</module>
+                    <runtimeImage>target/travelu</runtimeImage>
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxPackageName>travelu</linuxPackageName>
+                    <linuxAppCategory>Utilities</linuxAppCategory>
+                    <linuxMenuGroup>Utilities</linuxMenuGroup>
+                    <javaOptions>
+                    <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                </configuration>
+                </plugin>
 
             <!-- Jacoco plugin for test coverage -->
             <plugin>

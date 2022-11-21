@@ -1,11 +1,15 @@
 package travelu.fxui;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
+import travelu.client.ServerException;
 import travelu.core.Destination;
 import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;
@@ -13,8 +17,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
@@ -32,7 +39,7 @@ public class DestinationListController {
     private TextArea destinationText;
 
     @FXML
-    private Text feedbackText;
+    private Label feedbackLabel;
 
     private DestinationList destinationList;
 
@@ -46,16 +53,21 @@ public class DestinationListController {
      * @throws IOException
      */
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
 
         try {
             this.destinationList = client.getDestinationList();
-        } catch (Exception e) {
+        } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
             // TODO better handling
         }
 
         setUpListView();
+
     }
 
     private void setUpListView() {
@@ -67,10 +79,15 @@ public class DestinationListController {
         // create list of all destinations with star-rating
         List<String> destinationNameAndRating = new ArrayList<>();
         for (String destinationName : destinationList.getDestinationNames()) {
-            // get rating of destination
-            int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
-            // add destination with name and number stars equal to rating
-            destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
+            try {
+                // get rating of destination
+                int destinationRating = destinationList.getDestinationCopyByName(destinationName).getRating();
+                // add destination with name and number stars equal to rating
+                destinationNameAndRating.add(destinationName + "★".repeat(destinationRating));
+            } catch (NoSuchElementException nsee) {
+                feedbackLabel.setText("No such element: " + nsee.getMessage());
+            }
+
         }
 
         // add all destinations and rating to list-view
@@ -92,7 +109,7 @@ public class DestinationListController {
                     // we then need to get the element after the first '
                     currentDestination = click.getTarget().toString()
                             .split("'")[1];
-                } else {
+                } else if (click.getTarget().toString().contains("\"")) {
                     // if you click directly on the text the format is
                     // Text[text="DestinationName" objectinformation="..."]]
                     // we then need to get the element after the first "
@@ -100,18 +117,23 @@ public class DestinationListController {
                             .split("\"")[1];
                 }
 
+                // we want currentDestination to be null, not "null"
+                if (currentDestination != null && currentDestination.equals("null")) {
+                    currentDestination = null;
+                }
+
                 if (click.getClickCount() == 2) {
 
                     // switch to currentDestination page on double-click if a destination was
                     // clicked
-                    if (!currentDestination.equals("null")) {
+                    if (currentDestination != null) {
                         // remove the stars from the selected destination
                         String currentDestinationName = currentDestination.replace("★", "");
                         try {
                             // load the destination chosen
                             switchToDestination(currentDestinationName);
                         } catch (IOException e) {
-                            feedbackText.setText("Could not find " + currentDestinationName);
+                            feedbackLabel.setText("Could not find " + currentDestinationName);
                             e.printStackTrace();
                         }
                     }
@@ -129,9 +151,14 @@ public class DestinationListController {
     private void switchToDestination(String destinationName) throws IOException {
 
         try {
-            client.storeCurrentDestination(destinationName);
-        } catch (Exception e) {
-            // TODO: handle exception
+            client.storeCurrentDestinationName(destinationName);
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
 
         App.setRoot("destination");
@@ -141,76 +168,94 @@ public class DestinationListController {
     /**
      * Add destination to list
      * 
-     * @throws IOException if error writing to file
+     * @throws IllegalArgumentException if destinationName is null
      */
-    @FXML
-    public void handleAddDestination() throws IOException {
 
+    public void handleAddDestination() {
         String newDestinationName = destinationText.getText().trim();
-        if (newDestinationName.isBlank()) {
-            // if user didn't input any text
-            // remove any feedback given and do nothing
-            feedbackText.setText("");
-        } else if (destinationList.containsDestination(newDestinationName)) {
-            // if the input text matches any of the already registrations
-            // give feedback
-            feedbackText.setText("You have already registered this destination");
-        } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
-            // if the input text contains anything but letters, spaces and dashes
-            feedbackText.setText("Destination name must contain only letters, spaces and dashes");
-        } else {
-            // if everything is ok with the input
-            // create new destination with input as name
-            Destination newDestination = new Destination(newDestinationName.strip(), null, 0, new ArrayList<String>(),
-                    null);
+        try {
+            if (newDestinationName.isBlank()) {
+                // if user didn't input any text
+                // remove any feedback given and do nothing
+                feedbackLabel.setText("");
+            } else if (newDestinationName.equals("null")) {
+                // because of how getting items from list-views work, we do not allow the user
+                // to add a destination with the name "null"
+                feedbackLabel.setText("The name null is invalid for a destination");
+            } else if (destinationList.containsDestination(newDestinationName)) {
+                // if the input text matches any of the already registrations
+                // give feedback
+                feedbackLabel.setText("You have already registered this destination");
+            } else if (!newDestinationName.matches("[A-Za-z\\s\\-]+")) {
+                // if the input text contains anything but letters, spaces and dashes
+                feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
+            } else {
+                // if everything is ok with the input
+                // create new destination with input as name
+                Destination newDestination = new Destination(newDestinationName.strip(), null, 0,
+                        new ArrayList<String>(), null);
 
-            // add destination to list-view and destinations
-            listView.getItems().add(newDestination.getName());
-            destinationList.addDestination(newDestination);
+                // add destination to list-view and destinations
+                listView.getItems().add(newDestination.getName());
+                destinationList.addDestination(newDestination);
 
-            // remove any feedback given
-            feedbackText.setText("");
+                // remove any feedback given
+                feedbackLabel.setText("");
 
-            // remove text in inputField
-            destinationText.clear();
+                // remove text in inputField
+                destinationText.clear();
 
-            try {
                 client.addDestination(newDestination);
-            } catch (Exception e) {
-                // TODO: handle exception
             }
+        } catch (IllegalArgumentException iae) {
+            feedbackLabel.setText("");
+        } catch (URISyntaxException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (ServerException se) {
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+            // TODO better handling
         }
+
     }
 
     /**
      * Removes destination from list
-     * 
-     * @throws IOException if error writing to file
+     *
      */
     @FXML
-    public void handleRemoveDestination() throws IOException {
+    public void handleRemoveDestination() {
         if (currentDestination == null) {
             // if there is no selected destination
             // give user feedback
-            feedbackText.setText("Please select a destination you would like to remove");
+            feedbackLabel.setText("Please select a destination you would like to remove");
         } else {
-
             // if there is a selected destination
             // remove the selected destination from destinations and list-view
             // remove the star-rating from the selected destination
             String currentDestinationName = currentDestination.replace("★", "");
 
             try {
+                feedbackLabel.setText("");
                 client.removeDestination(currentDestinationName);
-            } catch (Exception e) {
-                // TODO: handle exception
+
+                // remove the destination from destinationList and list-view
+                destinationList.removeDestination(currentDestinationName);
+                listView.getItems().remove(currentDestination);
+                currentDestination = null;
+
+            } catch (NoSuchElementException nsee) {
+                feedbackLabel.setText("Please select a destination you would like to remove");
+            } catch (URISyntaxException | InterruptedException e) {
+                e.printStackTrace();
+            } catch (ServerException se) {
+                errorPopup("Error", se.getMessage() + ": " + se.getStatusCode());
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+                // TODO better handling
             }
-
-            // remove the destination from destinationList and list-view
-            destinationList.removeDestination(currentDestinationName);
-            listView.getItems().remove(currentDestination);
         }
-
     }
 
     @FXML
@@ -227,6 +272,13 @@ public class DestinationListController {
         destinationList.sortByRating();
 
         setUpListView();
+    }
+
+    private void errorPopup(String type, String message) {
+        Alert invalidInput = new Alert(AlertType.WARNING);
+        invalidInput.setTitle(type);
+        invalidInput.setHeaderText(message);
+        invalidInput.showAndWait();
     }
 
     // For testing purposes

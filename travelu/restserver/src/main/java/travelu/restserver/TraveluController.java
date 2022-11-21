@@ -2,11 +2,17 @@ package travelu.restserver;
 
 import java.util.NoSuchElementException;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -47,11 +53,12 @@ public class TraveluController {
     public String getDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
         Gson gson = new Gson();
-        return gson.toJson(traveluService.getDestinationList().getDestinationCopyByName(destinationName));
+        Destination destination = traveluService.getDestinationList().getDestinationCopyByName(destinationName);
+        return gson.toJson(destination);
     }
 
     /**
-     * Get name of chosen destination
+     * Get name of stored chosen destination
      * 
      * @return name of destination
      */
@@ -66,44 +73,11 @@ public class TraveluController {
      * @param destinationJSON {@link Destination} to add in JSON format
      */
     @PostMapping(value = "/add", produces = "application/json")
-    public void addDestinationJSON(final @RequestBody String destinationJSON) {
+    public void addDestinationJSON(final @RequestBody String destinationJSON) throws IllegalArgumentException {
         Gson gson = new Gson();
-        try {
-            Destination destination = gson.fromJson(destinationJSON, Destination.class);
-            traveluService.getDestinationList().addDestination(destination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Store chosen destination
-     * 
-     * @param destinationName
-     */
-    @PostMapping(value = "/storeCurrent", produces = "application/json")
-    public void storeCurrentDestinationJSON(final @RequestBody String destinationName) {
-        Gson gson = new Gson();
-        String destination = gson.fromJson(destinationName, String.class);
-        traveluService.saveDestinationName(destination);
-    }
-
-    /**
-     * Remove destination
-     * 
-     * @param destinationJSON
-     */
-    @PostMapping(value = "/remove", produces = "application/json")
-    public void removeDestinationJSON(final @RequestBody String destinationName) {
-        Gson gson = new Gson();
-        String destination = gson.fromJson(destinationName, String.class);
-        try {
-            traveluService.getDestinationList().removeDestination(destination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Destination destination = gson.fromJson(destinationJSON, Destination.class);
+        traveluService.getDestinationList().addDestination(destination);
+        traveluService.save();
     }
 
     /**
@@ -112,41 +86,29 @@ public class TraveluController {
      * @param activity to add
      */
     @PostMapping(value = "/addActivity", produces = "application/json")
-    public void addActivityJSON(final @RequestBody String activity) {
+    public void addActivityJSON(final @RequestBody String activity) throws IllegalArgumentException {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.addActivity(activity);
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateDestination(updatedDestination);
 
     }
 
     /**
-     * remove activity from current destination
+     * Store chosen destination
+     * <p>
+     * Accepts empty input
      * 
-     * @param activity to remove
+     * @param destinationName
      */
-    @PostMapping(value = "/removeActivity", produces = "application/json")
-    public void removeActivityJSON(final @RequestBody String activity) {
+    @PutMapping(value = "/storeCurrent", produces = "application/json")
+    public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
+        // Convert to empty string if empty comment is sent
+        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replaceAll("%20", " ");
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
-        updatedDestination.removeActivity(activity);
-
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // TODO lot of duplicate code with over
-
+        traveluService.saveDestinationName(destinationName);
     }
 
     /**
@@ -154,21 +116,14 @@ public class TraveluController {
      *
      * @param rating to set
      */
-    @PostMapping(value = "/setRating", produces = "application/json")
-    public void setRatingJSON(final @RequestBody String rating) {
+    @PutMapping(value = "/setRating", produces = "application/json")
+    public void setRatingJSON(final @RequestBody String rating) throws IllegalArgumentException {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setRating(Integer.parseInt(rating));
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // TODO lot of duplicate code with over
+        updateDestination(updatedDestination);
 
     }
 
@@ -177,22 +132,14 @@ public class TraveluController {
      * 
      * @param arrivalDate
      */
-    @PostMapping(value = "/setArrivalDate", produces = "application/json")
-    public void setArrivalDateJSON(final @RequestBody String arrivalDate) {
+    @PutMapping(value = "/setArrivalDate", produces = "application/json")
+    public void setArrivalDateJSON(final @RequestBody String arrivalDate) throws IllegalArgumentException {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setArrivalDate(arrivalDate);
-        ;
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // TODO lot of duplicate code with over
+        updateDestination(updatedDestination);
 
     }
 
@@ -201,44 +148,104 @@ public class TraveluController {
      *
      * @param departureDate to set
      */
-    @PostMapping(value = "/setDepartureDate", produces = "application/json")
-    public void setDepartureDateJSON(final @RequestBody String departureDate) {
+    @PutMapping(value = "/setDepartureDate", produces = "application/json")
+    public void setDepartureDateJSON(final @RequestBody String departureDate) throws IllegalArgumentException {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setDepartureDate(departureDate);
 
-        try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
-            traveluService.save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // TODO lot of duplicate code with over
+        updateDestination(updatedDestination);
 
     }
 
     /**
      * Set new comment for current destination
+     * <p>
+     * Accepts empty input
      * 
      * @param comment
      */
-    @PostMapping(value = "/updateComment", produces = "application/json")
-    public void updateCommentJSON(final @RequestBody String comment) {
+    @PutMapping(value = "/updateComment", produces = "application/json")
+    public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
 
-        Destination updatedDestination = traveluService.getDestinationList()
-                .getDestinationCopyByName(traveluService.getDestinationName());
+        // Convert to empty string if empty comment is sent
+        String comment = (commentJSON == null) ? "" : commentJSON;
+
+        Destination updatedDestination = getDestination();
+
         updatedDestination.setComment(comment);
 
+        updateDestination(updatedDestination);
+
+    }
+
+    /**
+     * Remove chosen destination
+     * 
+     * @param destinationJSON
+     */
+    @DeleteMapping(value = "/delete/{destinationName}", produces = "application/json")
+    public void removeDestinationJSON(final @PathVariable("destinationName") String destinationName)
+            throws NoSuchElementException {
+
+        traveluService.getDestinationList().removeDestination(destinationName.replace("%20", " "));
+
+        traveluService.save();
+    }
+
+    /**
+     * Remove activity from current destination
+     * 
+     * @param activity to remove
+     */
+    @DeleteMapping(value = "/removeActivity/{activity}", produces = "application/json")
+    public void removeActivityJSON(final @PathVariable String activity) throws NoSuchElementException {
+
+        Destination updatedDestination = getDestination();
+
+        updatedDestination.removeActivity(activity.replace("%20", " "));
+
+        updateDestination(updatedDestination);
+
+    }
+
+    /**
+     * Get a copy of the chosen destination
+     * 
+     * @return chosen destination
+     */
+    private Destination getDestination() {
+        String destinationName = traveluService.getDestinationName();
+        return traveluService.getDestinationList().getDestinationCopyByName(destinationName);
+    }
+
+    /**
+     * Update chosen destination
+     * 
+     * @param destination to update
+     */
+    private void updateDestination(Destination destination) {
         try {
-            traveluService.getDestinationList().updateDestination(updatedDestination);
+            traveluService.getDestinationList().updateDestination(destination);
             traveluService.save();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // TODO lot of duplicate code with over
-
     }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public String reportNoSuchElementException(final NoSuchElementException nsee) {
+        return HttpStatus.NOT_FOUND + " - " + nsee.getMessage();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String reportIllegalArgumentException(final IllegalArgumentException iae) {
+        return HttpStatus.BAD_REQUEST + " - " + iae.getMessage();
+    }
+
 }

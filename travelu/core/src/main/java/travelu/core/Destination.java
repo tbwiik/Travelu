@@ -2,6 +2,7 @@ package travelu.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Destination object for use in travel-journal
@@ -27,12 +28,11 @@ public class Destination {
             String comment) {
         this.name = name;
 
-        // dateinterval is allowed to be null, but constructor should not take in null
-        // as input
+        // DateInterval is not allowed to be null
         this.dateInterval = dateInterval == null ? new DateInterval() : new DateInterval(dateInterval);
         this.rating = rating;
 
-        // if activities are null, create new list. Otherwise create copy of old
+        // If activities are null, create new list. Otherwise create copy of old
         this.activities = activities == null ? new ArrayList<String>() : new ArrayList<String>(activities);
 
         this.comment = comment;
@@ -43,8 +43,13 @@ public class Destination {
      * creating a copy
      * 
      * @param destination
+     * @throws IllegalArgumentException if destination is null
      */
-    public Destination(Destination destination) {
+    public Destination(Destination destination) throws IllegalArgumentException {
+        if (destination == null) {
+            throw new IllegalArgumentException("Destination cannot be null");
+        }
+
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
         this.rating = destination.getRating();
@@ -60,13 +65,16 @@ public class Destination {
     }
 
     /**
+     * Returns copy of DateInterval. If DateInterval is null, return new
+     * DateInterval.
+     * 
      * @return dateInterval from-to
      */
     public DateInterval getDateInterval() {
         if (dateInterval != null) {
             return new DateInterval(dateInterval);
         }
-        return null;
+        return new DateInterval();
     }
 
     /**
@@ -98,8 +106,10 @@ public class Destination {
 
     /**
      * @param rating on a scale of 1-5
+     * 
+     * @throws IllegalArgumentException if rating is outside of range 1-5
      */
-    public void setRating(int rating) {
+    public void setRating(int rating) throws IllegalArgumentException {
         if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5");
         }
@@ -107,7 +117,7 @@ public class Destination {
     }
 
     /**
-     * @return copy of activities
+     * @return copy of activities-list
      */
     public List<String> getActivities() {
         return new ArrayList<String>(activities);
@@ -116,11 +126,12 @@ public class Destination {
     /**
      * 
      * @param activity a string explaining the activity
-     * @throws IllegalArgumentException if the input is blank
+     * @throws IllegalArgumentException if the input is null, blank or already in
+     *                                  list
      */
     public void addActivity(String activity) throws IllegalArgumentException {
 
-        if (activity.isBlank() || getActivities().contains(activity))
+        if (activity == null || activity.isBlank() || getActivities().contains(activity))
             throw new IllegalArgumentException("Invalid activity");
 
         activities.add(activity);
@@ -129,18 +140,18 @@ public class Destination {
     /**
      * 
      * @param activity the activity we want to remove
-     * @throws IllegalArgumentException if activity is not in list
+     * @throws NoSuchElementException if activity is not in list
      */
-    public void removeActivity(String activity) throws IllegalArgumentException {
+    public void removeActivity(String activity) throws NoSuchElementException {
         if (!getActivities().contains(activity)) {
-            throw new IllegalArgumentException("Activity is not in activity list");
+            throw new NoSuchElementException("Activity " + activity + " is not in activity list");
         }
 
         activities.remove(activity);
     }
 
     /**
-     * @return additional comment about the visit
+     * @return comment about the visit
      */
     public String getComment() {
         return comment;
@@ -149,50 +160,10 @@ public class Destination {
     /**
      * Overwrites comment with new info
      * 
-     * @param comment with other relevant info
+     * @param comment new comment
      */
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    /**
-     * Return true if names are equal
-     * <p>
-     * This is satisfactory because there will never be more than one object per
-     * destination
-     * <p>
-     * Note: auto-generated stub
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Destination other = (Destination) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
-
-    /**
-     * Hashes Destination according to name
-     * <p>
-     * Implemented to ensure safe use where hashing is needed
-     * <p>
-     * Note: Auto generated stub
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
     }
 
 }

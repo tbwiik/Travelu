@@ -10,47 +10,47 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="920.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="travelu.fxui.DestinationListController">
    <children>
-      <ListView fx:id="listView" layoutX="82.0" layoutY="317.0" prefHeight="399.0" prefWidth="568.0" />
-      <Label fx:id="header" layoutX="284.0" layoutY="18.0" prefHeight="89.0" prefWidth="754.0" text="Travelu" textAlignment="CENTER">
+      <ListView fx:id="listView" layoutX="91.0" layoutY="344.0" prefHeight="374.0" prefWidth="574.0" />
+      <Label fx:id="header" layoutX="300.0" layoutY="14.0" prefHeight="89.0" prefWidth="493.0" text="Travelu" textAlignment="CENTER">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
-      <TextArea fx:id="destinationText" layoutX="101.0" layoutY="112.0" prefHeight="38.0" prefWidth="430.0" promptText="Write a place you've been">
+      <TextArea fx:id="destinationText" layoutX="111.0" layoutY="112.0" prefHeight="38.0" prefWidth="430.0" promptText="Write a place you've been">
          <font>
             <Font size="23.0" />
          </font>
       </TextArea>
-      <Button fx:id="addButton" layoutX="542.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleAddDestination" prefHeight="38.0" prefWidth="89.0" style="-fx-background-color: lightgreen;" text="Add">
+      <Button fx:id="addButton" layoutX="557.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleAddDestination" prefHeight="38.0" prefWidth="89.0" style="-fx-background-color: lightgreen;" text="Add">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="removeButton" layoutX="112.0" layoutY="729.0" mnemonicParsing="false" onAction="#handleRemoveDestination" prefHeight="34.0" prefWidth="98.0" style="-fx-background-color: indianred;" text="Remove">
+      <Button fx:id="removeButton" layoutX="91.0" layoutY="725.0" mnemonicParsing="false" onAction="#handleRemoveDestination" prefHeight="39.0" prefWidth="106.0" style="-fx-background-color: indianred;" text="Remove">
          <font>
             <Font size="17.0" />
          </font>
       </Button>
-      <Text fx:id="feedbackText" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="323.12134552001953" />
-      <Text layoutX="249.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Places you've been" wrappingWidth="754.0">
+      <Text layoutX="264.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Places you've been" wrappingWidth="493.0">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
-      <Button fx:id="nameButton" layoutX="136.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleSortByName" prefHeight="39.0" prefWidth="204.0" style="-fx-background-color: lightblue;" text="Name">
+      <Button fx:id="nameButton" layoutX="162.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleSortByName" prefHeight="39.0" prefWidth="204.0" style="-fx-background-color: lightblue;" text="Name">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="ratingButton" layoutX="365.0" layoutY="234.0" mnemonicParsing="false" onAction="#handleSortByRating" prefHeight="39.0" prefWidth="204.0" style="-fx-background-color: lightblue;" text="Rating">
+      <Button fx:id="ratingButton" layoutX="393.0" layoutY="235.0" mnemonicParsing="false" onAction="#handleSortByRating" prefHeight="39.0" prefWidth="204.0" style="-fx-background-color: lightblue;" text="Rating">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Text layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by" textAlignment="CENTER" wrappingWidth="711.19580078125">
+      <Text layoutX="21.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sort by" textAlignment="CENTER" wrappingWidth="711.19580078125">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
+      <Label fx:id="feedbackLabel" layoutX="14.0" layoutY="71.0" prefHeight="39.0" prefWidth="291.0" wrapText="true" />
    </children>
 </Pane>

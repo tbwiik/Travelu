@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,9 +58,54 @@ public class DestinationTest {
      */
     @Test
     public void testSetComment() {
-        String change = "very fun";
-        destination.setComment(change);
-        assertEquals(change, destination.getComment());
+        String comment = "very fun";
+        destination.setComment(comment);
+        assertEquals(comment, destination.getComment());
+
+        // Test setting null as comment. This is allowed
+        destination.setComment(null);
+        assertEquals(null, destination.getComment());
+
+        // Test setting empty string as comment. This is allowed
+        destination.setComment("");
+        assertEquals("", destination.getComment());
+
+        // Test string with uncommon characters
+        comment = "!* ~/?+ . æøå";
+        destination.setComment(comment);
+        assertEquals(comment, destination.getComment());
+
+    }
+
+    /**
+     * Tests adding activity to destination
+     */
+    @Test
+    public void testAddActivity() {
+
+        List<String> testActivities = new ArrayList<>();
+        testActivities.add("Skiing");
+        testActivities.add("Circus");
+        testActivities.add("Fancy dinner");
+
+        assertEquals(testActivities, destination.getActivities());
+
+        // valid input
+        destination.addActivity("Dance battle");
+        assertNotEquals(testActivities, destination.getActivities());
+
+        testActivities.add("Dance battle");
+        assertEquals(testActivities, destination.getActivities());
+
+        // should throw IllegalArgumentException if activity is null
+        assertThrows(IllegalArgumentException.class, () -> destination.addActivity(null));
+
+        // should throw IllegalArgumentException if activity is empty
+        assertThrows(IllegalArgumentException.class, () -> destination.addActivity(""));
+
+        // should throw IllegalArgumentException if activity is already in list
+        assertThrows(IllegalArgumentException.class, () -> destination.addActivity("Skiing"));
+
     }
 
     /**
@@ -81,10 +128,11 @@ public class DestinationTest {
         assertEquals(testActivities, destination.getActivities());
 
         // we do not allow removing elements that are not in activities list
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity(null));
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("Fake activity"));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity(null));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity(""));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity("Fake activity"));
         // removeActivity is case sensitive
-        assertThrows(IllegalArgumentException.class, () -> destination.removeActivity("circus"));
+        assertThrows(NoSuchElementException.class, () -> destination.removeActivity("circus"));
 
         // Tests for removing all elements in activities
         destination.removeActivity("Circus");
@@ -93,6 +141,27 @@ public class DestinationTest {
         testActivities.remove("Fancy dinner");
 
         assertEquals(testActivities, destination.getActivities());
+    }
+
+    /**
+     * Test setting rating. New rating must be between 1-5
+     */
+    @Test
+    public void testSetRating() {
+        // valid input
+        int rating = 4;
+        assertNotEquals(rating, destination.getRating());
+        destination.setRating(rating);
+        assertEquals(rating, destination.getRating());
+
+        // invalid input
+        assertThrows(IllegalArgumentException.class, () -> destination.setRating(6));
+        assertThrows(IllegalArgumentException.class, () -> destination.setRating(0));
+        assertThrows(IllegalArgumentException.class, () -> destination.setRating(-1));
+
+        // check that rating is unchanged
+        assertEquals(rating, destination.getRating());
+
     }
 
     /*
