@@ -6,6 +6,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import travelu.client.Client;
@@ -321,37 +323,13 @@ public class DestinationController {
      * @param rating
      */
     private void colorStars(int starNumber) {
-
-        // Sets color of the clicked star, and all stars before it to yellow
-        // Updates color of all stars after clicked star to white
-        if (starNumber >= 1) {
-            star1.setStyle("-fx-fill: #FFD700");
-        } else {
-            star1.setStyle("-fx-fill: #FFFFFF");
-        }
-
-        if (starNumber >= 2) {
-            star2.setStyle("-fx-fill: #FFD700");
-        } else {
-            star2.setStyle("-fx-fill: #FFFFFF");
-        }
-
-        if (starNumber >= 3) {
-            star3.setStyle("-fx-fill: #FFD700");
-        } else {
-            star3.setStyle("-fx-fill: #FFFFFF");
-        }
-
-        if (starNumber >= 4) {
-            star4.setStyle("-fx-fill: #FFD700");
-        } else {
-            star4.setStyle("-fx-fill: #FFFFFF");
-        }
-
-        if (starNumber >= 5) {
-            star5.setStyle("-fx-fill: #FFD700");
-        } else {
-            star5.setStyle("-fx-fill: #FFFFFF");
+        List<SVGPath> stars = new ArrayList<>(List.of(star1, star2, star3, star4, star5));
+        // Color first starNumber stars yellow, the rest white
+        for(int i=0; i < stars.size(); i++){
+            if(i < starNumber)
+                stars.get(i).setStyle("-fx-fill: #FFD700");
+            else
+                stars.get(i).setStyle("-fx-fill: #FFFFFF");
         }
     }
 
