@@ -73,7 +73,7 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * Clear files after all tests
+     * Clear destinationList and currentDestination in client and json files
      */
     @AfterAll
     public void tearDown() {
