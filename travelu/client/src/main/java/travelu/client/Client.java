@@ -130,7 +130,7 @@ public class Client {
      * @throws ExecutionException   if completing task, but with an exception
      * @throws ServerException      if http request not successfull (not 200)
      */
-    public void addDestination(Destination destination)
+    public void addDestination(final Destination destination)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         Gson gson = new Gson();
@@ -171,7 +171,7 @@ public class Client {
      * @throws ExecutionException   if completing task, but with an exception
      * @throws ServerException      if http request not successfull (not 200)
      */
-    public void removeDestination(String destinationName)
+    public void removeDestination(final String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         httpRequests.delete(API_ADDRESS + "delete/" + destinationName.replaceAll(" ", "%20"));
@@ -187,7 +187,7 @@ public class Client {
      * @throws ExecutionException   if completing task, but with an exception
      * @throws ServerException      if http request not successfull (not 200)
      */
-    public void addActivity(String activity)
+    public void addActivity(final String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         httpRequests.post(API_ADDRESS + "addActivity", activity);
     }
@@ -219,7 +219,7 @@ public class Client {
      * @throws ExecutionException   if completing task, but with an exception
      * @throws ServerException      if http request not successfull (not 200)
      */
-    public void setRating(int starNumber)
+    public void setRating(final int starNumber)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         String starStr = String.valueOf(starNumber);
         httpRequests.put(API_ADDRESS + "setRating", starStr);
@@ -235,7 +235,7 @@ public class Client {
      * @throws ExecutionException   if completing task, but with an exception
      * @throws ServerException      if http request not successfull (not 200)
      */
-    public void setArrivalDate(String arrivalDate)
+    public void setArrivalDate(final String arrivalDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         httpRequests.put(API_ADDRESS + "setArrivalDate", arrivalDate);
     }
@@ -250,7 +250,7 @@ public class Client {
      * @throws ExecutionException   if completing task, but with an exception
      * @throws ServerException      if http request not successfull (not 200)
      */
-    public void setDepartureDate(String departureDate)
+    public void setDepartureDate(final String departureDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         httpRequests.put(API_ADDRESS + "setDepartureDate", departureDate);
     }
@@ -265,7 +265,7 @@ public class Client {
      * @throws ExecutionException   if completing task, but with an exception
      * @throws ServerException      if http request not successfull (not 200)
      */
-    public void updateComment(String comment)
+    public void updateComment(final String comment)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         httpRequests.put(API_ADDRESS + "updateComment", comment);
