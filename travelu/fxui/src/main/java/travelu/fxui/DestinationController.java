@@ -110,9 +110,8 @@ public class DestinationController {
         colorStars(currentDestination.getRating());
 
         // Set comment text field to the comment of the destination if it exists
-        if (this.currentDestination.getComment() != null) {
-            commentTextField.setText(this.currentDestination.getComment());
-        }
+        String comment = currentDestination.getComment() == null ? "" : currentDestination.getComment();
+        commentTextField.setText(comment);
 
         // Set the arrival and departure labels to the arrival and departure dates
         arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
