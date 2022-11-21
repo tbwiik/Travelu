@@ -209,7 +209,7 @@ public class Client {
     public void removeDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        httpRequests.delete(API_ADDRESS + "delete/" + destinationName);
+        httpRequests.delete(API_ADDRESS + "delete/" + destinationName.replaceAll(" ", "%20"));
     }
 
     /**

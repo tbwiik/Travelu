@@ -106,7 +106,7 @@ public class TraveluController {
     @PutMapping(value = "/storeCurrent", produces = "application/json")
     public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
         // Convert to empty string if empty comment is sent
-        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON;
+        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replaceAll("%20", " ");
 
         traveluService.saveDestinationName(destinationName);
     }
