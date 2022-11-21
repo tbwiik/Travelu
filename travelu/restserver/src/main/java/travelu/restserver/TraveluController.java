@@ -3,6 +3,7 @@ package travelu.restserver;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -96,17 +97,6 @@ public class TraveluController {
     }
 
     /**
-     * Remove chosen destination
-     * 
-     * @param destinationJSON
-     */
-    @PostMapping(value = "/remove", produces = "application/json")
-    public void removeDestinationJSON(final @RequestBody String destinationName) throws NoSuchElementException {
-        traveluService.getDestinationList().removeDestination(destinationName);
-        traveluService.save();
-    }
-
-    /**
      * add activity to current destination
      *
      * @param activity to add
@@ -117,22 +107,6 @@ public class TraveluController {
         Destination updatedDestination = getDestination();
 
         updatedDestination.addActivity(activity);
-
-        updateDestination(updatedDestination);
-
-    }
-
-    /**
-     * remove activity from current destination
-     * 
-     * @param activity to remove
-     */
-    @PostMapping(value = "/removeActivity", produces = "application/json")
-    public void removeActivityJSON(final @RequestBody String activity) throws NoSuchElementException {
-
-        Destination updatedDestination = getDestination();
-
-        updatedDestination.removeActivity(activity);
 
         updateDestination(updatedDestination);
 
@@ -202,6 +176,34 @@ public class TraveluController {
         Destination updatedDestination = getDestination();
 
         updatedDestination.setComment(comment);
+
+        updateDestination(updatedDestination);
+
+    }
+
+    /**
+     * Remove chosen destination
+     * 
+     * @param destinationJSON
+     */
+    @DeleteMapping(value = "/delete/{destinationName}", produces = "application/json")
+    public void removeDestinationJSON(final @PathVariable("destinationName") String destinationName)
+            throws NoSuchElementException {
+        traveluService.getDestinationList().removeDestination(destinationName);
+        traveluService.save();
+    }
+
+    /**
+     * Remove activity from current destination
+     * 
+     * @param activity to remove
+     */
+    @DeleteMapping(value = "/removeActivity/{activity}", produces = "application/json")
+    public void removeActivityJSON(final @RequestBody String activity) throws NoSuchElementException {
+
+        Destination updatedDestination = getDestination();
+
+        updatedDestination.removeActivity(activity);
 
         updateDestination(updatedDestination);
 
