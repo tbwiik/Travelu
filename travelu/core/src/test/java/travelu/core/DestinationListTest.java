@@ -45,15 +45,15 @@ public class DestinationListTest {
         dateInterval = new DateInterval();
         rating = 3;
         activities = new ArrayList<>();
-        comment = null;
+        comment = "";
 
         norway = new Destination(name, dateInterval, rating, activities, comment);
-        buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, null);
+        buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, "");
 
-        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, null));
+        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, ""));
         newDestinations.add(buenosAires);
-        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, null));
-        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, null));
+        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, ""));
+        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, ""));
         newDestinations.add(norway);
 
         for (Destination destination : newDestinations) {
@@ -141,22 +141,64 @@ public class DestinationListTest {
     }
 
     /**
+     * Check that two lists of destinations have identical content.
+     * This method is useful because due to encapsulation we can not access the actual destination objects of list.
+     * Therefore we have to compare the fields of all destinations in lists to ensure that they are equal.
+     * @param list1 of destinations
+     * @param list2 of destinations
+     * @return true if lists are equal
+     */
+    private boolean listsAreEqual(List<Destination> list1, List<Destination> list2){
+        if(list1.size() != list2.size())
+            return false;
+
+        // Checks that every field of every Destination is the same in both lists
+        for(int i = 0; i < list1.size(); i++){
+            Destination dest1 = list1.get(i);
+            Destination dest2 = list2.get(i);
+            DateInterval dest1DateInterval = dest1.getDateInterval();
+            DateInterval dest2DateInterval = dest2.getDateInterval();
+            String dest1ArrivalDate = dest1DateInterval.getArrivalDate() == null ? "" : dest1DateInterval.getArrivalDate();
+            String dest2ArrivalDate = dest2DateInterval.getArrivalDate() == null ? "" : dest2DateInterval.getArrivalDate();
+            String dest1Comment = dest1.getComment() == null ? "" : dest1.getComment();
+            String dest2Comment = dest2.getComment() == null ? "" : dest2.getComment();
+
+
+            if(!dest1.getName().equals(dest2.getName()))
+                return false;
+            if(dest1.getRating() != dest2.getRating())
+                return false;
+            if(!dest1ArrivalDate.equals(dest2ArrivalDate))
+                return false;
+            if(!dest1ArrivalDate.equals(dest2ArrivalDate))
+                return false;
+            if(!dest1Comment.equals(dest2Comment))
+                return false;
+            if(!dest1.getActivities().equals(dest2.getActivities()))
+                return false;
+        }
+        return true;
+    }
+    
+
+    /**
      * Tests if the ArrayList and DestinationList are equal
      * 
      * @throws IllegalArgumentException if destinationName is null
      */
     @Test
     public void testAddDestination() {
-        assertEquals(newDestinations, destinationList.getList());
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
 
         Destination newDestination = new Destination("Greenland", new DateInterval(), 1, null, null);
         
         // Adding a valid new destination to list
         newDestinations.add(newDestination);
-        assertNotEquals(newDestinations, destinationList.getList());
+        assertFalse(listsAreEqual(newDestinations, destinationList.getList()));
 
         destinationList.addDestination(newDestination);
-        assertEquals(newDestinations, destinationList.getList());
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+
 
         // Adding an existing destination to list
         assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(norway));
@@ -165,8 +207,7 @@ public class DestinationListTest {
         assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(null));
 
         // Checks that list is unchanged after invalid inputs
-        assertEquals(newDestinations, destinationList.getList());
-
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
     }
 
     /**
@@ -180,16 +221,20 @@ public class DestinationListTest {
         newDestinations.remove(norway);
         destinationList.removeDestination("Norway");
 
-        assertEquals(newDestinations, destinationList.getList());
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
 
         newDestinations.remove(buenosAires);
-        destinationList.removeDestination("Buenos Aires");
+        assertFalse(listsAreEqual(newDestinations, destinationList.getList()));
 
-        assertEquals(newDestinations, destinationList.getList());
+        destinationList.removeDestination("Buenos Aires");
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
 
         assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Not in list"));
 
         assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
+
+        // List should be unchanged after invalid input
+        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
     }
 
     /**

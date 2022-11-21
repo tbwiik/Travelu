@@ -27,14 +27,12 @@ The controller is responsible for loading from, or saving to, local storage depe
 Here the api- and request-addresses are defined.  
 Persistence is handled by the Service.
 
-See [API-Methods](travelu/fxui/src/API-Methods.md)
+See [API-Methods](/travelu/fxui/src/API-Methods.md)
 
 ## Service
 
 The Service is responsible for communicating with the module handling local persistence.  
 The class mainly does two things: load and save. It also give the controller access to (not a copy) of the interal object to able to write these changes to file.
-
-## API-Methods
 
 ## Sources
 - [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)

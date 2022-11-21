@@ -28,12 +28,11 @@ public class Destination {
             String comment) {
         this.name = name;
 
-        // dateinterval is allowed to be null, but constructor should not take in null
-        // as input
+        // DateInterval is not allowed to be null
         this.dateInterval = dateInterval == null ? new DateInterval() : new DateInterval(dateInterval);
         this.rating = rating;
 
-        // if activities are null, create new list. Otherwise create copy of old
+        // If activities are null, create new list. Otherwise create copy of old
         this.activities = activities == null ? new ArrayList<String>() : new ArrayList<String>(activities);
 
         this.comment = comment;
@@ -44,8 +43,13 @@ public class Destination {
      * creating a copy
      * 
      * @param destination
+     * @throws IllegalArgumentException if destination is null
      */
-    public Destination(Destination destination) {
+    public Destination(Destination destination) throws IllegalArgumentException {
+        if (destination == null) {
+            throw new IllegalArgumentException("Destination cannot be null");
+        }
+
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
         this.rating = destination.getRating();
@@ -61,13 +65,16 @@ public class Destination {
     }
 
     /**
+     * Returns copy of DateInterval. If DateInterval is null, return new
+     * DateInterval.
+     * 
      * @return dateInterval from-to
      */
     public DateInterval getDateInterval() {
         if (dateInterval != null) {
             return new DateInterval(dateInterval);
         }
-        return null;
+        return new DateInterval();
     }
 
     /**
@@ -100,7 +107,7 @@ public class Destination {
     /**
      * @param rating on a scale of 1-5
      * 
-     * @throws IllegalArgumentException if <1 and >5
+     * @throws IllegalArgumentException if rating is outside of range 1-5
      */
     public void setRating(int rating) throws IllegalArgumentException {
         if (rating < 1 || rating > 5) {
@@ -110,7 +117,7 @@ public class Destination {
     }
 
     /**
-     * @return copy of activities
+     * @return copy of activities-list
      */
     public List<String> getActivities() {
         return new ArrayList<String>(activities);
@@ -119,7 +126,8 @@ public class Destination {
     /**
      * 
      * @param activity a string explaining the activity
-     * @throws IllegalArgumentException if the input is blank
+     * @throws IllegalArgumentException if the input is null, blank or already in
+     *                                  list
      */
     public void addActivity(String activity) throws IllegalArgumentException {
 
@@ -143,7 +151,7 @@ public class Destination {
     }
 
     /**
-     * @return additional comment about the visit
+     * @return comment about the visit
      */
     public String getComment() {
         return comment;
@@ -152,7 +160,7 @@ public class Destination {
     /**
      * Overwrites comment with new info
      * 
-     * @param comment with other relevant info
+     * @param comment new comment
      */
     public void setComment(String comment) {
         this.comment = comment;
