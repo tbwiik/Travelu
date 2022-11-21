@@ -8,8 +8,9 @@
 
 - Inputs: None
 
-- Returns: `String`: The JSON file [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json) as a string.
+- Returns: `String`: The JSON file [DestinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json) as a string.
 
+Example of DestinationList.json:
 ```json
 {
   "destinations": [
@@ -49,8 +50,9 @@
 
 - Inputs: `String destinationName`: Name of destination to get
 
-- Returns: `String`: The destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json) with the inputted name as a string.
+- Returns: `String`: The destination in [DestinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json) with the inputted name as a string.
 
+Example of destination in DestinationList.json:
 ```json
 {
   "name": "Sweden",
@@ -75,6 +77,7 @@
 
 - Returns: `String`: The JSON file [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json) as a string.
 
+Example of CurrentDestination.json
 ```json
 "Sweden"
 ```
