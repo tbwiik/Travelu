@@ -16,7 +16,6 @@ public class DateIntervalTest {
 
     private DateInterval dateInterval1;
     private DateInterval dateInterval2;
-    private DateInterval empytInterval;
 
     /**
      * Create two DateInterval objects
@@ -25,15 +24,14 @@ public class DateIntervalTest {
     public void setup() {
         dateInterval1 = new DateInterval();
         dateInterval2 = new DateInterval();
-        empytInterval = null;
     }
 
     /**
      * Checks if IllegalArgumentException gets thrown if DateInterval is null
      */
     @Test
-    public void testDateIntervalCannotBeNull() {
-        assertThrows(IllegalArgumentException.class, () -> new DateInterval(empytInterval));
+    public void testNullDateInterval() {
+        assertThrows(IllegalArgumentException.class, () -> new DateInterval(null));
     }
 
     /**
