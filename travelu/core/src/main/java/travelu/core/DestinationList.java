@@ -10,6 +10,9 @@ import java.util.NoSuchElementException;
  */
 public class DestinationList {
 
+    /**
+     * List of destinations
+     */
     private List<Destination> destinations = new ArrayList<>();
 
     /**
