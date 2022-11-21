@@ -84,7 +84,7 @@ Example of CurrentDestination.json:
 
 
 ## POST
-Post-requests are used for creating or updating information on something that already exists.
+Post-requests are used for adding new information either directly or as a child of something that already exists.
 
 ### addDestinationJSON(String destinationJSON)
 
