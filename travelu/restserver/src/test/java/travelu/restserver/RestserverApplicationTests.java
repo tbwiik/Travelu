@@ -154,6 +154,31 @@ class RestserverApplicationTests {
 		tearDownDestination();
 	}
 
+	/**
+	 * Test removing a destination
+	 */
+	@Test
+	public void testRemoveDestination() {
+		try {
+
+			// Set up destination
+			setupDestination();
+
+			// Delete same destination
+			mockMvc.perform(delete(API_ADRESS + "delete/" +
+					mockDestinationName).characterEncoding("UTF-8"))
+					.andDo(print())
+					.andExpect(status().isOk())
+					.andReturn();
+
+			// Get destination list
+			MvcResult result = mockMvc.perform(get(API_ADRESS +
+					"destinationlist")).andDo(print())
+					.andExpect(status().isOk()).andReturn();
+
+			// Check that destination list is now empty
+			assertEquals(emptyDestinationList, result.getResponse().getContentAsString());
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
