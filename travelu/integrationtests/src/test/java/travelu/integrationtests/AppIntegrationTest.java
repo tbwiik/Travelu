@@ -69,6 +69,8 @@ public class AppIntegrationTest extends ApplicationTest {
 
     /**
      * remove all destinations from destinationlist
+     * <p>
+     * store empty string as current destination name
      */
     private void clearDestinations() {
 
@@ -76,6 +78,7 @@ public class AppIntegrationTest extends ApplicationTest {
             for (Destination destination : client.getDestinationList().getList()) {
                 client.removeDestination(destination.getName());
             }
+            client.storeCurrentDestinationName("");
         } catch (Exception e) {
             fail("Could not remove destinations");
         }
@@ -285,7 +288,7 @@ public class AppIntegrationTest extends ApplicationTest {
         try {
             // checking if list from client contains the correct destinations
             DestinationList destinationList = client.getDestinationList();
-            assertEquals(destinationList.getList(), client.getDestinationList().getList());
+            assertEquals(destinationList.getDestinationNames(), client.getDestinationList().getDestinationNames());
         } catch (Exception e) {
             fail("Could not get destination list");
         }
@@ -310,7 +313,12 @@ public class AppIntegrationTest extends ApplicationTest {
         // checking if destination from client is the same as the one added
         try {
             Destination destinationFromName = client.getDestination("Hawaii");
-            assertEquals(hawaii, destinationFromName);
+            // check that every field is equal in both destinations
+            assertEquals(hawaii.getName(), destinationFromName.getName());
+            assertEquals(hawaii.getDateInterval().getArrivalDate(), destinationFromName.getDateInterval().getArrivalDate());
+            assertEquals(hawaii.getDateInterval().getDepartureDate(), destinationFromName.getDateInterval().getDepartureDate());
+            assertEquals(hawaii.getRating(), destinationFromName.getRating());
+            assertEquals(hawaii.getComment(), destinationFromName.getComment());
         } catch (Exception e) {
             fail("Could not get destination");
         }
@@ -342,7 +350,12 @@ public class AppIntegrationTest extends ApplicationTest {
         // checking if destination from client is the same as the one added
         try {
             Destination currentDestination = client.getCurrentDestination();
-            assertEquals(hawaii, currentDestination);
+            // check that every field is equal in both destinations
+            assertEquals(hawaii.getName(), currentDestination.getName());
+            assertEquals(hawaii.getDateInterval().getArrivalDate(), currentDestination.getDateInterval().getArrivalDate());
+            assertEquals(hawaii.getDateInterval().getDepartureDate(), currentDestination.getDateInterval().getDepartureDate());
+            assertEquals(hawaii.getRating(), currentDestination.getRating());
+            assertEquals(hawaii.getComment(), currentDestination.getComment());
         } catch (Exception e) {
             fail("Could not get current destination");
         }

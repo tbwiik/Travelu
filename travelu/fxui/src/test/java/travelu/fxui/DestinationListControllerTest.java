@@ -1,10 +1,14 @@
 package travelu.fxui;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
-import java.util.Comparator;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,34 +19,25 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import travelu.core.DateInterval;
-import travelu.core.Destination;
-import travelu.core.DestinationList;
-import travelu.localpersistence.TraveluHandler;
-
 /**
- * JavaFX tests for DestinationListController
+ * JavaFX tests for DestinationListController, isolated from server
+ * <p>
+ * Due to the way the controllers are implemented, some of these tests are dependent on validation in core.
  */
 @TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationListControllerTest extends ApplicationTest {
 
-        private DestinationListController destinationListController;
-
         private Parent root;
-
-        private DestinationList destinationList;
-
-        private TraveluHandler traveluHandler = new TraveluHandler();
 
         private TextArea destinationText;
         private Button addButton;
@@ -52,6 +47,8 @@ public class DestinationListControllerTest extends ApplicationTest {
         private Label feedbackLabel;
         private ListView<String> listView;
 
+        private WireMockServer wireMockServer;
+
         /**
          * Enables headless testing
          */
@@ -60,6 +57,46 @@ public class DestinationListControllerTest extends ApplicationTest {
                 TestHelperMethods.supportHeadless();
         }
 
+        /**
+         * Sets up wiremock server
+         */
+        @BeforeAll
+        public void startWireMockServer() {
+                WireMockConfiguration wireMockConfiguration = WireMockConfiguration.wireMockConfig().port(8080);
+                wireMockServer = new WireMockServer(wireMockConfiguration.portNumber());
+                wireMockServer.start();
+
+                WireMock.configureFor("localhost", wireMockConfiguration.portNumber());
+
+                // getting destinationList
+                stubFor(get(urlEqualTo("/api/v1/entries/destinationlist"))
+                                .willReturn(aResponse()
+                                                .withStatus(200)
+                                                .withHeader("Content-Type", "application/json")
+                                                .withBody("{\"destinations\": [{\"name\": \"Costa Rica\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 0,\"activities\": [],\"comment\": null},{\"name\": \"Finland\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 4,\"activities\": [],\"comment\": null},{\"name\": \"Norway\",\"dateInterval\": {\"arrivalDate\": null,\"departureDate\": null},\"rating\": 2,\"activities\": [],\"comment\": null}]}")));
+
+                // adding destination
+                stubFor(post(urlEqualTo("/api/v1/entries/add"))
+                                .willReturn(aResponse()
+                                                .withStatus(200)
+                                                .withHeader("Content-Type", "application/json")));
+
+                // removing destination
+                stubFor(post(urlEqualTo("/api/v1/entries/remove"))
+                                .willReturn(aResponse()
+                                                .withStatus(200)
+                                                .withHeader("Content-Type", "application/json")));
+
+        }
+
+        @AfterAll
+        public void stopWireMockServer() {
+                wireMockServer.stop();
+        }
+
+        /**
+         * Initializes FXML elements
+         */
         @BeforeEach
         private void start() {
                 destinationText = lookup("#destinationText").query();
@@ -72,211 +109,145 @@ public class DestinationListControllerTest extends ApplicationTest {
         }
 
         /**
-         * Tests if DestinationList works as intended
+         * Initializes GUI
          */
         @Override
         public void start(Stage stage) throws IOException {
 
-                destinationList = new DestinationList();
-                destinationList.addDestination(new Destination("Spain", new DateInterval(), 0, null,
-                                null));
-                destinationList.addDestination(new Destination("Greece", new DateInterval(), 2, null,
-                                null));
-                destinationList.addDestination(new Destination("Turkey", new DateInterval(), 3, null,
-                                null));
-
-                traveluHandler.writeJSON(destinationList, "testDestinationList.json");
-
                 FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("destinationList.fxml"));
                 root = fxmlLoader.load();
-                destinationListController = fxmlLoader.getController();
                 stage.setScene(new Scene(root));
                 stage.show();
 
-                destinationListController.initiliazeFromTestFiles();
-        }
-
-        @Test
-        public void testInitialize() {
-                assertEquals(3, destinationListController.getDestinationListNames().size());
-                assertEquals("Spain", destinationListController.getDestinationListNames().get(0));
-                assertEquals("Greece", destinationListController.getDestinationListNames().get(1));
-                assertEquals("Turkey", destinationListController.getDestinationListNames().get(2));
-
-                assertEquals("Spain", destinationListController.getListViewItems().get(0));
-                assertEquals("Greece★★", destinationListController.getListViewItems().get(1));
-                assertEquals("Turkey★★★", destinationListController.getListViewItems().get(2));
         }
 
         /**
-         * Tests if you can add Destination to DestinationList
+         * Tests if listiew is properly updated with data from the mock server
+         * <p>
+         * This tests that the stored DestinationList copy is correctly used to display destinations
          */
         @Test
-        public void testAdd() {
+        public void testListViewUpdated() {
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+        }
 
-                // add destination to destinationList
-                destinationList.addDestination(new Destination("Place", new DateInterval(), 0, null,
-                                null));
+        /**
+         * Tests if the add button works as intended
+         */
+        @Test
+        public void testAddDestination() {
 
-                assertNotEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
-                
-                clickOn(destinationText).write("Place");
-
-                clickOn(addButton);
-                
-                // displayed list should now be equal to our seperate destinationList
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
-
-                // check if destination name is recognized as the same spaces are added
-                clickOn(destinationText).write("  Place  ");
+                // valid input
+                clickOn(destinationText).write("Helsinki");
                 clickOn(addButton);
 
-                // check if feedbackLabel gives proper feedback
-                assertEquals("You have already registered this destination", feedbackLabel.getText());
-                
+                assertEquals("", destinationText.getText());
+                assertEquals("", feedbackLabel.getText());
 
-                // check if spaces before and after destination name are removed
-                clickOn(destinationText).eraseText(destinationText.getText().length()).write("  Denmark  ");
-                clickOn(addButton);
-                
-                assertNotEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
+                // listView should be updated with our new destination
+                assertEquals("Helsinki", listView.getItems().get(3));
 
-                destinationList.addDestination(new Destination("Denmark", new DateInterval(), 0, null,
-                                null));
-
-                assertEquals(destinationList.getDestinationNames(), 
-                                destinationListController.getDestinationListNames());
-                
-
-                // ensure spaces between letters are not removed
-                clickOn(destinationText).eraseText(destinationText.getText().length()).write("  New Zealand  ");
+                // empty input
                 clickOn(addButton);
 
-                assertNotEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
+                assertEquals("", destinationText.getText());
+                assertEquals("", feedbackLabel.getText());
 
-                destinationList.addDestination(new Destination("New Zealand", new DateInterval(), 3, null,
-                                null));
-                
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
-
-                // test add invalid destination name
-                clickOn(destinationText).write("\"''");
+                // invalid input
+                String invalidInput = "51*@4´,a#";
+                clickOn(destinationText).write(invalidInput);
 
                 clickOn(addButton);
-                
-                // destinationList should be unchanged
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
-                // check if feedbackLabel gives proper feedback
+
+                assertEquals(invalidInput, destinationText.getText());
                 assertEquals("Destination name must contain only letters, spaces and dashes", feedbackLabel.getText());
 
-                // test click add button without inputting destination name
-                clickOn(addButton);
-                // destinationList should be unchanged
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
+        }
 
-                // check that feedbackLabel is reset on valid input
-                clickOn(destinationText).eraseText(destinationText.getText().length()).write("New Place");
+        /**
+         * Tests if adding duplicate destinations works as intended
+         */
+        @Test
+        public void testAddDuplicates() {
+
+                // duplicate input
+                clickOn(destinationText).write("Norway");
                 clickOn(addButton);
 
-                assertEquals("", feedbackLabel.getText());
+                assertEquals("Norway", destinationText.getText());
+                assertEquals("You have already registered this destination", feedbackLabel.getText());
+
+                // case insensitive duplicate input
+                clickOn(destinationText).eraseText(destinationText.getText().length()).write("fInLaNd");
+                clickOn(addButton);
+
+                assertEquals("fInLaNd", destinationText.getText());
+                assertEquals("You have already registered this destination", feedbackLabel.getText());
+
+                // duplicate input with spaces
+                clickOn(destinationText).eraseText(destinationText.getText().length()).write("  Costa Rica  ");
+                clickOn(addButton);
+
+                assertEquals("  Costa Rica  ", destinationText.getText());
+                assertEquals("You have already registered this destination", feedbackLabel.getText());
+
+                // listView should be unchanged:
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
 
         }
 
         /**
-         * Tests if you can remove Destination from DestinationList
+         * Tests if the remove button works as intended
+         * <p>
+         * This also implicitly tests that currentDestination field is updated correctly
          */
         @Test
-        public void testRemove() {
-
-                // check clicking remove button before selecting destination
+        public void testRemoveDestination() {
+                // clicking on remove before selecting destination
                 clickOn(removeButton);
 
-                // check if feedbackLabel gives proper feedback
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
 
-                // this should not change the destinationList
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
-
-                // TODO: This test fails because it tries to remove Greece (from test file)
-                // but Greece does not exist on actual files (which are accessed by server)
-                // This problem will be fixed when we implement mock server for UI tests
-                /*clickOn("Greece★★");
+                // selecting destination and clicking on remove
+                clickOn("Norway★★");
                 clickOn(removeButton);
 
-                
-                // check if feedbackLabel is reset
                 assertEquals("", feedbackLabel.getText());
 
+                // listView should be updated:
+                assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
 
-                assertNotEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
-                destinationList.removeDestination("Greece");
 
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());*/
+                // clicking remove again
+                clickOn(removeButton);
 
+                assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
+
+                // clicking on listView and clicking remove
                 clickOn(listView);
                 clickOn(removeButton);
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
 
-                // check if feedbackLabel gives proper feedback
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
 
-                // check clicking remove button after removing destination
-                clickOn(removeButton);
-                // check if feedbackLabel gives proper feedback
-                assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
-
-                // this should not change destinationList
-                assertEquals(destinationList.getDestinationNames(),
-                                destinationListController.getDestinationListNames());
+                // listView should be unchanged:
+                assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
 
         }
 
         /**
-         * Tests implementation of sorting by name functionality in controller.
+         * Tests if sorting works as intended
          * <p>
-         * Sorting functionality is thoroughly tested in core.
+         * This test depends on core.
          */
         @Test
-        public void testSortByName() {
-
-                assertEquals("[Spain, Greece★★, Turkey★★★]",
-                                destinationListController.getListViewItems().toString());
-
-                clickOn(nameButton);
-
-                assertNotEquals("[Spain, Greece★★, Turkey★★★]",
-                                destinationListController.getListViewItems().toString());
-
-                assertEquals("[Greece★★, Spain, Turkey★★★]",
-                                destinationListController.getListViewItems().toString());
-        }
-
-        /**
-         * Tests implementation of sorting by rating functionality in controller.
-         * <p>
-         * Sorting functionality is thoroughly tested in core.
-         */
-        @Test
-        public void testSortByRating() throws IOException {
-
-                assertEquals("[Spain, Greece★★, Turkey★★★]",
-                                destinationListController.getListViewItems().toString());
-
+        public void testSortDestinations() {
+                // sorting by rating
                 clickOn(ratingButton);
+                assertEquals("[Finland★★★★, Norway★★, Costa Rica]", listView.getItems().toString());
 
-                assertEquals("[Turkey★★★, Greece★★, Spain]",
-                                destinationListController.getListViewItems().toString());
+                // sorting by name
+                clickOn(nameButton);
+                assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
 
         }
 
