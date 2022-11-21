@@ -54,6 +54,22 @@ In a new terminal:
 [fxui/module-info](travelu/fxui/src/main/java/) is deleted for enabling run through Maven.  
 See [module-info](docs/development/module-info.md) for explanation
 
+## Installing the project
+
+The project can be installed with JLink and JPackage. This involves creating a binary executable for the application which can then be run by your computer.
+To install the project, in terminal:
+
+- `cd fxui` to change into ui-folder
+- `mvn clean compile javafx:jlink` to generate a zip file
+- `cd ..` to change into project-folder
+- `mvn jpackage:jpackage -f ./fxui/pom.xml` to create a custom runtime image
+
+It is now possible to run the app by unzipping the zip file and running the executable file.
+
+This process is only functional locally (on mac). Teaching assistant has clarified on Piazza that this is sufficient.
+
+**Note:** The server must be running for the app to work.
+
 ## Testing & coverage
 
 After building project, run the following commands in terminal to run tests and generate coverage reports:

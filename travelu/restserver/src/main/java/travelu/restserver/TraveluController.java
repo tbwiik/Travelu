@@ -56,15 +56,13 @@ public class TraveluController {
     }
 
     /**
-     * Get name of chosen destination
-     * <p>
-     * Formats space as %20
+     * Get name of stored chosen destination
      * 
      * @return name of destination
      */
     @GetMapping(value = "/currentDestination", produces = "application/json")
     public String getDestinationJSON() {
-        return traveluService.getDestinationName().replace(" ", "%20");
+        return traveluService.getDestinationName();
     }
 
     /**
@@ -81,12 +79,17 @@ public class TraveluController {
     }
 
     /**
-     * Store chosen destination
+     * Store chosen destination, replaces %20 with space
+     * <p>
+     * Accepts empty input
      * 
      * @param destinationName
      */
     @PostMapping(value = "/storeCurrent", produces = "application/json")
-    public void storeCurrentDestinationJSON(final @RequestBody String destinationName) {
+    public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
+        // Convert to empty string if empty comment is sent
+        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replace("%20", " ");
+
         traveluService.saveDestinationName(destinationName);
     }
 
@@ -183,11 +186,16 @@ public class TraveluController {
 
     /**
      * Set new comment for current destination
+     * <p>
+     * Accepts empty input
      * 
      * @param comment
      */
     @PostMapping(value = "/updateComment", produces = "application/json")
-    public void updateCommentJSON(final @RequestBody String comment) {
+    public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
+
+        // Convert to empty string if empty comment is sent
+        String comment = (commentJSON == null) ? "" : commentJSON;
 
         Destination updatedDestination = getDestination();
 
@@ -203,7 +211,8 @@ public class TraveluController {
      * @return chosen destination
      */
     private Destination getDestination() {
-        return traveluService.getDestinationList().getDestinationCopyByName(traveluService.getDestinationName());
+        String destinationName = traveluService.getDestinationName();
+        return traveluService.getDestinationList().getDestinationCopyByName(destinationName);
     }
 
     /**
