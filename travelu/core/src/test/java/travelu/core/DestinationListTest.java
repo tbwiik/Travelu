@@ -58,7 +58,8 @@ public class DestinationListTest {
      */
     @Test
     public void testGetDestinationCopyByName() {
-
+        assertDoesNotThrow(() -> destinationList.getDestinationCopyByName("Norway"));
+        // Destination that is not in list
         assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
 
         assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName(null));
