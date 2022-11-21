@@ -52,7 +52,7 @@ public class DestinationListController {
             // Get destination list from server
             this.destinationList = client.getDestinationList();
         } catch (ServerException se) {
-            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + "\n Status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
             errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
@@ -152,7 +152,7 @@ public class DestinationListController {
             // Store the currently selected destination's name to the server
             client.storeCurrentDestinationName(destinationName);
         } catch (ServerException se) {
-            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + "\n Status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
             errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
@@ -206,7 +206,7 @@ public class DestinationListController {
         } catch (IllegalArgumentException iae) {
             feedbackLabel.setText("");
         } catch (ServerException se) {
-            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + "\n Status: " + se.getStatusCode());
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
             errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
@@ -243,7 +243,7 @@ public class DestinationListController {
             } catch (NoSuchElementException nsee) {
                 feedbackLabel.setText("Please select a destination you would like to remove");
             } catch (ServerException se) {
-                errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
+                errorPopup("Error", se.getMessage() + "\n Status: " + se.getStatusCode());
             } catch (ExecutionException | URISyntaxException | InterruptedException e) {
                 errorPopup("Error", "Error: \n" + e.getMessage());
                 e.printStackTrace();
