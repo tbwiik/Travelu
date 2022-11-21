@@ -322,8 +322,8 @@ class RestserverApplicationTests {
 	 * Remove default destination and current destination from files
 	 * <p>
 	 * Helper-method for tearing down what is done in {@link #setupDestination()}.
-	 * This is done because server cache information and deleting from files is not
-	 * enough.
+	 * This is done because server cache information, and only deleting files is not
+	 * enough when tearing down.
 	 * <p>
 	 * Will throw a {@code fail()} if failing to tear down
 	 * 
