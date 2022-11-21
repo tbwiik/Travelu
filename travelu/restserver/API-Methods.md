@@ -1,7 +1,7 @@
 # REST API methods
 
 ## GET
-
+Get-requests are used for getting, reading, information.
 ### getDestinationListJSON()
 
 - HTTP address: `/api/v1/entries/destinationlist`
@@ -84,26 +84,12 @@ Example of CurrentDestination.json:
 
 
 ## POST
-
-### storeCurrentDestinationJSON(String destinationNameJSON)
-
-- HTTP address: `/api/v1/entries/storeCurrent`
-
-- Inputs: `String destinationNameJSON`: The name of the destination that should be stored in [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json).
-
-
+Post-request are used for appending information to something that already exists.
 ### addDestinationJSON(String destinationJSON)
 
 - HTTP address: `/api/v1/entries/add`
 
 - Inputs: `String destinationJSON`: The destination information to add to [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json) as a JSON converted to string.
-
-
-### removeDestinationJSON(String destinationName)
-
-- HTTP address: `/api/v1/entries/remove`
-
-- Inputs: `String destinationNameJSON`: The name of the destination that should be removed from [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
 
 
 ### addActivityJSON(String activity)
@@ -112,13 +98,13 @@ Example of CurrentDestination.json:
 
 - Inputs: `String activity`: The activity to add to the currently selected destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
 
+## PUT
+Put-requests are used for overwriting information.
+### storeCurrentDestinationJSON(String destinationNameJSON)
 
-### removeActivityJSON(String activity)
+- HTTP address: `/api/v1/entries/storeCurrent`
 
-- HTTP address: `/api/v1/entries/removeActivity`
-
-- Inputs: `String activity`: The activity to remove from the currently selected destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
-
+- Inputs: `String destinationNameJSON`: The name of the destination that should be stored in [CurrentDestination.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/CurrentDestination.json).
 
 ### setRatingJSON(String rating)
 
@@ -126,13 +112,11 @@ Example of CurrentDestination.json:
 
 - Inputs: `String rating`: The rating to set to the currently selected destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
 
-
 ### setArrivalDateJSON(String arrivalDate)
 
 - HTTP address: `/api/v1/entries/setArrivalDate`
 
 - Inputs: `String arrivalDate`: The arrival date to set to the currently selected destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
-
 
 ### setDepartureDateJSON(String departureDate)
 
@@ -146,4 +130,19 @@ Example of CurrentDestination.json:
 - HTTP address: `/api/v1/entries/updateComment`
 
 - Inputs: `String commentJSON`: The comment to set to the currently selected destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
+
+
+## DELETE
+Delete-requests are used for deleting information
+### removeDestinationJSON(String destinationName)
+
+- HTTP address: `/api/v1/entries/delete`
+
+- Inputs: `String destinationNameJSON`: The name of the destination that should be removed from [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
+
+### removeActivityJSON(String activity)
+
+- HTTP address: `/api/v1/entries/removeActivity`
+
+- Inputs: `String activity`: The activity to remove from the currently selected destination in [destinationList.json](/travelu/localpersistence/src/main/resources/travelu/localpersistence/data/DestinationList.json).
 

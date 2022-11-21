@@ -3,10 +3,12 @@ package travelu.restserver;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -79,32 +81,6 @@ public class TraveluController {
     }
 
     /**
-     * Store chosen destination, replaces %20 with space
-     * <p>
-     * Accepts empty input
-     * 
-     * @param destinationName
-     */
-    @PostMapping(value = "/storeCurrent", produces = "application/json")
-    public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
-        // Convert to empty string if empty comment is sent
-        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replace("%20", " ");
-
-        traveluService.saveDestinationName(destinationName);
-    }
-
-    /**
-     * Remove chosen destination
-     * 
-     * @param destinationJSON
-     */
-    @PostMapping(value = "/remove", produces = "application/json")
-    public void removeDestinationJSON(final @RequestBody String destinationName) throws NoSuchElementException {
-        traveluService.getDestinationList().removeDestination(destinationName);
-        traveluService.save();
-    }
-
-    /**
      * add activity to current destination
      *
      * @param activity to add
@@ -121,19 +97,18 @@ public class TraveluController {
     }
 
     /**
-     * remove activity from current destination
+     * Store chosen destination
+     * <p>
+     * Accepts empty input
      * 
-     * @param activity to remove
+     * @param destinationName
      */
-    @PostMapping(value = "/removeActivity", produces = "application/json")
-    public void removeActivityJSON(final @RequestBody String activity) throws NoSuchElementException {
+    @PutMapping(value = "/storeCurrent", produces = "application/json")
+    public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
+        // Convert to empty string if empty comment is sent
+        String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replaceAll("%20", " ");
 
-        Destination updatedDestination = getDestination();
-
-        updatedDestination.removeActivity(activity);
-
-        updateDestination(updatedDestination);
-
+        traveluService.saveDestinationName(destinationName);
     }
 
     /**
@@ -141,7 +116,7 @@ public class TraveluController {
      *
      * @param rating to set
      */
-    @PostMapping(value = "/setRating", produces = "application/json")
+    @PutMapping(value = "/setRating", produces = "application/json")
     public void setRatingJSON(final @RequestBody String rating) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -157,7 +132,7 @@ public class TraveluController {
      * 
      * @param arrivalDate
      */
-    @PostMapping(value = "/setArrivalDate", produces = "application/json")
+    @PutMapping(value = "/setArrivalDate", produces = "application/json")
     public void setArrivalDateJSON(final @RequestBody String arrivalDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -173,7 +148,7 @@ public class TraveluController {
      *
      * @param departureDate to set
      */
-    @PostMapping(value = "/setDepartureDate", produces = "application/json")
+    @PutMapping(value = "/setDepartureDate", produces = "application/json")
     public void setDepartureDateJSON(final @RequestBody String departureDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -191,7 +166,7 @@ public class TraveluController {
      * 
      * @param comment
      */
-    @PostMapping(value = "/updateComment", produces = "application/json")
+    @PutMapping(value = "/updateComment", produces = "application/json")
     public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
 
         // Convert to empty string if empty comment is sent
@@ -200,6 +175,36 @@ public class TraveluController {
         Destination updatedDestination = getDestination();
 
         updatedDestination.setComment(comment);
+
+        updateDestination(updatedDestination);
+
+    }
+
+    /**
+     * Remove chosen destination
+     * 
+     * @param destinationJSON
+     */
+    @DeleteMapping(value = "/delete/{destinationName}", produces = "application/json")
+    public void removeDestinationJSON(final @PathVariable("destinationName") String destinationName)
+            throws NoSuchElementException {
+
+        traveluService.getDestinationList().removeDestination(destinationName.replace("%20", " "));
+
+        traveluService.save();
+    }
+
+    /**
+     * Remove activity from current destination
+     * 
+     * @param activity to remove
+     */
+    @DeleteMapping(value = "/removeActivity/{activity}", produces = "application/json")
+    public void removeActivityJSON(final @PathVariable String activity) throws NoSuchElementException {
+
+        Destination updatedDestination = getDestination();
+
+        updatedDestination.removeActivity(activity.replace("%20", " "));
 
         updateDestination(updatedDestination);
 
