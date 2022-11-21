@@ -193,13 +193,13 @@ public class DestinationListTest {
     public void testAddDestination() {
         assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
-        Destination newDestination = new Destination("Greenland", new DateInterval(), 1, null, null);
+        Destination greenland = new Destination("Greenland", new DateInterval(), 1, null, null);
 
         // Adding a valid new destination to list
-        expectedDestinations.add(newDestination);
+        expectedDestinations.add(greenland);
         assertFalse(listsAreEqual(expectedDestinations, destinationList.getList()));
 
-        destinationList.addDestination(newDestination);
+        destinationList.addDestination(greenland);
         assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
         // Adding an existing destination to list
