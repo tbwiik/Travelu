@@ -53,7 +53,7 @@ class RestserverApplicationTests {
 			TraveluHandler.clearDestinationName();
 			TraveluHandler.clearDestinationList();
 		} catch (Exception e) {
-			fail("Failed to delete files");
+			fail("Failed to clear files");
 		}
 
 	}
@@ -64,7 +64,7 @@ class RestserverApplicationTests {
 			TraveluHandler.clearDestinationName();
 			TraveluHandler.clearDestinationList();
 		} catch (Exception e) {
-			fail("Failed to delete files");
+			fail("Failed to clear files");
 		}
 	}
 
