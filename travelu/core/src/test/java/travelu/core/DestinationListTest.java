@@ -220,22 +220,30 @@ public class DestinationListTest {
      */
     @Test
     public void testRemoveDestination() {
+        // Remove Norway from list of destinations
         expectedDestinations.remove(norway);
 
+        // The lists should be different
         assertFalse(listsAreEqual(expectedDestinations, destinationList.getList()));
 
+        // Remvoe Norway from destinationList
         destinationList.removeDestination("Norway");
 
+        // The lists should now be equal
         assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
+        // Remove Buenos Aires
         expectedDestinations.remove(buenosAires);
         assertFalse(listsAreEqual(expectedDestinations, destinationList.getList()));
 
         destinationList.removeDestination("Buenos Aires");
+        // The Lists should be equal again
         assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
+        // Removing a Destination that does not exist throws NoSuchElementException
         assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Not in list"));
 
+        // Removing null throws IllegalArgumentException
         assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
 
         // List should be unchanged after invalid input
