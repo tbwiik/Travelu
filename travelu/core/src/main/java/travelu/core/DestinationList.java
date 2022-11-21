@@ -5,23 +5,26 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * List of Destinations
+ * Object containing list of Destinations, with useful methods and sorting
+ * functions
  */
 public class DestinationList {
 
     private List<Destination> destinations = new ArrayList<>();
 
     /**
-     * Add destination to list
+     * Add copy of destination to list. For encapsulation reasons we do not want to
+     * add the actual destination
      * 
      * @param destination to add
-     * @throws IllegalArgumentException if destination is null, or if a destination with the same name already exists
+     * @throws IllegalArgumentException if destination is null, or if a destination
+     *                                  with the same name already exists
      */
     public void addDestination(Destination destination) throws IllegalArgumentException {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
 
-        // if list of destination names contains destination name, regardless of casing,
+        // If list of destination names contains destination name, regardless of casing,
         // destination should not be added to destination list
         if (containsDestination(destination.getName()))
             throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
@@ -30,7 +33,7 @@ public class DestinationList {
     }
 
     /**
-     * Get actual destination by name
+     * Get actual destination by name. This is private due to encapsulation
      * 
      * @param name of destination
      * @return {@link Destination}
@@ -57,7 +60,7 @@ public class DestinationList {
      * 
      * @param name of destination
      * @throws IllegalArgumentException if name is null
-     * @throws NoSuchElementException if no such element exist
+     * @throws NoSuchElementException   if no such element exist
      */
     public void removeDestination(String name) throws IllegalArgumentException, NoSuchElementException {
         // Name of destination to remove cannot be null
@@ -72,7 +75,7 @@ public class DestinationList {
     }
 
     /**
-     * updates destination. For use in DestinationController
+     * Update destination.
      * 
      * @param destination to be updated
      * @throws NoSuchElementException   if no such element exist
@@ -124,7 +127,7 @@ public class DestinationList {
     }
 
     /**
-     * Checks if contains destination
+     * Checks if list contains destination. Case-insensitive
      * 
      * @param destinationName name of destination to check for
      * @throws IllegalArgumentException if destinationName is null
