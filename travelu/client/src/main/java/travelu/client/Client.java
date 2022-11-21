@@ -2,8 +2,6 @@ package travelu.client;
 
 import java.net.URISyntaxException;
 import java.net.http.HttpResponse;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.google.gson.Gson;
@@ -40,8 +38,8 @@ public class Client {
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public DestinationList getDestinationList()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -62,10 +60,11 @@ public class Client {
      * 
      * @param destinationName identifier for wanted destination
      * @return wanted {@link Destination} object
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public Destination getDestination(final String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -86,10 +85,11 @@ public class Client {
      * Then use {@link #getDestination(String)} to get Destination
      * 
      * @return current chosen {@link Destination}
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public Destination getCurrentDestination()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -103,10 +103,11 @@ public class Client {
      * Get name of chosen {@link Destination} from the server
      * 
      * @return name of chosen {@link Destination}
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public String getCurrentDestinationName()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -121,10 +122,11 @@ public class Client {
      * Add new {@link Destination} through server
      * 
      * @param destination
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void addDestination(Destination destination)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -144,10 +146,11 @@ public class Client {
      * Formats space as %20
      * 
      * @param destinationName name of destination
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void storeCurrentDestinationName(final String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -162,10 +165,11 @@ public class Client {
      * Use a post request
      * 
      * @param destination to remove
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void removeDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -177,10 +181,11 @@ public class Client {
      * Add activity for chosen destination through server
      * 
      * @param activity
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void addActivity(String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -191,10 +196,11 @@ public class Client {
      * Remove activity for chosen destination through server
      * 
      * @param activity
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void removeActivity(final String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -205,10 +211,11 @@ public class Client {
      * Save rating for chosen destination through server
      * 
      * @param starNumber
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void setRating(int starNumber)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -220,10 +227,11 @@ public class Client {
      * Save arrival date for chosen destination through server
      * 
      * @param arrivalDate
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void setArrivalDate(String arrivalDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -234,10 +242,11 @@ public class Client {
      * Save departure date for chosen destination through server
      * 
      * @param departureDate
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void setDepartureDate(String departureDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -248,10 +257,11 @@ public class Client {
      * Save updated comment for chosen destination through server
      * 
      * @param comment
-     * @throws URISyntaxException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrival of
+     *                              response
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public void updateComment(String comment)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
