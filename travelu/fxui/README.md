@@ -2,7 +2,7 @@
 
 The User Interface (UI) module is responsible for handling the user interface of the application - the "view" of the application. The UI module is divided into two parts, the FXML resources and the JavaFX controllers. The FXML resources define the layout of the UI, and the JavaFX controllers handles the user interaction.
 
-See: [Comment on frontend architecture](/travelu/fxui/Arc-Comment.md)
+For discussion about issues related to ui: [Comment on frontend architecture](/travelu/fxui/Arc-Comment.md)
 
 
 ## App
