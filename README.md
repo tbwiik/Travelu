@@ -17,17 +17,25 @@ We are making an application called Travelu. We have written about its functiona
 
 This project contains:
 
-- [User scenarios](UserScenarios.md)
-- Documentation of all [releases](docs)
 - A [README.md](travelu/README.md) explaining the functionality of the app
-- UI controllers of the app which are in the folder [travelu/fxui/src/main/java/travelu/fxui](travelu/fxui/src/main/java/travelu/fxui)
+- [User scenarios](docs/user-scenarios) for the different use cases of the app
+- Documentation about [quality assurance](docs/quality-assurance) of the project
+- Documentation of all [releases](docs/releases)
+- [Diagrams](docs/diagrams) of the project's architecture and how the application works
+- Documentation about our [development](docs/development) process
+- The application's UI controllers which are in the folder [travelu/fxui/src/main/java/travelu/fxui](travelu/fxui/src/main/java/travelu/fxui)
 - FXML files connected to these controllers which are in the folder [resources/travelu/fxui](travelu/fxui/src/main/resources/travelu/fxui)
 - The application's domain logic which is in the folder [travelu/core/src/main/java/travelu/core](travelu/core/src/main/java/travelu/core)
 - The application's persistence which is in the folder [travelu/localpersistence/src/main/java/travelu/localpersistence](travelu/localpersistence/src/main/java/travelu/localpersistence)
+- A [README.md](travelu/localpersistence/README.md) about what we used for persistence and how we implemented it
+- The application's REST server API setup which is in the folder [travelu/restserver/src/main/java/travelu/restserver](travelu/restserver/src/main/java/travelu/restserver)
+- A [README.md](travelu/restserver/README.md) explaining how the server is set up and how to run it
+- The application's REST client which is in the folder [travelu/client/src/main/java/travelu/client](travelu/client/src/main/java/travelu/client)
+- A [README.md](travelu/client/README.md) explaining how the client works
+- Tests for the application's UI controllers which are in the folder [travelu/fxui/src/test/java/travelu/fxui](travelu/fxui/src/test/java/travelu/fxui)
 - Tests for the application's domain logic which are in the folder [travelu/core/src/test/java/travelu/core](travelu/core/src/test/java/travelu/core)
 - Tests for the application's persistence which are in the folder [travelu/localpersistence/src/test/java/travelu/localpersistence](travelu/localpersistence/src/test/java/travelu/localpersistence)
-
-- [Package diagram](docs/packageDiagram.plantuml) of the project's architecture 
+- An ingegration test for the application which is in the folder [travelu/integrationtests/src/test/java/travelu/integrationtests](travelu/integrationtests/src/test/java/travelu/integrationtests)
 
 ## Building & running the project
 
@@ -38,15 +46,17 @@ To run the project, in terminal:
 - `mvn install` in root folder
   - **Note:** this also runs tests and installs package
 - `mvn -pl restserver spring-boot:run` to start the server handling the rest-api
+
+In a new terminal:
 - `mvn -pl fxui javafx:run` to start the application
 
 **Notice:**   
 [fxui/module-info](travelu/fxui/src/main/java/) is deleted for enabling run through Maven.  
-See [module-info](docs/module-info.md) for explanation
+See [module-info](docs/development/module-info.md) for explanation
 
 ## Installing the project
 
-The project can be installed with jlink.
+The project can be installed with JLink and JPackage. This involves creating a binary executable for the application which can then be run by your computer.
 To install the project, in terminal:
 
 - `cd fxui` to change into ui-folder
@@ -56,16 +66,22 @@ To install the project, in terminal:
 
 It is now possible to run the app by unzipping the zip file and running the executable file.
 
+This process is only functional locally (on mac). Teaching assistant has clarified on Piazza that this is sufficient.
+
 **Note:** The server must be running for the app to work.
 
 ## Testing & coverage
 
-After building project and cd-ing into right folder,  
-in terminal:
+After building project, run the following commands in terminal to run tests and generate coverage reports:
 
+- `cd travelu` to change into project-folder
 - Run `mvn test` to get test results
 - Run `mvn verify` to get test-coverage and quality report
 - Report found in [travelu/core/target/site/jacoco/index.html](travelu/core/target/site/jacoco/index.html)
+
+See documentaion about [test coverage](docs/quality-assurance/testCoverage.md) for more information.
+
+**NOTE:** The UI tests will fail if you have a spring-boot server running when you run the tests. You can either stop the server or run the tests with the `-DskipUITests=true` flag.
 
 ## Tech-stack
 

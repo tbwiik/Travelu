@@ -9,7 +9,7 @@ From travelu folder
 - `mvn -pl restserver spring-boot:run`
 
 The application is hosted on **localhost** port **8080**.  
-Manual testing can be done by opening [localhost:8080](http://localhost:8080/) in browser and appending api address.  
+Manual testing of getters can be done by opening [localhost:8080](http://localhost:8080/) in browser and appending api address.  
 Ex: [http://localhost:8080/api/v1/entries/destinationList](http://localhost:8080/api/v1/entries/destinationList)
 
 ## Application
@@ -27,12 +27,14 @@ The controller is responsible for loading from, or saving to, local storage depe
 Here the api- and request-addresses are defined.  
 Persistence is handled by the Service.
 
+See [API-Methods](/travelu/fxui/src/API-Methods.md)
+
 ## Service
 
 The Service is responsible for communicating with the module handling local persistence.  
 The class mainly does two things: load and save. It also give the controller access to (not a copy) of the interal object to able to write these changes to file.
 
-### Sources
+## Sources
 - [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
 - [Spring Boot Tutorial](https://www.baeldung.com/spring-boot-start)
 - [Quick Guide Spring Controllers](https://www.baeldung.com/spring-controllers)

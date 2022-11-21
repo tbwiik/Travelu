@@ -3,7 +3,7 @@
 ## Current functionality of the project
 In the second release, we mainly focused on further developing the backend side of the functionality from release 1. This is because developing a solid backend foundation makes implementing frontend features more straightforward later. In release 2 we restructured our entire project, implemented spotbugs, and wrote multiple tests for frontend and backend. 
 
-In addition to the functionality from release 1, you have now the option to describe your visit after double-clicking on each destination. If you double-click a preferred destination, a window pops up where you can add the activities you’ve done, along with comments, and choosing the date of your visit.
+In addition to the functionality from release 1, you now have the option to describe your visit after double-clicking on each destination. If you double-click a destination, a window pops up where you can add the activities you’ve done, along with comments, and choosing the date of your visit.
 
 ## Sprint 2 - Restructuring the project
 
