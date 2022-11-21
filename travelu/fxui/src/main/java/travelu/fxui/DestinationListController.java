@@ -44,8 +44,6 @@ public class DestinationListController {
 
     /**
      * Initialize start-page.
-     * 
-     * @throws IOException
      */
     @FXML
     private void initialize() {
@@ -166,8 +164,6 @@ public class DestinationListController {
 
     /**
      * Add destination to list
-     * 
-     * @throws IllegalArgumentException if destinationName is null
      */
 
     public void handleAddDestination() {
@@ -185,7 +181,7 @@ public class DestinationListController {
                 // If the input text only contains letters, spaces and dashes
                 feedbackLabel.setText("Destination name must contain only letters, spaces and dashes");
             } else {
-                // If everything is ok with the input
+                // If the input is valid
                 // Create new destination with input as name
                 Destination newDestination = new Destination(newDestinationName.strip(), null, 0,
                         new ArrayList<String>(), null);
