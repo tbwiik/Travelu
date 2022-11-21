@@ -16,11 +16,6 @@ public class TraveluService {
     private DestinationList destinationList;
 
     /**
-     * Name of current destination
-     */
-    private String currentDestinationName;
-
-    /**
      * Creates a Service for the rest-controller
      * <p>
      * Empty list and name if failures
@@ -36,7 +31,6 @@ public class TraveluService {
      */
     public void load() {
         try {
-            this.currentDestinationName = TraveluHandler.readCurrentDestinationNameJSON();
             this.destinationList = TraveluHandler.readDestinationListJSON();
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,7 +53,7 @@ public class TraveluService {
      */
     public void saveDestinationName(String currentDestination) {
         try {
-            TraveluHandler.saveDestinationName(currentDestinationName);
+            TraveluHandler.saveDestinationName(currentDestination);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,7 +67,12 @@ public class TraveluService {
      * @return name - empty string if none
      */
     public String getDestinationName() {
-        return this.currentDestinationName;
+        try {
+            return TraveluHandler.readCurrentDestinationNameJSON();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**
