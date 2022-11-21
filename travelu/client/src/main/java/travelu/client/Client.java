@@ -201,18 +201,6 @@ public class Client {
         httpRequests.delete(API_ADDRESS + "removeActivity/" + activity.replaceAll(" ", "%20"));
     }
 
-    public List<String> getActivites()
-            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-
-        Gson gson = new Gson();
-
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "getActivites");
-
-        String[] activities = gson.fromJson(response.body(), String[].class);
-
-        return Arrays.asList(activities);
-    }
-
     /**
      * Save rating for chosen destination through server
      * 
