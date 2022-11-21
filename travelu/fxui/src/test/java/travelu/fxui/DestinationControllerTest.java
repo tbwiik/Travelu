@@ -1,12 +1,8 @@
 package travelu.fxui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -34,11 +30,6 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-
-import travelu.core.DateInterval;
-import travelu.core.Destination;
-import travelu.core.DestinationList;
-import travelu.localpersistence.TraveluHandler;
 
 /**
  * JavaFX tests for DestinationController, isolated from server
