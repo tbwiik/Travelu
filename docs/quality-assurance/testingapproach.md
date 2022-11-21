@@ -1,4 +1,10 @@
-# Our choices related to testing
+# Our testing approach
 We used JUnit 5 as our testing framework for our project, as the programming language for this project is Java. Testing is essential in developing software products, and the main purpose of testing is to ensure that the product is of high quality and satisfies the requirements. We can easily spot bugs using unit tests, forcing us to write better and more efficient code, saving us time. 
 
 To ensure that the code uploaded has high enough standards, we write tests for all of our classes. We try to make sure that all of our code is covered by tests included edge cases to avoid bugs and unexpected behaviour. The disadvantage of using unit tests is that it can be very time-consuming, where we test all of our methods and find the best way to use the unit test. In addition, we can’t catch all of the errors using unit tests therefore we can consider using different testing frameworks as well if the project gets more complex.
+
+For testing the UI, we implemented a mock server using WireMock. The purpose of this is to be able to test user interface without being dependent on the server. Thus you can test the UI in isolation. However, due to the way our app architecture is designed (See [here](../../travelu/fxui/Arc-Comment.md)), the controllers are dependent on core logic. Due to this dependency, it makes sense to also test the interaction between core and fxui. This is done in our fxui tests. These tests also test the client to some degree, as the client makes http requests to which the mock server responds.
+
+For testing the API, we used MockMVC to test the server in isolation. We used MockMVC to mock a client, ensuring that the server would respond correctly to different input and output.
+
+We have also implemented integration tests, which test the connection between the different modules. This is expanded upon in the integrationtest [README](../../travelu/integrationtests/README.md).

@@ -15,11 +15,27 @@ import java.util.regex.Pattern;
  */
 public class Requests {
 
+    /**
+     * Http-status OK regex
+     */
     private final static String HTTP_STATUS_OK = "[2][0-9]*";
 
+    /**
+     * Server-url
+     */
     private final String serverUrl;
+
+    /**
+     * Server-port
+     */
     private final int serverPort;
 
+    /**
+     * Constructor for object handling generic http-requests
+     * 
+     * @param serverUrl
+     * @param serverPort
+     */
     public Requests(final String serverUrl, final int serverPort) {
         this.serverUrl = serverUrl;
         this.serverPort = serverPort;
@@ -35,6 +51,7 @@ public class Requests {
      * @throws URISyntaxException if invalid URI
      */
     private CompletableFuture<HttpResponse<String>> getAsync(String endpoint) throws URISyntaxException {
+
         HttpClient client = HttpClient.newBuilder().build();
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -53,10 +70,10 @@ public class Requests {
      * @param endpoint where the request is sent to
      * @return the HTTP response
      * @throws URISyntaxException   if invalid URI
-     * @throws InterruptedException if interruption occurs during retrieval of
+     * @throws InterruptedException if interruption occurs during retrival of
      *                              response
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public HttpResponse<String> get(String endpoint)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -101,10 +118,10 @@ public class Requests {
      * @param endpoint where the request is sent to
      * @return the HTTP response
      * @throws URISyntaxException   if invalid URI
-     * @throws InterruptedException if interruption occurs during retrieval of
+     * @throws InterruptedException if interruption occurs during retrival of
      *                              response
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public HttpResponse<String> post(String endpoint, String payload)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -149,10 +166,10 @@ public class Requests {
      * @param endpoint where the request is sent to
      * @return the HTTP response
      * @throws URISyntaxException   if invalid URI
-     * @throws InterruptedException if interruption occurs during retrieval of
+     * @throws InterruptedException if interruption occurs during retrival of
      *                              response
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public HttpResponse<String> delete(String endpoint)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
@@ -200,10 +217,10 @@ public class Requests {
      * @param payload  what to put
      * @return the HTTP response
      * @throws URISyntaxException   if invalid URI
-     * @throws InterruptedException if interruption occurs during retrieval of
+     * @throws InterruptedException if interruption occurs during retrival of
      *                              response
-     * @throws ExecutionException
-     * @throws ServerException      if http request not successfull
+     * @throws ExecutionException   if completing task, but with an exception
+     * @throws ServerException      if http request not successfull (not 200)
      */
     public HttpResponse<String> put(String endpoint, String payload)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {

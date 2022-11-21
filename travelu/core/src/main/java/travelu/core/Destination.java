@@ -9,10 +9,25 @@ import java.util.NoSuchElementException;
  */
 public class Destination {
 
+    /**
+     * Name of destination
+     */
     private String name;
+    /**
+     * Date interval of stay in destination. Contains arrival- and departuredate on format dd/MM/yyyy
+     */
     private DateInterval dateInterval;
+    /**
+     * Rating, between 0-5
+     */
     private int rating;
+    /**
+     * List of activities done in destination
+     */
     private List<String> activities;
+    /**
+     * Extra comment for destination
+     */
     private String comment;
 
     /**

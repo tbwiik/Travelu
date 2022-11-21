@@ -308,8 +308,6 @@
 
           <htmlOutput>true</htmlOutput>
 
-          <excludeFilterFile>config/spotbugs/exclude.xml</excludeFilterFile>
-
         </configuration>
 
         <executions>
