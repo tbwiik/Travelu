@@ -1,6 +1,5 @@
 module travelu.localpersistence {
-    requires javafx.controls;
-    requires javafx.fxml;
+
     requires com.google.gson;
 
     requires transitive travelu.core;
