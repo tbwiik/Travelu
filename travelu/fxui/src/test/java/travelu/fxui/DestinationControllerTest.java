@@ -39,6 +39,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
  * Due to the way the controllers are implemented, some of these tests are
  * dependent on validation in core.
  */
+@TestInstance(Lifecycle.PER_CLASS)
 public class DestinationControllerTest extends ApplicationTest {
 
         private Parent root;
