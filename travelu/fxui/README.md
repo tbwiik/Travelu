@@ -1,8 +1,20 @@
 # User Interface
 
-The User Interface (UI) module is resposible for handeling the user interface of the application. It is the view of the application. The UI module is divided into two parts, the FXML resources and the JavaFX controllers. The FXML resources are the files that define the layout of the UI. The JavaFX controllers are the files that define the behaviour of the UI. Together they make up the UI which allows the user to interact with the application.
+The User Interface (UI) module is responsible for handling the user interface of the application - the "view" of the application. The UI module is divided into two parts, the FXML resources and the JavaFX controllers. The FXML resources define the layout of the UI, and the JavaFX controllers handles the user interaction.
 
-The UI module is connected to the domain logic module through a REST API. The best way of handling the connection between the UI and the domain logic (core) is to make all the information go through the API. However, our controllers currently access our domain logic directly. This is not optimal, since seperating the controller and backend allows the frontend to be changed without having to change the backend. This is a good thing, since the frontend is the part of the application that the user interacts with. If the user doesn't like the frontend, they can change it without having to change the backend. This is not the case if the frontend and backend are connected. If the frontend and backend are connected, the user is forced to change the backend if they want to change the frontend. Therefore, this is something that should be fixed if the app goes further into development.
+## Comment on frontend architecture
+
+The correct way to build a multi-module project is to assign well defined functions to each module and build it in such a way that replacing modules is easy.
+In other word: there should be as little dependencies and direct connections to other modules as possible.
+
+This means that for the ui, to be optimal, the only communication should be done with client, which in turn get information through the RESTful server.
+
+However, due to some fundamental faults when writing the project a total (or partly) separation of core from ui has resulted in being difficult. We recognize that having a dependency to core is bad, because this means that changes in core also result in ui needing tobe remade. This comes in addition to all the other dependencies core normally has.
+
+A dependency between core and client is better, but removing it altogether is best. This is something that should be done on further development.
+
+The authors of this project have learned a great deal from this, both specifically on how a rest-api should be implemented, but also how important it is to create a good separation of modules and do things properly from the start.
+
 
 ## App
 
