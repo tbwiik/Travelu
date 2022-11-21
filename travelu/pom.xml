@@ -62,6 +62,7 @@
       </plugin>
 
       <!-- Jacoco plugin for test coverage -->
+      <!-- Code retrieved from https://www.baeldung.com/jacoco -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
