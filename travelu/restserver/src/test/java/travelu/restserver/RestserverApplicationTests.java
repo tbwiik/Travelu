@@ -125,6 +125,35 @@ class RestserverApplicationTests {
 		}
 	}
 
+	/**
+	 * Test adding and getting destination
+	 */
+	@Test
+	public void testAddAndGetDestination() {
+		try {
+
+			// Add destination
+			mockMvc.perform(post(API_ADRESS + "add").content(mockDestination))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+			// Get same destination
+			MvcResult getResult = mockMvc.perform(get(API_ADRESS + mockDestinationName).characterEncoding("UTF-8"))
+					.andDo(print())
+					.andExpect(status().isOk())
+					.andReturn();
+
+			// Check that this destination is same as input
+			assertEquals(mockDestination, getResult.getResponse().getContentAsString());
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+
+		// Tear down destination()
+		tearDownDestination();
+	}
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
