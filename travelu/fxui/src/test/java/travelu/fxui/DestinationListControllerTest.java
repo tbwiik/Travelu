@@ -32,7 +32,8 @@ import org.testfx.framework.junit5.ApplicationTest;
 /**
  * JavaFX tests for DestinationListController, isolated from server
  * <p>
- * Due to the way the controllers are implemented, some of these tests are dependent on validation in core.
+ * Due to the way the controllers are implemented, some of these tests are
+ * dependent on validation in core.
  */
 @TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationListControllerTest extends ApplicationTest {
@@ -82,7 +83,13 @@ public class DestinationListControllerTest extends ApplicationTest {
                                                 .withHeader("Content-Type", "application/json")));
 
                 // removing destination
-                stubFor(post(urlEqualTo("/api/v1/entries/remove"))
+                stubFor(delete(urlEqualTo("/api/v1/entries/delete/Norway"))
+                                .willReturn(aResponse()
+                                                .withStatus(200)
+                                                .withHeader("Content-Type", "application/json")));
+
+                // removing destination
+                stubFor(delete(urlEqualTo("/api/v1/entries/delete"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
@@ -124,7 +131,8 @@ public class DestinationListControllerTest extends ApplicationTest {
         /**
          * Tests if listiew is properly updated with data from the mock server
          * <p>
-         * This tests that the stored DestinationList copy is correctly used to display destinations
+         * This tests that the stored DestinationList copy is correctly used to display
+         * destinations
          */
         @Test
         public void testListViewUpdated() {
@@ -216,7 +224,6 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 // listView should be updated:
                 assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
-
 
                 // clicking remove again
                 clickOn(removeButton);
