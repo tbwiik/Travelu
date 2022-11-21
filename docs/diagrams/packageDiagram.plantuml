@@ -52,7 +52,7 @@ skinparam ArrowColor #cc1836
 
 HIDE <<inside>> stereotype
 
-travelu.core ...> travelu.fxui
+travelu.core <... travelu.fxui
 travelu.client <... travelu.fxui
 travelu.client ..> gson
 travelu.client ..> java.net.http
