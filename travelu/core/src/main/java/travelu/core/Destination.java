@@ -5,42 +5,51 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Destination object for use in travel-journal
+ * Destination object for use in travel-journal.
  */
 public class Destination {
 
     /**
-     * Name of destination
+     * Interval for rating.
+     */
+    private final static int[] ratingInterval = { 1, 5 };
+
+    /**
+     * Name of destination.
      */
     private String name;
     /**
-     * Date interval of stay in destination. Contains arrival- and departuredate on format dd/MM/yyyy
+     * Date interval of stay in destination.
+     * Contains arrival- and departuredate on
+     * format dd/MM/yyyy.
      */
     private DateInterval dateInterval;
     /**
-     * Rating, between 0-5
+     * Rating, between 0-5.
      */
     private int rating;
+
     /**
-     * List of activities done in destination
+     * List of activities done in destination.
      */
     private List<String> activities;
     /**
-     * Extra comment for destination
+     * Extra comment for destination.
      */
     private String comment;
 
     /**
-     * Constructs destination object
-     * 
-     * @param name       of destination
-     * @param date       visit from-to
-     * @param rating     on a scale from 1-5
-     * @param activities you did during your visit
-     * @param comment    with other relevant info
+     * Constructs destination object.
+     *
+     * @param name         of destination
+     * @param dateInterval visit from-to
+     * @param rating       on a scale from 1-5
+     * @param activities   you did during your visit
+     * @param comment      with other relevant info
      */
-    public Destination(String name, DateInterval dateInterval, int rating, List<String> activities,
-            String comment) {
+    public Destination(final String name, final DateInterval dateInterval, final int rating,
+            final List<String> activities,
+            final String comment) {
         this.name = name;
 
         // DateInterval is not allowed to be null
@@ -54,13 +63,14 @@ public class Destination {
     }
 
     /**
-     * Constructs destination object from already existing destination object,
-     * creating a copy
-     * 
+     * Constructs destination object from already existing destination object.
+     * <p>
+     * Create a copy.
+     *
      * @param destination
      * @throws IllegalArgumentException if destination is null
      */
-    public Destination(Destination destination) throws IllegalArgumentException {
+    public Destination(final Destination destination) throws IllegalArgumentException {
         if (destination == null) {
             throw new IllegalArgumentException("Destination cannot be null");
         }
@@ -82,7 +92,7 @@ public class Destination {
     /**
      * Returns copy of DateInterval. If DateInterval is null, return new
      * DateInterval.
-     * 
+     *
      * @return dateInterval from-to
      */
     public DateInterval getDateInterval() {
@@ -93,39 +103,40 @@ public class Destination {
     }
 
     /**
-     * Set arrival date for destination
-     * 
+     * Set arrival date for destination.
+     *
      * @param arrivalDate - string in format dd/MM/yyyy
      * @throws IllegalArgumentException
      */
-    public void setArrivalDate(String arrivalDate) throws IllegalArgumentException {
+    public void setArrivalDate(final String arrivalDate) throws IllegalArgumentException {
         dateInterval.setArrivalDate(arrivalDate);
     }
 
     /**
-     * Set departure date for destination
-     * 
+     * Set departure date for destination.
+     *
      * @param departureDate - string in format dd/MM/yyyy
      * @throws IllegalArgumentException
      */
-    public void setDepartureDate(String departureDate) throws IllegalArgumentException {
+    public void setDepartureDate(final String departureDate) throws IllegalArgumentException {
         dateInterval.setDepartureDate(departureDate);
     }
 
     /**
-     * @return the rating of the destination
+     * @return the rating of the destination.
      */
     public int getRating() {
         return rating;
     }
 
     /**
+     * Set rating of destination.
+     *
      * @param rating on a scale of 1-5
-     * 
      * @throws IllegalArgumentException if rating is outside of range 1-5
      */
-    public void setRating(int rating) throws IllegalArgumentException {
-        if (rating < 1 || rating > 5) {
+    public void setRating(final int rating) throws IllegalArgumentException {
+        if (rating < ratingInterval[0] || rating > ratingInterval[1]) {
             throw new IllegalArgumentException("Rating must be between 1 and 5");
         }
         this.rating = rating;
@@ -139,25 +150,28 @@ public class Destination {
     }
 
     /**
-     * 
+     * Add activity to destination.
+     *
      * @param activity a string explaining the activity
      * @throws IllegalArgumentException if the input is null, blank or already in
      *                                  list
      */
-    public void addActivity(String activity) throws IllegalArgumentException {
+    public void addActivity(final String activity) throws IllegalArgumentException {
 
-        if (activity == null || activity.isBlank() || getActivities().contains(activity))
+        if (activity == null || activity.isBlank() || getActivities().contains(activity)) {
             throw new IllegalArgumentException("Invalid activity");
+        }
 
         activities.add(activity);
     }
 
     /**
-     * 
+     * Remove activity from destination.
+     *
      * @param activity the activity we want to remove
      * @throws NoSuchElementException if activity is not in list
      */
-    public void removeActivity(String activity) throws NoSuchElementException {
+    public void removeActivity(final String activity) throws NoSuchElementException {
         if (!getActivities().contains(activity)) {
             throw new NoSuchElementException("Activity " + activity + " is not in activity list");
         }
@@ -173,11 +187,11 @@ public class Destination {
     }
 
     /**
-     * Overwrites comment with new info
-     * 
+     * Overwrites comment with new info.
+     *
      * @param comment new comment
      */
-    public void setComment(String comment) {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
