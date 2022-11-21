@@ -23,10 +23,10 @@ public class DestinationList {
 
         // if list of destination names contains destination name, regardless of casing,
         // destination should not be added to destination list
-        if (getDestinationNames().stream().anyMatch(name -> name.equalsIgnoreCase(destination.getName())))
+        if (containsDestination(destination.getName()))
             throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
 
-        destinations.add(destination);
+        destinations.add(new Destination(destination));
     }
 
     /**
