@@ -10,23 +10,23 @@ import travelu.core.DestinationList;
 import travelu.core.Destination;
 
 /**
- * Handle API-requests to server
+ * Handle API-requests to server.
  */
 public class Client {
 
     /**
-     * API address for http-requests
+     * API address for http-requests.
      */
-    private final static String API_ADDRESS = "/api/v1/entries/";
+    private final String API_ADDRESS = "/api/v1/entries/";
 
     /**
-     * Handle generic http-request
+     * Handle generic http-request.
      */
     private final Requests httpRequests;
 
     /**
-     * Initialize client used by ui for server communications
-     * 
+     * Initialize client used by ui for server communications.
+     *
      * @param serverUrl  URL where server is hosted
      * @param serverPort Port where server is hosted
      */
@@ -35,8 +35,8 @@ public class Client {
     }
 
     /**
-     * Get a {@link DestinationList} from the server
-     * 
+     * Get a {@link DestinationList} from the server.
+     *
      * @return {@link DestinationList} object from server - empty if none
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -57,10 +57,10 @@ public class Client {
     }
 
     /**
-     * Get a {@link Destination} from the server
+     * Get a {@link Destination} from the server.
      * <p>
      * Formats space as %20
-     * 
+     *
      * @param destinationName identifier for wanted destination
      * @return wanted {@link Destination} object
      * @throws URISyntaxException   if invalid URI
@@ -83,10 +83,10 @@ public class Client {
     }
 
     /**
-     * Get current chosen {@link Destination} from the server
+     * Get current chosen {@link Destination} from the server.
      * <p>
      * Then use {@link #getDestination(String)} to get Destination
-     * 
+     *
      * @return current chosen {@link Destination}
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -103,10 +103,10 @@ public class Client {
     }
 
     /**
-     * Get name of chosen {@link Destination} from the server
+     * Get name of chosen {@link Destination} from the server.
      * <p>
      * Formats space as %20
-     * 
+     *
      * @return name of chosen {@link Destination}
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -124,8 +124,8 @@ public class Client {
     }
 
     /**
-     * Add new {@link Destination} through server
-     * 
+     * Add new {@link Destination} through server.
+     *
      * @param destination to add
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -144,12 +144,12 @@ public class Client {
     }
 
     /**
-     * Store name of chosen destination to file through server
+     * Store name of chosen destination to file through server.
      * <p>
      * Used for accessing correct destination when switching views
      * <p>
      * Formats space as %20
-     * 
+     *
      * @param destinationName name of destination
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -165,8 +165,8 @@ public class Client {
     }
 
     /**
-     * Remove {@link Destination} through server by name
-     * 
+     * Remove {@link Destination} through server by name.
+     *
      * @param destinationName of destination to remove
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -181,8 +181,8 @@ public class Client {
     }
 
     /**
-     * Add activity for chosen destination through server
-     * 
+     * Add activity for chosen destination through server.
+     *
      * @param activity to add
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -196,10 +196,10 @@ public class Client {
     }
 
     /**
-     * Remove activity for chosen destination through server
+     * Remove activity for chosen destination through server.
      * <p>
      * Formats space as %20
-     * 
+     *
      * @param activity to remove
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -213,8 +213,8 @@ public class Client {
     }
 
     /**
-     * Save rating for chosen destination through server
-     * 
+     * Save rating for chosen destination through server.
+     *
      * @param starNumber number of rating
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -229,8 +229,8 @@ public class Client {
     }
 
     /**
-     * Save arrival date for chosen destination through server
-     * 
+     * Save arrival date for chosen destination through server.
+     *
      * @param arrivalDate
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -244,8 +244,8 @@ public class Client {
     }
 
     /**
-     * Save departure date for chosen destination through server
-     * 
+     * Save departure date for chosen destination through server.
+     *
      * @param departureDate
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -259,8 +259,8 @@ public class Client {
     }
 
     /**
-     * Save updated comment for chosen destination through server
-     * 
+     * Save updated comment for chosen destination through server.
+     *
      * @param comment to set
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
