@@ -23,21 +23,27 @@ This project contains:
 - Documentation of all [releases](docs/releases)
 - [Diagrams](docs/diagrams) of the project's architecture and how the application works
 - Documentation about our [development](docs/development) process
-- The application's user interface controllers which are in the folder [travelu/fxui/src/main/java/travelu/fxui](travelu/fxui/src/main/java/travelu/fxui)
-- FXML files connected to these controllers which are in the folder [resources/travelu/fxui](travelu/fxui/src/main/resources/travelu/fxui)
+
+<br>
+
+- The application's user interface controllers ([travelu/fxui/src/main/java/travelu/fxui](travelu/fxui/src/main/java/travelu/fxui))
+- FXML files connected to these controllers ([resources/travelu/fxui](travelu/fxui/src/main/resources/travelu/fxui))
 - A [README.md](/travelu/fxui/README.md) explaining how we implemented the user interface.
-- The application's domain logic which is in the folder [travelu/core/src/main/java/travelu/core](travelu/core/src/main/java/travelu/core)
+- The application's domain logic  ([travelu/core/src/main/java/travelu/core](travelu/core/src/main/java/travelu/core))
 - A [README.md](/travelu/core/README.md) explaining the responsibilities of the domain logic.
-- The application's persistence which is in the folder [travelu/localpersistence/src/main/java/travelu/localpersistence](travelu/localpersistence/src/main/java/travelu/localpersistence)
+- The application's persistence  ([travelu/localpersistence/src/main/java/travelu/localpersistence](travelu/localpersistence/src/main/java/travelu/localpersistence))
 - A [README.md](travelu/localpersistence/README.md) about what we used for persistence and how we implemented it
-- The application's REST server API setup which is in the folder [travelu/restserver/src/main/java/travelu/restserver](travelu/restserver/src/main/java/travelu/restserver)
+- The application's REST server API setup  ([travelu/restserver/src/main/java/travelu/restserver](travelu/restserver/src/main/java/travelu/restserver))
 - A [README.md](travelu/restserver/README.md) explaining how the server is set up and how to run it
-- The application's REST client which is in the folder [travelu/client/src/main/java/travelu/client](travelu/client/src/main/java/travelu/client)
+- The application's REST client  ([travelu/client/src/main/java/travelu/client](travelu/client/src/main/java/travelu/client))
 - A [README.md](travelu/client/README.md) explaining how the client works
-- Tests for the application's UI controllers which are in the folder [travelu/fxui/src/test/java/travelu/fxui](travelu/fxui/src/test/java/travelu/fxui)
-- Tests for the application's domain logic which are in the folder [travelu/core/src/test/java/travelu/core](travelu/core/src/test/java/travelu/core)
-- Tests for the application's persistence which are in the folder [travelu/localpersistence/src/test/java/travelu/localpersistence](travelu/localpersistence/src/test/java/travelu/localpersistence)
-- An ingegration test for the application which is in the folder [travelu/integrationtests/src/test/java/travelu/integrationtests](travelu/integrationtests/src/test/java/travelu/integrationtests)
+
+<br>
+
+- Tests for the application's UI controllers ([travelu/fxui/src/test/java/travelu/fxui](travelu/fxui/src/test/java/travelu/fxui))
+- Tests for the application's domain logic ([travelu/core/src/test/java/travelu/core](travelu/core/src/test/java/travelu/core))
+- Tests for the application's persistence ([travelu/localpersistence/src/test/java/travelu/localpersistence](travelu/localpersistence/src/test/java/travelu/localpersistence))
+- An ingegration test for the application  ([travelu/integrationtests/src/test/java/travelu/integrationtests](travelu/integrationtests/src/test/java/travelu/integrationtests))
 - A [README.md](travelu/integrationtests/README.md) explaining how we implemented and how to run the integration tests
 
 ## Building & running the project
