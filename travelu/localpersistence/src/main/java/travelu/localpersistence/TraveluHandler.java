@@ -36,7 +36,7 @@ public class TraveluHandler {
      * @param filename to add to path
      * @return the filepath for the given filename
      */
-    private static String getFilePath(String filename) {
+    private static String getFilePath(final String filename) {
         Path path = Paths.get("../localpersistence/src/main/resources/travelu/localpersistence/data");
         return (path.toAbsolutePath() + "/" + filename);
     }

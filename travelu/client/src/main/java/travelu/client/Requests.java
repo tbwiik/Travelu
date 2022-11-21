@@ -18,7 +18,7 @@ public class Requests {
     /**
      * Http-status OK regex.
      */
-    private final String httpStatusOK = "[2][0-9]*";
+    private final static String HTTP_STATUS_OK = "[2][0-9]*";
 
     /**
      * Server-url.
@@ -80,7 +80,7 @@ public class Requests {
 
         HttpResponse<String> httpResponse = this.getAsync(endpoint).get();
 
-        if (!Pattern.matches(httpStatusOK, String.valueOf(httpResponse.statusCode()))) {
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode()))) {
             throw new ServerException(httpResponse.body(), httpResponse.statusCode());
         }
 
@@ -129,7 +129,7 @@ public class Requests {
 
         HttpResponse<String> httpResponse = this.postAsync(endpoint, payload).get();
 
-        if (!Pattern.matches(httpStatusOK, String.valueOf(httpResponse.statusCode()))) {
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode()))) {
             throw new ServerException(httpResponse.body(), httpResponse.statusCode());
         }
 
@@ -176,7 +176,7 @@ public class Requests {
 
         HttpResponse<String> httpResponse = this.deleteAsync(endpoint).get();
 
-        if (!Pattern.matches(httpStatusOK, String.valueOf(httpResponse.statusCode()))) {
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode()))) {
             throw new ServerException(httpResponse.body(), httpResponse.statusCode());
         }
 
@@ -226,7 +226,7 @@ public class Requests {
 
         HttpResponse<String> httpResponse = this.putAsync(endpoint, payload).get();
 
-        if (!Pattern.matches(httpStatusOK, String.valueOf(httpResponse.statusCode()))) {
+        if (!Pattern.matches(HTTP_STATUS_OK, String.valueOf(httpResponse.statusCode()))) {
             throw new ServerException(httpResponse.body(), httpResponse.statusCode());
         }
 

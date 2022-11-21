@@ -17,7 +17,7 @@ public class Client {
     /**
      * API address for http-requests.
      */
-    private final String apiAdress = "/api/v1/entries/";
+    private static final String API_ADRESS = "/api/v1/entries/";
 
     /**
      * Handle generic http-request.
@@ -47,7 +47,7 @@ public class Client {
     public DestinationList getDestinationList()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        HttpResponse<String> response = httpRequests.get(apiAdress + "destinationlist");
+        HttpResponse<String> response = httpRequests.get(API_ADRESS + "destinationlist");
 
         Gson gson = new Gson();
 
@@ -73,7 +73,7 @@ public class Client {
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         String fixedDestinationName = destinationName.replace(" ", "%20");
-        HttpResponse<String> response = httpRequests.get(apiAdress + fixedDestinationName);
+        HttpResponse<String> response = httpRequests.get(API_ADRESS + fixedDestinationName);
 
         Gson gson = new Gson();
 
@@ -117,7 +117,7 @@ public class Client {
     public String getCurrentDestinationName()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        HttpResponse<String> response = httpRequests.get(apiAdress + "currentDestination");
+        HttpResponse<String> response = httpRequests.get(API_ADRESS + "currentDestination");
         String result = response.body().replace("%20", " ");
 
         return result;
@@ -140,7 +140,7 @@ public class Client {
 
         String destinationJSON = gson.toJson(destination);
 
-        httpRequests.post(apiAdress + "add", destinationJSON);
+        httpRequests.post(API_ADRESS + "add", destinationJSON);
     }
 
     /**
@@ -161,7 +161,7 @@ public class Client {
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         String fixedDestinationName = destinationName.replace(" ", "%20");
-        httpRequests.put(apiAdress + "storeCurrent", fixedDestinationName);
+        httpRequests.put(API_ADRESS + "storeCurrent", fixedDestinationName);
     }
 
     /**
@@ -177,7 +177,7 @@ public class Client {
     public void removeDestination(final String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        httpRequests.delete(apiAdress + "delete/" + destinationName.replaceAll(" ", "%20"));
+        httpRequests.delete(API_ADRESS + "delete/" + destinationName.replaceAll(" ", "%20"));
     }
 
     /**
@@ -192,7 +192,7 @@ public class Client {
      */
     public void addActivity(final String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.post(apiAdress + "addActivity", activity);
+        httpRequests.post(API_ADRESS + "addActivity", activity);
     }
 
     /**
@@ -209,7 +209,7 @@ public class Client {
      */
     public void removeActivity(final String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.delete(apiAdress + "removeActivity/" + activity.replaceAll(" ", "%20"));
+        httpRequests.delete(API_ADRESS + "removeActivity/" + activity.replaceAll(" ", "%20"));
     }
 
     /**
@@ -225,7 +225,7 @@ public class Client {
     public void setRating(final int starNumber)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         String starStr = String.valueOf(starNumber);
-        httpRequests.put(apiAdress + "setRating", starStr);
+        httpRequests.put(API_ADRESS + "setRating", starStr);
     }
 
     /**
@@ -240,7 +240,7 @@ public class Client {
      */
     public void setArrivalDate(final String arrivalDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.put(apiAdress + "setArrivalDate", arrivalDate);
+        httpRequests.put(API_ADRESS + "setArrivalDate", arrivalDate);
     }
 
     /**
@@ -255,7 +255,7 @@ public class Client {
      */
     public void setDepartureDate(final String departureDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.put(apiAdress + "setDepartureDate", departureDate);
+        httpRequests.put(API_ADRESS + "setDepartureDate", departureDate);
     }
 
     /**
@@ -271,7 +271,7 @@ public class Client {
     public void updateComment(final String comment)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        httpRequests.put(apiAdress + "updateComment", comment);
+        httpRequests.put(API_ADRESS + "updateComment", comment);
     }
 
 }
