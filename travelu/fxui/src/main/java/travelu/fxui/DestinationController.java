@@ -145,6 +145,7 @@ public class DestinationController {
     @FXML
     private void initialize() {
 
+        // Load destination
         try {
             currentDestination = client.getCurrentDestination();
         } catch (ServerException se) {
@@ -266,6 +267,7 @@ public class DestinationController {
         // Get the text from the text field
         String activity = newActivityTextField.getText();
 
+        // Add and save activity
         try {
             // Add activity to the current destination
             currentDestination.addActivity(activity);
@@ -294,8 +296,9 @@ public class DestinationController {
     @FXML
     private void handleRemoveActivity() {
         if (currentActivity != null) {
+
+            // Save remove activity through server
             try {
-                // Remove activity from the server
                 client.removeActivity(currentActivity);
             } catch (ServerException se) {
                 errorPopup("Error", se.getMessage() + "\n Status: " + se.getStatusCode());
@@ -350,6 +353,7 @@ public class DestinationController {
 
         colorStars(starNumber);
 
+        // Save rating
         try {
             client.setRating(starNumber);
         } catch (ServerException se) {
@@ -366,7 +370,9 @@ public class DestinationController {
      * @param rating
      */
     private void colorStars(int starNumber) {
+        // List with stars
         List<SVGPath> stars = new ArrayList<>(List.of(star1, star2, star3, star4, star5));
+
         // Color first starNumber stars yellow, the rest white
         for (int i = 0; i < stars.size(); i++) {
             if (i < starNumber)
@@ -382,19 +388,27 @@ public class DestinationController {
      */
     @FXML
     private void handleChangeComment() {
+
         String newComment = commentTextField.getText();
         currentDestination.setComment(newComment);
+
         try {
+
             client.updateComment(newComment);
             commentFeedbackLabel.setText("Comment updated!");
+
         } catch (ServerException se) {
+
             errorPopup("Error", se.getMessage() + "\n Status: " + se.getStatusCode());
 
             // Clear comment in case it shows "Comment updated!" when it wasn't
             commentFeedbackLabel.setText("");
+
         } catch (ExecutionException | URISyntaxException | InterruptedException e) {
+
             errorPopup("Error", "Error: \n" + e.getMessage());
             e.printStackTrace();
+
         }
     }
 
@@ -403,6 +417,8 @@ public class DestinationController {
      */
     @FXML
     private void handleSetArrivalDate() {
+
+        // Get date and format correctly
         String arrivalDate = arrivalDatePicker.getValue() == null ? ""
                 : arrivalDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
@@ -416,6 +432,7 @@ public class DestinationController {
 
             // Clear feedback label if everything went well
             dateUpdatedFeedbackLabel.setText("");
+
         } catch (IllegalArgumentException | IllegalStateException e) {
             arrivalDatePicker.getEditor().setText("");
             dateUpdatedFeedbackLabel.setText(e.getMessage());
@@ -434,6 +451,7 @@ public class DestinationController {
     @FXML
     private void handleSetDepartureDate() {
 
+        // Get date and format correctly
         String departureDate = departureDatePicker.getValue() == null ? ""
                 : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
