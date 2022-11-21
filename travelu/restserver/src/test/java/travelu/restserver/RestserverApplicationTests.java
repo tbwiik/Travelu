@@ -215,6 +215,37 @@ class RestserverApplicationTests {
 
 	}
 
+	/**
+	 * Test setting arrival-date and departure-date
+	 */
+	@Test
+	public void testSetDateInterval() {
+
+		try {
+
+			// Set up destination
+			setupDestination();
+
+			// Set arrival date on destination
+			mockMvc.perform(put(API_ADRESS + "setArrivalDate").content(mockArrivalDate))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+			// Set arrival date on destination
+			mockMvc.perform(put(API_ADRESS +
+					"setDepartureDate").content(mockDepartureDate))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		} finally {
+			// Tear down destination
+			tearDownDestination();
+		}
+
+	}
+
 	}
 
 }
