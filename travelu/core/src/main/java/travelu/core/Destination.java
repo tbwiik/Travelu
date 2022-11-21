@@ -10,11 +10,6 @@ import java.util.NoSuchElementException;
 public class Destination {
 
     /**
-     * Interval for rating.
-     */
-    private final int[] ratingInterval = {1, 5};
-
-    /**
      * Name of destination.
      */
     private String name;
@@ -139,6 +134,8 @@ public class Destination {
      * @throws IllegalArgumentException if rating is outside of range 1-5
      */
     public void setRating(final int newRating) throws IllegalArgumentException {
+        final int[] ratingInterval = {1, 5};
+
         if (newRating < ratingInterval[0] || newRating > ratingInterval[1]) {
             throw new IllegalArgumentException("Rating must be between 1 and 5");
         }
