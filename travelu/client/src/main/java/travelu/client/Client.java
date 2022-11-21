@@ -34,7 +34,7 @@ public class Client {
     /**
      * Get a {@link DestinationList} from the server
      * 
-     * @return {@link DestinationList} object from server
+     * @return {@link DestinationList} object from server - empty if none
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
@@ -101,6 +101,8 @@ public class Client {
 
     /**
      * Get name of chosen {@link Destination} from the server
+     * <p>
+     * Formats space as %20
      * 
      * @return name of chosen {@link Destination}
      * @throws URISyntaxException   if invalid URI
@@ -121,7 +123,7 @@ public class Client {
     /**
      * Add new {@link Destination} through server
      * 
-     * @param destination
+     * @param destination to add
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
@@ -161,10 +163,8 @@ public class Client {
 
     /**
      * Remove {@link Destination} through server by name
-     * <p>
-     * Use a post request
      * 
-     * @param destination to remove
+     * @param destinationName of destination to remove
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
@@ -180,7 +180,7 @@ public class Client {
     /**
      * Add activity for chosen destination through server
      * 
-     * @param activity
+     * @param activity to add
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
@@ -194,8 +194,10 @@ public class Client {
 
     /**
      * Remove activity for chosen destination through server
+     * <p>
+     * Formats space as %20
      * 
-     * @param activity
+     * @param activity to remove
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
@@ -210,7 +212,7 @@ public class Client {
     /**
      * Save rating for chosen destination through server
      * 
-     * @param starNumber
+     * @param starNumber number of rating
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
@@ -256,7 +258,7 @@ public class Client {
     /**
      * Save updated comment for chosen destination through server
      * 
-     * @param comment
+     * @param comment to set
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
      *                              response
