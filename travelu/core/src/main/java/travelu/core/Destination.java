@@ -46,7 +46,7 @@ public class Destination {
      * @throws IllegalArgumentException if destination is null
      */
     public Destination(Destination destination) throws IllegalArgumentException {
-        if(destination == null){
+        if (destination == null) {
             throw new IllegalArgumentException("Destination cannot be null");
         }
 
@@ -65,7 +65,8 @@ public class Destination {
     }
 
     /**
-     * Returns copy of DateInterval. If DateInterval is null, return new DateInterval.
+     * Returns copy of DateInterval. If DateInterval is null, return new
+     * DateInterval.
      * 
      * @return dateInterval from-to
      */
@@ -125,7 +126,8 @@ public class Destination {
     /**
      * 
      * @param activity a string explaining the activity
-     * @throws IllegalArgumentException if the input is null, blank or already in list
+     * @throws IllegalArgumentException if the input is null, blank or already in
+     *                                  list
      */
     public void addActivity(String activity) throws IllegalArgumentException {
 
