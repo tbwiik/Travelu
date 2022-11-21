@@ -184,9 +184,37 @@ class RestserverApplicationTests {
 		}
 	}
 
-	@AfterAll
-	public void tearDown() throws Exception {
-		// TODO clear files
+	/**
+	 * Test adding and removing activity
+	 */
+	@Test
+	public void testAddAndRemoveActivity() {
+
+		try {
+
+			// Set up destination
+			setupDestination();
+
+			// Add activity to destination
+			mockMvc.perform(post(API_ADRESS + "addActivity").content(mockActivity))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+			// Remove activity from destination
+			mockMvc.perform(delete(API_ADRESS + "removeActivity/" +
+					mockActivity).characterEncoding("UTF-8"))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		} finally {
+			// Tear down destination
+			tearDownDestination();
+		}
+
+	}
+
 	}
 
 }
