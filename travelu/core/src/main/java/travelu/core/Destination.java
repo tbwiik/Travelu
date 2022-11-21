@@ -44,8 +44,13 @@ public class Destination {
      * creating a copy
      * 
      * @param destination
+     * @throws IllegalArgumentException if destination is null
      */
-    public Destination(Destination destination) {
+    public Destination(Destination destination) throws IllegalArgumentException {
+        if(destination == null){
+            throw new IllegalArgumentException("Destination cannot be null");
+        }
+
         this.name = destination.getName();
         this.dateInterval = destination.getDateInterval();
         this.rating = destination.getRating();
