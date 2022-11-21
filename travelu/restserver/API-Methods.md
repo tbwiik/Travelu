@@ -84,7 +84,8 @@ Example of CurrentDestination.json:
 
 
 ## POST
-Post-request are used for appending information to something that already exists.
+Post-requests are used for creating or updating information on something that already exists.
+
 ### addDestinationJSON(String destinationJSON)
 
 - HTTP address: `/api/v1/entries/add`
@@ -100,6 +101,7 @@ Post-request are used for appending information to something that already exists
 
 ## PUT
 Put-requests are used for overwriting information.
+
 ### storeCurrentDestinationJSON(String destinationNameJSON)
 
 - HTTP address: `/api/v1/entries/storeCurrent`
