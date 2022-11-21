@@ -87,12 +87,16 @@ public class DestinationList {
     }
 
     /**
-     * Get copy of list of destination objects
+     * Get list of copy of destination objects
      * 
      * @return destination-list
      */
     public List<Destination> getList() {
-        return new ArrayList<Destination>(destinations);
+        List<Destination> copyList = new ArrayList<>();
+        // Add copy of every destination in destinations to copyList
+        destinations.forEach(destination -> copyList.add(new Destination(destination)));
+
+        return copyList;
     }
 
     /**
