@@ -46,7 +46,7 @@ See [module-info](docs/module-info.md) for explanation
 
 ## Installing the project
 
-The project can be installed with JLink and JPackage.
+The project can be installed with JLink and JPackage. This involves creating a binary executable for the application which can then be run by your computer.
 To install the project, in terminal:
 
 - `cd fxui` to change into ui-folder
