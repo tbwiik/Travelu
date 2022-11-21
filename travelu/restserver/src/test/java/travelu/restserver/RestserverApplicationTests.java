@@ -246,6 +246,30 @@ class RestserverApplicationTests {
 
 	}
 
+	/**
+	 * Test setting rating
+	 */
+	@Test
+	public void testSetRating() {
+		try {
+
+			// Set up destination
+			setupDestination();
+
+			// Set rating on destination
+			mockMvc.perform(put(API_ADRESS + "setRating").content(mockRating))
+					.andDo(print()).andExpect(status().isOk())
+					.andReturn();
+
+		} catch (Exception e) {
+			fail(e.getMessage());
+		} finally {
+			// Tear down destination
+			tearDownDestination();
+		}
+
+	}
+
 	}
 
 }
