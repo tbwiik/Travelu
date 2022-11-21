@@ -209,7 +209,7 @@ public class Client {
     public void removeDestination(String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        httpRequests.post(API_ADDRESS + "remove", destinationName);
+        httpRequests.delete(API_ADDRESS + "delete/" + destinationName);
     }
 
     /**
@@ -237,7 +237,7 @@ public class Client {
      */
     public void removeActivity(String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.post(API_ADDRESS + "removeActivity", activity);
+        httpRequests.delete(API_ADDRESS + "removeActivity/" + activity);
     }
 
     public List<String> getActivites()
