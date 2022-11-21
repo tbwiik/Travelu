@@ -5,32 +5,35 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * List of Destinations
+ * Object containing list of Destinations, with useful methods and sorting
+ * functions
  */
 public class DestinationList {
 
     private List<Destination> destinations = new ArrayList<>();
 
     /**
-     * Add destination to list
+     * Add copy of destination to list. For encapsulation reasons we do not want to
+     * add the actual destination
      * 
      * @param destination to add
-     * @throws IllegalArgumentException if destination is null, or if a destination with the same name already exists
+     * @throws IllegalArgumentException if destination is null, or if a destination
+     *                                  with the same name already exists
      */
     public void addDestination(Destination destination) throws IllegalArgumentException {
         if (destination == null)
             throw new IllegalArgumentException("Destination cannot be null");
 
-        // if list of destination names contains destination name, regardless of casing,
+        // If list of destination names contains destination name, regardless of casing,
         // destination should not be added to destination list
-        if (getDestinationNames().stream().anyMatch(name -> name.equalsIgnoreCase(destination.getName())))
+        if (containsDestination(destination.getName()))
             throw new IllegalArgumentException("Destinationlist already contains " + destination.getName());
 
-        destinations.add(destination);
+        destinations.add(new Destination(destination));
     }
 
     /**
-     * Get actual destination by name
+     * Get actual destination by name. This is private due to encapsulation
      * 
      * @param name of destination
      * @return {@link Destination}
@@ -57,22 +60,22 @@ public class DestinationList {
      * 
      * @param name of destination
      * @throws IllegalArgumentException if name is null
-     * @throws NoSuchElementException if no such element exist
+     * @throws NoSuchElementException   if no such element exist
      */
     public void removeDestination(String name) throws IllegalArgumentException, NoSuchElementException {
         // Name of destination to remove cannot be null
-        if (name == null) {
+        if (name == null)
             throw new IllegalArgumentException("Cannot remove null");
-        }
-        if (!this.containsDestination(name)) {
+
+        if (!this.containsDestination(name))
             throw new NoSuchElementException(name + " is not in destination list");
-        }
+
         Destination destination = getDestinationByName(name);
         destinations.remove(destination);
     }
 
     /**
-     * updates destination. For use in DestinationController
+     * Update destination.
      * 
      * @param destination to be updated
      * @throws NoSuchElementException   if no such element exist
@@ -87,12 +90,16 @@ public class DestinationList {
     }
 
     /**
-     * Get copy of list of destination objects
+     * Get list of copy of destination objects
      * 
      * @return destination-list
      */
     public List<Destination> getList() {
-        return new ArrayList<Destination>(destinations);
+        List<Destination> copyList = new ArrayList<>();
+        // Add copy of every destination in destinations to copyList
+        destinations.forEach(destination -> copyList.add(new Destination(destination)));
+
+        return copyList;
     }
 
     /**
@@ -120,7 +127,7 @@ public class DestinationList {
     }
 
     /**
-     * Checks if contains destination
+     * Checks if list contains destination. Case-insensitive
      * 
      * @param destinationName name of destination to check for
      * @throws IllegalArgumentException if destinationName is null
@@ -137,20 +144,16 @@ public class DestinationList {
      * Sorts destinations by name
      */
     public void sortByName() {
-
         destinations.sort(
                 (destination1, destination2) -> destination1.getName().toLowerCase()
                         .compareTo(destination2.getName().toLowerCase()));
-
     }
 
     /**
      * Sorts destinations by rating
      */
     public void sortByRating() {
-
         destinations.sort((destination1, destination2) -> destination2.getRating() - destination1.getRating());
-
     }
 
 }
