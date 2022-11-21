@@ -47,9 +47,26 @@ class RestserverApplicationTests {
 	@Autowired
 	private TraveluController traveluController;
 
-	@BeforeEach
+	@BeforeAll
 	public void testSetUp() throws Exception {
-		// TODO clear files
+
+		try {
+			TraveluHandler.clearDestinationName();
+			TraveluHandler.clearDestinationList();
+		} catch (Exception e) {
+			fail("Failed to delete files");
+		}
+
+	}
+
+	@AfterAll
+	public void tearDown() {
+		try {
+			TraveluHandler.clearDestinationName();
+			TraveluHandler.clearDestinationList();
+		} catch (Exception e) {
+			fail("Failed to delete files");
+		}
 	}
 
 	@Test
