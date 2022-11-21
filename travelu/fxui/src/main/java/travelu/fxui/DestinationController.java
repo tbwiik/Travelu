@@ -112,7 +112,7 @@ public class DestinationController {
         // Set comment text field to the comment of the destination if it exists
         String comment = currentDestination.getComment() == null ? "" : currentDestination.getComment();
         commentTextField.setText(comment);
-        
+
         // Set the arrival and departure labels to the arrival and departure dates
         arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
         departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
@@ -141,12 +141,10 @@ public class DestinationController {
                 try {
                     if (date != null) {
                         return formatter.format(date);
-                    } else {
-                        return "";
                     }
                 } catch (DateTimeException dte) {
-                    return "";
                 }
+                return "";
             }
 
             /**
@@ -158,12 +156,10 @@ public class DestinationController {
                 try {
                     if (string != null && !string.isEmpty()) {
                         return LocalDate.parse(string, formatter);
-                    } else {
-                        return null;
                     }
                 } catch (DateTimeParseException dtpe) {
-                    return null;
                 }
+                return null;
             }
         };
 
@@ -321,8 +317,8 @@ public class DestinationController {
     private void colorStars(int starNumber) {
         List<SVGPath> stars = new ArrayList<>(List.of(star1, star2, star3, star4, star5));
         // Color first starNumber stars yellow, the rest white
-        for(int i=0; i < stars.size(); i++){
-            if(i < starNumber)
+        for (int i = 0; i < stars.size(); i++) {
+            if (i < starNumber)
                 stars.get(i).setStyle("-fx-fill: #FFD700");
             else
                 stars.get(i).setStyle("-fx-fill: #FFFFFF");
