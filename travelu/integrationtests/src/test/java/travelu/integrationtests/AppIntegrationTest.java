@@ -23,7 +23,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.testfx.framework.junit5.ApplicationTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 // Enables @AfterAll function
 @TestInstance(Lifecycle.PER_CLASS)
-public class AppIntegrationTest extends ApplicationTest {
+public class AppIntegrationTest {
 
     /**
      * Port of local server
@@ -148,7 +147,7 @@ public class AppIntegrationTest extends ApplicationTest {
         }
 
         assertThrows(ServerException.class, () -> {
-        client.removeDestination("Hawaii");
+            client.removeDestination("Hawaii");
         });
     }
 
@@ -206,7 +205,7 @@ public class AppIntegrationTest extends ApplicationTest {
         }
 
         assertThrows(ServerException.class, () -> {
-        client.removeActivity("Climb a volcano");
+            client.removeActivity("Climb a volcano");
         });
     }
 
@@ -328,8 +327,10 @@ public class AppIntegrationTest extends ApplicationTest {
             Destination destinationFromName = client.getDestination("Hawaii");
             // Check that every field is equal in both destinations
             assertEquals(hawaii.getName(), destinationFromName.getName());
-            assertEquals(hawaii.getDateInterval().getArrivalDate(), destinationFromName.getDateInterval().getArrivalDate());
-            assertEquals(hawaii.getDateInterval().getDepartureDate(), destinationFromName.getDateInterval().getDepartureDate());
+            assertEquals(hawaii.getDateInterval().getArrivalDate(),
+                    destinationFromName.getDateInterval().getArrivalDate());
+            assertEquals(hawaii.getDateInterval().getDepartureDate(),
+                    destinationFromName.getDateInterval().getDepartureDate());
             assertEquals(hawaii.getRating(), destinationFromName.getRating());
             assertEquals(hawaii.getComment(), destinationFromName.getComment());
         } catch (Exception e) {
@@ -365,8 +366,10 @@ public class AppIntegrationTest extends ApplicationTest {
             Destination currentDestination = client.getCurrentDestination();
             // Check that every field is equal in both destinations
             assertEquals(hawaii.getName(), currentDestination.getName());
-            assertEquals(hawaii.getDateInterval().getArrivalDate(), currentDestination.getDateInterval().getArrivalDate());
-            assertEquals(hawaii.getDateInterval().getDepartureDate(), currentDestination.getDateInterval().getDepartureDate());
+            assertEquals(hawaii.getDateInterval().getArrivalDate(),
+                    currentDestination.getDateInterval().getArrivalDate());
+            assertEquals(hawaii.getDateInterval().getDepartureDate(),
+                    currentDestination.getDateInterval().getDepartureDate());
             assertEquals(hawaii.getRating(), currentDestination.getRating());
             assertEquals(hawaii.getComment(), currentDestination.getComment());
         } catch (Exception e) {
