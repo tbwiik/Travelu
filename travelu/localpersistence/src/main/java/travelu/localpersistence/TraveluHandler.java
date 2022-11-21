@@ -172,23 +172,12 @@ public class TraveluHandler {
         return readCurrentDestinationNameJSON("CurrentDestinationName.json");
     }
 
-    /**
-     * Clear default files
-     * <p>
-     * 
-     * @return true if both successfull
-     */
-    public static boolean clear() {
-        try {
-            File current = getFile(DEFAULT_FILENAME_CURRENTD);
-            File dList = getFile(DEFAULT_FILENAME_DLIST);
-            return current.delete() && dList.delete();
-        } catch (Exception e) {
-            // Assumes empty files if exception thrown
-            return true;
-        }
-        // return getFile(DEFAULT_FILENAME_CURRENTD).delete() &&
-        // getFile(DEFAULT_FILENAME_DLIST).delete();
+    public static void clearDestinationName() throws IOException {
+        saveDestinationName("");
+    }
+
+    public static void clearDestinationList() throws IOException {
+        save(new DestinationList());
     }
 
 }
