@@ -68,8 +68,8 @@ public class DateIntervalTest {
         assertThrows(IllegalStateException.class, () -> dateInterval.setDepartureDate("01/01/2009"));
         assertEquals("15/04/2014", dateInterval.getDepartureDate());
 
+        // Arrival- and departuredate are allowed to be null
         dateInterval.setArrivalDate(null);
-        // Dates are allowed to be null
         assertEquals(null, dateInterval.getArrivalDate());
 
     }
@@ -101,6 +101,7 @@ public class DateIntervalTest {
         assertThrows(IllegalArgumentException.class, () -> dateInterval.setArrivalDate("31/01/-2019"));
         assertEquals("04/01/2019", dateInterval.getDepartureDate());
 
+        // Day 00 is invalid
         assertThrows(IllegalArgumentException.class, () -> dateInterval.setArrivalDate("00/01/2019"));
         assertEquals("04/01/2019", dateInterval.getDepartureDate());
 
@@ -132,6 +133,7 @@ public class DateIntervalTest {
 
         // Check February 29th of non leap year
         assertThrows(IllegalArgumentException.class, () -> dateInterval.setDepartureDate("30/02/2019"));
+        // Arrival date should be unchanged
         assertEquals("01/01/2019", dateInterval.getArrivalDate());
 
         // Check February 29th of leap year

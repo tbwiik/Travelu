@@ -51,17 +51,16 @@ public class DestinationListTest {
     }
 
     /**
-     * Compares two destination objects, and check if copy works as expected
-     * <p>
-     * Checks if NoSuchElementException gets thrown if the name of Destination
+     * Checks that NoSuchElementException gets thrown if the name of Destination
      * doesn't exist or is null
      */
     @Test
     public void testGetDestinationCopyByName() {
+        // Valid input
         assertDoesNotThrow(() -> destinationList.getDestinationCopyByName("Norway"));
         // Destination that is not in list
         assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName("Does not exist"));
-
+        // null input
         assertThrows(NoSuchElementException.class, () -> destinationList.getDestinationCopyByName(null));
     }
 
@@ -151,22 +150,27 @@ public class DestinationListTest {
     /**
      * Check that two destinations are equal by comparing all fields.
      * 
-     * @param dest1
-     * @param dest2
-     * @return
+     * @param dest1 Destination
+     * @param dest2 Destination
+     * @return true if lists are equal
      */
     private boolean destinationsAreEqual(Destination dest1, Destination dest2) {
         DateInterval dest1DateInterval = dest1.getDateInterval();
         DateInterval dest2DateInterval = dest2.getDateInterval();
 
+        // Arrival dates. To avoid NullPointerException we set them to empty string if null.
         String dest1ArrivalDate = dest1DateInterval.getArrivalDate() == null ? ""
                 : dest1DateInterval.getArrivalDate();
         String dest2ArrivalDate = dest2DateInterval.getArrivalDate() == null ? ""
                 : dest2DateInterval.getArrivalDate();
+
+        // Departure dates. To avoid NullPointerException we set them to empty string if null.
         String dest1DepartureDate = dest1DateInterval.getDepartureDate() == null ? ""
                 : dest1DateInterval.getDepartureDate();
         String dest2DepartureDate = dest2DateInterval.getDepartureDate() == null ? ""
                 : dest2DateInterval.getDepartureDate();
+
+        // Comments. To avoid NullPointerException we set them to empty string if null.
         String dest1Comment = dest1.getComment() == null ? "" : dest1.getComment();
         String dest2Comment = dest2.getComment() == null ? "" : dest2.getComment();
 
@@ -257,10 +261,10 @@ public class DestinationListTest {
         destinationList.updateDestination(norwayCopy);
         assertEquals(norwayCopy.getComment(), destinationList.getDestinationCopyByName("Norway").getComment());
 
-        // null input
+        // Null input
         assertThrows(IllegalArgumentException.class, () -> destinationList.updateDestination(null));
 
-        // destination is not in list
+        // Attempt to update destination that is not in list
         assertThrows(NoSuchElementException.class, () -> destinationList
                 .updateDestination(new Destination("Not in list", new DateInterval(), 1, null, null)));
 
@@ -274,28 +278,31 @@ public class DestinationListTest {
 
         List<String> expectedList = new ArrayList<>();
 
-        // adding destinations in alphabetical order
+        // Adding destinations in alphabetical order
         expectedList.add("Buenos Aires");
         expectedList.add("Norway");
         expectedList.add("Spain");
         expectedList.add("Sweden");
         expectedList.add("Turkey");
 
+        // Destinations in DestinationList is not sorted yet
         assertNotEquals(expectedList, destinationList.getDestinationNames());
 
         destinationList.sortByName();
 
+        // List should now be sorted
         assertEquals(expectedList, destinationList.getDestinationNames());
 
         String dashDestinationName = "-Place";
         Destination dashDestination = new Destination(dashDestinationName, null, 5, null, null);
+        // Dash is sorted as before first letter of the alphabet
         expectedList.add(0, dashDestinationName);
         destinationList.addDestination(dashDestination);
 
         assertNotEquals(expectedList, destinationList.getDestinationNames());
 
         destinationList.sortByName();
-
+        // DestinationList should now be correctly sorted
         assertEquals(expectedList, destinationList.getDestinationNames());
 
         String lowerCaseDestinationName = "aa";
@@ -308,6 +315,7 @@ public class DestinationListTest {
 
         destinationList.sortByName();
 
+        // DestinationList should now be correctly sorted
         assertEquals(expectedList, destinationList.getDestinationNames());
     }
 
@@ -326,10 +334,12 @@ public class DestinationListTest {
         expectedList.add("Buenos Aires");
         expectedList.add("Sweden");
 
+        // DestinationList is currently unsorted
         assertNotEquals(expectedList, destinationList.getDestinationNames());
 
         destinationList.sortByRating();
 
+        // DestinationList should now be sorted by rating
         assertEquals(expectedList, destinationList.getDestinationNames());
 
         String noStarsDestinationName = "France";
@@ -341,6 +351,7 @@ public class DestinationListTest {
         destinationList.addDestination(noStarsDestination);
         destinationList.sortByRating();
 
+        // DestinationList should now be correctly sorted
         assertEquals(expectedList, destinationList.getDestinationNames());
     }
 
@@ -352,9 +363,10 @@ public class DestinationListTest {
 
         Destination destinationCopy = destinationList.getDestinationCopyByName("Norway");
 
+        // Assert that comments are equal at first
         assertEquals(destinationCopy.getComment(), norway.getComment());
 
-        // making changes to comment on destinationCopy should not change
+        // Making changes to comment on destinationCopy should not change
         // comment on norway
         destinationCopy.setComment("This should not change comment in destinationCopy");
 
@@ -364,18 +376,21 @@ public class DestinationListTest {
 
         assertEquals(destinationListCopy.size(), destinationList.getList().size());
 
-        // making changes to destinationListCopy should not impact destinationList
+        // Making changes to destinationListCopy should not impact destinationList
         Destination extraDestination = new Destination("Extra destination", new DateInterval(), 3, null, null);
         destinationListCopy.add(extraDestination);
 
+        // Lists of destinations should now be different
         assertNotEquals(destinationListCopy.size(), destinationList.getList().size());
 
         destinationListCopy.remove(extraDestination);
 
+        // Lists of destinations should now be the same size
         assertEquals(destinationListCopy.size(), destinationList.getList().size());
 
         List<String> destinationNamesCopy = destinationList.getDestinationNames();
 
+        // Lists of destination names should be the same size
         assertEquals(destinationNamesCopy.size(), destinationList.getDestinationNames().size());
 
         destinationNamesCopy.add("Extra destination");
