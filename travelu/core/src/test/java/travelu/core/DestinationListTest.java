@@ -30,7 +30,7 @@ public class DestinationListTest {
     private String comment;
 
     private Destination buenosAires;
-    private List<Destination> newDestinations;
+    private List<Destination> expectedDestinations;
 
     /**
      * Add multiple Destination objects in DestinationList and in ArrayList
@@ -39,7 +39,7 @@ public class DestinationListTest {
     public void setUp() {
         destinationList = new DestinationList();
 
-        newDestinations = new ArrayList<>();
+        expectedDestinations = new ArrayList<>();
 
         name = "Norway";
         dateInterval = new DateInterval();
@@ -50,13 +50,13 @@ public class DestinationListTest {
         norway = new Destination(name, dateInterval, rating, activities, comment);
         buenosAires = new Destination("Buenos Aires", new DateInterval(), 2, null, "");
 
-        newDestinations.add(new Destination("Spain", new DateInterval(), 4, null, ""));
-        newDestinations.add(buenosAires);
-        newDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, ""));
-        newDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, ""));
-        newDestinations.add(norway);
+        expectedDestinations.add(new Destination("Spain", new DateInterval(), 4, null, ""));
+        expectedDestinations.add(buenosAires);
+        expectedDestinations.add(new Destination("Turkey", new DateInterval(), 5, null, ""));
+        expectedDestinations.add(new Destination("Sweden", new DateInterval(), 1, null, ""));
+        expectedDestinations.add(norway);
 
-        for (Destination destination : newDestinations) {
+        for (Destination destination : expectedDestinations) {
             destinationList.addDestination(destination);
         }
     }
@@ -188,16 +188,16 @@ public class DestinationListTest {
      */
     @Test
     public void testAddDestination() {
-        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+        assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
         Destination newDestination = new Destination("Greenland", new DateInterval(), 1, null, null);
         
         // Adding a valid new destination to list
-        newDestinations.add(newDestination);
-        assertFalse(listsAreEqual(newDestinations, destinationList.getList()));
+        expectedDestinations.add(newDestination);
+        assertFalse(listsAreEqual(expectedDestinations, destinationList.getList()));
 
         destinationList.addDestination(newDestination);
-        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+        assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
 
         // Adding an existing destination to list
@@ -207,7 +207,7 @@ public class DestinationListTest {
         assertThrows(IllegalArgumentException.class, () -> destinationList.addDestination(null));
 
         // Checks that list is unchanged after invalid inputs
-        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+        assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
     }
 
     /**
@@ -218,23 +218,23 @@ public class DestinationListTest {
      */
     @Test
     public void testRemoveDestination() {
-        newDestinations.remove(norway);
+        expectedDestinations.remove(norway);
         destinationList.removeDestination("Norway");
 
-        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+        assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
-        newDestinations.remove(buenosAires);
-        assertFalse(listsAreEqual(newDestinations, destinationList.getList()));
+        expectedDestinations.remove(buenosAires);
+        assertFalse(listsAreEqual(expectedDestinations, destinationList.getList()));
 
         destinationList.removeDestination("Buenos Aires");
-        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+        assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
 
         assertThrows(NoSuchElementException.class, () -> destinationList.removeDestination("Not in list"));
 
         assertThrows(IllegalArgumentException.class, () -> destinationList.removeDestination(null));
 
         // List should be unchanged after invalid input
-        assertTrue(listsAreEqual(newDestinations, destinationList.getList()));
+        assertTrue(listsAreEqual(expectedDestinations, destinationList.getList()));
     }
 
     /**
