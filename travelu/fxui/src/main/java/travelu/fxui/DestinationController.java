@@ -112,7 +112,7 @@ public class DestinationController {
         // Set comment text field to the comment of the destination if it exists
         String comment = currentDestination.getComment() == null ? "" : currentDestination.getComment();
         commentTextField.setText(comment);
-
+        
         // Set the arrival and departure labels to the arrival and departure dates
         arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
         departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
@@ -134,7 +134,7 @@ public class DestinationController {
              * Generates string from LocalDate object, used for displaying selected date in
              * DatePicker text field
              * <p>
-             * Returns null if date is invalid
+             * Returns empty string if date is invalid
              */
             @Override
             public String toString(LocalDate date) {
@@ -164,7 +164,6 @@ public class DestinationController {
                 } catch (DateTimeParseException dtpe) {
                     return null;
                 }
-
             }
         };
 
@@ -186,6 +185,7 @@ public class DestinationController {
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // Update currentActivity field
                 currentActivity = activitiesListView.getSelectionModel().selectedItemProperty().getValue();
             }
         });
@@ -365,14 +365,13 @@ public class DestinationController {
 
         try {
             // TODO: Stop interacting directly with core through currentDestination
+            // This throws an exception if the date is invalid and therefore gets caught
             currentDestination.setArrivalDate(arrivalDate);
             client.setArrivalDate(arrivalDate);
 
             // Updates arrival date label
-            // This throws an exception if the date is invalid and therefore gets catched
             // TODO: Stop interacting directly with core through currentDestination
             arrivalDateLabel.setText(currentDestination.getDateInterval().getArrivalDate());
-            this.client.setArrivalDate(arrivalDate);
 
             // Clear feedback label if everything went well
             dateUpdatedFeedbackLabel.setText("");
@@ -398,16 +397,14 @@ public class DestinationController {
                 : departureDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         try {
-
             // TODO: Stop interacting directly with core through currentDestination
+            // This throws an exception if the date is invalid and therefore gets catched
             currentDestination.setDepartureDate(departureDate);
             client.setDepartureDate(departureDate);
 
             // Updates arrival date label
-            // This throws an exception if the date is invalid and therefore gets catched
             // TODO: Stop interacting directly with core through currentDestination
             departureDateLabel.setText(currentDestination.getDateInterval().getDepartureDate());
-            this.client.setDepartureDate(departureDate);
 
             // Clear feedback label if everything went well
             dateUpdatedFeedbackLabel.setText("");
