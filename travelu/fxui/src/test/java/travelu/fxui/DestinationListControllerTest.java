@@ -35,6 +35,7 @@ import org.testfx.framework.junit5.ApplicationTest;
  * Due to the way the controllers are implemented, some of these tests are
  * dependent on validation in core.
  */
+@TestInstance(Lifecycle.PER_CLASS)
 public class DestinationListControllerTest extends ApplicationTest {
 
         private Parent root;
