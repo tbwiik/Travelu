@@ -40,9 +40,11 @@ public class DateIntervalTest {
     @Test
     public void testArrivalAndDepartureDates() {
 
+        // Arrival and departure dates should be null before assignment
         assertNull(dateInterval1.getArrivalDate());
         assertNull(dateInterval1.getDepartureDate());
 
+        // Check if inputting valid dates works
         dateInterval1.setArrivalDate("01/01/2019");
         assertEquals("01/01/2019", dateInterval1.getArrivalDate());
 
@@ -55,18 +57,18 @@ public class DateIntervalTest {
         dateInterval2.setDepartureDate("04/01/2019");
         assertEquals("04/01/2019", dateInterval2.getDepartureDate());
 
-        // check if date interval stays unchanged when arrival date is after departure
+        // Check if date interval stays unchanged when arrival date is after departure
         // date
         assertThrows(IllegalStateException.class, () -> dateInterval1.setArrivalDate("01/01/2022"));
         assertEquals("01/01/2019", dateInterval1.getArrivalDate());
 
-        // check if date interval stays unchanged when departure date is before arrival
+        // Check if date interval stays unchanged when departure date is before arrival
         // date
         assertThrows(IllegalStateException.class, () -> dateInterval2.setDepartureDate("01/01/2018"));
         assertEquals("04/01/2019", dateInterval2.getDepartureDate());
 
         dateInterval1.setArrivalDate(null);
-        // dates are allowed to be null
+        // Dates are allowed to be null
         assertEquals(null, dateInterval1.getArrivalDate());
 
     }
@@ -80,7 +82,7 @@ public class DateIntervalTest {
         dateInterval1.setArrivalDate("01/01/2019");
         dateInterval1.setDepartureDate("04/01/2019");
 
-        // check that date interval throws IllegalArgumentException, and stays unchanged
+        // Check that date interval throws IllegalArgumentException, and stays unchanged
         // on invalid date input
         assertThrows(IllegalArgumentException.class, () -> dateInterval1.setArrivalDate("02/15/2019"));
         assertEquals("01/01/2019", dateInterval1.getArrivalDate());
@@ -142,7 +144,7 @@ public class DateIntervalTest {
 
         assertEquals(dateIntervalCopy.getArrivalDate(), dateInterval1.getArrivalDate());
 
-        // making changes to arrival date in dateIntervalCopy should not impact
+        // Making changes to arrival date in dateIntervalCopy should not impact
         // arrival date in dateInterval1
         dateIntervalCopy.setArrivalDate("01/01/2019");
 
