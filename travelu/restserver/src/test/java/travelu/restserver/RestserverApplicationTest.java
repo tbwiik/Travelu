@@ -27,7 +27,7 @@ import travelu.localpersistence.TraveluHandler;
 @SpringBootTest(classes = TraveluController.class)
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
-class RestserverApplicationTests {
+class RestserverApplicationTest {
 
 	private final static String API_ADRESS = "/api/v1/entries/";
 
