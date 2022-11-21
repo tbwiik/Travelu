@@ -82,7 +82,7 @@ public class DestinationListControllerTest extends ApplicationTest {
                                                 .withStatus(200)
                                                 .withHeader("Content-Type", "application/json")));
 
-                // Removing destination
+                // Removing destination "Norway"
                 stubFor(delete(urlEqualTo("/api/v1/entries/delete/Norway"))
                                 .willReturn(aResponse()
                                                 .withStatus(200)
