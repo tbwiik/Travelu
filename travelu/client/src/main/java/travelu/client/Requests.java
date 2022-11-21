@@ -65,10 +65,10 @@ public class Requests {
 
         if (!Pattern.matches(HTTP_STATUS_OK,
                 String.valueOf(httpResponse.statusCode())))
-            throw new ServerException("A server error occured",
+            throw new ServerException(httpResponse.body(),
                     httpResponse.statusCode());
 
-        return this.getAsync(endpoint).get();
+        return httpResponse;
     }
 
     /**
@@ -113,9 +113,59 @@ public class Requests {
 
         if (!Pattern.matches(HTTP_STATUS_OK,
                 String.valueOf(httpResponse.statusCode())))
-            throw new ServerException("A server error occured",
+            throw new ServerException(httpResponse.body(),
                     httpResponse.statusCode());
 
         return httpResponse;
     }
+
+    /**
+     * Asynchronous delete request
+     * <p>
+     * Method written per {@link HttpRequest} documentation
+     * 
+     * @param endpoint where the request is sent to
+     * @return the HTTP async response
+     * @throws URISyntaxException if invalid URI
+     */
+    private CompletableFuture<HttpResponse<String>> deleteAsync(String endpoint)
+            throws URISyntaxException {
+
+        HttpClient client = HttpClient.newBuilder().build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(new URI(this.serverUrl + ":" + this.serverPort + endpoint))
+                .build();
+
+        return client.sendAsync(request, BodyHandlers.ofString());
+    }
+
+    /**
+     * Synchronous delete request
+     * <p>
+     * Makes use of {@link #deleteAsync(String)}
+     * 
+     * @param endpoint where the request is sent to
+     * @return the HTTP response
+     * @throws URISyntaxException   if invalid URI
+     * @throws InterruptedException if interruption occurs during retrieval of
+     *                              response
+     * @throws ExecutionException
+     * @throws ServerException      if http request not successfull
+     */
+    public HttpResponse<String> delete(String endpoint)
+            throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
+
+        HttpResponse<String> httpResponse = this.deleteAsync(endpoint).get();
+
+        if (!Pattern.matches(HTTP_STATUS_OK,
+                String.valueOf(httpResponse.statusCode())))
+            throw new ServerException(httpResponse.body(),
+                    httpResponse.statusCode());
+
+        System.out.println(httpResponse.body());
+        return httpResponse;
+    }
+
 }
