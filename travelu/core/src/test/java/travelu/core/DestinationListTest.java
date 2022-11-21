@@ -83,11 +83,6 @@ public class DestinationListTest {
         assertEquals(expectedNames, destinationList.getDestinationNames());
 
         expectedNames.remove("Sweden");
-        expectedNames.add("Sweden");
-
-        assertEquals(expectedNames, destinationList.getDestinationNames());
-
-        expectedNames.remove("Sweden");
         expectedNames.add("SwEden");
 
         assertNotEquals(expectedNames, destinationList.getDestinationNames());
