@@ -23,7 +23,7 @@ import travelu.core.Destination;
  * Restserver controller
  */
 @RestController
-@RequestMapping("/api/v1/entries") // TODO rename??
+@RequestMapping("/api/v1/entries/")
 public class TraveluController {
 
     /**
@@ -36,7 +36,7 @@ public class TraveluController {
      * 
      * @return {@code DestinationList} in {@code JSON} format
      */
-    @GetMapping(value = "/destinationlist", produces = "application/json")
+    @GetMapping(value = "destinationlist", produces = "application/json")
     public String getDestinationListJSON() {
         Gson gson = new Gson();
         return gson.toJson(traveluService.getDestinationList());
@@ -49,7 +49,7 @@ public class TraveluController {
      * @return Destination in string format
      * @throws NoSuchElementException if no element found
      */
-    @GetMapping(value = "/{destinationName}", produces = "application/json")
+    @GetMapping(value = "{destinationName}", produces = "application/json")
     public String getDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
         Gson gson = new Gson();
@@ -62,7 +62,7 @@ public class TraveluController {
      * 
      * @return name of destination
      */
-    @GetMapping(value = "/currentDestination", produces = "application/json")
+    @GetMapping(value = "currentDestination", produces = "application/json")
     public String getDestinationJSON() {
         return traveluService.getDestinationName();
     }
@@ -72,7 +72,7 @@ public class TraveluController {
      * 
      * @param destinationJSON {@link Destination} to add in JSON format
      */
-    @PostMapping(value = "/add", produces = "application/json")
+    @PostMapping(value = "add", produces = "application/json")
     public void addDestinationJSON(final @RequestBody String destinationJSON) throws IllegalArgumentException {
         Gson gson = new Gson();
         Destination destination = gson.fromJson(destinationJSON, Destination.class);
@@ -85,7 +85,7 @@ public class TraveluController {
      *
      * @param activity to add
      */
-    @PostMapping(value = "/addActivity", produces = "application/json")
+    @PostMapping(value = "addActivity", produces = "application/json")
     public void addActivityJSON(final @RequestBody String activity) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -103,7 +103,7 @@ public class TraveluController {
      * 
      * @param destinationName
      */
-    @PutMapping(value = "/storeCurrent", produces = "application/json")
+    @PutMapping(value = "storeCurrent", produces = "application/json")
     public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
         // Convert to empty string if empty comment is sent
         String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replaceAll("%20", " ");
@@ -116,7 +116,7 @@ public class TraveluController {
      *
      * @param rating to set
      */
-    @PutMapping(value = "/setRating", produces = "application/json")
+    @PutMapping(value = "setRating", produces = "application/json")
     public void setRatingJSON(final @RequestBody String rating) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -132,7 +132,7 @@ public class TraveluController {
      * 
      * @param arrivalDate
      */
-    @PutMapping(value = "/setArrivalDate", produces = "application/json")
+    @PutMapping(value = "setArrivalDate", produces = "application/json")
     public void setArrivalDateJSON(final @RequestBody String arrivalDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -148,7 +148,7 @@ public class TraveluController {
      *
      * @param departureDate to set
      */
-    @PutMapping(value = "/setDepartureDate", produces = "application/json")
+    @PutMapping(value = "setDepartureDate", produces = "application/json")
     public void setDepartureDateJSON(final @RequestBody String departureDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -166,7 +166,7 @@ public class TraveluController {
      * 
      * @param comment
      */
-    @PutMapping(value = "/updateComment", produces = "application/json")
+    @PutMapping(value = "updateComment", produces = "application/json")
     public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
 
         // Convert to empty string if empty comment is sent
@@ -185,7 +185,7 @@ public class TraveluController {
      * 
      * @param destinationJSON
      */
-    @DeleteMapping(value = "/delete/{destinationName}", produces = "application/json")
+    @DeleteMapping(value = "delete/{destinationName}", produces = "application/json")
     public void removeDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
 
@@ -199,7 +199,7 @@ public class TraveluController {
      * 
      * @param activity to remove
      */
-    @DeleteMapping(value = "/removeActivity/{activity}", produces = "application/json")
+    @DeleteMapping(value = "removeActivity/{activity}", produces = "application/json")
     public void removeActivityJSON(final @PathVariable String activity) throws NoSuchElementException {
 
         Destination updatedDestination = getDestination();
