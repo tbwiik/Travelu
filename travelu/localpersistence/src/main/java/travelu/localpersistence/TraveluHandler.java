@@ -21,11 +21,20 @@ import com.google.gson.GsonBuilder;
  */
 public class TraveluHandler {
 
+    /**
+     * Default filename for destination-list
+     */
     private final static String DEFAULT_FILENAME_DLIST = "DestinationList.json";
+
+    /**
+     * Default filename for name of current destination
+     */
     private final static String DEFAULT_FILENAME_CURRENTD = "CurrentDestinationName.json";
 
     /**
-     * @param filename
+     * Get file path for stored files
+     * 
+     * @param filename to add to path
      * @return the filepath for the given filename
      */
     private static String getFilePath(String filename) {
@@ -34,22 +43,21 @@ public class TraveluHandler {
     }
 
     /**
-     * Used for reading and writing
-     * <p>
-     * Written for easy scalability
+     * Get file using {@link #getFilePath(String)}
      * 
-     * @return File
+     * @param filename of wanted file
+     * @return file if any
      */
     private static File getFile(String filename) {
         return new File(getFilePath(filename));
     }
 
     /**
-     * Writes to given file in {@code JSON Format}using {@code Gson}
+     * Writes to given file in {@code JSON Format}using {@link Gson}
      * 
      * @param object   usually destination list
      * @param filename writing to
-     * @throws IOException
+     * @throws IOException if I/O fail
      */
     public static void writeJSON(Object object, String filename) throws IOException {
         GsonBuilder builder = new GsonBuilder();
@@ -68,7 +76,7 @@ public class TraveluHandler {
      * {@code Gson}
      * 
      * @param destinationList
-     * @throws IOException
+     * @throws IOException if I/O fail
      */
     public static void save(DestinationList destinationList) throws IOException {
         writeJSON(destinationList, DEFAULT_FILENAME_DLIST);
@@ -77,43 +85,49 @@ public class TraveluHandler {
     /**
      * Writes name of {@link Destination} to default file using {@code GSON}
      * 
-     * @param destination
-     * @throws IOException
+     * @param destinationName to write to file
+     * @throws IOException if I/O fail
      */
     public static void saveDestinationName(String destinationName) throws IOException {
         writeJSON(destinationName, DEFAULT_FILENAME_CURRENTD);
     }
 
     /**
-     * Read from file using {@code Gson}, where it reads from DestinationList object
+     * Load destination-list from file
      * <p>
-     * Return an empty destinationlist if file is blank
+     * If no file exists, or are corrupted: empty destination-list will be written
+     * to new file
      * <p>
-     * Used in testing and have therefore an own filename input
+     * Field for filename input due to use in testing
      * 
-     * @param filename input
-     * @return {@linkplain DestinationList} with destinations
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @param filename to read destination from
+     * @return {@link DestinationList} - with no elements if blank, corrupted or no
+     *         file
+     * @throws IOException if I/O fail
      */
-    public static DestinationList readDestinationListJSON(String filename) throws FileNotFoundException, IOException {
+    public static DestinationList readDestinationListJSON(String filename) throws IOException {
 
+        // Init fields
         Gson gson = new Gson();
         DestinationList destinationList;
         BufferedReader bufferedReader;
 
-        // If no file exists - create one containing empty destination-list
-        // Ensures that program don't crash if this for some reason is deleted
+        /**
+         * If no file exists, or format of data is corrupted, creates new file and
+         * return empty list
+         */
         try {
+            // Read from file
             bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+
+            // Convert destination-list from file
+            destinationList = gson.fromJson(bufferedReader, DestinationList.class);
+
         } catch (FileNotFoundException e) {
             destinationList = new DestinationList();
             writeJSON(destinationList, filename);
             return destinationList;
         }
-
-        // Convert destination-list from file
-        destinationList = gson.fromJson(bufferedReader, DestinationList.class);
 
         // If file is blank, create destinationlist
         if (destinationList == null) {
@@ -124,63 +138,80 @@ public class TraveluHandler {
     }
 
     /**
-     * Read from file using {@code Gson}, where it reads from DestinationList object
-     * <p>
-     * Reading from standard file
+     * Load destination from default file using
+     * {@link #readDestinationListJSON(String)}
      * 
-     * @return {@linkplain DestinationList} with destinations
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @return {@link DestinationList} - empty if failures
+     * @throws IOException if I/O fail
      */
-    public static DestinationList readDestinationListJSON() throws FileNotFoundException, IOException {
+    public static DestinationList readDestinationListJSON() throws IOException {
         return readDestinationListJSON(DEFAULT_FILENAME_DLIST);
     }
 
     /**
-     * Read from file using {@code Gson}, where it reads from DestinationName
+     * Load current destination-name
      * <p>
-     * Used in testing and have therefore an own filename input
+     * If no file exists, or are corrupted: empty string will be written to new file
+     * <p>
+     * Field for filename input due to use in testing
      * 
-     * @param filename input
-     * @return {@linkplain DestinationList} with destinations
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @param filename destination file
+     * @return name of current destination - empty string if none
+     * @throws IOException if I/O fail
      */
-    public static String readCurrentDestinationNameJSON(String filename) throws FileNotFoundException, IOException {
+    public static String readCurrentDestinationNameJSON(String filename) throws IOException {
+
+        // Init fields
         Gson gson = new Gson();
         String currentDestinationName = "";
         BufferedReader bufferedReader;
 
-        // If no file exists - create one containing empty string
-        // Ensures that program don't crash if this for some reason is deleted
+        /**
+         * If no file exists, or format of data is corrupted, creates new file and
+         * return empty list
+         */
         try {
+            // Read from file
             bufferedReader = new BufferedReader(new FileReader(getFile(filename), Charset.defaultCharset()));
+
+            // Convert to correct format
+            currentDestinationName = gson.fromJson(bufferedReader, String.class);
+
         } catch (FileNotFoundException e) {
             writeJSON("", filename);
             return currentDestinationName;
         }
 
-        currentDestinationName = gson.fromJson(bufferedReader, String.class);
         return currentDestinationName;
     }
 
     /**
-     * Read from file using {@code Gson}, where it reads from DestinationName
-     * <p>
-     * Reading from standard file
+     * Load current destination-name from default file using
+     * {@link #readCurrentDestinationNameJSON(String)}
      * 
-     * @return {@linkplain DestinationList} with destinations
-     * @throws FileNotFoundException
+     * @return name of destination - empty string if failures
      * @throws IOException
      */
-    public static String readCurrentDestinationNameJSON() throws FileNotFoundException, IOException {
-        return readCurrentDestinationNameJSON("CurrentDestinationName.json");
+    public static String readCurrentDestinationNameJSON() throws IOException {
+        return readCurrentDestinationNameJSON(DEFAULT_FILENAME_CURRENTD);
     }
 
+    /**
+     * Clear destination name from default file
+     * 
+     * @throws IOException if I/O fail
+     */
     public static void clearDestinationName() throws IOException {
         saveDestinationName("");
     }
 
+    /**
+     * Clear destinations from default file
+     * <p>
+     * This is done by writing empty {@link DestinationList} to file
+     * 
+     * @throws IOException if I/O fail
+     */
     public static void clearDestinationList() throws IOException {
         save(new DestinationList());
     }
