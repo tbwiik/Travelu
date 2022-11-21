@@ -97,7 +97,12 @@ public class DateInterval {
             int year = Integer.parseInt(dateArray[2]);
             // This will throw an error if the date is not valid
             LocalDate.of(year, month, day);
-            return dateArray.length == 3 && dateString.length() == 10;
+
+            // Define constants for correct length
+            final int arrayLength = 3;
+            final int stringLength = 10;
+
+            return dateArray.length == arrayLength && dateString.length() == stringLength;
         } catch (Exception e) {
             return false;
         }
