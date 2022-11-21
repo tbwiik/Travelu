@@ -2,14 +2,16 @@ package travelu.localpersistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import travelu.core.DestinationList;
 import travelu.core.DateInterval;
@@ -18,6 +20,7 @@ import travelu.core.Destination;
 /**
  * Tests for TraveluHandler class
  */
+@TestInstance(Lifecycle.PER_CLASS)
 public class TraveluHandlerTest {
 
     private DestinationList destinationList;
@@ -39,6 +42,16 @@ public class TraveluHandlerTest {
 
         destinationList.addDestination(sweden);
         destinationList.addDestination(sanMarino);
+    }
+
+    @AfterAll
+    public void tearDown() {
+        try {
+            TraveluHandler.clearDestinationName();
+            TraveluHandler.clearDestinationList();
+        } catch (Exception e) {
+            fail("Failed to clear files");
+        }
     }
 
     /**
@@ -83,10 +96,6 @@ public class TraveluHandlerTest {
         } catch (IOException ioe) {
             fail("Error when reading from file");
         }
-
-        assertThrows(FileNotFoundException.class, () -> {
-            TraveluHandler.readDestinationListJSON("noExistingFile.json");
-        });
 
     }
 
