@@ -46,8 +46,11 @@ class RestserverApplicationTests {
 	@Autowired
 	private TraveluController traveluController;
 
+	/**
+	 * Clear files before starting tests
+	 */
 	@BeforeAll
-	public void testSetUp() throws Exception {
+	public void testSetUp() {
 
 		try {
 			TraveluHandler.clearDestinationName();
@@ -58,6 +61,9 @@ class RestserverApplicationTests {
 
 	}
 
+	/**
+	 * Clear files after ending tests
+	 */
 	@AfterAll
 	public void tearDown() {
 		try {
