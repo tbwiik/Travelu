@@ -11,10 +11,12 @@ import travelu.restserver.TraveluService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -146,10 +148,9 @@ public class AppIntegrationTest extends ApplicationTest {
             fail("Could not remove destination");
         }
 
-        // TODO: client.removeDestination("Hawaii") should throw an exception:
-        // assertThrows(NoSuchElementException.class, () -> {
-        // client.removeDestination("Hawaii");
-        // });
+        assertThrows(ServerException.class, () -> {
+        client.removeDestination("Hawaii");
+        });
     }
 
     /**
@@ -205,10 +206,9 @@ public class AppIntegrationTest extends ApplicationTest {
             fail("Could not remove activity");
         }
 
-        // TODO: client.removeActivity("Climb a volcano") should throw an exception:
-        // assertThrows(NoSuchElementException.class, () -> {
-        // client.removeActivity("Climb a volcano");
-        // });
+        assertThrows(ServerException.class, () -> {
+        client.removeActivity("Climb a volcano");
+        });
     }
 
     /**
