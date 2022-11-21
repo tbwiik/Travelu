@@ -71,16 +71,20 @@ public class DateInterval {
     }
 
     /**
-     * Checks that dateString represents a valid date with 3 parts: day, month and year
-     * @param dateString on the format "dd/MM/yyyy". Formatting is strict, years before 1000 are not accepted
+     * Checks that dateString represents a valid date with 3 parts: day, month and
+     * year. Uses inbuilt LocalDate validation.
+     * 
+     * @param dateString on the format "dd/MM/yyyy". Formatting is strict, years
+     *                   before 1000 and after 9999 are not accepted
      * @return boolean
      */
     private boolean isValidDate(String dateString) {
-        try{
+            // Split date into array of Strings, parse these as integers
             String[] dateArray = dateString.split("/");
             int day = Integer.parseInt(dateArray[0]);
             int month = Integer.parseInt(dateArray[1]);
             int year = Integer.parseInt(dateArray[2]);
+            // This will throw an error if the date is not valid
             LocalDate.of(year, month, day);
             return dateArray.length == 3 && dateString.length() == 10;
         }catch(
@@ -90,12 +94,14 @@ public class DateInterval {
     }
 
 /**
- * Checks whether arrival and departure dates are valid. Throws errors related to specific validity problems-
+     * Checks whether arrival and departure dates are valid. Throws errors related
+     * to specific validity problems
  * 
- * @param arrivalDate - string on format dd/MM/yyyy
+     * @param arrivalDate   - string on format dd/MM/yyyy
  * @param departureDate - string on format dd/MM/yyyy
  * 
- * @throws IllegalArgumentException - If the date pair is invalid. Exception message describes the specific problem.
+     * @throws IllegalArgumentException - If the date pair is invalid. Exception
+     *                                  message describes the specific problem.
  */
 private void checkDatePair(String arrivalDate, String departureDate) throws IllegalArgumentException {
     
