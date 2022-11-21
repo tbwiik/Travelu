@@ -6,14 +6,19 @@ import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;;
 
 /**
- * Give server access to other modules
+ * Service handling persistence for rest-api
  */
 public class TraveluService {
 
+    /**
+     * List of destinations
+     */
     private DestinationList destinationList;
 
     /**
-     * Creates a DestinationList on initialization containing data from file
+     * Creates a Service for the rest-controller
+     * <p>
+     * Empty list and name if failures
      */
     public TraveluService() {
         load();
@@ -21,6 +26,8 @@ public class TraveluService {
 
     /**
      * Load data from default file into this destinationList
+     * <p>
+     * Load empty list and name if failures
      */
     public void load() {
         try {
@@ -42,7 +49,7 @@ public class TraveluService {
     }
 
     /**
-     * Save current destination to own file
+     * Save current destination to default save-file
      */
     public void saveDestinationName(String currentDestination) {
         try {
@@ -53,28 +60,30 @@ public class TraveluService {
     }
 
     /**
-     * Get name of chosen destination from file
+     * Get currently chosen destination-name
+     * <p>
+     * Used to give server-controller access to loading/saving
      * 
-     * @return {@link String} name of chosen destination or {@code null} if failing
+     * @return name - empty string if none
      */
     public String getDestinationName() {
-        String result = null;
         try {
-            result = TraveluHandler.readCurrentDestinationNameJSON();
-        } catch (IOException e) {
+            return TraveluHandler.readCurrentDestinationNameJSON();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return "";
     }
 
     /**
-     * Give access to destinationList used for persistence to other classes in
-     * restserver module
+     * Get destination-list
+     * <p>
+     * Used to give server-controller access to loading/saving
      * 
-     * @return this {@link Destinationlist}
+     * @return {@link Destinationlist} - empty if failures
      */
     protected DestinationList getDestinationList() {
-        return this.destinationList; // TODO copy?
+        return this.destinationList;
     }
 
 }

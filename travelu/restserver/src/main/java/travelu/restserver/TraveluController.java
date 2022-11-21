@@ -18,12 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 
 import travelu.core.Destination;
+import travelu.core.DestinationList;
 
 /**
- * Restserver controller
+ * Controller for Restserver
+ * <p>
+ * Handles requests
+ * <p>
+ * API-Address: {@code /api/v1/entries/}
  */
 @RestController
-@RequestMapping("/api/v1/entries") // TODO rename??
+@RequestMapping("/api/v1/entries/")
 public class TraveluController {
 
     /**
@@ -34,9 +39,9 @@ public class TraveluController {
     /**
      * Get DestinationList
      * 
-     * @return {@code DestinationList} in {@code JSON} format
+     * @return {@link DestinationList} in <i>JSON</i> format
      */
-    @GetMapping(value = "/destinationlist", produces = "application/json")
+    @GetMapping(value = "destinationlist", produces = "application/json")
     public String getDestinationListJSON() {
         Gson gson = new Gson();
         return gson.toJson(traveluService.getDestinationList());
@@ -46,10 +51,10 @@ public class TraveluController {
      * Get destination by name
      * 
      * @param destinationName of Destination
-     * @return Destination in string format
+     * @return {@link Destination} in <i>JSON</i> format
      * @throws NoSuchElementException if no element found
      */
-    @GetMapping(value = "/{destinationName}", produces = "application/json")
+    @GetMapping(value = "{destinationName}", produces = "application/json")
     public String getDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
         Gson gson = new Gson();
@@ -60,19 +65,20 @@ public class TraveluController {
     /**
      * Get name of stored chosen destination
      * 
-     * @return name of destination
+     * @return name of destination in string format
      */
-    @GetMapping(value = "/currentDestination", produces = "application/json")
+    @GetMapping(value = "currentDestination", produces = "application/json")
     public String getDestinationJSON() {
         return traveluService.getDestinationName();
     }
 
     /**
-     * Add new Destination
+     * Add new destination to list and save
      * 
-     * @param destinationJSON {@link Destination} to add in JSON format
+     * @param destinationJSON {@link Destination} in <i>JSON</i> format
+     * @throws IllegalArgumentException if already in list
      */
-    @PostMapping(value = "/add", produces = "application/json")
+    @PostMapping(value = "add", produces = "application/json")
     public void addDestinationJSON(final @RequestBody String destinationJSON) throws IllegalArgumentException {
         Gson gson = new Gson();
         Destination destination = gson.fromJson(destinationJSON, Destination.class);
@@ -81,11 +87,12 @@ public class TraveluController {
     }
 
     /**
-     * add activity to current destination
+     * Add activity to current destination
      *
      * @param activity to add
+     * @throws IllegalArgumentException if already in destination
      */
-    @PostMapping(value = "/addActivity", produces = "application/json")
+    @PostMapping(value = "addActivity", produces = "application/json")
     public void addActivityJSON(final @RequestBody String activity) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -97,26 +104,28 @@ public class TraveluController {
     }
 
     /**
-     * Store chosen destination
+     * Store name of chosen destination
      * <p>
      * Accepts empty input
+     * <p>
+     * Converts "%20" to space
      * 
-     * @param destinationName
+     * @param destinationName of destination
      */
-    @PutMapping(value = "/storeCurrent", produces = "application/json")
+    @PutMapping(value = "storeCurrent", produces = "application/json")
     public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
         // Convert to empty string if empty comment is sent
         String destinationName = (destinationNameJSON == null) ? "" : destinationNameJSON.replaceAll("%20", " ");
-
         traveluService.saveDestinationName(destinationName);
     }
 
     /**
-     * set rating to current destination
+     * Set rating of current destination
      *
      * @param rating to set
+     * @throws IllegalArgumentException if rating is outside of range 1-5
      */
-    @PutMapping(value = "/setRating", produces = "application/json")
+    @PutMapping(value = "setRating", produces = "application/json")
     public void setRatingJSON(final @RequestBody String rating) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -130,9 +139,10 @@ public class TraveluController {
     /**
      * Set arrival date for current destination
      * 
-     * @param arrivalDate
+     * @param arrivalDate to set
+     * @throws IllegalArgumentException if invalid date or after departure
      */
-    @PutMapping(value = "/setArrivalDate", produces = "application/json")
+    @PutMapping(value = "setArrivalDate", produces = "application/json")
     public void setArrivalDateJSON(final @RequestBody String arrivalDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -147,8 +157,9 @@ public class TraveluController {
      * Set departure date for current destination
      *
      * @param departureDate to set
+     * @throws IllegalArgumentException if invalid date or before arrival
      */
-    @PutMapping(value = "/setDepartureDate", produces = "application/json")
+    @PutMapping(value = "setDepartureDate", produces = "application/json")
     public void setDepartureDateJSON(final @RequestBody String departureDate) throws IllegalArgumentException {
 
         Destination updatedDestination = getDestination();
@@ -160,13 +171,13 @@ public class TraveluController {
     }
 
     /**
-     * Set new comment for current destination
+     * Set new comment (overwrites) for current destination
      * <p>
      * Accepts empty input
      * 
-     * @param comment
+     * @param comment to change to
      */
-    @PutMapping(value = "/updateComment", produces = "application/json")
+    @PutMapping(value = "updateComment", produces = "application/json")
     public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
 
         // Convert to empty string if empty comment is sent
@@ -183,9 +194,10 @@ public class TraveluController {
     /**
      * Remove chosen destination
      * 
-     * @param destinationJSON
+     * @param destinationName of destination to remove
+     * @throws NoSuchElementException if destination not in list
      */
-    @DeleteMapping(value = "/delete/{destinationName}", produces = "application/json")
+    @DeleteMapping(value = "delete/{destinationName}", produces = "application/json")
     public void removeDestinationJSON(final @PathVariable("destinationName") String destinationName)
             throws NoSuchElementException {
 
@@ -198,8 +210,9 @@ public class TraveluController {
      * Remove activity from current destination
      * 
      * @param activity to remove
+     * @throws NoSuchElementException if activity not in list
      */
-    @DeleteMapping(value = "/removeActivity/{activity}", produces = "application/json")
+    @DeleteMapping(value = "removeActivity/{activity}", produces = "application/json")
     public void removeActivityJSON(final @PathVariable String activity) throws NoSuchElementException {
 
         Destination updatedDestination = getDestination();
@@ -212,8 +225,10 @@ public class TraveluController {
 
     /**
      * Get a copy of the chosen destination
+     * <p>
+     * Helper-method for saving changes to file
      * 
-     * @return chosen destination
+     * @return currently chosen {@link Destination}
      */
     private Destination getDestination() {
         String destinationName = traveluService.getDestinationName();
@@ -221,7 +236,9 @@ public class TraveluController {
     }
 
     /**
-     * Update chosen destination
+     * Update currently chosen destination
+     * <p>
+     * Helper-method for saving changes to file
      * 
      * @param destination to update
      */
@@ -234,6 +251,13 @@ public class TraveluController {
         }
     }
 
+    /**
+     * Exception thrown if failures in completing request with
+     * <b>NoSuchElementException</b>
+     * 
+     * @param nsee automatically inserted by spring
+     * @return string with error - sent over server
+     */
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
@@ -241,6 +265,13 @@ public class TraveluController {
         return HttpStatus.NOT_FOUND + " - " + nsee.getMessage();
     }
 
+    /**
+     * Exception thrown if failures in completing request with
+     * <b>IllegalArgumentException</b>
+     * 
+     * @param iae automatically inserted by spring
+     * @return string with error - sent over server
+     */
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
