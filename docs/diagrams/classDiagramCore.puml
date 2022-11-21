@@ -11,6 +11,8 @@ class Destination {
     + Destination(String name, DateInterval dateInterval,
     int rating, List<String> activities, String comment)
     + Destination(Destination destination)
+    + void setArrivalDate(String arrivalDate)
+    + void setDepartureDate(String departureDate)
     + void addActivity(String activity)
     + void removeActivity(String activity)
 }
@@ -30,13 +32,16 @@ class DestinationList {
 }
 
 class DateInterval << (D,orchid) >> {
-    - int[] startDate
-    - int[] endDate
+    - int[] arrivalDate
+    - int[] departureDate
 
-    + DateInterval(int[] startDate, int[] endDate)
-    + DateInterval(int startDay, int startMonth,
-    int startYear, int endDay, int endMonth, int endYear)
     + DateInterval(DateInterval dateInterval)
+    + String getArrivalDate()
+    + String getDepartureDate()
+    + void setArrivalDate(String arrivalDate)
+    + void setDepartureDate(String departureDate)
+    - boolean isValidDate(String dateString)
+    - void checkDatePair(String arrivalDate, String departureDate)
 }
 
 DestinationList --> "destinations: *" Destination

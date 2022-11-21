@@ -8,15 +8,14 @@ class App {
 
 class DestinationController {
     - @FXML components
+    - Client client
     - Destination currentDestination
-    - DestinationList destinationList
-    - TraveluHandler traveluHandler
     - String currentActivity
 
     - void initialize()
     - void setupListView()
     - void updateListView()
-    - handleReturnButton()
+    - void handleReturnButton()
     - void handleAddActivity()
     - void handleRemoveActivity()
     - void handleStar(int starNumber)
@@ -24,6 +23,7 @@ class DestinationController {
     - void handleChangeComment()
     - void handleSetArrivalDate()
     - void handleSetDepartureDate()
+    - void errorPopup(String type, String message)
 }
 
 class DestinationListController {
@@ -31,15 +31,15 @@ class DestinationListController {
     - Client client
     - DestinationList destinationList
     - String currentDestination
-    - String destinationListFile
 
     - void initialize()
     - void setupListView()
     - void switchToDestination(String destinationName)
-    + void handleAddDestination()
-    + void handleRemoveDestination()
-    + void handleSortByName()
-    + void handleSortByRating()
+    - void handleAddDestination()
+    - void handleRemoveDestination()
+    - void handleSortByName()
+    - void handleSortByRating()
+    - void errorPopup(String type, String message)
 }
 
 class Client {

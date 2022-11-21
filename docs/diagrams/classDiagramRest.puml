@@ -6,21 +6,25 @@ package travelu.client{
 }
 
 class TraveluController {
+
     + String getDestinationListJSON()
     + String getDestinationJSON(String destinationName)
     + String getDestinationJSON()
     + void addDestinationJSON(String destinationJSON)
-    + void storeCurrentDestinationJSON(String destinationName)
-    + void removeDestinationJSON(String destinationName)
     + void addActivityJSON(String activity)
-    + void removeActivityJSON(String activity)
+    + void storeCurrentDestinationJSON(String destinationNameJSON)
     + void setRatingJSON(String rating)
-    + void setArrivalDateJSON(String arrivalDate)
-    + void setDepartureDateJSON(String departureDate)
-    + void updateCommentJSON(String comment)
+    + void setArrivalDateJSON(arrivalDate)
+    + void setDepartureDateJSON(departureDate)
+    + void updateCommentJSON(String commentJSON)
+    + void removeDestinationJSON(String destinationName)
+    + void removeActivityJSON(String activity)
+    - Destination getDestination()
+    - void updateDestination(Destination destination)
 }
 
 class TraveluService {
+    - DestinationList destinationList
     + void load()
     + void save()
     + void saveDestinationName(String currentDestination)
@@ -33,13 +37,16 @@ class TraveluHandler {
     - {static} String DEFAULT_FILENAME_CURRENTD
 
     - {static} String getFilePath(String filename)
-    - {static} getFile(String filename)
+    - {static} File getFile(String filename)
     + {static} void writeJSON(Object object, String filename)
     + {static} void save(DestinationList destinationList)
     + {static} void saveDestinationName(String destinationName)
     + {static} DestinationList readDestinationListJSON(String filename)
+    + {static} DestinationList readDestinationListJSON()
     + {static} String readCurrentDestinationNameJSON(String filename)
-    + {static} String readCurrentDestinationName()
+    + {static} String readCurrentDestinationNameJSON()
+    + {static} void clearDestinationName()
+    + {static} void clearDestinationList()
 }
 
 Client .. TraveluController
