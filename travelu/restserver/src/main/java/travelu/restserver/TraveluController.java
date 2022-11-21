@@ -18,27 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 
 import travelu.core.Destination;
-import travelu.core.DestinationList;
 
 /**
- * Controller for Restserver
+ * Controller for Restserver handling requests.
  * <p>
- * Handles requests
- * <p>
- * API-Address: {@code /api/v1/entries/}
+ * API-Address: {@code /api/v1/entries/}.
  */
 @RestController
 @RequestMapping("/api/v1/entries/")
 public class TraveluController {
 
     /**
-     * Service used to handle local persistence
+     * Service used to handle local persistence.
      */
     private final TraveluService traveluService = new TraveluService();
 
     /**
-     * Get DestinationList
-     * 
+     * Get DestinationList.
+     *
      * @return {@link DestinationList} in <i>JSON</i> format
      */
     @GetMapping(value = "destinationlist", produces = "application/json")
@@ -48,8 +45,8 @@ public class TraveluController {
     }
 
     /**
-     * Get destination by name
-     * 
+     * Get destination by name.
+     *
      * @param destinationName of Destination
      * @return {@link Destination} in <i>JSON</i> format
      * @throws NoSuchElementException if no element found
@@ -63,8 +60,8 @@ public class TraveluController {
     }
 
     /**
-     * Get name of stored chosen destination
-     * 
+     * Get name of stored chosen destination.
+     *
      * @return name of destination in string format
      */
     @GetMapping(value = "currentDestination", produces = "application/json")
@@ -73,8 +70,8 @@ public class TraveluController {
     }
 
     /**
-     * Add new destination to list and save
-     * 
+     * Add new destination to list and save.
+     *
      * @param destinationJSON {@link Destination} in <i>JSON</i> format
      * @throws IllegalArgumentException if already in list
      */
@@ -87,7 +84,7 @@ public class TraveluController {
     }
 
     /**
-     * Add activity to current destination
+     * Add activity to current destination.
      *
      * @param activity to add
      * @throws IllegalArgumentException if already in destination
@@ -104,13 +101,13 @@ public class TraveluController {
     }
 
     /**
-     * Store name of chosen destination
+     * Store name of chosen destination.
      * <p>
-     * Accepts empty input
+     * Accepts empty input.
      * <p>
-     * Converts "%20" to space
-     * 
-     * @param destinationName of destination
+     * Converts "%20" to space.
+     *
+     * @param destinationNameJSON - name of destination
      */
     @PutMapping(value = "storeCurrent", produces = "application/json")
     public void storeCurrentDestinationJSON(final @RequestBody(required = false) String destinationNameJSON) {
@@ -120,7 +117,7 @@ public class TraveluController {
     }
 
     /**
-     * Set rating of current destination
+     * Set rating of current destination.
      *
      * @param rating to set
      * @throws IllegalArgumentException if rating is outside of range 1-5
@@ -137,8 +134,8 @@ public class TraveluController {
     }
 
     /**
-     * Set arrival date for current destination
-     * 
+     * Set arrival date for current destination.
+     *
      * @param arrivalDate to set
      * @throws IllegalArgumentException if invalid date or after departure
      */
@@ -154,7 +151,7 @@ public class TraveluController {
     }
 
     /**
-     * Set departure date for current destination
+     * Set departure date for current destination.
      *
      * @param departureDate to set
      * @throws IllegalArgumentException if invalid date or before arrival
@@ -171,11 +168,11 @@ public class TraveluController {
     }
 
     /**
-     * Set new comment (overwrites) for current destination
+     * Set new comment (overwrites) for current destination.
      * <p>
-     * Accepts empty input
-     * 
-     * @param comment to change to
+     * Accepts empty input.
+     *
+     * @param commentJSON to change to
      */
     @PutMapping(value = "updateComment", produces = "application/json")
     public void updateCommentJSON(final @RequestBody(required = false) String commentJSON) {
@@ -192,8 +189,8 @@ public class TraveluController {
     }
 
     /**
-     * Remove chosen destination
-     * 
+     * Remove chosen destination.
+     *
      * @param destinationName of destination to remove
      * @throws NoSuchElementException if destination not in list
      */
@@ -207,8 +204,8 @@ public class TraveluController {
     }
 
     /**
-     * Remove activity from current destination
-     * 
+     * Remove activity from current destination.
+     *
      * @param activity to remove
      * @throws NoSuchElementException if activity not in list
      */
@@ -224,10 +221,10 @@ public class TraveluController {
     }
 
     /**
-     * Get a copy of the chosen destination
+     * Get a copy of the chosen destination.
      * <p>
-     * Helper-method for saving changes to file
-     * 
+     * Helper-method for saving changes to file.
+     *
      * @return currently chosen {@link Destination}
      */
     private Destination getDestination() {
@@ -236,13 +233,13 @@ public class TraveluController {
     }
 
     /**
-     * Update currently chosen destination
+     * Update currently chosen destination.
      * <p>
-     * Helper-method for saving changes to file
-     * 
+     * Helper-method for saving changes to file.
+     *
      * @param destination to update
      */
-    private void updateDestination(Destination destination) {
+    private void updateDestination(final Destination destination) {
         try {
             traveluService.getDestinationList().updateDestination(destination);
             traveluService.save();
@@ -253,8 +250,8 @@ public class TraveluController {
 
     /**
      * Exception thrown if failures in completing request with
-     * <b>NoSuchElementException</b>
-     * 
+     * <b>NoSuchElementException</b>.
+     *
      * @param nsee automatically inserted by spring
      * @return string with error - sent over server
      */
@@ -267,8 +264,8 @@ public class TraveluController {
 
     /**
      * Exception thrown if failures in completing request with
-     * <b>IllegalArgumentException</b>
-     * 
+     * <b>IllegalArgumentException</b>.
+     *
      * @param iae automatically inserted by spring
      * @return string with error - sent over server
      */

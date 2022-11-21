@@ -8,33 +8,35 @@ import java.time.format.DateTimeParseException;
 import javafx.util.StringConverter;
 
 /**
- * Standardize date format from/to string
+ * Standardize date format from/to string.
  * <p>
  * Code from {@link DatePicker#setConverter}
  * <p>
  * See: <a href=
- * "https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/DatePicker.html#setConverter-javafx.util.StringConverter-
+ * "https://shorturl.at/lnOX9
  * ">docs.oracle.com</a>
+ * <p>
+ * Link shortened to satisfy CheckStyle
  */
 public class DateConverter extends StringConverter<LocalDate> {
 
     /**
-     * Standard format for date
+     * Standard format for date.
      */
-    String format = "dd/MM/yyyy";
+    private String format = "dd/MM/yyyy";
 
     /**
-     * Date formatter using {@link #format}
+     * Date formatter using {@link #format}.
      */
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
 
     /**
-     * Generates string from LocalDate object
+     * Generates string from LocalDate object.
      * <p>
      * Returns empty string if date is invalid
      */
     @Override
-    public String toString(LocalDate date) {
+    public String toString(final LocalDate date) {
         try {
             if (date != null) {
                 return formatter.format(date);
@@ -45,10 +47,10 @@ public class DateConverter extends StringConverter<LocalDate> {
     }
 
     /**
-     * Generates LocalDate object from string, used for validation
+     * Generates LocalDate object from string, used for validation.
      */
     @Override
-    public LocalDate fromString(String string) {
+    public LocalDate fromString(final String string) {
         try {
             if (string != null && !string.isEmpty()) {
                 return LocalDate.parse(string, formatter);

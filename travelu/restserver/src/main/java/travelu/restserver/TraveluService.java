@@ -6,28 +6,28 @@ import travelu.core.DestinationList;
 import travelu.localpersistence.TraveluHandler;;
 
 /**
- * Service handling persistence for rest-api
+ * Service handling persistence for rest-api.
  */
 public class TraveluService {
 
     /**
-     * List of destinations
+     * List of destinations.
      */
     private DestinationList destinationList;
 
     /**
-     * Creates a Service for the rest-controller
+     * Creates a Service for the rest-controller.
      * <p>
-     * Empty list and name if failures
+     * Empty list and name if failures.
      */
     public TraveluService() {
         load();
     }
 
     /**
-     * Load data from default file into this destinationList
+     * Load data from default file into this destinationList.
      * <p>
-     * Load empty list and name if failures
+     * Load empty list and name if failures.
      */
     public void load() {
         try {
@@ -38,7 +38,7 @@ public class TraveluService {
     }
 
     /**
-     * Save data from this destinationList into default file
+     * Save data from this destinationList into default file.
      */
     public void save() {
         try {
@@ -49,9 +49,11 @@ public class TraveluService {
     }
 
     /**
-     * Save current destination to default save-file
+     * Save current destination to default save-file.
+     *
+     * @param currentDestination - name
      */
-    public void saveDestinationName(String currentDestination) {
+    public void saveDestinationName(final String currentDestination) {
         try {
             TraveluHandler.saveDestinationName(currentDestination);
         } catch (IOException e) {
@@ -60,10 +62,10 @@ public class TraveluService {
     }
 
     /**
-     * Get currently chosen destination-name
+     * Get currently chosen destination-name.
      * <p>
-     * Used to give server-controller access to loading/saving
-     * 
+     * Used to give server-controller access to loading/saving.
+     *
      * @return name - empty string if none
      */
     public String getDestinationName() {
@@ -76,10 +78,10 @@ public class TraveluService {
     }
 
     /**
-     * Get destination-list
+     * Get destination-list.
      * <p>
-     * Used to give server-controller access to loading/saving
-     * 
+     * Used to give server-controller access to loading/saving.
+     *
      * @return {@link Destinationlist} - empty if failures
      */
     protected DestinationList getDestinationList() {

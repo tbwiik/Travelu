@@ -10,23 +10,23 @@ import travelu.core.DestinationList;
 import travelu.core.Destination;
 
 /**
- * Handle API-requests to server
+ * Handle API-requests to server.
  */
 public class Client {
 
     /**
-     * API address for http-requests
+     * API address for http-requests.
      */
-    private final static String API_ADDRESS = "/api/v1/entries/";
+    private static final String API_ADRESS = "/api/v1/entries/";
 
     /**
-     * Handle generic http-request
+     * Handle generic http-request.
      */
     private final Requests httpRequests;
 
     /**
-     * Initialize client used by ui for server communications
-     * 
+     * Initialize client used by ui for server communications.
+     *
      * @param serverUrl  URL where server is hosted
      * @param serverPort Port where server is hosted
      */
@@ -35,8 +35,8 @@ public class Client {
     }
 
     /**
-     * Get a {@link DestinationList} from the server
-     * 
+     * Get a {@link DestinationList} from the server.
+     *
      * @return {@link DestinationList} object from server - empty if none
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -47,7 +47,7 @@ public class Client {
     public DestinationList getDestinationList()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "destinationlist");
+        HttpResponse<String> response = httpRequests.get(API_ADRESS + "destinationlist");
 
         Gson gson = new Gson();
 
@@ -57,10 +57,10 @@ public class Client {
     }
 
     /**
-     * Get a {@link Destination} from the server
+     * Get a {@link Destination} from the server.
      * <p>
      * Formats space as %20
-     * 
+     *
      * @param destinationName identifier for wanted destination
      * @return wanted {@link Destination} object
      * @throws URISyntaxException   if invalid URI
@@ -73,7 +73,7 @@ public class Client {
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         String fixedDestinationName = destinationName.replace(" ", "%20");
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + fixedDestinationName);
+        HttpResponse<String> response = httpRequests.get(API_ADRESS + fixedDestinationName);
 
         Gson gson = new Gson();
 
@@ -83,10 +83,10 @@ public class Client {
     }
 
     /**
-     * Get current chosen {@link Destination} from the server
+     * Get current chosen {@link Destination} from the server.
      * <p>
      * Then use {@link #getDestination(String)} to get Destination
-     * 
+     *
      * @return current chosen {@link Destination}
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -103,10 +103,10 @@ public class Client {
     }
 
     /**
-     * Get name of chosen {@link Destination} from the server
+     * Get name of chosen {@link Destination} from the server.
      * <p>
      * Formats space as %20
-     * 
+     *
      * @return name of chosen {@link Destination}
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -117,15 +117,15 @@ public class Client {
     public String getCurrentDestinationName()
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        HttpResponse<String> response = httpRequests.get(API_ADDRESS + "currentDestination");
+        HttpResponse<String> response = httpRequests.get(API_ADRESS + "currentDestination");
         String result = response.body().replace("%20", " ");
 
         return result;
     }
 
     /**
-     * Add new {@link Destination} through server
-     * 
+     * Add new {@link Destination} through server.
+     *
      * @param destination to add
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -140,16 +140,16 @@ public class Client {
 
         String destinationJSON = gson.toJson(destination);
 
-        httpRequests.post(API_ADDRESS + "add", destinationJSON);
+        httpRequests.post(API_ADRESS + "add", destinationJSON);
     }
 
     /**
-     * Store name of chosen destination to file through server
+     * Store name of chosen destination to file through server.
      * <p>
      * Used for accessing correct destination when switching views
      * <p>
      * Formats space as %20
-     * 
+     *
      * @param destinationName name of destination
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -161,12 +161,12 @@ public class Client {
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
         String fixedDestinationName = destinationName.replace(" ", "%20");
-        httpRequests.put(API_ADDRESS + "storeCurrent", fixedDestinationName);
+        httpRequests.put(API_ADRESS + "storeCurrent", fixedDestinationName);
     }
 
     /**
-     * Remove {@link Destination} through server by name
-     * 
+     * Remove {@link Destination} through server by name.
+     *
      * @param destinationName of destination to remove
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -177,12 +177,12 @@ public class Client {
     public void removeDestination(final String destinationName)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        httpRequests.delete(API_ADDRESS + "delete/" + destinationName.replaceAll(" ", "%20"));
+        httpRequests.delete(API_ADRESS + "delete/" + destinationName.replaceAll(" ", "%20"));
     }
 
     /**
-     * Add activity for chosen destination through server
-     * 
+     * Add activity for chosen destination through server.
+     *
      * @param activity to add
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -192,14 +192,14 @@ public class Client {
      */
     public void addActivity(final String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.post(API_ADDRESS + "addActivity", activity);
+        httpRequests.post(API_ADRESS + "addActivity", activity);
     }
 
     /**
-     * Remove activity for chosen destination through server
+     * Remove activity for chosen destination through server.
      * <p>
      * Formats space as %20
-     * 
+     *
      * @param activity to remove
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -209,12 +209,12 @@ public class Client {
      */
     public void removeActivity(final String activity)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.delete(API_ADDRESS + "removeActivity/" + activity.replaceAll(" ", "%20"));
+        httpRequests.delete(API_ADRESS + "removeActivity/" + activity.replaceAll(" ", "%20"));
     }
 
     /**
-     * Save rating for chosen destination through server
-     * 
+     * Save rating for chosen destination through server.
+     *
      * @param starNumber number of rating
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -225,12 +225,12 @@ public class Client {
     public void setRating(final int starNumber)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
         String starStr = String.valueOf(starNumber);
-        httpRequests.put(API_ADDRESS + "setRating", starStr);
+        httpRequests.put(API_ADRESS + "setRating", starStr);
     }
 
     /**
-     * Save arrival date for chosen destination through server
-     * 
+     * Save arrival date for chosen destination through server.
+     *
      * @param arrivalDate
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -240,12 +240,12 @@ public class Client {
      */
     public void setArrivalDate(final String arrivalDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.put(API_ADDRESS + "setArrivalDate", arrivalDate);
+        httpRequests.put(API_ADRESS + "setArrivalDate", arrivalDate);
     }
 
     /**
-     * Save departure date for chosen destination through server
-     * 
+     * Save departure date for chosen destination through server.
+     *
      * @param departureDate
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -255,12 +255,12 @@ public class Client {
      */
     public void setDepartureDate(final String departureDate)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
-        httpRequests.put(API_ADDRESS + "setDepartureDate", departureDate);
+        httpRequests.put(API_ADRESS + "setDepartureDate", departureDate);
     }
 
     /**
-     * Save updated comment for chosen destination through server
-     * 
+     * Save updated comment for chosen destination through server.
+     *
      * @param comment to set
      * @throws URISyntaxException   if invalid URI
      * @throws InterruptedException if interruption occurs during retrival of
@@ -271,7 +271,7 @@ public class Client {
     public void updateComment(final String comment)
             throws URISyntaxException, InterruptedException, ExecutionException, ServerException {
 
-        httpRequests.put(API_ADDRESS + "updateComment", comment);
+        httpRequests.put(API_ADRESS + "updateComment", comment);
     }
 
 }

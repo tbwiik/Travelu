@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suppressions PUBLIC
+"-//Puppy Crawl//DTD Suppressions 1.1//EN"
+"http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <!-- Suppress illogical error for TraveluHandler -->
+    <suppress checks="HideUtilityClassConstructor" files=".*\.*Handler\.java$"/>
+
+    <!-- Suppress errors for spring boot application -->
+    <suppress checks=".*" files=".*\.*Application\.java$"/>
+
+    <!-- Suppress error due to conflict with spotbugs -->
+    <suppress checks="ModifierOrder" files=".*\.*Requests\.java$"/>
+</suppressions>

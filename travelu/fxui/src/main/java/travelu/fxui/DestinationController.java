@@ -24,118 +24,119 @@ import javafx.scene.shape.SVGPath;
 public class DestinationController {
 
     /**
-     * Client used for server communication
+     * Client used for server communication.
      */
     private final Client client = new Client("http://localhost", 8080);
 
     /**
-     * Displayed and selected destination
+     * Displayed and selected destination.
      */
     private Destination currentDestination;
 
     /**
-     * Currently selected activity
+     * Currently selected activity.
      */
     private String currentActivity;
 
     /**
-     * Label displaying destination name
+     * Label displaying destination name.
      */
     @FXML
-    Label destinationLabel;
+    private Label destinationLabel;
 
     /**
-     * Label displaying arrival date, in format dd/MM/yyyy
+     * Label displaying arrival date, in format dd/MM/yyyy.
      */
     @FXML
-    Label arrivalDateLabel;
+    private Label arrivalDateLabel;
 
     /**
-     * Label displaying departure date, in format dd/MM/yyyy
+     * Label displaying departure date, in format dd/MM/yyyy.
      */
     @FXML
-    Label departureDateLabel;
+    private Label departureDateLabel;
 
     /**
-     * DatePicker-element for selecting arrival date
+     * DatePicker-element for selecting arrival date.
      */
     @FXML
-    DatePicker arrivalDatePicker;
+    private DatePicker arrivalDatePicker;
 
     /**
-     * DatePicker-element for selecting departure date
+     * DatePicker-element for selecting departure date.
      */
     @FXML
-    DatePicker departureDatePicker;
+    private DatePicker departureDatePicker;
 
     /**
-     * Label for giving feedback related to dates
+     * Label for giving feedback related to dates.
      */
     @FXML
-    Label dateUpdatedFeedbackLabel;
+    private Label dateUpdatedFeedbackLabel;
 
     /**
-     * ListView containing acitivities as Strings
+     * ListView containing acitivities as Strings.
      */
     @FXML
-    ListView<String> activitiesListView;
+    private ListView<String> activitiesListView;
 
     /**
-     * TextField for typing in new activity
+     * TextField for typing in new activity.
      */
     @FXML
-    TextField newActivityTextField;
+    private TextField newActivityTextField;
 
     /**
-     * Textfield for typing in new comment
+     * Textfield for typing in new comment.
      */
     @FXML
-    TextField commentTextField;
+    private TextField commentTextField;
 
     /**
-     * Label for giving feedback related to comment
+     * Label for giving feedback related to comment.
      */
     @FXML
-    Label commentFeedbackLabel;
+    private Label commentFeedbackLabel;
 
     /**
-     * Label for giving feedback related to activities
+     * Label for giving feedback related to activities.
      */
     @FXML
-    Label activityFeedbackLabel;
+    private Label activityFeedbackLabel;
 
     /**
-     * First star element
+     * First star element.
      */
     @FXML
-    SVGPath star1;
+    private SVGPath star1;
 
     /**
-     * Second star element
+     * Second star element.
      */
     @FXML
-    SVGPath star2;
-    /**
-     * Third star element
-     */
-    @FXML
-    SVGPath star3;
+    private SVGPath star2;
 
     /**
-     * Fourth star element
+     * Third star element.
      */
     @FXML
-    SVGPath star4;
+    private SVGPath star3;
 
     /**
-     * Fifth star element
+     * Fourth star element.
      */
     @FXML
-    SVGPath star5;
+    private SVGPath star4;
+
+    /**
+     * Fifth star element.
+     */
+    @FXML
+    private SVGPath star5;
 
     /**
      * Loads the current destination selected from the server and displays its
-     * information
+     * information.
      */
     @FXML
     private void initialize() {
@@ -181,7 +182,7 @@ public class DestinationController {
     }
 
     /**
-     * Set up listener for changing selected activity in activitiesListView
+     * Set up listener for changing selected activity in activitiesListView.
      */
     @FXML
     private void setupListView() {
@@ -189,7 +190,8 @@ public class DestinationController {
         activitiesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            public void changed(final ObservableValue<? extends String> observable,
+                final String oldValue, final String newValue) {
                 // Update currentActivity field
                 currentActivity = activitiesListView.getSelectionModel().selectedItemProperty().getValue();
             }
@@ -197,7 +199,7 @@ public class DestinationController {
     }
 
     /**
-     * Update view of activity list
+     * Update view of activity list.
      */
     @FXML
     private void updateListView() {
@@ -206,7 +208,7 @@ public class DestinationController {
     }
 
     /**
-     * Return to destination-list
+     * Return to destination-list.
      */
     @FXML
     private void handleReturnButton() {
@@ -218,7 +220,7 @@ public class DestinationController {
     }
 
     /**
-     * Adds activity to the list of activities, and updates activitiesListView
+     * Adds activity to the list of activities, and updates activitiesListView.
      * Updates activityFeedbackLabel to give feedback to user if any errors occur
      */
     @FXML
@@ -250,7 +252,7 @@ public class DestinationController {
     }
 
     /**
-     * Removes activity from list of activities, and updates activitiesListView
+     * Removes activity from list of activities, and updates activitiesListView.
      */
     @FXML
     private void handleRemoveActivity() {
@@ -273,39 +275,44 @@ public class DestinationController {
     }
 
     /**
-     * Call method handleStar with parameter based on which star was clicked
+     * Call method handleStar with parameter based on which star was clicked.
      */
     @FXML
     private void handleStar1() {
-        handleStar(1);
+        final int starNumber = 1;
+        handleStar(starNumber);
     }
 
     @FXML
     private void handleStar2() {
-        handleStar(2);
+        final int starNumber = 2;
+        handleStar(starNumber);
     }
 
     @FXML
     private void handleStar3() {
-        handleStar(3);
+        final int starNumber = 3;
+        handleStar(starNumber);
     }
 
     @FXML
     private void handleStar4() {
-        handleStar(4);
+        final int starNumber = 4;
+        handleStar(starNumber);
     }
 
     @FXML
     private void handleStar5() {
-        handleStar(5);
+        final int starNumber = 5;
+        handleStar(starNumber);
     }
 
     /**
-     * Set rating of current destination to starNumber, and update stars
-     * 
+     * Set rating of current destination to starNumber, and update stars.
+     *
      * @param starNumber
      */
-    private void handleStar(int starNumber) {
+    private void handleStar(final int starNumber) {
 
         // Set the rating to the star number clicked
         currentDestination.setRating(starNumber);
@@ -324,25 +331,26 @@ public class DestinationController {
     }
 
     /**
-     * Color starNumber stars from the left yellow, and the rest of the stars white
-     * 
-     * @param rating
+     * Color starNumber stars from the left yellow, and the rest of the stars white.
+     *
+     * @param starNumber the number of stars to color, i.e. the rating given
      */
-    private void colorStars(int starNumber) {
+    private void colorStars(final int starNumber) {
         // List with stars
         List<SVGPath> stars = new ArrayList<>(List.of(star1, star2, star3, star4, star5));
 
         // Color first starNumber stars yellow, the rest white
         for (int i = 0; i < stars.size(); i++) {
-            if (i < starNumber)
+            if (i < starNumber) {
                 stars.get(i).setStyle("-fx-fill: #FFD700");
-            else
+            } else {
                 stars.get(i).setStyle("-fx-fill: #FFFFFF");
+            }
         }
     }
 
     /**
-     * Updates comment and displays feedback to user if successful
+     * Updates comment and displays feedback to user if successful.
      * Shows error popup if unsuccessful
      */
     @FXML
@@ -372,7 +380,7 @@ public class DestinationController {
     }
 
     /**
-     * Sets arrival date, and catches exceptions due to date validation errors
+     * Sets arrival date, and catches exceptions due to date validation errors.
      */
     @FXML
     private void handleSetArrivalDate() {
@@ -405,7 +413,7 @@ public class DestinationController {
     }
 
     /**
-     * Sets departure date, and catches exceptions due to date validation errors
+     * Sets departure date, and catches exceptions due to date validation errors.
      */
     @FXML
     private void handleSetDepartureDate() {
@@ -438,9 +446,9 @@ public class DestinationController {
 
     /*
      * Creates a popup with the given title and message that will be shown until
-     * closed
+     * closed.
      */
-    private void errorPopup(String type, String message) {
+    private void errorPopup(final String type, final String message) {
         Alert invalidInput = new Alert(AlertType.WARNING);
         invalidInput.setTitle(type);
         invalidInput.setHeaderText(message);
