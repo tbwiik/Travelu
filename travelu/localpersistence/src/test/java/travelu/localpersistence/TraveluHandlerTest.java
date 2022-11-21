@@ -34,16 +34,27 @@ public class TraveluHandlerTest {
      */
     @BeforeEach
     public void setup() {
+        // Create empty destinationList
         destinationList = new DestinationList();
 
+        // Create destinations
         sweden = new Destination("Sweden", dateInterval, 2, null, null);
         sanMarino = new Destination("San Marino", dateInterval, 2, null, null);
         portugal = new Destination("Portugal", dateInterval, 3, null, null);
 
+        // Add two of the destinations to destinationList, third will be used
         destinationList.addDestination(sweden);
         destinationList.addDestination(sanMarino);
     }
 
+    /**
+     * Clear files after all tests.
+     * <p>
+     * CurrentDestinationName.json will contain an empty string.
+     * <p>
+     * DestinationList.json will contain a DestinationList object with an empty
+     * destinations field.
+     */
     @AfterAll
     public void tearDown() {
         try {
@@ -55,21 +66,22 @@ public class TraveluHandlerTest {
     }
 
     /**
-     * Tests if JSON file is equal to DestinationList, and if it is still equal
+     * Tests if DestinationList from JSON file is equal to DestinationList, and if
+     * it is still equal
      * despite adding new Destination objects
      * <p>
      * Checks if FileNotFoundException gets thrown if file doesn't exist
-     *
      */
     @Test
     public void testWriteAndReadWhenAdding() {
+        // Wrapped in try/catch statement to fail if IOException is thrown
         try {
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
             assertEquals(destinationList.getDestinationNames(),
                     TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
 
-        destinationList.addDestination(portugal);
+            destinationList.addDestination(portugal);
             assertNotEquals(destinationList.getDestinationNames(),
                     TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
 
@@ -92,13 +104,14 @@ public class TraveluHandlerTest {
     @Test
     public void testWriteAndReadWhenRemoving() {
         destinationList.removeDestination("Sweden");
+        // Wrapped in try/catch statement to fail if IOException is thrown
         try {
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
             assertEquals(destinationList.getDestinationNames(),
                     TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
 
-        destinationList.removeDestination("San Marino");
+            destinationList.removeDestination("San Marino");
 
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
 
@@ -111,18 +124,16 @@ public class TraveluHandlerTest {
     }
 
     /**
-     * Tests basic writing/reading current destination name with TraveluHandler
+     * Tests basic writing/reading current destination name
      */
     @Test
     public void testWriteAndReadCurrentDestinationName() {
-
+        // Wrapped in try/catch statement to fail if IOException is thrown
         try {
+            // Write "Norway" to testCurrentDestinationName.json
             TraveluHandler.writeJSON("Norway", "testCurrentDestinationName.json");
-        } catch (IOException ioe) {
-            fail("Error when writing to file");
-        }
-
-        try {
+            
+            // Assert that "Norway" is read from testCurrentDestinationName.json
             assertEquals("Norway",
                     TraveluHandler.readCurrentDestinationNameJSON("testCurrentDestinationName.json"));
         } catch (IOException ioe) {
