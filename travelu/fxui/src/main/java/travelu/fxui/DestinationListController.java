@@ -17,9 +17,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
@@ -58,7 +60,7 @@ public class DestinationListController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -149,12 +151,11 @@ public class DestinationListController {
     private void switchToDestination(String destinationName) throws IOException {
 
         try {
-            client.storeCurrentDestination(destinationName);
+            client.storeCurrentDestinationName(destinationName);
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -177,6 +178,10 @@ public class DestinationListController {
                 // if user didn't input any text
                 // remove any feedback given and do nothing
                 feedbackLabel.setText("");
+            } else if (newDestinationName.equals("null")) {
+                // because of how getting items from list-views work, we do not allow the user
+                // to add a destination with the name "null"
+                feedbackLabel.setText("The name null is invalid for a destination");
             } else if (destinationList.containsDestination(newDestinationName)) {
                 // if the input text matches any of the already registrations
                 // give feedback
@@ -207,8 +212,7 @@ public class DestinationListController {
         } catch (URISyntaxException | InterruptedException e) {
             e.printStackTrace();
         } catch (ServerException se) {
-            feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-            // TODO switch to correct label
+            errorPopup("Error", se.getMessage() + " with status: " + se.getStatusCode());
         } catch (ExecutionException ee) {
             ee.printStackTrace();
             // TODO better handling
@@ -246,8 +250,7 @@ public class DestinationListController {
             } catch (URISyntaxException | InterruptedException e) {
                 e.printStackTrace();
             } catch (ServerException se) {
-                feedbackLabel.setText(se.getMessage() + " with status: " + se.getStatusCode());
-                // TODO switch to correct label
+                errorPopup("Error", se.getMessage() + ": " + se.getStatusCode());
             } catch (ExecutionException ee) {
                 ee.printStackTrace();
                 // TODO better handling
@@ -269,6 +272,13 @@ public class DestinationListController {
         destinationList.sortByRating();
 
         setUpListView();
+    }
+
+    private void errorPopup(String type, String message) {
+        Alert invalidInput = new Alert(AlertType.WARNING);
+        invalidInput.setTitle(type);
+        invalidInput.setHeaderText(message);
+        invalidInput.showAndWait();
     }
 
     // For testing purposes

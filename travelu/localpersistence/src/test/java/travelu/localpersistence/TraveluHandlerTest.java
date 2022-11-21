@@ -49,7 +49,7 @@ public class TraveluHandlerTest {
      * 
      */
     @Test
-    public void testWriteToFileWhenAdding() {
+    public void testWriteAndReadWhenAdding() {
         try {
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
         } catch (IOException ioe) {
@@ -98,15 +98,15 @@ public class TraveluHandlerTest {
      * 
      */
     @Test
-    public void testWriteToFileWhenRemoving() {
+    public void testWriteAndReadWhenRemoving() {
         destinationList.removeDestination("Sweden");
-        try{
+        try {
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
         }  catch (IOException ioe){
             fail("Error when writing to file");
         }
 
-        try{
+        try {
             assertEquals(destinationList.getDestinationNames(),
                     TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames());
         } catch (IOException ioe){
@@ -115,17 +115,36 @@ public class TraveluHandlerTest {
 
         destinationList.removeDestination("San Marino");
 
-        try{
+        try {
             TraveluHandler.writeJSON(destinationList, "testDestinationList.json");
         } catch (IOException ioe){
             fail("Error when writing to file");
         }
 
 
-        try{
+        try {
             assertTrue(TraveluHandler.readDestinationListJSON("testDestinationList.json").getDestinationNames().isEmpty());
         } catch (IOException ioe){
             fail("Error when reading from file");
+        }
+    }
+
+    /**
+     * Tests basic writing/reading current destination name with TraveluHandler
+     */
+    @Test
+    public void testWriteAndReadCurrentDestinationName() {
+
+        try {
+            TraveluHandler.writeJSON("Norway", "testCurrentDestinationName.json");
+        } catch (IOException ioe){
+            fail("Error when writing to file");
+        }
+
+        try {
+            assertEquals("Norway", TraveluHandler.readCurrentDestinationNameJSON("testCurrentDestinationName.json"));
+        } catch (IOException ioe){
+            fail("Error when writing to file");
         }
     }
 

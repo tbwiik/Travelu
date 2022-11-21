@@ -1,0 +1,64 @@
+@startuml packageDiagram
+skin rose
+
+component restserver {
+  [travelu.restserver] <<inside>>
+}
+
+component fxui {
+  package travelu.fxui {
+}
+}
+
+component core {
+  package travelu.core {
+}
+}
+
+component localpersistence {
+  package travelu.localpersistence {
+}
+}
+
+component client {
+  package travelu.client {
+}
+}
+
+component spring {
+  [boot] <<inside>>
+}
+
+component javafx {
+  [fxml] <<inside>>
+}
+
+component google {
+  [gson] <<inside>>
+}
+
+component java.net.http <<inside>> {
+}
+skinparam Component {
+  BackgroundColor transparent
+  BorderColor black
+  BorderColor<<inside>> #cc1836
+}
+
+skinparam ComponentBorderThickness 1.2
+skinparam PackageBorderThickness 1.2
+skinparam PackageBorderColor black
+skinparam ArrowColor #cc1836
+
+HIDE <<inside>> stereotype
+
+travelu.client <... travelu.fxui
+travelu.client ..> gson
+travelu.client ..> java.net.http
+travelu.fxui ...> fxml
+travelu.localpersistence ...> gson
+travelu.core <... travelu.localpersistence
+travelu.restserver ...> travelu.core
+travelu.restserver ...> boot
+travelu.restserver ...> travelu.localpersistence
+@enduml
