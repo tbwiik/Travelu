@@ -485,7 +485,7 @@ public class DestinationControllerTest extends ApplicationTest {
                 // Click on first star again
                 clickOn(star1);
                 // First star should be yellow, rest should be white
-                stars.subList(0, 1).forEach(star -> assertEquals("-fx-fill: #FFD700", star.getStyle()));
+                assertEquals("-fx-fill: #FFD700", star1.getStyle());
                 stars.subList(1, 5).forEach(star -> assertEquals("-fx-fill: #FFFFFF", star.getStyle()));
 
                 wireMockServer.verify(6, putRequestedFor(urlEqualTo("/api/v1/entries/setRating")));
