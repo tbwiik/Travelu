@@ -140,28 +140,48 @@ public class DestinationListTest {
         for (int i = 0; i < list1.size(); i++) {
             Destination dest1 = list1.get(i);
             Destination dest2 = list2.get(i);
-            DateInterval dest1DateInterval = dest1.getDateInterval();
-            DateInterval dest2DateInterval = dest2.getDateInterval();
-            String dest1ArrivalDate = dest1DateInterval.getArrivalDate() == null ? ""
-                    : dest1DateInterval.getArrivalDate();
-            String dest2ArrivalDate = dest2DateInterval.getArrivalDate() == null ? ""
-                    : dest2DateInterval.getArrivalDate();
-            String dest1Comment = dest1.getComment() == null ? "" : dest1.getComment();
-            String dest2Comment = dest2.getComment() == null ? "" : dest2.getComment();
 
-            if (!dest1.getName().equals(dest2.getName()))
-                return false;
-            if (dest1.getRating() != dest2.getRating())
-                return false;
-            if (!dest1ArrivalDate.equals(dest2ArrivalDate))
-                return false;
-            if (!dest1ArrivalDate.equals(dest2ArrivalDate))
-                return false;
-            if (!dest1Comment.equals(dest2Comment))
-                return false;
-            if (!dest1.getActivities().equals(dest2.getActivities()))
+            if (!destinationsAreEqual(dest1, dest2))
                 return false;
         }
+        return true;
+    }
+
+    /**
+     * Check that two destinations are equal by comparing all fields.
+     * 
+     * @param dest1
+     * @param dest2
+     * @return
+     */
+    private boolean destinationsAreEqual(Destination dest1, Destination dest2) {
+        DateInterval dest1DateInterval = dest1.getDateInterval();
+        DateInterval dest2DateInterval = dest2.getDateInterval();
+
+        String dest1ArrivalDate = dest1DateInterval.getArrivalDate() == null ? ""
+                : dest1DateInterval.getArrivalDate();
+        String dest2ArrivalDate = dest2DateInterval.getArrivalDate() == null ? ""
+                : dest2DateInterval.getArrivalDate();
+        String dest1DepartureDate = dest1DateInterval.getDepartureDate() == null ? ""
+                : dest1DateInterval.getDepartureDate();
+        String dest2DepartureDate = dest2DateInterval.getDepartureDate() == null ? ""
+                : dest2DateInterval.getDepartureDate();
+        String dest1Comment = dest1.getComment() == null ? "" : dest1.getComment();
+        String dest2Comment = dest2.getComment() == null ? "" : dest2.getComment();
+
+        if (!dest1.getName().equals(dest2.getName()))
+            return false;
+        if (dest1.getRating() != dest2.getRating())
+            return false;
+        if (!dest1ArrivalDate.equals(dest2ArrivalDate))
+            return false;
+        if (!dest1DepartureDate.equals(dest2DepartureDate))
+            return false;
+        if (!dest1Comment.equals(dest2Comment))
+            return false;
+        if (!dest1.getActivities().equals(dest2.getActivities()))
+            return false;
+
         return true;
     }
 
