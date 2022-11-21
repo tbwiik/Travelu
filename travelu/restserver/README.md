@@ -10,7 +10,7 @@ From travelu folder
 
 The application is hosted on **localhost** port **8080**.  
 Manual testing of getters can be done by opening [localhost:8080](http://localhost:8080/) in browser and appending api address.  
-Ex: [http://localhost:8080/api/v1/entries/destinationList](http://localhost:8080/api/v1/entries/destinationList)
+Ex: [http://localhost:8080/api/v1/entries/destinationlist](http://localhost:8080/api/v1/entries/destinationlist)
 
 ## Application
 
@@ -27,7 +27,7 @@ The controller is responsible for loading from, or saving to, local storage depe
 Here the api- and request-addresses are defined.  
 Persistence is handled by the Service.
 
-See [API-Methods](/travelu/fxui/src/API-Methods.md)
+See [API-Methods](/travelu/restserver/api-methods.md)
 
 ## Service
 

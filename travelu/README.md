@@ -8,7 +8,7 @@ Travelu is an application made to let people have a simple and organized way of 
 
 |        Front page with sorting feature and rating display         |      Destination page with rating and remove button      |
 | :---------------------------------------------------------------: | :------------------------------------------------------: |
-| ![Destination-List View](../pictures/destinationListRelease3.png) | ![Destination View](../pictures/destinationRelease3.png) |
+| ![Destination-List View](/pictures/destinationListRelease3.png) | ![Destination View](/pictures/destinationRelease3.png) |
 
 <hr>
 
@@ -21,4 +21,4 @@ We made two frames in Figma. One for the front-page with a list over places you 
 
 |        Conceptual front page         |      Conceptual destination page      |
 | :---------------------------------------------------------------: | :------------------------------------------------------: |
-| ![Destination-List View](../pictures/TraveluFrontPage.png) | ![Destination View](../pictures/TraveluDestinationPage.png) |
+| ![Destination-List View](/pictures/TraveluFrontPage.png) | ![Destination View](/pictures/TraveluDestinationPage.png) |
