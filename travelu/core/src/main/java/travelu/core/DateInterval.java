@@ -12,7 +12,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class DateInterval {
 
+    /**
+     * Arrival date represented as string, on format dd/MM/yyyy
+     */
     private String arrivalDate;
+    /**
+     * Departure date represented as string, on format dd/MM/yyyy
+     */
     private String departureDate;
 
     /**

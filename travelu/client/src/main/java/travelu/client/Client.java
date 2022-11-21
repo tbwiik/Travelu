@@ -10,14 +10,17 @@ import travelu.core.DestinationList;
 import travelu.core.Destination;
 
 /**
- * Handle api-requests to server
+ * Handle API-requests to server
  */
 public class Client {
 
+    /**
+     * API address for http-requests
+     */
     private final static String API_ADDRESS = "/api/v1/entries/";
 
     /**
-     * Handle generic Http-request
+     * Handle generic http-request
      */
     private final Requests httpRequests;
 
