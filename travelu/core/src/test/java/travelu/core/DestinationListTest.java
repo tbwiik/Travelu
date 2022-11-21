@@ -101,22 +101,28 @@ public class DestinationListTest {
      */
     @Test
     public void testContainsDestination() {
+        // Checking valid destination names
         String norwayString = "Norway";
-        String buenosAiresString = "Buenos Aires";
-        String spainString = "spAin";
-        String turkeyString = "TuRkEy";
-        String swedenString = "Sweden";
-
         assertTrue(destinationList.containsDestination(norwayString));
-        assertTrue(destinationList.containsDestination(swedenString));
-        assertTrue(destinationList.containsDestination(spainString));
+
+        String buenosAiresString = "Buenos Aires";
         assertTrue(destinationList.containsDestination(buenosAiresString));
-        assertTrue(destinationList.containsDestination(turkeyString));
 
+        // The tests should result in true regardless of casing
+        String spainString = "sPaIn";
+        assertTrue(destinationList.containsDestination(spainString));
+
+        // Any symbols or spaces added should result in false
+        String turkeyString = " Turkey ";
+        String swedenString = "Sweden-";
+        assertFalse(destinationList.containsDestination(turkeyString));
+        assertFalse(destinationList.containsDestination(swedenString));
+
+        // A destination that doesn't exist should result in false
         String invalidString = "Does not exist";
-
         assertFalse(destinationList.containsDestination(invalidString));
 
+        // Test if exception gets thrown if the given destination is null
         assertThrows(IllegalArgumentException.class, () -> destinationList.containsDestination(null));
     }
 
