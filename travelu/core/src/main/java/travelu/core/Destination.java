@@ -12,7 +12,7 @@ public class Destination {
     /**
      * Interval for rating.
      */
-    private final static int[] ratingInterval = { 1, 5 };
+    private final static int[] RATING_INTERVAL = { 1, 5 };
 
     /**
      * Name of destination.
@@ -41,25 +41,28 @@ public class Destination {
     /**
      * Constructs destination object.
      *
-     * @param name         of destination
-     * @param dateInterval visit from-to
-     * @param rating       on a scale from 1-5
-     * @param activities   you did during your visit
-     * @param comment      with other relevant info
+     * @param destName         of destination
+     * @param destDateInterval visit from-to
+     * @param destRating       on a scale from 1-5
+     * @param destActivities   you did during your visit
+     * @param destComment      with other relevant info
      */
-    public Destination(final String name, final DateInterval dateInterval, final int rating,
-            final List<String> activities,
-            final String comment) {
-        this.name = name;
+    public Destination(final String destName, final DateInterval destDateInterval,
+            final int destRating,
+            final List<String> destActivities,
+            final String destComment) {
+        this.name = destName;
 
         // DateInterval is not allowed to be null
-        this.dateInterval = dateInterval == null ? new DateInterval() : new DateInterval(dateInterval);
-        this.rating = rating;
+        this.dateInterval = destDateInterval == null ? new DateInterval()
+                : new DateInterval(destDateInterval);
+        this.rating = destRating;
 
         // If activities are null, create new list. Otherwise create copy of old
-        this.activities = activities == null ? new ArrayList<String>() : new ArrayList<String>(activities);
+        this.activities = destActivities == null ? new ArrayList<String>()
+                : new ArrayList<String>(destActivities);
 
-        this.comment = comment;
+        this.comment = destComment;
     }
 
     /**
@@ -132,14 +135,14 @@ public class Destination {
     /**
      * Set rating of destination.
      *
-     * @param rating on a scale of 1-5
+     * @param newRating on a scale of 1-5
      * @throws IllegalArgumentException if rating is outside of range 1-5
      */
-    public void setRating(final int rating) throws IllegalArgumentException {
-        if (rating < ratingInterval[0] || rating > ratingInterval[1]) {
+    public void setRating(final int newRating) throws IllegalArgumentException {
+        if (newRating < RATING_INTERVAL[0] || newRating > RATING_INTERVAL[1]) {
             throw new IllegalArgumentException("Rating must be between 1 and 5");
         }
-        this.rating = rating;
+        this.rating = newRating;
     }
 
     /**
@@ -189,10 +192,10 @@ public class Destination {
     /**
      * Overwrites comment with new info.
      *
-     * @param comment new comment
+     * @param newComment new comment
      */
-    public void setComment(final String comment) {
-        this.comment = comment;
+    public void setComment(final String newComment) {
+        this.comment = newComment;
     }
 
 }
