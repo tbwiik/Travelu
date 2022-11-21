@@ -79,14 +79,14 @@ public class AppIntegrationTest extends ApplicationTest {
     @AfterAll
     public void tearDown() {
 
-        // remove all test destinations
+        // Remove all test destinations
         clearDestinations();
     }
 
     /**
-     * remove all destinations from destinationlist
+     * Remove all destinations from destinationlist
      * <p>
-     * store empty string as current destination name
+     * Store empty string as current destination name
      */
     private void clearDestinations() {
 
@@ -101,7 +101,7 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if initialisation works
+     * Test if initialisation works
      */
     @Test
     public void testApp() throws Exception {
@@ -110,7 +110,7 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if storing current destination works
+     * Test if storing current destination works
      */
     @Test
     public void testStoreCurrentDestination() {
@@ -123,7 +123,7 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if adding and removing a destination works
+     * Test if adding and removing a destination works
      */
     @Test
     public void testAddAndRemoveDestination() {
@@ -134,14 +134,14 @@ public class AppIntegrationTest extends ApplicationTest {
         Destination holland = new Destination("Holland", new DateInterval(), 3, activities,
                 "I went to Holland and it was great!");
 
-        // adding a destination
+        // Adding a destination
         try {
             client.addDestination(holland);
         } catch (Exception e) {
             fail("Could not add destination");
         }
 
-        // removing the same destination
+        // Removing the same destination
         try {
             client.removeDestination("Holland");
         } catch (Exception e) {
@@ -185,21 +185,21 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if adding and removing an activity works
+     * Test if adding and removing an activity works
      */
     @Test
     public void testAddAndRemoveActivity() {
 
         setupDestination("Hawaii");
 
-        // adding an activity
+        // Adding an activity
         try {
             client.addActivity("Climb a volcano");
         } catch (Exception e) {
             fail("Could not add activity");
         }
 
-        // removing the same activity
+        // Removing the same activity
         try {
             client.removeActivity("Climb a volcano");
         } catch (Exception e) {
@@ -212,14 +212,14 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if setting rating works
+     * Test if setting rating works
      */
     @Test
     public void testSetRating() {
 
         setupDestination("Hawaii");
 
-        // setting rating
+        // Setting rating
         try {
             client.setRating(5);
         } catch (Exception e) {
@@ -228,14 +228,14 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if setting arrival date works
+     * Test if setting arrival date works
      */
     @Test
     public void testSetArrivalDate() {
 
         setupDestination("Hawaii");
 
-        // setting arrival date
+        // Setting arrival date
         try {
             client.setArrivalDate("03/03/2020");
         } catch (Exception e) {
@@ -244,14 +244,14 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if setting departure date works
+     * Test if setting departure date works
      */
     @Test
     public void testSetDepartureDate() {
 
         setupDestination("Hawaii");
 
-        // setting departure date
+        // Setting departure date
         try {
             client.setDepartureDate("11/03/2019");
         } catch (Exception e) {
@@ -260,14 +260,14 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if updating comment works
+     * Test if updating comment works
      */
     @Test
     public void testUpdateComment() {
 
         setupDestination("Hawaii");
 
-        // updating comment
+        // Updating comment
         try {
             client.updateComment("I went to Hawaii and it was great!");
         } catch (Exception e) {
@@ -276,7 +276,7 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if getting destination list works
+     * Test if getting destination list works
      */
     @Test
     public void testGetDestinationList() {
@@ -290,7 +290,7 @@ public class AppIntegrationTest extends ApplicationTest {
         Destination france = new Destination("France", new DateInterval(), 3, new ArrayList<>(),
                 "I went to France and it was fun!");
 
-        // adding destinations
+        // Adding destinations
         try {
             client.addDestination(hawaii);
             client.addDestination(japan);
@@ -300,7 +300,7 @@ public class AppIntegrationTest extends ApplicationTest {
         }
 
         try {
-            // checking if list from client contains the correct destinations
+            // Checking if list from client contains the correct destinations
             DestinationList destinationList = client.getDestinationList();
             assertEquals(destinationList.getDestinationNames(), client.getDestinationList().getDestinationNames());
         } catch (Exception e) {
@@ -309,7 +309,7 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if getting a destination works
+     * Test if getting a destination works
      */
     @Test
     public void testGetDestination() {
@@ -317,17 +317,17 @@ public class AppIntegrationTest extends ApplicationTest {
         Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, new ArrayList<>(),
                 "I went to Hawaii and it was great!");
 
-        // adding destination
+        // Adding destination
         try {
             client.addDestination(hawaii);
         } catch (Exception e) {
             fail("Could not add destination");
         }
 
-        // checking if destination from client is the same as the one added
+        // Checking if destination from client is the same as the one added
         try {
             Destination destinationFromName = client.getDestination("Hawaii");
-            // check that every field is equal in both destinations
+            // Check that every field is equal in both destinations
             assertEquals(hawaii.getName(), destinationFromName.getName());
             assertEquals(hawaii.getDateInterval().getArrivalDate(), destinationFromName.getDateInterval().getArrivalDate());
             assertEquals(hawaii.getDateInterval().getDepartureDate(), destinationFromName.getDateInterval().getDepartureDate());
@@ -339,7 +339,7 @@ public class AppIntegrationTest extends ApplicationTest {
     }
 
     /**
-     * test if setting arrival date works
+     * Test if setting arrival date works
      */
     @Test
     public void testGetCurrentDestination() {
@@ -347,24 +347,24 @@ public class AppIntegrationTest extends ApplicationTest {
         Destination hawaii = new Destination("Hawaii", new DateInterval(), 3, new ArrayList<>(),
                 "I went to Hawaii and it was great!");
 
-        // adding destination
+        // Adding destination
         try {
             client.addDestination(hawaii);
         } catch (Exception e) {
             fail("Could not add destination");
         }
 
-        // choosing a destination which we are going to get
+        // Choosing a destination which we are going to get
         try {
             client.storeCurrentDestinationName("Hawaii");
         } catch (Exception e) {
             fail("Could not store current destination");
         }
 
-        // checking if destination from client is the same as the one added
+        // Checking if destination from client is the same as the one added
         try {
             Destination currentDestination = client.getCurrentDestination();
-            // check that every field is equal in both destinations
+            // Check that every field is equal in both destinations
             assertEquals(hawaii.getName(), currentDestination.getName());
             assertEquals(hawaii.getDateInterval().getArrivalDate(), currentDestination.getDateInterval().getArrivalDate());
             assertEquals(hawaii.getDateInterval().getDepartureDate(), currentDestination.getDateInterval().getDepartureDate());
