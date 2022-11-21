@@ -155,11 +155,17 @@ public class DestinationListControllerTest extends ApplicationTest {
                 // listView should be updated with our new destination
                 assertEquals("Helsinki", listView.getItems().get(3));
 
+                // should post request to server
+                wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
+
                 // empty input
                 clickOn(addButton);
 
                 assertEquals("", destinationText.getText());
                 assertEquals("", feedbackLabel.getText());
+
+                // should not post request to server
+                wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
 
                 // invalid input
                 String invalidInput = "51*@4´,a#";
@@ -169,6 +175,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 assertEquals(invalidInput, destinationText.getText());
                 assertEquals("Destination name must contain only letters, spaces and dashes", feedbackLabel.getText());
+
+                // should not post request to server
+                wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
 
         }
 
@@ -185,12 +194,18 @@ public class DestinationListControllerTest extends ApplicationTest {
                 assertEquals("Norway", destinationText.getText());
                 assertEquals("You have already registered this destination", feedbackLabel.getText());
 
+                // should not post request to server, number of requests is already 1 from previous test
+                wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
+
                 // case insensitive duplicate input
                 clickOn(destinationText).eraseText(destinationText.getText().length()).write("fInLaNd");
                 clickOn(addButton);
 
                 assertEquals("fInLaNd", destinationText.getText());
                 assertEquals("You have already registered this destination", feedbackLabel.getText());
+
+                // should not post request to server
+                wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
 
                 // duplicate input with spaces
                 clickOn(destinationText).eraseText(destinationText.getText().length()).write("  Costa Rica  ");
@@ -201,6 +216,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 // listView should be unchanged:
                 assertEquals("[Costa Rica, Finland★★★★, Norway★★]", listView.getItems().toString());
+
+                // should not post request to server
+                wireMockServer.verify(1, postRequestedFor(urlEqualTo("/api/v1/entries/add")));
 
         }
 
@@ -216,6 +234,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
 
+                // should not post request to server
+                wireMockServer.verify(0, deleteRequestedFor(urlEqualTo("/api/v1/entries/delete")));
+
                 // selecting destination and clicking on remove
                 clickOn("Norway★★");
                 clickOn(removeButton);
@@ -225,10 +246,16 @@ public class DestinationListControllerTest extends ApplicationTest {
                 // listView should be updated:
                 assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
 
+                // should post request to server
+                wireMockServer.verify(1, deleteRequestedFor(urlEqualTo("/api/v1/entries/delete/Norway")));
+
                 // clicking remove again
                 clickOn(removeButton);
 
                 assertEquals("Please select a destination you would like to remove", feedbackLabel.getText());
+
+                // should not post request to server
+                wireMockServer.verify(0, deleteRequestedFor(urlEqualTo("/api/v1/entries/delete")));
 
                 // clicking on listView and clicking remove
                 clickOn(listView);
@@ -238,6 +265,9 @@ public class DestinationListControllerTest extends ApplicationTest {
 
                 // listView should be unchanged:
                 assertEquals("[Costa Rica, Finland★★★★]", listView.getItems().toString());
+
+                // should not post request to server
+                wireMockServer.verify(0, deleteRequestedFor(urlEqualTo("/api/v1/entries/delete")));
 
         }
 
