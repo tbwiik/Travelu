@@ -11,7 +11,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <skipUITests>true</skipUITests>    
+    <skipUITests>false</skipUITests>    
     <skipServerTests>false</skipServerTests>
     <minimum>0.6</minimum>
   </properties>
