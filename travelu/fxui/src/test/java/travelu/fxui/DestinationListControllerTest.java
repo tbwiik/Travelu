@@ -35,7 +35,6 @@ import org.testfx.framework.junit5.ApplicationTest;
  * Due to the way the controllers are implemented, some of these tests are
  * dependent on validation in core.
  */
-@TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationListControllerTest extends ApplicationTest {
 
         private Parent root;
@@ -49,14 +48,6 @@ public class DestinationListControllerTest extends ApplicationTest {
         private ListView<String> listView;
 
         private WireMockServer wireMockServer;
-
-        /**
-         * Enables headless testing
-         */
-        @BeforeAll
-        public void setupHeadless() {
-                TestHelperMethods.supportHeadless();
-        }
 
         /**
          * Sets up wiremock server

@@ -39,7 +39,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
  * Due to the way the controllers are implemented, some of these tests are
  * dependent on validation in core.
  */
-@TestInstance(Lifecycle.PER_CLASS) // For import of external headless function
 public class DestinationControllerTest extends ApplicationTest {
 
         private Parent root;
@@ -70,14 +69,6 @@ public class DestinationControllerTest extends ApplicationTest {
         private SVGPath star5;
 
         private WireMockServer wireMockServer;
-
-        /**
-         * Enables headless-testing
-         */
-        @BeforeAll
-        public void setupHeadless() {
-                TestHelperMethods.supportHeadless();
-        }
 
         /**
          * Sets up wiremock server
@@ -461,8 +452,7 @@ public class DestinationControllerTest extends ApplicationTest {
         public void testRating() {
                 // List of star objects
                 List<SVGPath> stars = new ArrayList<>(
-                        List.of(star1, star2, star3, star4, star5)
-                );
+                                List.of(star1, star2, star3, star4, star5));
 
                 // All stars should be white at beginning
                 stars.forEach(star -> assertEquals("-fx-fill: #FFFFFF", star.getStyle()));
@@ -472,7 +462,7 @@ public class DestinationControllerTest extends ApplicationTest {
                 // Iterate through all five stars
                 for (int i = 1; i <= 5; i++) {
                         // Click on current star
-                        clickOn(stars.get(i-1));
+                        clickOn(stars.get(i - 1));
 
                         // Assert that every star until current star is yellow
                         stars.subList(0, i).forEach(star -> assertEquals("-fx-fill: #FFD700", star.getStyle()));

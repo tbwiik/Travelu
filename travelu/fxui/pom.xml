@@ -124,9 +124,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skipTests>${skipUITests}</skipTests>
-                    <systemPropertyVariables>
-                        <headless>${headlessTests}</headless>
-                    </systemPropertyVariables>
                     <argLine>
                     --add-opens travelu.fxui/travelu.fxui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
                     --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
