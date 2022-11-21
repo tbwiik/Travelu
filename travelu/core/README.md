@@ -1,6 +1,6 @@
 # Core
 
-The core module is the domain logic of the application. It is a part of the backend of the application and is responsible for processing data and handling the domain logic. Since the app handles a lot of inputs from the user, the app also needs a lot of input validation. This is mostly handled by core. To display these errors to the user however, the methods throw exceptions which are caught by the UI module and displayed to the user.
+The core module contains the domain logic for the application. It's a part of the backend of the application, and is responsible for processing data and handling logic. There application are interactive and have many fields for input. This need validation and core handles the part of this that are independent of frontend. To be able to display these errors for the user, exceptions are thrown and caught in UI where they get displayed.
 
 ## Destination List
 
