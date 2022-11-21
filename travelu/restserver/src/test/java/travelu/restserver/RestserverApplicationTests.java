@@ -31,7 +31,15 @@ import travelu.localpersistence.TraveluHandler;
 class RestserverApplicationTests {
 
 	private final static String API_ADRESS = "/api/v1/entries/";
-	private final static String mockDList = "{\"destinations\":[]}";
+
+	private final static String emptyDestinationList = "{\"destinations\":[]}";
+	private final static String mockDestinationName = "Mock1"; // Must be same as in mockDestination
+	private final static String mockArrivalDate = "01/10/2022";
+	private final static String mockDepartureDate = "24/12/2022";
+	private final static String mockRating = "3";
+	private final static String mockActivity = "\"activities\":[\"Mock it\"],";
+	private final static String mockComment = "Mock comment";
+	private final static String mockDestination = "{\"name\":\"Mock1\",\"dateInterval\":{\"arrivalDate\":\"02/11/2022\",\"departureDate\":\"26/11/2022\"},\"rating\":2,\"activities\":[],\"comment\":\"Mock comment\"}";
 
 	@Autowired
 	private MockMvc mockMvc;
