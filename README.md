@@ -2,6 +2,16 @@
 
 # Group gr2219 repository
 
+### Warning
+Note that this repository originally was created on gitlab.  
+
+The original repository does not exist anymore and no issues/merges or other types of information related to gitlab is included in the github repository. 
+
+Also note that functionality connected to the gitlab repo, such as gitpod or pipeline, does not work.
+
+Information related to students without github user will not be displayed - for example statistics on commits.
+
+
 ## Travelu
 
 We are making an application called Travelu. We have written about its functionality in the [README.md](travelu/README.md) in the travelu folder.
